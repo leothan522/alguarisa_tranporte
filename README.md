@@ -1,5 +1,5 @@
-# Validacion Pagos CLAP
-### Originalmente para Infante
+# Sistema de Guías para Transporte
+### Alimentos del Guárico S.A. (Alguarisa)
 ## Tecnologías
 Lista de tecnologías utilizadas en el proyecto:
 * [AdminLTE](https://adminlte.io/): v3.2.0 
