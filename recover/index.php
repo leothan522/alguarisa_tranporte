@@ -46,7 +46,7 @@ $controller = new RecoverController();
 <div class="login-box">
     <div class="card card-outline card-primary">
         <div class="card-header text-center p-0">
-            <a href="./">
+            <a href="<?php echo config('app_dominio'); ?>">
                 <img class="img-thumbnail border-transparent" src="<?php asset('public/img/logo_alguarisa.jpg'); ?>" alt="Alimentos del Guárico">
             </a>
         </div>

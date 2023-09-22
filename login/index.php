@@ -50,7 +50,7 @@ $controller = new GuestController();
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
         <div class="card-header text-center p-0">
-            <a href="./">
+            <a href="<?php echo config('app_dominio'); ?>">
                 <img class="img-thumbnail border-transparent" src="<?php asset('public/img/logo_alguarisa.jpg'); ?>" alt="Alimentos del Guárico">
             </a>
         </div>
@@ -99,9 +99,9 @@ $controller = new GuestController();
             <p class="mb-1 mt-3">
                 <a href="../forgot-password">Olvidé mi contraseña</a>
             </p>
-            <p class="mb-0">
+           <!-- <p class="mb-0">
                 <a href="../register" class="text-center">Registrarse</a>
-            </p>
+            </p>-->
         </div>
         <!-- /.card-body -->
 
