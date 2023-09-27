@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body ml-2 mr-2">
                 <div class="row">
                     <label for="name">Nombre Municipio</label>
                     <div class="input-group mb-3">
@@ -24,9 +24,9 @@
                 </div>
 
                 <div class="row">
-                    <label for="name">Mini</label>
+                    <label for="name">Abreviatura</label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Ingrese el mini" name="municipio_mini" id="municipio_mini">
+                        <input type="text" class="form-control" placeholder="Ingrese nombre corto" name="municipio_mini" id="municipio_mini">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <i class="fas fa-tag"></i>

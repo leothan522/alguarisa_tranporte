@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body ml-2 mr-2">
                 <div class="row">
                     <label>Municipio</label>
                     <div class="input-group mb-3">
@@ -38,9 +38,9 @@
                         <div class="invalid-feedback" id="error_parroquia_nombre"></div>
                     </div>
 
-                    <label for="name">Mini</label>
+                    <label for="name">Abreviatura</label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Ingrese el mini" name="parroquia_mini" id="parroquia_mini">
+                        <input type="text" class="form-control" placeholder="Ingrese nombre corto" name="parroquia_mini" id="parroquia_mini">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <i class="fas fa-tag"></i>

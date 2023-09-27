@@ -29,8 +29,8 @@
                 ?>
                     <tr id="tr_item_<?php echo $municipio['id']; ?>">
                         <td class="text-center item"><?php echo $i; ?>.</td>
-                        <td class="nombre"><?php echo $municipio['nombre']; ?></td>
-                        <td class="mini"><?php echo $municipio['mini']; ?></td>
+                        <td class="nombre text-uppercase"><?php echo $municipio['nombre']; ?></td>
+                        <td class="mini text-uppercase"><?php echo $municipio['mini']; ?></td>
                         <td class="text-center parroquias">
                             <div class="btn-group btn-group-sm parroquia">
                                 <button type="button" class="btn btn-success" onclick="filtrarParroquias(<?php echo $municipio['id'] ?>)">
@@ -41,8 +41,12 @@
 
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <button type="button" class="btn btn-info">
-                                    <i class="fas fa-eye"></i>
+                                <button type="button" class="btn btn-info" onclick="estatusMunicipio(<?php echo $municipio['id']; ?>)" id="btn_estatus_<?php echo $municipio['id']; ?>">
+                                    <?php if ($municipio['estatus']){ ?>
+                                        <i class="fas fa-eye"></i>
+                                    <?php }else{ ?>
+                                        <i class="fas fa-eye-slash"></i>
+                                    <?php } ?>
                                 </button>
                                 <button type="button" class="btn btn-info" onclick="editMunicipio(<?php echo $municipio['id']; ?>)" data-toggle="modal" data-target="#modal-municipios">
                                     <i class="fas fa-edit"></i>
