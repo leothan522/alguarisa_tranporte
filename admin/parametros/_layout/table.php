@@ -23,7 +23,7 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        <div class="table-responsive mt-3">
+        <div class="table mt-3">
             <table class="table" id="table_parametros">
                 <thead>
                 <tr>

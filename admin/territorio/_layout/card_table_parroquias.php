@@ -15,7 +15,7 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        <div class="table-responsive mt-3">
+        <div class="table mt-3">
             <table class="table" id="tabla_parroquias">
                 <thead>
                 <tr>
@@ -38,6 +38,10 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-info">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+
                                 <button type="button" class="btn btn-info" onclick="editParroquia(<?php echo $parroquia['id']; ?>)" data-toggle="modal"
                                         data-target="#modal-parroquias">
                                     <i class="fas fa-edit"></i>

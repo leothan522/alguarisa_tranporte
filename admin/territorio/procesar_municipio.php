@@ -29,8 +29,8 @@ if ($_POST) {
                     $totalRows = !empty($_POST['totalRows']) ? $_POST['totalRows'] : 0;
                     $tableID = !empty($_POST['tableID']) ? $_POST['tableID'] : 'table_database';
 
-                    $listarMunicipios = $model->paginate($limit, $offset, 'nombre', 'DESC', 1);
-                    $links = paginate($baseURL, $tableID, $limit, $model->count(1), $offset, $opcion, 'dataContainerMunicipio', '_municipio')->createLinks();
+                    $listarMunicipios = $model->paginate($limit, $offset, 'nombre', 'DESC', );
+                    $links = paginate($baseURL, $tableID, $limit, $model->count(), $offset, $opcion, 'dataContainerMunicipio', '_municipio')->createLinks();
                     $i = $offset;
                     echo '<div id="dataContainerMunicipio">';
                     require_once "_layout/card_table_municipios.php";

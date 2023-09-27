@@ -11,12 +11,13 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        <div class="table-responsive mt-3">
+        <div class="table mt-3">
             <table class="table" id="tabla_municipios">
                 <thead>
                 <tr>
                     <th style="width: 10px">#</th>
                     <th>Nombre</th>
+                    <th>Abreviatura</th>
                     <th style="width: 40px">Parroquias</th>
                     <th style="width: 5%">&nbsp;</th>
                 </tr>
@@ -29,6 +30,7 @@
                     <tr id="tr_item_<?php echo $municipio['id']; ?>">
                         <td class="text-center item"><?php echo $i; ?>.</td>
                         <td class="nombre"><?php echo $municipio['nombre']; ?></td>
+                        <td class="mini"><?php echo $municipio['mini']; ?></td>
                         <td class="text-center parroquias">
                             <div class="btn-group btn-group-sm parroquia">
                                 <button type="button" class="btn btn-success" onclick="filtrarParroquias(<?php echo $municipio['id'] ?>)">
@@ -36,8 +38,12 @@
                                 </button>
                             </div>
                         </td>
+
                         <td>
                             <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-info">
+                                    <i class="fas fa-eye"></i>
+                                </button>
                                 <button type="button" class="btn btn-info" onclick="editMunicipio(<?php echo $municipio['id']; ?>)" data-toggle="modal" data-target="#modal-municipios">
                                     <i class="fas fa-edit"></i>
                                 </button>

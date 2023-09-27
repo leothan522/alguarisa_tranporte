@@ -31,8 +31,8 @@ if ($_POST) {
                     $totalRows = !empty($_POST['totalRows']) ? $_POST['totalRows'] : 0;
                     $tableID = !empty($_POST['tableID']) ? $_POST['tableID'] : 'table_database';
 
-                    $listarParroquias = $model->paginate($limit, $offset, 'nombre', 'ASC', 1);
-                    $links = paginate($baseURL, $tableID, $limit, $model->count(1), $offset, $opcion, 'dataContainerParroquia', '_parroquia')->createLinks();
+                    $listarParroquias = $model->paginate($limit, $offset, 'nombre', 'ASC');
+                    $links = paginate($baseURL, $tableID, $limit, $model->count(), $offset, $opcion, 'dataContainerParroquia', '_parroquia')->createLinks();
                     $i = $offset;
                     echo '<div id="dataContainerParroquia">';
                     require_once "_layout/card_table_parroquias.php";
@@ -255,7 +255,7 @@ if ($_POST) {
                     $model = new Municipio();
                     $response['result'] = true;
                     $response['municipios'] = array();
-                    foreach ($model->getAll(1) as $municipio){
+                    foreach ($model->getAll() as $municipio){
                         $id = $municipio['id'];
                         $nombre = $municipio['nombre'];
                         $response['municipios'][] = array("id" => $id, "nombre" => $nombre);
