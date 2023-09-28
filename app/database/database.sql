@@ -31,7 +31,23 @@ CREATE TABLE IF NOT EXISTS `municipios` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla alguarisa_transporte.municipios: ~15 rows (aproximadamente)
+INSERT INTO `municipios` (`id`, `nombre`, `mini`, `parroquias`, `estatus`, `created_at`, `updated_at`) VALUES
+	(1, 'JUAN GERMAN ROSCIO NIEVES', 'ROSCIO', 3, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(2, 'FRANCISCO DE MIRANDA', 'MIRANDA', 4, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(3, 'LEONARDO INFANTE', 'INFANTE', 2, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(4, 'PEDRO ZARAZA', 'ZARAZA', 2, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(5, 'JOSE TADEO MONAGAS', 'MONAGAS', 7, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(6, 'JOSE FELIX RIBAS', 'RIBAS', 2, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(7, 'CAMAGUAN', 'CAMAGUAN', 3, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(8, 'JULIAN MELLADO', 'MELLADO', 2, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(9, 'EL SOCORRO', 'EL SOCORRO', 1, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(10, 'SANTA MARIA DE IPIRE', 'SANTA MARIA', 2, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(11, 'CHAGUARAMAS', 'CHAGUARAMAS', 1, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(12, 'JUAN JOSE RONDON', 'RONDON', 3, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(13, 'SAN JOSE DE GUARIBE', 'GUARIBE', 1, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(14, 'SAN GERONIMO DE GUAYABAL', 'GUAYABAL', 2, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47'),
+	(15, 'ORTIZ', 'ORTIZ', 4, 1, '2023-09-27 12:03:47', '2023-09-27 12:03:47');
 
 -- Volcando estructura para tabla alguarisa_transporte.parametros
 CREATE TABLE IF NOT EXISTS `parametros` (
@@ -42,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `parametros` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla alguarisa_transporte.parametros: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla alguarisa_transporte.parroquias
 CREATE TABLE IF NOT EXISTS `parroquias` (
@@ -58,7 +74,47 @@ CREATE TABLE IF NOT EXISTS `parroquias` (
   CONSTRAINT `parroquias_municipios_id_foreign` FOREIGN KEY (`municipios_id`) REFERENCES `municipios` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla alguarisa_transporte.parroquias: ~39 rows (aproximadamente)
+INSERT INTO `parroquias` (`id`, `nombre`, `mini`, `municipios_id`, `estatus`, `created_at`, `updated_at`) VALUES
+	(1, 'CAMAGUAN', NULL, 7, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(2, 'PUERTO MIRANDA', NULL, 7, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(3, 'UVERITO', NULL, 7, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(4, 'CHAGUARAMAS', NULL, 11, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(5, 'EL SOCORRO', NULL, 9, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(6, 'CALABOZO', NULL, 2, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(7, 'EL RASTRO', NULL, 2, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(8, 'GUARDATINAJAS', NULL, 2, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(9, 'EL CALVARIO', NULL, 2, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(10, 'TUCUPIDO', NULL, 6, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(11, 'SAN RAFAEL DE LAYA', NULL, 6, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(12, 'ALTAGRACIA DE ORITUCO', 'ALTAGRACIA', 5, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(13, 'SAN RAFAEL DE ORITUCO', 'SAN RAFAEL', 5, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(14, 'LIBERTAD DE ORITUCO', 'LIBERTAD', 5, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(15, 'SAN FRANCISCO DE MACAIRA', 'MACAIRA', 5, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(16, 'PASO REAL DE MACAIRA', 'PASO REAL', 5, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(17, 'CARLOS SOUBLETTE', 'SOUBLETTE', 5, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(18, 'FRANCISCO JAVIER DE LAZAMA', 'LEZAMA', 5, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(19, 'SAN JUAN', NULL, 1, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(20, 'PARAPARA', NULL, 1, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(21, 'CANTAGALLO', NULL, 1, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(22, 'LAS MERCEDES DEL LLANO', 'LAS MERCEDES', 12, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(23, 'SANTA RITA DE MANAPIRE', 'SANTA RITA', 12, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(24, 'CABRUTA', NULL, 12, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(25, 'EL SOMBRERO', NULL, 8, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(26, 'SOSA', NULL, 8, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(27, 'VALLE DE LA PASCUA', NULL, 3, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(28, 'ESPINO', NULL, 3, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(29, 'Ortiz', NULL, 15, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(30, 'SAN JOSE DE TIZNADOS', 'SAN JOSE', 15, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(31, 'SAN LORENZO DE TIZNADOS', 'SAN LORENZO', 15, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(32, 'SAN FRANCISCO DE TIZNADOSº', 'SAN FRANCISCO', 15, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(33, 'ZARAZA', NULL, 4, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(34, 'SAN JOSE DE UNARE', NULL, 4, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(35, 'GUAYABAL', NULL, 14, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(36, 'CAZORLA', NULL, 14, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(37, 'GUARIBE', NULL, 13, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(38, 'SANTA MARIA', NULL, 10, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(39, 'ALTAMIRA', NULL, 10, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48');
 
 -- Volcando estructura para tabla alguarisa_transporte.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -82,7 +138,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla alguarisa_transporte.users: ~2 rows (aproximadamente)
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `telefono`, `token`, `date_token`, `path`, `role`, `role_id`, `permisos`, `estatus`, `band`, `created_at`, `updated_at`, `deleted_at`, `dispositivo`) VALUES
+	(1, 'Yonathan Castillo', 'leothan522@gmail.com', '$2y$10$q8sJLX5XG0nhyXybQn0wHej7Q7DdquAPy5da8tbANngGhk.SwXnFu', '(0424) 338-66.00', NULL, NULL, NULL, 100, 0, NULL, 1, 1, '2023-08-12', NULL, NULL, 0),
+	(2, 'Antonny Maluenga', 'gabrielmalu15@gmail.com', '$2y$10$XibWahOwcjxTdM.YWlhrTuA8gJZeyK7fLe9Ge5yrI5loizvfE2sea', '(0412) 199-56.47', NULL, NULL, NULL, 100, 0, NULL, 1, 1, '2023-08-28', NULL, NULL, 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
