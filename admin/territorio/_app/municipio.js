@@ -1,7 +1,6 @@
 //validamos campos para los municpios
-$('#municipio_nombre').inputmask("*{4,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}");
-$('#municipio_mini').inputmask("*{2,20}[ ]*{0,20}");
-$('#parroquia_nombre').inputmask("*{4,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}");
+inputmask('#municipio_nombre', 'alfa', 5, 100, ' ');
+inputmask('#municipio_mini', 'alfa', 5, 50, ' ');
 
 //Inicializamos la Funcion creada para Datatable pasando el ID de la tabla
 datatable('tabla_municipios');
@@ -295,4 +294,4 @@ function estatusMunicipio(id)
     });
 }
 
-console.log('hi municipiosss');
+console.log('hi municipio');

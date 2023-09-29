@@ -1,6 +1,6 @@
 datatable('table_parametros');
-$('#tabla_id').inputmask("[-]9{0,20}");
-$('#name').inputmask("*{4,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}");
+inputmask('#tabla_id', 'numerico', 0, 12)
+inputmask('#name', 'alfanumerico', 4, 100, '_')
 
 //procesamos el formulario tanto para guardar como editar
 $('#form_parametros').submit(function (e){
@@ -207,6 +207,6 @@ function ocultarForm() {
     $('#col_form').addClass('d-none');
 }
 
-console.log('hi!');
+console.log('hi 12!');
 
 

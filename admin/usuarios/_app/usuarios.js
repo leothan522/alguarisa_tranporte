@@ -2,7 +2,9 @@
 datatable('tabla_usuarios');
 
 //Inicializamos el InputMak
-$('#name').inputmask("*{4,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}");
+inputmask('#name', 'alfa', 3, 50, ' ');
+inputmask('#edit_name', 'alfa', 3, 50, ' ');
+
 $('#telefono').inputmask("(9999) 999-99.99");
 
 
@@ -574,4 +576,4 @@ $('#form_permisos_usuario').submit(function (e) {
     });
 });
 
-console.log('hi fsadfsd!');
+console.log('hi!');

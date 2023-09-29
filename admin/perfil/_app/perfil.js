@@ -1,5 +1,6 @@
 //Inicializamos el InputMak
-$('#edit_name').inputmask("*{4,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}");
+//$('#edit_name').inputmask("*{4,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}");
+inputmask('#edit_name', 'alfa', 3, 100, ' ');
 $('#edit_telefono').inputmask("(9999) 999-99.99");
 
 //Inicializar el input de subir foto
@@ -19,7 +20,7 @@ $('#form_perfil_datos').submit(function (e){
     if (!name.inputmask('isComplete')){
         procesar = false;
         name.addClass('is-invalid');
-        $('#error_edit_name').text('El Nombre es obligatorio, debe tener al menos 4 caracteres.');
+        $('#error_edit_name').text('El Nombre es obligatorio, debe tener al menos 3 caracteres.');
     } else {
         name.removeClass('is-invalid');
         name.addClass('is-valid');
@@ -228,4 +229,4 @@ $('#check_datos').click(function (){
     }
 });
 
-console.log('hi vv!')
+console.log('perfil!')

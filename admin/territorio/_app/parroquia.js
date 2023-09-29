@@ -2,8 +2,8 @@
 datatable('tabla_parroquias');
 
 //inicializamos el inputmask
-$('#parroquia_nombre').inputmask("*{4,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}");
-$('#parroquia_mini').inputmask("*{2,20}[ ]*{0,20}");
+inputmask('#parroquia_nombre', 'alfa', 5, 100, ' ');
+inputmask('#parroquia_mini', 'alfa', 5, 50, ' ');
 
 //Aqui se hace la solicitud ajax para registrar una nueva parroquia o editar una existente
 $('#form_parroquias').submit(function (e) {
@@ -350,4 +350,4 @@ function estatusParroquia(id) {
         }
     });
 }
-console.log('hi Parroquizzz!');
+console.log('hi Parroquia!');

@@ -1,4 +1,4 @@
-$('#name').inputmask("*{4,20}[ ]*{0,20}[ ]*{0,20}[ ]*{0,20}");
+inputmask('#name', 'alfa', 3, 100, ' ');
 $('#telefono').inputmask("(9999) 999-99.99");
 
 $('#form_registrar_usuario').submit(function (e) {
