@@ -21,4 +21,4 @@ function inputmaskTelefono(selector) {
     $(selector).inputmask("(9999) 999-99.99");
 }
 
-console.log('inputmask');
+//console.log('inputmask');

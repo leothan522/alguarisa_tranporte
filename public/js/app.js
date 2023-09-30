@@ -38,11 +38,19 @@ function ajaxRequest(solicitud, callback) {
     //valores por defecto
     let type = 'POST';
     let url = 'procesar.php';
+    let html = 'no';
 
     //comprobamos si recibimos valores personalizados
     //para reemplazar los valores por defecto
-    if (solicitud.type){ type = solicitud.type; }
-    if (solicitud.url){ url = solicitud.url; }
+    if (solicitud.type) {
+        type = solicitud.type;
+    }
+    if (solicitud.url) {
+        url = solicitud.url;
+    }
+    if (solicitud.html) {
+        html = solicitud.html;
+    }
 
     //realizamos la peticion AJAX
     $.ajax({
@@ -57,27 +65,33 @@ function ajaxRequest(solicitud, callback) {
         // código a ejecutar si la petición es satisfactoria;
         // la respuesta es pasada como argumento a la función
         success: function (response) {
-            let respuesta = JSON.parse(response);
-                if (respuesta.alerta) {
-                    Alerta.fire({
+            let respuesta;
+            if (html === 'no') {
+                respuesta = JSON.parse(response);
+            } else {
+                respuesta = response;
+            }
+
+            if (respuesta.alerta) {
+                Alerta.fire({
+                    icon: respuesta.icon,
+                    title: respuesta.title,
+                    text: respuesta.message
+                });
+            } else {
+                if (html === 'no' && !respuesta.toast) {
+                    Toast.fire({
                         icon: respuesta.icon,
-                        title: respuesta.title,
-                        text: respuesta.message
+                        text: respuesta.title
                     });
-                } else {
-                    if (!respuesta.toast){
-                        Toast.fire({
-                            icon: respuesta.icon,
-                            text: respuesta.title
-                        });
-                    }
                 }
-                callback(respuesta);
+            }
+            callback(respuesta);
         },
         // código a ejecutar si la petición falla;
         // son pasados como argumentos a la función
         // el objeto de la petición en crudo y código de estatus de la petición
-        error : function(xhr, status) {
+        error: function (xhr, status) {
             //alert('Disculpe, existió un problema');
             Alerta.fire({
                 icon: 'error',
@@ -87,13 +101,14 @@ function ajaxRequest(solicitud, callback) {
         },
 
         // código a ejecutar sin importar si la petición falló o no
-        complete : function(xhr, status) {
+        complete: function (xhr, status) {
             //alert('Petición realizada');
             verSpinner(false);
         }
 
     });
 }
+
 /*
 * Elemplo Soliciutud Ajax (login.js)
 

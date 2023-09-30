@@ -132,6 +132,7 @@ if ($_POST) try {
                     $parroquia = $model->find($id);
                     $response['result'] = true;
                     $response['alerta'] = false;
+                    $response['toast'] = 'false';
                     $response['error'] = false;
                     $response['icon'] = "success";
                     $response['title'] = "Editar Parroquia.";
@@ -301,6 +302,7 @@ if ($_POST) try {
 
                 $model = new Municipio();
                 $response['result'] = true;
+                $response['toast'] = 'false';
                 $response['municipios'] = array();
                 foreach ($model->getAll() as $municipio) {
                     $id = $municipio['id'];

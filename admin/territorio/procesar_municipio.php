@@ -117,6 +117,7 @@ if ($_POST) {
                         $municipio = $model->find($id);
                         $response['result'] = true;
                         $response['alerta'] = false;
+                        $response['toast'] = 'false';
                         $response['error'] = false;
                         $response['icon'] = "success";
                         $response['title'] = "Editar Muncipio.";
