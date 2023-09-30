@@ -44,7 +44,7 @@ if ($_POST) {
                                     $response['alerta'] = false;
                                     $response['error'] = false;
                                     $response['icon'] =  "success";
-                                    $response['title'] = "Guardado.";
+                                    $response['title'] = "Bienvenido ". $name;
                                     $response['message'] = "Bienvenido ". $name;
                                 } else {
                                     $response['result'] = false;

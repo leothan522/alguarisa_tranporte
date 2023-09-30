@@ -32,7 +32,56 @@ $('#form_parametros').submit(function (e){
     }
 
     if (condicion){
-        verSpinner(true)
+
+        ajaxRequest({ data: $(this). serialize() }, function (data) {
+
+            if (data.result) {
+
+                let table = $('#table_parametros').DataTable();
+                let buttons = '<div class="btn-group btn-group-sm">\n' +
+                    '                            <button type="button" class="btn btn-info" onclick="edit(' + data.id + ')">\n' +
+                    '                                <i class="fas fa-edit"></i>\n' +
+                    '                            </button>\n' +
+                    '                            <button type="button" class="btn btn-info" onclick="borrar(' + data.id + ')" id="btn_eliminar_' + data.id + '"  >\n' +
+                    '                                <i class="far fa-trash-alt"></i>\n' +
+                    '                            </button>\n' +
+                    '                        </div>';
+
+                if (data.add) {
+                    //nueva row
+
+                    table.row.add([
+                        '<span class="text-bold">' + data.item + '</span>',
+                        data.nombre,
+                        data.tabla_id,
+                        data.valor,
+                        buttons
+                    ]).draw();
+
+                    $('#paginate_leyenda').text(data.total);
+
+                    let nuevo = $('#table_parametros tr:last');
+                    nuevo.attr('id', 'tr_item_' + data.id);
+                    nuevo.find("td:eq(1)").addClass('nombre');
+                    nuevo.find("td:eq(2)").addClass('tabla_id');
+                    nuevo.find("td:eq(3)").addClass('valor');
+
+                } else {
+                    //editando
+
+                    let tr = $('#tr_item_' + data.id);
+                    table
+                        .cell(tr.find('.nombre')).data(data.nombre)
+                        .cell(tr.find('.tabla_id')).data(data.tabla_id)
+                        .cell(tr.find('.valor')).data(data.valor)
+                        .draw();
+                }
+                $('#btn_cancelar').click();
+            }
+
+        });
+
+        /*verSpinner(true)
         $.ajax({
            type: 'POST',
            url: "procesar.php",
@@ -100,14 +149,25 @@ $('#form_parametros').submit(function (e){
                verSpinner(false);
            }
 
-        });
+        });*/
     }
 });
 
 
 //cambiamos los datos en formulariopara editar
 function edit(id) {
-    verSpinner();
+
+    ajaxRequest({ data:{ id: id, opcion: 'get_parametro'} }, function (data) {
+        if (data.result){
+            $('#name').val(data.nombre);
+            $('#tabla_id').val(data.tabla_id);
+            $('#valor').val(data.valor);
+            $('#opcion').val("editar");
+            $('#id').val(data.id);
+        }
+    });
+
+    /*verSpinner();
     $.ajax({
         type: 'POST',
         url: 'procesar.php',
@@ -140,14 +200,34 @@ function edit(id) {
             }
             verSpinner(false);
         }
-    });
+    });*/
 }
 
 //eliminamos parametros
 function borrar(id) {
     MessageDelete.fire().then((result_parametros) => {
         if (result_parametros.isConfirmed){
-            $.ajax({
+
+            ajaxRequest({ data: { id: id, opcion: 'eliminar' } }, function (data) {
+
+                if (data.result){
+
+                    let table = $('#table_parametros').DataTable();
+                    let item = $('#btn_eliminar_' + id).closest('tr');
+
+                    table
+                        .row(item)
+                        .remove()
+                        .draw();
+
+                    $('#paginate_leyenda').text(data.total);
+                    $('#btn_cancelar').click();
+
+                }
+
+            });
+
+            /*$.ajax({
                 type: 'POST',
                 url: 'procesar.php',
                 data: {
@@ -185,7 +265,7 @@ function borrar(id) {
                         });
                     }
                 }
-            });
+            });*/
         }
 
     });
@@ -207,6 +287,6 @@ function ocultarForm() {
     $('#col_form').addClass('d-none');
 }
 
-console.log('hi 12!');
+console.log('hi!');
 
 
