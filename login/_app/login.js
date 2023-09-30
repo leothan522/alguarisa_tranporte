@@ -23,30 +23,29 @@ $('#form_login').submit(function (e) {
     }
 
     if (procesar){
-        ajaxRequest({ data: $(this).serialize() },
-            function (data) {
+        ajaxRequest({ data: $(this).serialize() }, function (data) {
 
-                if (data.result){
-                    window.location.replace ("../admin/");
-                }else {
+            if (data.result) {
+                window.location.replace("../admin/");
+            } else {
 
-                    if (data.error === "no_email") {
-                        email.addClass('is-invalid');
-                        $('#error_email').text(data.message);
-                        password.removeClass('is-valid');
-                        password.removeClass('is-invalid');
-                    }
-
-                    if (data.error === "no_password") {
-                        password.addClass('is-invalid');
-                        $('#error_password').text(data.message);
-                    }
-
-                    if (data.error === "no_activo") {
-                        email.addClass('is-invalid');
-                        $('#error_email').text(data.message);
-                    }
+                if (data.error === "no_email") {
+                    email.addClass('is-invalid');
+                    $('#error_email').text(data.message);
+                    password.removeClass('is-valid');
+                    password.removeClass('is-invalid');
                 }
+
+                if (data.error === "no_password") {
+                    password.addClass('is-invalid');
+                    $('#error_password').text(data.message);
+                }
+
+                if (data.error === "no_activo") {
+                    email.addClass('is-invalid');
+                    $('#error_email').text(data.message);
+                }
+            }
 
         });
 

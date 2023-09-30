@@ -157,6 +157,7 @@ if (config('app_register') == "false"){
 <script src="<?php asset('app/resources/adminlte/plugins/moment/moment.min.js'); ?>"></script>
 <script src="<?php asset('app/resources/adminlte/plugins/inputmask/jquery.inputmask.min.js'); ?>"></script>
 <script src="<?php asset('public/js/inputmask-app.js'); ?>"></script>
+<script src="<?php asset('public/js/app.js'); ?>"></script>
 
 
 <script src="_app/register.js"></script>
