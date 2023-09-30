@@ -5,9 +5,11 @@ require_once "../vendor/autoload.php";
 use app\controller\GuestController;
 
 $controller = new GuestController();
-header("Status: 301 Moved Permanently");
-header("Location: ".config('app_dominio')."");
-exit;
+if (config('app_register') == "false"){
+    header("Status: 301 Moved Permanently");
+    header("Location: ".config('app_dominio')."");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
