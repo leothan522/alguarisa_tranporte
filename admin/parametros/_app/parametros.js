@@ -1,6 +1,6 @@
 datatable('table_parametros');
-inputmask('#tabla_id', 'numerico', 0, 12)
-inputmask('#name', 'alfanumerico', 4, 100, '_')
+inputmask('#tabla_id', 'numerico', 0, 12);
+inputmask('#name', 'alfanumerico', 4, 100, '_');
 
 //procesamos el formulario tanto para guardar como editar
 $('#form_parametros').submit(function (e){
@@ -10,10 +10,10 @@ $('#form_parametros').submit(function (e){
     let tabla_id = $('#tabla_id');
     let valor = $('#valor');
 
-    if (name.val().length <= 0 ){
+    if (!name.inputmask('isComplete')){
         condicion = false;
         name.addClass('is-invalid');
-        $('#error_name').text('El Nombre es obligatorio.');
+        $('#error_name').text('El Nombre es obligatorio, debe terner al menos 4 caracteres.');
     }else {
         name.removeClass('is-invalid');
 
@@ -287,6 +287,6 @@ function ocultarForm() {
     $('#col_form').addClass('d-none');
 }
 
-console.log('hi!');
+console.log('hi gfd!');
 
 

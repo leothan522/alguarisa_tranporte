@@ -168,6 +168,15 @@ function crearResponse($error = null, $result = false, $title = null, $message =
             $response['message'] = "Algunos campos son requeridos, es decir obligatorios.";
             break;
 
+        case 'no_cambios':
+            $response['result'] = false;
+            $response['alerta'] = true;
+            $response['error'] = "no_cambios";
+            $response['icon'] = "info";
+            $response['title'] = "Sin Cambios.";
+            $response['message'] = "No se realizo ningun cambio.";
+            break;
+
         default:
             $response['result'] = $result;
             $response['alerta'] = $alerta;
