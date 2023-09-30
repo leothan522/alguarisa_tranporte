@@ -263,7 +263,11 @@ function resetForm(edit = false) {
 
 //quitar DIV contenedor del formulario
 function cerrarDiv() {
-    $('#div_create_user').addClass('d-none');
+    verSpinner(true);
+    setTimeout(function () {
+        $('#div_create_user').addClass('d-none');
+        verSpinner(false);
+    }, 500);
 }
 
 //Actualizando los datos del usuario en modal edit

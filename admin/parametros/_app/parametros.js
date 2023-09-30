@@ -284,9 +284,13 @@ $('#btn_cancelar').click(function () {
 });
 
 function ocultarForm() {
-    $('#col_form').addClass('d-none');
+    verSpinner(true);
+    setTimeout(function () {
+        $('#col_form').addClass('d-none');
+        verSpinner(false);
+    }, 500);
 }
 
-console.log('hi gfd!');
+console.log('hi!');
 
 

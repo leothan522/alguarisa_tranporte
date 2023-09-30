@@ -177,6 +177,15 @@ function crearResponse($error = null, $result = false, $title = null, $message =
             $response['message'] = "No se realizo ningun cambio.";
             break;
 
+        case 'no_permisos':
+            $response['result'] = false;
+            $response['alerta'] = true;
+            $response['error'] = "no_permisos";
+            $response['icon'] = "warning";
+            $response['title'] = "Permiso Denegado.";
+            $response['message'] = "El usuario actual no tiene permisos suficientes para realizar esta acción. Contacte con su Administrador.";
+            break;
+
         default:
             $response['result'] = $result;
             $response['alerta'] = $alerta;
