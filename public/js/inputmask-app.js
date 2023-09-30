@@ -17,4 +17,8 @@ function inputmask(selector, tipo, min = 0, max = 100, simbolos = ' ', utf8 = 'Ã
     $(selector).inputmask({regex: regex });
 }
 
+function inputmaskTelefono(selector) {
+    $(selector).inputmask("(9999) 999-99.99");
+}
+
 console.log('inputmask');

@@ -48,6 +48,7 @@ if ($_POST) {
 
                     $response['result'] = true;
                     $response['alerta'] = false;
+                    $response['toast'] = 'false';
                     $response['error'] = "no_opcion";
                     $response['icon'] = "info";
                     $response['title'] = "Contraseña Generada";
@@ -143,6 +144,7 @@ if ($_POST) {
 
                             $response['result'] = true;
                             $response['alerta'] = false;
+                            $response['toast'] = 'false';
                             $response['error'] = false;
                             $response['icon'] = "success";
                             $response['title'] = "Editar Usuario";
@@ -193,11 +195,13 @@ if ($_POST) {
                                 if ($estatus) {
                                     $model->update($id, 'estatus', 0);
                                     $title = 'Usuario Inactivo';
+                                    $icono = 'info';
                                     $newEstatus = 0;
                                     $verEstatus = verEstatusUsuario(0, false);
                                 } else {
                                     $model->update($id, 'estatus', 1);
                                     $title = 'Usuario Activo';
+                                    $icono = 'success';
                                     $newEstatus = 1;
                                     $verEstatus = verEstatusUsuario(1, false);
                                 }
@@ -205,7 +209,7 @@ if ($_POST) {
                                 $response['result'] = true;
                                 $response['alerta'] = false;
                                 $response['error'] = false;
-                                $response['icon'] = "info";
+                                $response['icon'] = $icono;
                                 $response['title'] = $title;
                                 $response['message'] = "Mostrando Usuario " . $user['name'];
                                 $response['id'] = $user['id'];
@@ -484,6 +488,7 @@ if ($_POST) {
 
                         $response['result'] = true;
                         $response['alerta'] = false;
+                        $response['toast'] = 'false';
                         $response['error'] = false;
                         $response['icon'] = "info";
                         $response['title'] = "Ver Permisos";
