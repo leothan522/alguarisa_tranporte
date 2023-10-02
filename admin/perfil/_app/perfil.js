@@ -57,15 +57,22 @@ $('#form_perfil_datos').submit(function (e){
 
         ajaxRequest({ data: $(this).serialize() }, function (data) {
             if (data.result){
-                $('#profile_name').text(name.val());
-                $('#profile_email').text(email.val());
-                $('#profile_telefono').text(telefono.val());
-                $('#ficha_nombre').text(name.val());
-                $('#ficha_email').text(email.val());
-                $('#navbar_header_name').text(name.val());
-                name.removeClass('is-valid');
-                email.removeClass('is-valid');
-                telefono.removeClass('is-valid');
+                $('#profile_name').text(data.nombre);
+                $('#profile_email').text(data.email);
+                $('#profile_telefono').text(data.telefono);
+                $('#ficha_nombre').text(data.nombre);
+                $('#ficha_email').text(data.email);
+                $('#navbar_header_name').text(data.nombre);
+
+                name
+                    .val(data.nombre)
+                    .removeClass('is-valid');
+                email
+                    .val(data.email)
+                    .removeClass('is-valid');
+                telefono
+                    .val(data.telefono)
+                    .removeClass('is-valid');
                 password_actual
                     .removeClass('is-valid')
                     .val('')
@@ -292,4 +299,4 @@ $('#check_datos').click(function (){
     }
 });
 
-console.log('perfil!')
+console.log('perfil 2!')

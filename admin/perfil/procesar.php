@@ -65,12 +65,16 @@ if ($_POST) {
                             if ($cambios) {
                                 //sucess
                                 $model->update($id, 'updated_at', $updated_at);
+                                $user = $model->find($id);
                                 $response = crearResponse(
                                     null,
                                     true,
                                     'Cambios guardados.',
                                     'Cambios guardados exitosamente.'
                                 );
+                                $response['nombre'] = $user['name'];
+                                $response['email'] = $user['email'];
+                                $response['telefono'] = $user['telefono'];
                             } else {
                                 //manejo el error
                                 $response = crearResponse('no_cambios');
