@@ -3,7 +3,10 @@
         <h3 class="card-title">Municipios</h3>
 
         <div class="card-tools">
-            <button class="btn btn-tool" onclick="resetMunicipio()" data-toggle="modal" data-target="#modal-municipios">
+            <button class="btn btn-tool"
+                    onclick="resetMunicipio()"
+                    data-toggle="modal" data-target="#modal-municipios"
+                <?php if (!validarPermisos('municipios.create')){ echo 'disabled'; } ?> >
                 <i class="far fa-file-alt"></i> Nuevo
             </button>
         </div>
@@ -41,17 +44,26 @@
 
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <button type="button" class="btn btn-info" onclick="estatusMunicipio(<?php echo $municipio['id']; ?>)" id="btn_estatus_<?php echo $municipio['id']; ?>">
+                                <button type="button" class="btn btn-info"
+                                        onclick="estatusMunicipio(<?php echo $municipio['id']; ?>)"
+                                        id="btn_estatus_<?php echo $municipio['id']; ?>"
+                                        <?php if (!validarPermisos('municipios.estatus')){ echo 'disabled'; } ?> >
                                     <?php if ($municipio['estatus']){ ?>
                                         <i class="fas fa-eye"></i>
                                     <?php }else{ ?>
                                         <i class="fas fa-eye-slash"></i>
                                     <?php } ?>
                                 </button>
-                                <button type="button" class="btn btn-info" onclick="editMunicipio(<?php echo $municipio['id']; ?>)" data-toggle="modal" data-target="#modal-municipios">
+                                <button type="button" class="btn btn-info"
+                                        onclick="editMunicipio(<?php echo $municipio['id']; ?>)"
+                                        data-toggle="modal" data-target="#modal-municipios"
+                                        <?php if (!validarPermisos('municipios.edit')){ echo 'disabled'; } ?> >
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button type="button" class="btn btn-info" onclick="destroyMunicipio(<?php echo $municipio['id'] ?>)" id="btn_eliminar_<?php echo $municipio['id']; ?>">
+                                <button type="button" class="btn btn-info"
+                                        onclick="destroyMunicipio(<?php echo $municipio['id'] ?>)"
+                                        id="btn_eliminar_<?php echo $municipio['id']; ?>"
+                                        <?php if (!validarPermisos('municipios.destroy')){ echo 'disabled'; } ?> >
                                     <i class="far fa-trash-alt"></i>
                                 </button>
                             </div>
