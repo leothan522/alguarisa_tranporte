@@ -7,7 +7,7 @@ use app\controller\UsersController;
 
 $response = array();
 $paginate = false;
-$controller = new UsersController();
+
 
 if ($_POST) {
 
@@ -24,7 +24,7 @@ if ($_POST) {
                 //definimos las opciones a procesar
 
                 case 'paginate':
-
+                    //$controller = new UsersController();
                     $offset = !empty($_POST['page']) ? $_POST['page'] : 0;
                     $limit = !empty($_POST['limit']) ? $_POST['limit'] : 10;
                     $baseURL = !empty($_POST['baseURL']) ? $_POST['baseURL'] : 'getData.php';
@@ -34,6 +34,8 @@ if ($_POST) {
                     $listarUsuarios = $model->paginate($limit, $offset, 'role', 'DESC', 1);
                     $links = paginate($baseURL, $tableID, $limit, $model->count(1), $offset)->createLinks();
                     $i = $offset;
+                    $user = $model->find($_SESSION['id']);
+                    $user_role = $user['role'];
                     echo '<div id="dataContainer">';
                     require_once "_layout/card_table.php";
                     echo '</div>';

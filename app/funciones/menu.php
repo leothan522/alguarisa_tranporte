@@ -44,7 +44,7 @@ function sidebar($modulo = null): ?string
                     'permiso' => validarPermisos('root'),
                     'url' => public_url('admin/parametros'),
                     'active' => $modulo == 'parametros.index',
-                    'icono' => '<i class="fas fa-list"></i> ',
+                    'icono' => '<i class="fas fa-cog"></i> ',
                     'titulo' => 'Parametros'
                 ]
             ]
@@ -174,6 +174,14 @@ function verPermisos(): array
                 [
                     'permiso' => 'usuarios.edit',
                     'text' => 'Editar Usuarios'
+                ],
+                [
+                    'permiso' => 'usuarios.estatus',
+                    'text' => 'Cambiar Estatus'
+                ],
+                [
+                    'permiso' => 'usuarios.reset',
+                    'text' => 'Reset Password'
                 ],
                 [
                     'permiso' => 'usuarios.destroy',

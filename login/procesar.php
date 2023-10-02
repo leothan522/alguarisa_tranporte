@@ -28,17 +28,18 @@ if ($_POST) {
                         $email = strtolower($_POST['email']);
                         $password = $_POST['password'];
 
-                        $existeEmail = $model->existe('email', '=', $email);
+                        $existeEmail = $model->existe('email', '=', $email, null, 1);
                         if ($existeEmail){
 
                             $id = $existeEmail['id'];
                             $name = $existeEmail['name'];
                             $db_password = $existeEmail['password'];
                             $band = $existeEmail['band'];
+                            $estatus = $existeEmail['estatus'];
 
                             if (password_verify($password, $db_password)) {
 
-                                if ($band) {
+                                if ($estatus) {
                                     $_SESSION['id'] = $id;
                                     $response = crearResponse(
                                         null,
