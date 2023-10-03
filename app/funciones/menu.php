@@ -189,6 +189,44 @@ function verPermisos(): array
                 ]
             ]
         ],
+        [
+            'permiso' => 'territotio.index',
+            'text' => 'Territorio',
+            'opciones' => [
+                [
+                    'permiso' => 'municipios.create',
+                    'text' => 'Crear Municipios'
+                ],
+                [
+                    'permiso' => 'municipios.edit',
+                    'text' => 'Editar Municipios'
+                ],
+                [
+                    'permiso' => 'municipios.destroy',
+                    'text' => 'Borrar Municipios'
+                ],
+                [
+                    'permiso' => 'municipios.estatus',
+                    'text' => 'Estatus Municipios'
+                ],
+                [
+                    'permiso' => 'parroquias.create',
+                    'text' => 'Crear Parroquias'
+                ],
+                [
+                    'permiso' => 'parroquias.edit',
+                    'text' => 'Editar Parroquias'
+                ],
+                [
+                    'permiso' => 'parroquias.destroy',
+                    'text' => 'Borrar Parroquias'
+                ],
+                [
+                    'permiso' => 'parroquias.estatus',
+                    'text' => 'Estatus Parroquias'
+                ]
+            ]
+        ],
 
         /*
          * Ejemplo de permiso
