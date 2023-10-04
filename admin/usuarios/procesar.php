@@ -108,6 +108,9 @@ if ($_POST) {
                                 $response['item'] = '<p class="text-center">'.$model->count(1).'</p>';
                                 $response['estatus'] = '<p class="text-center">' . verEstatusUsuario($user['estatus']) . '</p>';
                                 $response['total'] = $model->count(1);
+                                $response['btn_editar'] = validarPermisos('usuarios.edit');
+                                $response['btn_eliminar'] = validarPermisos('usuarios.destroy');
+                                $response['btn_permisos'] = validarPermisos('usuarios.estatus');
 
                             } else {
                                 $response = crearResponse(

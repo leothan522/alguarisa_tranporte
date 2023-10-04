@@ -111,15 +111,31 @@ $('#form_create_user').submit(function (e) {
             if (data.result){
 
                 let table = $('#tabla_usuarios').DataTable();
+                let btn_editar = '';
+                let btn_eliminar = '';
+                let btn_estatus = '';
+
+                if (!data.btn_editar){
+                    btn_editar = 'disabled';
+                }
+
+                if (!data.btn_eliminar){
+                    btn_eliminar = 'disabled';
+                }
+
+                if (!data.btn_permisos){
+                    btn_estatus = 'disabled';
+                }
+
                 let buttons = '<div class="btn-group btn-group-sm">\n' +
                     '                                <button type="button" class="btn btn-info" onclick="getUser('+ data.id +')"\n' +
-                    '                                        data-toggle="modal" data-target="#modal_edit_usuarios">\n' +
+                    '                                        data-toggle="modal" data-target="#modal_edit_usuarios" '+ btn_editar +'>\n' +
                     '                                    <i class="fas fa-user-edit"></i>\n' +
                     '                                </button>\n' +
-                    '                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_permisos" onclick="getPermisos('+ data.id +')" >\n' +
+                    '                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_permisos" onclick="getPermisos('+ data.id +')" '+ btn_estatus +' >\n' +
                     '                                    <i class="fas fa-user-shield"></i>\n' +
                     '                                </button>\n' +
-                    '                                <button type="button" class="btn btn-info" onclick="destroyUser('+ data.id +')" id="btn_eliminar_'+ data.id +'"  >\n' +
+                    '                                <button type="button" class="btn btn-info" onclick="destroyUser('+ data.id +')" id="btn_eliminar_'+ data.id +'" '+ btn_eliminar +' >\n' +
                     '                                    <i class="far fa-trash-alt"></i>\n' +
                     '                                </button>\n' +
                     '                            </div>';
