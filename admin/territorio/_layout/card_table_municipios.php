@@ -9,6 +9,7 @@
                 <?php if (!validarPermisos('municipios.create')){ echo 'disabled'; } ?> >
                 <i class="far fa-file-alt"></i> Nuevo
             </button>
+            <input type="hidden" value="oculto" id="ocultar_filtro">
         </div>
 
     </div>

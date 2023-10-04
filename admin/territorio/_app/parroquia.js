@@ -415,9 +415,18 @@ function filtrarParroquias(id) {
 
     ajaxRequest({ url: 'procesar_parroquia.php', data: { opcion: 'filtrar_parroquias', id: id }, html: true }, function (data) {
         $('#dataContainerParroquia').html(data); datatable('tabla_parroquias');
-        $('#parroquias_btn_restablecer').removeClass('d-none');
-    });
 
+        let valor = $('#ocultar_filtro');
+
+        if (valor.val() === 'oculto'){
+            valor.val('visto')
+            $('#parroquias_btn_restablecer').removeClass('d-none');
+        }else {
+            valor.val('oculto')
+            $('#parroquias_btn_restablecer').addClass('d-none');
+        }
+
+    });
     /*verSpinner(true);
     $.ajax({
         type: 'POST',
@@ -484,4 +493,5 @@ function estatusParroquia(id) {
         }
     });*/
 }
+
 console.log('hi Parroquia!');

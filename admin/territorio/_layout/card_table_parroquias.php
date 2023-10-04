@@ -63,7 +63,7 @@
                                 <button type="button" class="btn btn-info"
                                         onclick="elimParroquia(<?php echo $parroquia['id']; ?>)"
                                         id="btn_eliminar_p_<?php echo $parroquia['id']; ?>"
-                                        <?php if (validarPermisos('parroquias.destroy')){ echo 'disabled'; } ?> >
+                                        <?php if (!validarPermisos('parroquias.destroy')){ echo 'disabled'; } ?> >
                                     <i class="far fa-trash-alt"></i>
                                 </button>
                             </div>
