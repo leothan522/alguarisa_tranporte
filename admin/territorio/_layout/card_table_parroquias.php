@@ -4,9 +4,9 @@
         <h3 class="card-title">Parroquias</h3>
 
         <div class="card-tools">
-            <a href="./" class="btn btn-tool d-none" id="parroquias_btn_restablecer">
+            <button type="button" class="btn btn-tool d-none" onclick="filtrarParroquias(-1)" id="parroquias_btn_restablecer">
                 <i class="fas fa-sync-alt"></i> Reestablacer
-            </a>
+            </button>
             <button class="btn btn-tool" data-toggle="modal"
                     onclick="resetParroquia()"
                     data-target="#modal-parroquias"
