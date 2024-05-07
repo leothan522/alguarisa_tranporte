@@ -54,7 +54,7 @@ class Model
         return $rows;
     }
 
-    public function getList($campo, $operador, $valor, $band = null, $orderBy = null, $opt ='ASC'): array
+    public function getList($campo, $operador, $valor, $band = null, $orderBy = null, $opt ='ASC', $limit = null): array
     {
         $extra = null;
         $order = null;
@@ -64,20 +64,35 @@ class Model
         if (!is_null($orderBy)) {
             $order = "ORDER BY `$orderBy` $opt";
         }
+
+        if (!is_null($limit)){
+            $limit = 'LIMIT '.$limit;
+        }
+
         $query = new Query();
-        $sql = "SELECT * FROM `$this->TABLA` WHERE `$campo` $operador '$valor' $extra $order; ";
+        $sql = "SELECT * FROM `$this->TABLA` WHERE `$campo` $operador '$valor' $extra $order $limit; ";
         $rows = $query->getAll($sql);
         return $rows;
     }
 
-    public function count($band = null): mixed
+    public function count($band = null, $campo = null, $operador = null, $valor = null): mixed
     {
         $extra = null;
         if (!is_null($band)) {
             $extra = "WHERE `band`= $band";
         }
+        $contar = null;
+        if (!is_null($campo) && !is_null($operador) && !is_null($campo)){
+            $contar ="WHERE `$campo` $operador '$valor'";
+        }
+
+        if (!is_null($extra) && !is_null($contar)){
+            $extra = "WHERE ";
+            $contar = "`$campo` $operador '$valor' AND `band`= $band";
+        }
+
         $query = new Query();
-        $sql = "SELECT COUNT(*) FROM `$this->TABLA` $extra ;";
+        $sql = "SELECT COUNT(*) FROM `$this->TABLA` $extra $contar ;";
         $rows = $query->count($sql);
         return $rows;
     }
@@ -158,6 +173,24 @@ class Model
         $query = new Query();
         $sql = "DELETE FROM `$this->TABLA` WHERE  `id` = $id;";
         $row = $query->save($sql);
+        return $row;
+    }
+
+    public function sqlPersonalizado($sql, $opcion = 'getFirst')
+    {
+        $query = new Query();
+
+        switch ($opcion){
+            case 'getAll':
+                $row = $query->getAll($sql);
+                break;
+            case 'save':
+                $row = $query->save($sql);
+                break;
+            default:
+                $row = $query->getFirst($sql);
+                break;
+        }
         return $row;
     }
 

@@ -1,5 +1,5 @@
 //Inicializamos el InputMak
-inputmask('#edit_name', 'alfa', 3, 100, ' ');
+inputmask('#edit_name', 'alfanumerico', 3, 100, ' ');
 inputmaskTelefono('#edit_telefono');
 
 //Inicializar el input de subir foto
@@ -55,7 +55,7 @@ $('#form_perfil_datos').submit(function (e){
 
     if (procesar){
 
-        ajaxRequest({ data: $(this).serialize() }, function (data) {
+        ajaxRequest({ url: '_request/PerfilRequest.php', data: $(this).serialize() }, function (data) {
             if (data.result){
                 $('#profile_name').text(data.nombre);
                 $('#profile_email').text(data.email);
@@ -175,7 +175,7 @@ $('#form_perfil_seguridad').submit(function (e){
 
     if (procesar){
 
-        ajaxRequest({ data: $(this).serialize() }, function (data) {
+        ajaxRequest({ url: '_request/PerfilRequest.php', data: $(this).serialize() }, function (data) {
 
             if (data.result){
 
@@ -299,4 +299,4 @@ $('#check_datos').click(function (){
     }
 });
 
-console.log('perfil 2!')
+console.log('perfil.!')

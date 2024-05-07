@@ -17,7 +17,16 @@ function sidebar($modulo = null): ?string
             'badge' => null,
             'treeview' => []
         ],
-
+        /*[
+            'permiso' => validarPermisos('pagos.index'),
+            'url' => public_url('admin/pagos'),
+            'active' => $modulo == 'pagos.index',
+            'icono' => '<i class="nav-icon fas fa-money-check"></i>',
+            'titulo' => 'Validación Pagos',
+            'badge' => null,
+            'treeview' => []
+        ],*/
+        
         [
             'permiso' => validarPermisos('territorio.index') || validarPermisos('usuarios.index') || validarPermisos('root'),
             'url' => '#',
@@ -37,7 +46,7 @@ function sidebar($modulo = null): ?string
                     'permiso' => validarPermisos('usuarios.index'),
                     'url' => public_url('admin/usuarios'),
                     'active' => $modulo == 'usuarios.index',
-                    'icono' => '<i class="fas fa-users"></i> ',
+                    'icono' => '<i class="fas fa-users-cog nav-icon"></i>',
                     'titulo' => 'Usuarios'
                 ],
                 [
@@ -159,95 +168,10 @@ function sidebar($modulo = null): ?string
     return $html;
 }
 
-function verPermisos(): array
+function verPermisos($role = null): array
 {
 
-    $permisos = [
-        [
-            'permiso' => 'usuarios.index',
-            'text' => 'Usuarios',
-            'opciones' => [
-                [
-                    'permiso' => 'usuarios.create',
-                    'text' => 'Crear Usuarios'
-                ],
-                [
-                    'permiso' => 'usuarios.edit',
-                    'text' => 'Editar Usuarios'
-                ],
-                [
-                    'permiso' => 'usuarios.estatus',
-                    'text' => 'Cambiar Estatus'
-                ],
-                [
-                    'permiso' => 'usuarios.reset',
-                    'text' => 'Reset Password'
-                ],
-                [
-                    'permiso' => 'usuarios.destroy',
-                    'text' => 'Borrar Usuarios'
-                ]
-            ]
-        ],
-        [
-            'permiso' => 'territotio.index',
-            'text' => 'Territorio',
-            'opciones' => [
-                [
-                    'permiso' => 'municipios.create',
-                    'text' => 'Crear Municipios'
-                ],
-                [
-                    'permiso' => 'municipios.edit',
-                    'text' => 'Editar Municipios'
-                ],
-                [
-                    'permiso' => 'municipios.destroy',
-                    'text' => 'Borrar Municipios'
-                ],
-                [
-                    'permiso' => 'municipios.estatus',
-                    'text' => 'Estatus Municipios'
-                ],
-                [
-                    'permiso' => 'parroquias.create',
-                    'text' => 'Crear Parroquias'
-                ],
-                [
-                    'permiso' => 'parroquias.edit',
-                    'text' => 'Editar Parroquias'
-                ],
-                [
-                    'permiso' => 'parroquias.destroy',
-                    'text' => 'Borrar Parroquias'
-                ],
-                [
-                    'permiso' => 'parroquias.estatus',
-                    'text' => 'Estatus Parroquias'
-                ]
-            ]
-        ],
-
-        /*
-         * Ejemplo de permiso
-         *
-         *
-        [ 'permiso' => 'usuarios.index',
-            'text' => 'Usuarios',
-            'opciones' => [
-                [
-                    'permiso' => 'usuarios.create',
-                    'text' => 'Crear Usuarios'
-                ],
-                [
-                    'permiso' => 'usuarios.edit',
-                    'text' => 'Editar Usuarios'
-                ]
-            ]
-        ]
-
-        */
-    ];
+    $permisos = permisos();
 
     $array = array();
     $html = null;
@@ -255,7 +179,7 @@ function verPermisos(): array
     foreach ($permisos as $menu) {
         $i++;
         $explode = explode('.', $menu['permiso']);
-        $id = $explode[0] . '_' . $explode[1];
+        $id = $explode[0] . '_' . $explode[1] . $role;
         $array[] = $id;
         $html .= '<div class="col-md-4">
                 <div class="card card-primary card-outline collapsed-card">
@@ -278,7 +202,7 @@ function verPermisos(): array
         foreach ($menu['opciones'] as $item) {
             $i++;
             $explode = explode('.', $item['permiso']);
-            $id = $explode[0] . '_' . $explode[1];
+            $id = $explode[0] . '_' . $explode[1] . $role;
             $array[] = $id;
             $html .= '<div class="form-group">
                     <div class="custom-control custom-checkbox">';

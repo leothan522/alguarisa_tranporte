@@ -26,7 +26,7 @@ $('#form_recover').submit(function (e) {
 
     if (procesar){
 
-        ajaxRequest({ data: $(this).serialize() }, function (data) {
+        ajaxRequest({ url: '_request/RecoverRequest.php', data: $(this).serialize() }, function (data) {
 
             if (data.result){
                 Swal.fire({
@@ -83,4 +83,4 @@ $('#form_recover').submit(function (e) {
 });
 
 
-console.log('hi!');
+console.log('recover!');

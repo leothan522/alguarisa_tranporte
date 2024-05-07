@@ -50,12 +50,25 @@
                     </div>
 
 
+                        <label for="name">Asignación</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Ingrese la cantidad de familias" name="parroquia_asignacion" id="parroquia_asignacion">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback" id="error_parroquia_asignacion"></div>
+                        </div>
+
+
+
 
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <input type="hidden" name="id" id="parroquia_id">
-                <input type="hidden" name="opcion" value="guardar_parroquia" id="parroquia_opcion">
+                <input type="hidden" name="opcion" value="store" id="parroquia_opcion">
                 <button type="submit" class="btn btn-primary" id="parroquia_btn_guardar">Guardar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" id="parroquia_btn_cancelar">Cancelar</button>
             </div>

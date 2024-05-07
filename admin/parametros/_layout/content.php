@@ -3,13 +3,16 @@
         <?php require_once "form.php"?>
     </div>
     <div class="col-md-8">
-        <div id="dataContainer">
+        <div id="dataContainerParametros">
         <?php
-        $listarParametros = $controller->listarParametros();
-        $linksPaginate = $controller->links;
-        $i = 0;
+        $controller->index();
         require_once "table.php";
         ?>
         </div>
+    </div>
+    <div class="col-12">
+        <ul>
+            <li>numRowsPaginate[null|int]</li>
+        </ul>
     </div>
 </div>

@@ -1,12 +1,29 @@
+<?php
+$listarParroquias = $controller->rows;
+$links = $controller->links;
+$i = $controller->offset;
+$x = 0;
+?>
 
 <div class="card card-outline card-primary">
     <div class="card-header">
-        <h3 class="card-title">Parroquias</h3>
+        <h3 class="card-title">
+            <?php if (empty($controller->keyword)){ ?>
+            Parroquias
+            <?php }else{ ?>
+                Resultados para la busqueda [ <strong class="text-danger"><?php echo $controller->keyword; ?></strong> ] en Parroquias
+                <button type="button" class="btn btn-tool" onclick="reconstruirTablaParroquias()">
+                    <i class="fas fa-times-circle"></i>
+                </button>
+            <?php } ?>
+        </h3>
 
         <div class="card-tools">
-            <button type="button" class="btn btn-tool d-none" onclick="filtrarParroquias(-1)" id="parroquias_btn_restablecer">
+            <?php if (isset($restablecer) && $restablecer){ ?>
+            <button class="btn btn-tool d-none" onclick="filtrarParroquias('')" id="parroquias_btn_restablecer">
                 <i class="fas fa-sync-alt"></i> Reestablacer
             </button>
+            <?php } ?>
             <button class="btn btn-tool" data-toggle="modal"
                     onclick="resetParroquia()"
                     data-target="#modal-parroquias"
@@ -18,14 +35,14 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        <div class="table mt-3">
-            <table class="table" id="tabla_parroquias">
+        <div class="table table-responsive mt-3">
+            <table class="table table-sm" id="tabla_parroquias">
                 <thead>
                 <tr>
-                    <th style="width: 10px">#</th>
+                    <th style="width: 15px">#</th>
                     <th>Nombre</th>
-                    <!--<th>Abreviatura</th>-->
-                    <th>Municipio</th>
+                    <th class="text-right">Asignación</th>
+                    <th class="text-center">Municipio</th>
                     <th style="width: 5%">&nbsp;</th>
                 </tr>
                 </thead>
@@ -33,15 +50,16 @@
                 <?php
                 foreach ($listarParroquias as $parroquia) {
                     $i++;
+                    $x++;
                     ?>
                     <tr id="tr_item_p_<?php echo $parroquia['id']; ?>">
                         <td class="text-center item"><?php echo $i; ?>. </td>
                         <td class="parroquia"><?php echo $parroquia['nombre']; ?></td>
-                        <!--<td class="mini"><?php /*echo $parroquia['mini']; */?></td>-->
-                        <td class="municipio">
+                        <td class="asignacion text-right"><?php echo formatoMillares($parroquia['familias'], 0) ?></td>
+                        <td class="municipio text-center">
                             <?php echo $controller->getMunicipio($parroquia['municipios_id']); ?>
                         </td>
-                        <td>
+                        <td class="botones">
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-info"
                                         onclick="estatusParroquia(<?php echo $parroquia['id']; ?>)"
@@ -76,14 +94,15 @@
     </div>
     <!-- /.card-body -->
     <div class="card-footer clearfix">
-        <?php echo $links; ?>
-        <!--<ul class="pagination pagination-sm m-0 float-right">
-            <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-        </ul>-->
+        <?php
+        if (empty($controller->keyword)){
+            echo $links;
+        }else{
+            echo "Mostrando ".$x;
+        }
+        ?>
+
+        <input type="hidden" value="<?php echo $x; ?>" id="input_hidden_parroquia_valor_x">
     </div>
     <?php verCargando(); ?>
 </div>

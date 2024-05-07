@@ -1,8 +1,6 @@
 <?php
 namespace app\model;
 
-use app\model\Model;
-
 class User extends Model
 {
     public function __construct()
@@ -14,6 +12,8 @@ class User extends Model
             'password',
             'telefono',
             'role',
+            'role_id',
+            'permisos',
             'created_at'
         ];
     }
