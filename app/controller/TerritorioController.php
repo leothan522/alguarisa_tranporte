@@ -3,9 +3,6 @@
 namespace app\controller;
 
 use app\middleware\Admin;
-use app\model\Bloque;
-use app\model\Clap;
-use app\model\Cuota;
 use app\model\Municipio;
 use app\model\Parroquia;
 use app\model\User;
@@ -21,6 +18,7 @@ class TerritorioController extends Admin
     public $totalRows;
     public $offset;
     public $keyword;
+    public $verMuncipio;
 
     public function isAdmin()
     {
@@ -190,7 +188,7 @@ class TerritorioController extends Admin
                 //datos extras para el $response
                 $response['id'] = $parroquias['id'];
                 $response['item'] = '<p class="text-center">' . $model->count() . '.</p>';
-                $response['municipio'] = '<p class="text-center text-uppercase">'.$municipio['mini'].'</p>';
+                $response['municipio'] ='<p class="text-center text-uppercase">'.$municipio['mini'].'</p>';
                 $response['municipios_id'] = $municipio['id'];
                 $response['municipio_parroquias'] = $count;
                 $response['parroquia'] = '<p class="text-uppercase">'.$parroquias['nombre'].'</p>';
@@ -519,9 +517,8 @@ class TerritorioController extends Admin
     public function delete($table, $id): array
     {
         $vinculado = false;
-
-
-        if (false){
+        
+        if ($vinculado){
             $vinculado = true;
             $response = crearResponse('vinculado');
         }else{
@@ -642,6 +639,9 @@ class TerritorioController extends Admin
     public function getParroquias($id)
     {
         $model = new Parroquia();
+        $modelMunicipio = new Municipio();
+        $municipio = $modelMunicipio->find($id);
+        $this->verMuncipio = $municipio['nombre'];
         $this->rows = $model->getList('municipios_id', '=', $id);
     }
 
