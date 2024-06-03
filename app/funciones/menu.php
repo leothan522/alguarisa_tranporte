@@ -17,15 +17,15 @@ function sidebar($modulo = null): ?string
             'badge' => null,
             'treeview' => []
         ],
-        /*[
-            'permiso' => validarPermisos('pagos.index'),
-            'url' => public_url('admin/pagos'),
-            'active' => $modulo == 'pagos.index',
-            'icono' => '<i class="nav-icon fas fa-money-check"></i>',
-            'titulo' => 'Validación Pagos',
+        [
+            'permiso' => validarPermisos('guias.index'),
+            'url' => public_url('admin/guias'),
+            'active' => $modulo == 'guias.index',
+            'icono' => ' <i class="fas fa-file-alt"></i> ',
+            'titulo' => 'Guias',
             'badge' => null,
             'treeview' => []
-        ],*/
+        ],
         
         [
             'permiso' => validarPermisos('territorio.index') || validarPermisos('usuarios.index') || validarPermisos('root'),
