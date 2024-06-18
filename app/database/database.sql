@@ -30,11 +30,10 @@ CREATE TABLE IF NOT EXISTS `municipios` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.municipios: ~15 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.municipios: ~14 rows (aproximadamente)
 INSERT INTO `municipios` (`id`, `nombre`, `mini`, `parroquias`, `familias`, `estatus`, `created_at`, `updated_at`) VALUES
-	(1, 'JUAN GERMAN ROSCIO NIEVES', 'ROSCIO', 3, 32586, 1, '2023-10-23 18:47:26', '2023-10-23 18:47:26'),
 	(2, 'FRANCISCO DE MIRANDA', 'MIRANDA', 4, 34452, 1, '2023-10-23 18:47:26', '2023-10-23 18:47:26'),
 	(3, 'LEONARDO INFANTE', 'INFANTE', 2, 24811, 1, '2023-10-23 18:47:26', '2023-10-23 18:47:26'),
 	(4, 'PEDRO ZARAZA', 'ZARAZA', 2, 20063, 1, '2023-10-23 18:47:26', '2023-10-23 18:47:26'),
@@ -57,12 +56,13 @@ CREATE TABLE IF NOT EXISTS `parametros` (
   `tabla_id` int DEFAULT NULL,
   `valor` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.parametros: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.parametros: ~3 rows (aproximadamente)
 INSERT INTO `parametros` (`id`, `nombre`, `tabla_id`, `valor`) VALUES
 	(1, 'fecha_compilacion', NULL, '2024-05-07 14:39:21'),
-	(2, 'php_version', NULL, 'v.8');
+	(2, 'php_version', NULL, 'v.8'),
+	(3, 'guias_num_init', 0, '1806');
 
 -- Volcando estructura para tabla alguarisa_transporte.parroquias
 CREATE TABLE IF NOT EXISTS `parroquias` (
@@ -77,9 +77,9 @@ CREATE TABLE IF NOT EXISTS `parroquias` (
   PRIMARY KEY (`id`),
   KEY `parroquias_municipios_id_foreign` (`municipios_id`),
   CONSTRAINT `parroquias_municipios_id_foreign` FOREIGN KEY (`municipios_id`) REFERENCES `municipios` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.parroquias: ~39 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.parroquias: ~36 rows (aproximadamente)
 INSERT INTO `parroquias` (`id`, `nombre`, `mini`, `municipios_id`, `familias`, `estatus`, `created_at`, `updated_at`) VALUES
 	(1, 'CAMAGUAN', NULL, 7, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(2, 'PUERTO MIRANDA', NULL, 7, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
@@ -99,9 +99,6 @@ INSERT INTO `parroquias` (`id`, `nombre`, `mini`, `municipios_id`, `familias`, `
 	(16, 'PASO REAL DE MACAIRA', 'PASO REAL', 5, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(17, 'CARLOS SOUBLETTE', 'SOUBLETTE', 5, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(18, 'FRANCISCO JAVIER DE LAZAMA', 'LEZAMA', 5, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
-	(19, 'SAN JUAN', NULL, 1, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
-	(20, 'PARAPARA', NULL, 1, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
-	(21, 'CANTAGALLO', NULL, 1, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(22, 'LAS MERCEDES DEL LLANO', 'LAS MERCEDES', 12, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(23, 'SANTA RITA DE MANAPIRE', 'SANTA RITA', 12, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(24, 'CABRUTA', NULL, 12, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
@@ -147,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Volcando datos para la tabla alguarisa_transporte.users: ~4 rows (aproximadamente)
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `telefono`, `token`, `date_token`, `path`, `role`, `role_id`, `permisos`, `acceso_municipio`, `estatus`, `band`, `created_at`, `updated_at`, `deleted_at`, `dispositivo`) VALUES
 	(1, 'Yonathan Castillo', 'leothan522@gmail.com', '$2y$10$D2ohRbgCgGaECIjGLM0GHunPKCf9xsJIl1T0a4KOQIW0iIFRTInJm', '(0424) 338-66.00', NULL, NULL, NULL, 100, 0, NULL, NULL, 1, 1, '2023-08-12', '2023-10-02', NULL, 0),
-	(2, 'Antonny Maluenga', 'gabrielmalu15@gmail.com', '$2y$10$FsuOX9NnpZ85q2LNV5Nw5OGY4n/IREiuYdWKlgKZtVJ6kmedGXkIu', '(0412) 199-56.47', NULL, NULL, NULL, 100, 0, NULL, NULL, 1, 1, '2023-08-28', '2024-05-07', NULL, 0),
+	(2, 'Antonny Maluenga', 'gabrielmalu15@gmail.com', '$2y$10$ikRcKe/5Q1B/br8w3r5M4Ot1l8q9vZLaQDZ7FkvdzTZhu/7A9Ycd2', '(0412) 199-56.47', NULL, NULL, 'public/img/profile/user_id_3lKfHa.jpg', 100, 0, NULL, NULL, 1, 1, '2023-08-28', '2024-05-10', NULL, 0),
 	(3, 'Administrador', 'admin@alguarisa.com', '$2y$10$5Fl3weju4a/JQi/x92lIMuXgXUr0dsxp6CIIikPNtNRyjDUlxj4ge', '(0424) 338-66.00', NULL, NULL, NULL, 99, 0, '{"usuarios.index":true}', NULL, 0, 0, '2023-09-28', NULL, '2023-09-29', 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;

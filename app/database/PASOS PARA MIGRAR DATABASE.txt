@@ -1,0 +1,8 @@
+1- Exportamos y importamos la base de datos actual.
+2- Modificar en la tabla parametros en valor guias_num_init al valor actual en la base de datos alguarisa_transporte.
+3- Borrar la tabla parametros de la base de datos alguarisa_old.
+4- Importar la tabla parametros de la base de datos alguarisa_transporte hacia alguarisa_old.
+5- Borrar la tabla de usuarios de alguarisa_old y importar la de alguarisa_transporte.
+6- Importar de la base de datos alguarisa_transporte las tablas municipios yparroquias  a la base de datos alguarisa_old.
+7- Exportar toda la base de datos alguarisa_old e importarla completa en alguarisa_transporte.
+8- Crear los nuevos usuarios.
