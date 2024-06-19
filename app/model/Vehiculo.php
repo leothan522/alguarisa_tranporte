@@ -2,7 +2,7 @@
 
 namespace app\model;
 
-class Vehiculos extends Model
+class Vehiculo extends Model
 {
     public function __construct()
     {

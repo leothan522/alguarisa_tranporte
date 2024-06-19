@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use app\middleware\Admin;
-use app\model\Parametros;
+use app\model\Parametro;
 
 class ParametrosController extends Admin
 {
@@ -36,7 +36,7 @@ class ParametrosController extends Admin
         $contentDiv = 'dataContainerParametros'
     ){
 
-        $model = new Parametros();
+        $model = new Parametro();
         if (is_null($limit)) { $this->limit = numRowsPaginate(); }else{ $this->limit = $limit; }
         if (is_null($totalRows)) { $this->totalRows = $model->count(); }else{ $this->totalRows = $totalRows; }
         if (is_null($offset)) { $this->offset = 0; }else{ $this->offset = $offset; }
@@ -55,7 +55,7 @@ class ParametrosController extends Admin
 
     public function store($name, $tabla_id, $valor)
     {
-        $model = new Parametros();
+        $model = new Parametro();
         if (empty($tabla_id) && $tabla_id != 0) {
             $tabla_id = null;
         }
@@ -71,7 +71,7 @@ class ParametrosController extends Admin
 
     public function edit($id)
     {
-        $model = new Parametros();
+        $model = new Parametro();
         $row = $model->find($id);
 
         $response = crearResponse(
@@ -92,7 +92,7 @@ class ParametrosController extends Admin
 
     public function update($id, $name, $tabla_id, $valor)
     {
-        $model = new Parametros();
+        $model = new Parametro();
 
         if (empty($tabla_id)) {
             $tabla_id = null;
@@ -145,7 +145,7 @@ class ParametrosController extends Admin
 
     public function delete($id)
     {
-        $model = new Parametros();
+        $model = new Parametro();
         $model->delete($id);
         $response = crearResponse(
             null,
@@ -159,7 +159,7 @@ class ParametrosController extends Admin
     }
 
     public function search($keyword){
-        $model = new Parametros();
+        $model = new Parametro();
         $this->totalRows = $model->count(null, 'nombre', 'LIKE', "%$keyword%");
         $this->rows = $model->getList('nombre', 'LIKE', "%$keyword%");
         $this->keyword = $keyword;

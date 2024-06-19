@@ -1,6 +1,6 @@
 <?php
 
-use app\model\Parametros;
+use app\model\Parametro;
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(dirname(__FILE__, 3));
@@ -223,7 +223,7 @@ function verUtf8($string){
 
 function numRowsPaginate(){
     $default = 30;
-    $model = new Parametros();
+    $model = new Parametro();
     $parametro = $model->first('nombre', '=', 'numRowsPaginate');
     if ($parametro) {
         if (is_numeric($parametro['valor'])) {
@@ -237,7 +237,7 @@ function numRowsPaginate(){
 
 function numSizeCodigo(){
     $default = 6;
-    $model = new Parametros();
+    $model = new Parametro();
     $parametro = $model->first('nombre', '=', 'size_codigo');
     if ($parametro) {
         if (is_numeric($parametro['tabla_id'])) {

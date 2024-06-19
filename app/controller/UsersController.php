@@ -4,7 +4,7 @@ namespace app\controller;
 
 use app\middleware\Admin;
 use app\model\Municipio;
-use app\model\Parametros;
+use app\model\Parametro;
 use app\model\User;
 
 class UsersController extends Admin
@@ -79,7 +79,7 @@ class UsersController extends Admin
         if (!$existeEmail) {
 
             if ($tipo > 1 && $tipo < 99){
-                $modelRol = new Parametros();
+                $modelRol = new Parametro();
                 $rol = $modelRol->find($tipo);
                 $role_id = $rol['id'];
                 $permisos = $rol['valor'];
@@ -258,7 +258,7 @@ class UsersController extends Admin
             if ($db_tipo != $tipo) {
                 $cambios = true;
                 if ($tipo > 1 && $tipo < 99){
-                    $modelRol = new Parametros();
+                    $modelRol = new Parametro();
                     $rol = $modelRol->find($tipo);
                     $role_id = $rol['id'];
                     $permisos = $rol['valor'];
@@ -345,7 +345,7 @@ class UsersController extends Admin
 
     public function getRoles()
     {
-        $model = new Parametros();
+        $model = new Parametro();
         $this->roles = $model->getList('tabla_id', '=', -1);
     }
 
@@ -365,7 +365,7 @@ class UsersController extends Admin
                 $verRole = 'Root';
                 break;
             default:
-                $model = new Parametros();
+                $model = new Parametro();
                 $rol = $model->find($role_id);
                 $verRole = $rol['nombre'];
                 break;

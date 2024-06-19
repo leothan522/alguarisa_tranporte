@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use app\middleware\Admin;
-use app\model\Parametros;
+use app\model\Parametro;
 use app\model\User;
 
 class RolesController extends Admin
@@ -13,14 +13,14 @@ class RolesController extends Admin
 
     public function index()
     {
-        $model = new Parametros();
+        $model = new Parametro();
         $this->rows = $model->getList('tabla_id', '=', -1);
         $this->totalRows = $model->count(null, 'tabla_id', '=', -1);
     }
 
     public function store($nombre): array
     {
-        $model = new Parametros();
+        $model = new Parametro();
 
         if ($model->count(null, 'tabla_id', '=', '-1') >= 10){
             $response = crearResponse(
@@ -81,7 +81,7 @@ class RolesController extends Admin
 
     public function edit($id): array
     {
-        $model = new Parametros();
+        $model = new Parametro();
         $rol = $model->find($id);
         $response = crearResponse(
             null,
@@ -113,7 +113,7 @@ class RolesController extends Admin
 
     public function update($id, $nombre, $permisos): array
     {
-        $model = new Parametros();
+        $model = new Parametro();
 
         $existe = $model->existe('nombre', '=', $nombre, $id);
 
@@ -161,7 +161,7 @@ class RolesController extends Admin
         if ($vinculado){
             $response = crearResponse('vinculado');
         }else{
-            $model = new Parametros();
+            $model = new Parametro();
             $model->delete($id);
             $response = crearResponse(
                 null,

@@ -3,7 +3,7 @@ session_start();
 require_once "../../vendor/autoload.php";
 
 use app\database\Query;
-use app\model\Parametros;
+use app\model\Parametro;
 
 $response = array();
 $paginate = false;
@@ -16,7 +16,7 @@ if ($_POST) {
 
         try {
 
-            $model = new Parametros();
+            $model = new Parametro();
 
             switch ($opcion) {
 

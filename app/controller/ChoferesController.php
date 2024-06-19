@@ -3,9 +3,9 @@
 namespace app\controller;
 
 use app\middleware\Admin;
-use app\model\Choferes;
+use app\model\Chofere;
 use app\model\Empresa;
-use app\model\Vehiculos;
+use app\model\Vehiculo;
 use app\model\VehiculoTipo;
 
 
@@ -27,7 +27,7 @@ class ChoferesController extends Admin
         $contentDiv = 'card_table_choferes'
     ){
 
-        $model = new Choferes();
+        $model = new Chofere();
         if (is_null($limit)) {
             $this->limit = numRowsPaginate();
         } else {
@@ -55,7 +55,7 @@ class ChoferesController extends Admin
 
     public function store($empresas, $vehiculos, $cedula, $nombre, $telefono)
     {
-        $model = new Choferes();
+        $model = new Chofere();
         $existeChofer = $model->existe('cedula', '=', $cedula);
 
         if (!$existeChofer){
@@ -92,7 +92,7 @@ class ChoferesController extends Admin
     }
 
     public function vehiculos($id){
-        $model = new Vehiculos();
+        $model = new Vehiculo();
         return $model->first('id', '=', $id);
     }
 
@@ -107,13 +107,13 @@ class ChoferesController extends Admin
     }
 
     public function getVehiculos(){
-        $model = new Vehiculos();
+        $model = new Vehiculo();
         return $model->getAll(1);
     }
 
     public function edit($id)
     {
-        $model = new Choferes();
+        $model = new Chofere();
         $chofer = $model->find($id);
         $response = crearResponse(
             false,
@@ -156,7 +156,7 @@ class ChoferesController extends Admin
     }
 
     public function get_datos_vehiculo($id){
-        $model = new Vehiculos();
+        $model = new Vehiculo();
         $modelEmpresa = new Empresa();
         $vehiculos = $model->find($id);
         $empresas = $modelEmpresa->find($vehiculos['empresas_id']);
@@ -186,7 +186,7 @@ class ChoferesController extends Admin
 
     function delete($id)
     {
-        $model = new Choferes();
+        $model = new Chofere();
         $chofer = $model->find($id);
         if ($chofer){
             $model->update($id, 'band', 0);

@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use app\middleware\Auth;
-use app\model\Parametros;
+use app\model\Parametro;
 
 class WebController extends Auth
 {
@@ -48,7 +48,7 @@ class WebController extends Auth
                 $verRole = 'Root';
                 break;
             default:
-                $model = new Parametros();
+                $model = new Parametro();
                 $rol = $model->find($role_id);
                 $verRole = $rol['nombre'];
                 break;

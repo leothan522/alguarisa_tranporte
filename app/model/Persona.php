@@ -2,17 +2,16 @@
 
 namespace app\model;
 
-class Choferes extends Model
+class Persona extends Model
 {
     public function __construct()
     {
-        $this->TABLA = "choferes";
+        $this->TABLA = "personas";
         $this->DATA = [
-            'empresas_id',
-            'vehiculos_id',
             'cedula',
             'nombre',
             'telefono',
+            'direccion',
             'created_at'
         ];
     }

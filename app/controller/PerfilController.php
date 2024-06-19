@@ -2,7 +2,7 @@
 namespace app\controller;
 
 use app\middleware\Admin;
-use app\model\Parametros;
+use app\model\Parametro;
 use app\model\User;
 
 class PerfilController extends Admin
@@ -156,7 +156,7 @@ class PerfilController extends Admin
                 $verRole = 'Root';
                 break;
             default:
-                $model = new Parametros();
+                $model = new Parametro();
                 $rol = $model->find($role_id);
                 $verRole = $rol['nombre'];
                 break;

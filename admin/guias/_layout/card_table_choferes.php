@@ -39,10 +39,10 @@ $x = 0;
                     $i++;
 
                 ?>
-                <tr class="text-center">
+                <tr>
                     <td><?php echo $i; ?></td>
-                    <td><?php echo formatoMillares($chofer['cedula']); ?></td>
-                    <td><?php echo $chofer['nombre']; ?></td>
+                    <td class="text-right pr-2" ><?php echo formatoMillares($chofer['cedula']); ?></td>
+                    <td class="text-left pl-2"><?php echo $chofer['nombre']; ?></td>
                     <td><?php echo $chofer['telefono']; ?> </td>
                     <td><span class="btn btn-link" data-toggle="modal"
                               data-target="#modal_datos_vehiculos" onclick="cambiarForm(); datosVehiculo(<?php echo $vehiculo['id'] ?>)"><?php echo $vehiculo['placa_batea']; ?></span></td>
