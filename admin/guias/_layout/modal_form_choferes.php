@@ -34,6 +34,7 @@ $vehiculos = $controller->getVehiculos();
                             onclick="cambiarTable()">Cancelar
                     </button>
                 </div>
+                <?php verCargando(); ?>
             </div>
         </form>
         <!-- /.modal-content -->

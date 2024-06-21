@@ -16,7 +16,7 @@ const dataTable  = {
             infoFiltered: "(filtrado de un total de _MAX_ registros)",
             infoPostFix: "",
             infoThousands: ",",
-            search: "Buscar:",
+            search: "Filtrar:",
             loadingRecords: "Cargando...",
             paginate: {
             first: "Primero",

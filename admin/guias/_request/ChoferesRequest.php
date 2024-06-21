@@ -78,6 +78,28 @@ if ($_POST) {
                     }
                     break;
 
+                case 'update':
+                    if (!empty($_POST['choferes_select_empresa']) &&
+                        !empty($_POST['choferes_select_vehiculo']) &&
+                        !empty($_POST['choferes_input_cedula']) &&
+                        !empty($_POST['choferes_input_nombre']) &&
+                        !empty($_POST['choferes_input_telefono']) &&
+                        !empty($_POST['choferes_id'])
+                    ){
+                        $empresas = $_POST['choferes_select_empresa'];
+                        $vehiculos = $_POST['choferes_select_vehiculo'];
+                        $cedula = $_POST['choferes_input_cedula'];
+                        $nombre = $_POST['choferes_input_nombre'];
+                        $telefono = $_POST['choferes_input_telefono'];
+                        $id = $_POST['choferes_id'];
+
+                        $response = $controller->update($empresas, $vehiculos, $cedula, $nombre, $telefono, $id);
+
+                    }else{
+                        $response = crearResponse('faltan_datos');
+                    }
+                    break;
+
                 case 'get_datos_vehiculo':
                     if (!empty($_POST['id'])){
                         $id = $_POST['id'];
@@ -91,6 +113,18 @@ if ($_POST) {
                     if (!empty($_POST['id'])){
                         $id = $_POST['id'];
                         $response = $controller->delete($id);
+                    }else{
+                        $response = crearResponse('faltan_datos');
+                    }
+                    break;
+
+                case 'search':
+                    if (!empty($_POST['keyword'])){
+                        $paginate = true;
+                        $keyword = $_POST['keyword'];
+                        $controller->search($keyword);
+                        require '../_layout/card_table_choferes.php';
+
                     }else{
                         $response = crearResponse('faltan_datos');
                     }

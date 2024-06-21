@@ -90,6 +90,26 @@ $('#choferes_form').submit(function (e) {
 
                 }
             });
+        }else {
+            ajaxRequest({ url: '_request/ChoferesRequest.php', data: $(this).serialize() }, function (data) {
+                if (data.result){
+                    $('#btn_modal_form_choferes').click();
+                    let btn ='<span class="btn btn-link" data-toggle="modal"\n' +
+                        '     data-target="#modal_datos_vehiculos" onclick="cambiarForm(); datosVehiculo('+ data.vehiculos_id +')">' +
+                            data.placa +
+                        '</span>';
+                    let table = $('#table_choferes').DataTable();
+                    let tr = $('#tr_item_choferes_' + data.id);
+                    table
+                        .cell(tr.find('.choferes_cedula')).data(data.cedula)
+                        .cell(tr.find('.choferes_nombre')).data(data.nombre)
+                        .cell(tr.find('.choferes_telefono')).data(data.telefono)
+                        .cell(tr.find('.choferes_placa')).data(btn)
+                        .draw();
+
+                    reset();
+                }
+            });
         }
 
     }
@@ -111,6 +131,8 @@ function editChofer(id) {
             $('#choferes_select_vehiculo')
                 .val(data.vehiculo)
                 .trigger('change');
+            $('#choferes_opcion').val('update');
+            $('#choferes_id').val(data.id);
         }
     });
 }
@@ -133,6 +155,7 @@ function reset() {
         .val('')
         .trigger('change')
         .removeClass('is-valid');
+    $('#choferes_opcion').val('store');
 }
 
 function datosVehiculo(id) {
@@ -182,6 +205,21 @@ function destroyChofer(id) {
             });
 
         }
+    });
+}
+
+$('#form_choferes_buscar').submit(function (e) {
+    e.preventDefault();
+    ajaxRequest({ url: '_request/ChoferesRequest.php', data: $(this).serialize(), html: 'si'  }, function (data) {
+        $('#card_table_choferes').html(data.html);
+        datatable('table_choferes');
+    });
+});
+
+function reconstruirTabla() {
+    ajaxRequest({ url: '_request/ChoferesRequest.php', data: { opcion: 'index'}, html: true }, function (data) {
+        $('#card_table_choferes').html(data.html);
+        datatable('table_choferes');
     });
 }
 

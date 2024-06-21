@@ -16,9 +16,10 @@ $controller->index();
                         </h4>
                     </div>
                     <div class="col-md-5 justify-content-end">
-                        <form>
+                        <form id="form_choferes_buscar">
                             <div class="input-group close">
-                                <input type="search" class="form-control" placeholder="Buscar" required>
+                                <input type="search" class="form-control" placeholder="Buscar" name="keyword" required>
+                                <input type="hidden" name="opcion" value="search">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default">
                                         <i class="fa fa-search"></i>
@@ -42,6 +43,7 @@ $controller->index();
             <div class="modal-footer justify-content-end d-none">
                 <button type="button" class="btn btn-default" data-dismiss="modal" id="btn_modal_table_choferes">Cerrar</button>
             </div>
+            <?php verCargando(); ?>
         </div>
         <!-- /.modal-content -->
     </div>
