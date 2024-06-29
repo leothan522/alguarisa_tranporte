@@ -133,6 +133,7 @@ $controller->isAdmin();
 </script>
 
 <script src="<?php asset('admin/guias/_app/choferes.js', true); ?>"></script>
+<script src="<?php asset('admin/guias/_app/empresas.js', true); ?>"></script>
 
 </body>
 </html>

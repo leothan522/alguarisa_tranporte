@@ -11,7 +11,7 @@ $x = 0;
         <h3 class="card-title">
             <?php if ($keyword){ ?>
                  Búsqueda { <span class="text-warning text-bold"><?php echo $controller->keyword?></span> }
-                 <button type="button" class="btn btn btn-tool" onclick="reconstruirTabla()">
+                 <button type="button" class="btn btn btn-tool" onclick="reconstruirTablaChofer()">
                     <i class=" fas fa-times-circle"></i>
                 </button>
             <?php }else{ ?>
@@ -47,6 +47,7 @@ $x = 0;
                 foreach ($listarChoferes as $chofer){
                     $vehiculo = $controller->vehiculos($chofer['vehiculos_id']);
                     $i++;
+                    $x++;
 
                 ?>
                 <tr id="tr_item_choferes_<?php echo $chofer['id']; ?>">
@@ -77,6 +78,7 @@ $x = 0;
     </div>
     <!-- /.card-body -->
     <div class="card-footer clearfix">
+        <input type="hidden" placeholder="valor_$x" value="<?php echo $x ?>" name="chofer_input_hidden_x" id="chofer_input_hidden_x">
         <?php
         if ($keyword){
             echo 'Resultados Encontrados: <span class="text-bold text-danger">'. $i.'</span>';

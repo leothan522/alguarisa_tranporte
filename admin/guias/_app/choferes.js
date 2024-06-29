@@ -5,7 +5,7 @@ inputmask('#choferes_input_nombre', 'alfanumerico', 3, 100, ' ');
 inputmaskTelefono('#choferes_input_telefono');
 
 function cambiarForm() {
-    reset();
+    resetChofer();
     $('#btn_modal_table_choferes').click();
 }
 
@@ -126,10 +126,10 @@ function editChofer(id) {
             $('#choferes_input_nombre').val(data.nombre);
             $('#choferes_input_telefono').val(data.telefono);
             $('#choferes_select_empresa')
-                .val(data.empresas)
+                .val(data.empresas_id)
                 .trigger('change');
             $('#choferes_select_vehiculo')
-                .val(data.vehiculo)
+                .val(data.vehiculos_id)
                 .trigger('change');
             $('#choferes_opcion').val('update');
             $('#choferes_id').val(data.id);
@@ -137,7 +137,7 @@ function editChofer(id) {
     });
 }
 
-function reset() {
+function resetChofer() {
     $('#choferes_input_cedula')
         .val('')
         .removeClass('is-valid');
@@ -184,6 +184,7 @@ function datosVehiculo(id) {
 function destroyChofer(id) {
     MessageDelete.fire().then((result) => {
         if (result.isConfirmed) {
+            let valor_x = $('#chofer_input_hidden_x').val();
             ajaxRequest({ url: '_request/ChoferesRequest.php', data: { opcion: 'destroy', id: id } }, function (data) {
                 if (data.result) {
 
@@ -195,12 +196,12 @@ function destroyChofer(id) {
                         .draw();
 
                     $('#paginate_leyenda').text(data.total);
-                    /*valor_x = valor_x - 1;
+                    valor_x = valor_x - 1;
                     if (valor_x === 0){
-                        reconstruirTabla();
+                        reconstruirTablaChofer();
                     }else {
-                        $('#input_hidden_x').val(valor_x);
-                    }*/
+                        $('#chofer_input_hidden_x').val(valor_x);
+                    }
                 }
             });
 
@@ -216,7 +217,7 @@ $('#form_choferes_buscar').submit(function (e) {
     });
 });
 
-function reconstruirTabla() {
+function reconstruirTablaChofer() {
     ajaxRequest({ url: '_request/ChoferesRequest.php', data: { opcion: 'index'}, html: true }, function (data) {
         $('#card_table_choferes').html(data.html);
         datatable('table_choferes');

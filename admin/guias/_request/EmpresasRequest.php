@@ -1,8 +1,8 @@
 <?php
 session_start();
 require_once "../../../vendor/autoload.php";
-use app\controller\ChoferesController;
-$controller = new ChoferesController();
+use app\controller\EmpresasController;
+$controller = new EmpresasController();
 
 $response = array();
 $paginate = false;
@@ -31,38 +31,33 @@ if ($_POST) {
                     $contenDiv = !empty($_POST['contentDiv']) ? $_POST['contentDiv'] : 'dataContainer';
 
                     $controller->index($baseURL, $tableID, $limit, $totalRows, $offset, $opcion, $contenDiv);
-                    require "../_layout/card_table_choferes.php";
+                    require '../_layout/card_table_empresas.php';
 
                     break;
 
                 case 'index':
                     $paginate = true;
                     $controller->index();
-                    require '../_layout/card_table_choferes.php';
+                    require '../_layout/card_table_empresas.php';
                     break;
 
                 case 'store':
-                    if (!empty($_POST['choferes_select_empresa']) &&
-                        !empty($_POST['choferes_select_vehiculo']) &&
-                        !empty($_POST['choferes_input_cedula']) &&
-                        !empty($_POST['choferes_input_nombre']) &&
-                        !empty($_POST['choferes_input_telefono'])
+                    if (!empty($_POST['empresas_input_rif']) &&
+                        !empty($_POST['empresas_input_nombre']) &&
+                        !empty($_POST['empresas_input_responsable']) &&
+                        !empty($_POST['empresas_input_telefono'])
                     ){
-                        $empresas = $_POST['choferes_select_empresa'];
-                        $vehiculos = $_POST['choferes_select_vehiculo'];
-                        $cedula = $_POST['choferes_input_cedula'];
-                        $nombre = $_POST['choferes_input_nombre'];
-                        $telefono = $_POST['choferes_input_telefono'];
+                        $rif = $_POST['empresas_input_rif'];
+                        $nombre = $_POST['empresas_input_nombre'];
+                        $responsable = $_POST['empresas_input_responsable'];
+                        $telefono = $_POST['empresas_input_telefono'];
 
-                        $response = $controller->store($empresas, $vehiculos, $cedula, $nombre, $telefono);
+                        $response = $controller->store($rif, $nombre, $responsable, $telefono);
                         if ($response['result']){
                             $paginate = true;
                             $controller->index();
-                            require '../_layout/card_table_choferes.php';
+                            require '../_layout/card_table_empresas.php';
                         }
-
-
-
 
                     }else{
                         $response = crearResponse('faltan_datos');
@@ -79,40 +74,27 @@ if ($_POST) {
                     break;
 
                 case 'update':
-                    if (!empty($_POST['choferes_select_empresa']) &&
-                        !empty($_POST['choferes_select_vehiculo']) &&
-                        !empty($_POST['choferes_input_cedula']) &&
-                        !empty($_POST['choferes_input_nombre']) &&
-                        !empty($_POST['choferes_input_telefono']) &&
-                        !empty($_POST['choferes_id'])
+                    if (!empty($_POST['empresas_input_rif']) &&
+                        !empty($_POST['empresas_input_nombre']) &&
+                        !empty($_POST['empresas_input_responsable']) &&
+                        !empty($_POST['empresas_input_telefono']) &&
+                        !empty($_POST['empresas_id'])
                     ){
-                        $empresas = $_POST['choferes_select_empresa'];
-                        $vehiculos = $_POST['choferes_select_vehiculo'];
-                        $cedula = $_POST['choferes_input_cedula'];
-                        $nombre = $_POST['choferes_input_nombre'];
-                        $telefono = $_POST['choferes_input_telefono'];
-                        $id = $_POST['choferes_id'];
+                        $rif = $_POST['empresas_input_rif'];
+                        $nombre = $_POST['empresas_input_nombre'];
+                        $responsable = $_POST['empresas_input_responsable'];
+                        $telefono = $_POST['empresas_input_telefono'];
+                        $id = $_POST['empresas_id'];
 
-                        $response = $controller->update($empresas, $vehiculos, $cedula, $nombre, $telefono, $id);
+                        $response = $controller->update($rif, $nombre, $responsable, $telefono, $id);
 
-                    }else{
-                        $response = crearResponse('faltan_datos');
-                    }
-                    break;
-
-                case 'get_datos_vehiculo':
-                    if (!empty($_POST['id'])){
-                        $id = $_POST['id'];
-                        $response = $controller->get_datos_vehiculo($id);
-                    }else{
-                        $response = crearResponse('faltan_datos');
                     }
                     break;
 
                 case 'destroy':
                     if (!empty($_POST['id'])){
                         $id = $_POST['id'];
-                        $response = $controller->delete($id);
+                        $response = $controller->destroy($id);
                     }else{
                         $response = crearResponse('faltan_datos');
                     }
@@ -123,12 +105,12 @@ if ($_POST) {
                         $paginate = true;
                         $keyword = $_POST['keyword'];
                         $controller->search($keyword);
-                        require '../_layout/card_table_choferes.php';
-
+                        require '../_layout/card_table_empresas.php';
                     }else{
                         $response = crearResponse('faltan_datos');
                     }
                     break;
+
 
                 //Por defecto
                 default:

@@ -1,5 +1,5 @@
 <?php
-$listarChoferes = $controller->rows;
+$listarEmpresas = $controller->rows;
 $links = $controller->links;
 $i = $controller->offset;
 $keyword = $controller->keyword;
@@ -10,18 +10,19 @@ $x = 0;
 
         <h3 class="card-title">
             <?php if ($keyword){ ?>
-                 Búsqueda { <span class="text-warning text-bold"><?php echo $controller->keyword?></span> }
-                 <button type="button" class="btn btn btn-tool" onclick="reconstruirTabla()">
+                 Búsqueda { <span class="text-warning text-bold"><?php echo $controller->keyword ?></span> }
+                 <button type="button" class="btn btn btn-tool" onclick="reconstruirTablaEmpresa()">
                     <i class=" fas fa-times-circle"></i>
                 </button>
             <?php }else{ ?>
                 Registrados [ <span class="text-warning text-bold"><?php echo $controller->totalRows?></span> ]
             <?php } ?>
+
         </h3>
 
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-toggle="modal" data-target="#modal_form-choferes" id="btn_modal_form"
-                    onclick="cambiarForm()">
+            <button type="button" class="btn btn-tool" data-toggle="modal" data-target="#modal_form-empresas"
+                    onclick="cerrarTable()" id="modal_form_empresas">
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>
 
@@ -31,52 +32,52 @@ $x = 0;
     <!-- /.card-header -->
     <div class="card-body">
         <div class="table-responsive" style="height: 60vh; ">
-            <table class="table table-sm table-head-fixed table-hover text-nowrap"  id="table_choferes">
+            <table class="table table-sm table-head-fixed table-hover text-nowrap"  id="table_empresas">
                 <thead>
                 <tr>
                     <th style="width: 10px">#</th>
-                    <th class="text-right">Cédula</th>
-                    <th>Nombre y Apellido</th>
-                    <th class="text-center">Teléfono</th>
-                    <th class="text-center">Placa Batea</th>
+                    <th>Rif</th>
+                    <th>Nombre</th>
+                    <th>Responsable</th>
+                    <th>Teléfono</th>
                     <th style="width: 5px;"> </th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                foreach ($listarChoferes as $chofer){
-                    $vehiculo = $controller->vehiculos($chofer['vehiculos_id']);
-                    $i++;
-
+                    foreach ($listarEmpresas as $empresa){
+                        $i++;
+                        $x++;
                 ?>
-                <tr id="tr_item_choferes_<?php echo $chofer['id']; ?>">
+                <tr id="tr_item_empresas_<?php echo $empresa['id']; ?>">
                     <td><?php echo $i; ?></td>
-                    <td class="choferes_cedula text-right pr-2" ><?php echo formatoMillares($chofer['cedula']); ?></td>
-                    <td class="choferes_nombre text-left pl-2"><?php echo mb_strtoupper($chofer['nombre']); ?></td>
-                    <td class="choferes_telefono"><?php echo $chofer['telefono']; ?> </td>
-                    <td class="choferes_placa"><span class="btn btn-link" data-toggle="modal"
-                              data-target="#modal_datos_vehiculos" onclick="cambiarForm(); datosVehiculo(<?php echo $vehiculo['id'] ?>)"><?php echo $vehiculo['placa_batea']; ?></span></td>
+                    <td class="empresa_rif"><?php echo $empresa['rif']; ?></td>
+                    <td class="empresa_nombre"><?php echo $empresa['nombre']; ?></td>
+                    <td class="empresa_responsable"><?php echo $empresa['responsable']; ?> </td>
+                    <td class="empresa_telefono"><?php echo $empresa['telefono']; ?> </td>
+
                     <td>
                         <div class="btn-group btn-group-sm">
                             <button type="button" class="btn btn-info"
-                                    onclick="editChofer(<?php echo $chofer['id']; ?>)">
+                                    onclick="editEmpresa(<?php echo $empresa['id']; ?>)">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button type="button" class="btn btn-info"
-                                    onclick="destroyChofer(<?php echo $chofer['id']; ?>)"
-                                    id="btn_eliminar_chofer_<?php echo $chofer['id']; ?>">
+                                    onclick="elimEmpresa(<?php echo $empresa['id']; ?>)"
+                                    id="btn_eliminar_empresa_<?php echo $empresa['id']; ?>">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                         </div>
                     </td>
                 </tr>
-                <?php  } ?>
+                <?php } ?>
                 </tbody>
             </table>
         </div>
     </div>
     <!-- /.card-body -->
     <div class="card-footer clearfix">
+        <input type="hidden" placeholder="valor_$x" value="<?php echo $x ?>" name="empresa_input_hidden_x" id="empresa_input_hidden_x">
         <?php
         if ($keyword){
             echo 'Resultados Encontrados: <span class="text-bold text-danger">'. $i.'</span>';
