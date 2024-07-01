@@ -50,7 +50,7 @@ $controller->isAdmin();
 <body class="hold-transition sidebar-mini layout-navbar-fixed layout-footer-fixed">
 
 <!-- Preloader -->
-<?php require_once "../_layout/preloader.php" ?>
+<?php /*require_once "../_layout/preloader.php" */?>
 
 <!-- Site wrapper -->
 <div class="wrapper">
@@ -134,6 +134,7 @@ $controller->isAdmin();
 
 <script src="<?php asset('admin/guias/_app/choferes.js', true); ?>"></script>
 <script src="<?php asset('admin/guias/_app/empresas.js', true); ?>"></script>
+<script src="<?php asset('admin/guias/_app/vehiculos.js', true); ?>"></script>
 
 </body>
 </html>
