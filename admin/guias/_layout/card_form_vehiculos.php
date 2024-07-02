@@ -3,15 +3,15 @@
     <div class="col-12">
         <div class="form-group">
             <label>Empresa</label>
-            <select class="select2bs4" data-placeholder="Seleccionar" name="Vehiculos_select_empresa"
-                    id="Vehiculos_select_empresa">
+            <select class="select2bs4" data-placeholder="Seleccionar" name="vehiculos_select_empresa"
+                    id="vehiculos_select_empresa">
                 <option value="">Seleccione</option>
                 <?php foreach ($empresas as $empresa) { ?>
                     <option value="<?php echo $empresa['id'] ?>"><?php echo $empresa['rif']; ?>
                         - <?php echo ucfirst($empresa['nombre']); ?></option>
                 <?php } ?>
             </select>
-            <div class="invalid-feedback" id="error_Vehiculos_select_empresa"></div>
+            <div class="invalid-feedback" id="error_vehiculos_select_empresa"></div>
         </div>
     </div>
 
@@ -22,7 +22,7 @@
             <input type="text" class="form-control" name="vehiculos_input_placa_batea" id="vehiculos_input_placa_batea">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <i class="fas fa-id-card"></i>
+                    <i class="fas fa-credit-card"></i>
                 </div>
             </div>
             <div class="invalid-feedback" id="error_vehiculos_input_placa_batea"></div>
@@ -35,7 +35,7 @@
             <input type="text" class="form-control" name="vehiculos_input_placa_chuto" id="vehiculos_input_placa_chuto">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <i class="fas fa-id-card"></i>
+                    <i class="fas fa-credit-card"></i>
                 </div>
             </div>
             <div class="invalid-feedback" id="error_vehiculos_input_placa_chuto"></div>
@@ -45,14 +45,14 @@
     <div class="col-12">
         <div class="form-group">
             <label>Tipo</label>
-            <select class="select2bs4" data-placeholder="Seleccionar" name="Vehiculos_select_tipo"
-                    id="Vehiculos_select_tipo">
+            <select class="select2bs4" data-placeholder="Seleccionar" name="vehiculos_select_tipo"
+                    id="vehiculos_select_tipo">
                 <option value="">Seleccione</option>
                 <?php foreach ($tipos as $tipo) { ?>
                     <option value="<?php echo $tipo['id'] ?>"><?php echo $tipo['nombre']; ?> </option>
                 <?php } ?>
             </select>
-            <div class="invalid-feedback" id="error_Vehiculos_select_tipo"></div>
+            <div class="invalid-feedback" id="error_vehiculos_select_tipo"></div>
         </div>
     </div>
 
@@ -75,7 +75,7 @@
             <input type="text" class="form-control" name="vehiculos_input_color" id="vehiculos_input_color">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-palette"></i>
                 </div>
             </div>
             <div class="invalid-feedback" id="error_vehiculos_input_color"></div>
@@ -88,7 +88,7 @@
             <input type="text" class="form-control" name="vehiculos_input_capacidad" id="vehiculos_input_capacidad">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-weight"></i>
                 </div>
             </div>
             <div class="invalid-feedback" id="error_vehiculos_input_capacidad"></div>

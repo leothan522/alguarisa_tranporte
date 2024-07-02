@@ -26,7 +26,7 @@ class ChoferesController extends Admin
         $totalRows = null,
         $offset = null,
         $opcion = 'paginate',
-        $contentDiv = 'card_table_choferes'
+        $contentDiv = 'div_choferes'
     )
     {
 
@@ -198,7 +198,7 @@ class ChoferesController extends Admin
                 $vehiculo = $modelVehiculo->find($choferes['vehiculos_id']);
                 $response['empresas_id'] = $choferes['empresas_id'];
                 $response['vehiculos_id'] = $choferes['vehiculos_id'];
-                $response['cedula'] = $choferes['cedula'];
+                $response['cedula'] = formatoMillares($choferes['cedula'], 0);
                 $response['nombre'] = mb_strtoupper($choferes['nombre']);
                 $response['telefono'] = $choferes['telefono'];
                 $response['placa'] = mb_strtoupper($vehiculo['placa_batea']);
@@ -228,35 +228,7 @@ class ChoferesController extends Admin
         return $response;
     }
 
-    public function get_datos_vehiculo($id)
-    {
-        $model = new Vehiculo();
-        $modelEmpresa = new Empresa();
-        $vehiculos = $model->find($id);
-        $empresas = $modelEmpresa->find($vehiculos['empresas_id']);
-        $tipo = $this->getTipo($vehiculos['tipo']);
 
-        $response = crearResponse(
-            false,
-            true,
-            'Get Chofer',
-            'Get Chofer',
-            'success',
-            false,
-            true
-        );
-        $response['placa_batea'] = $vehiculos['placa_batea'];
-        $response['marca'] = $vehiculos['marca'];
-        $response['tipo'] = $tipo['nombre'];
-        $response['color_vehiculo'] = $vehiculos['color'];
-        $response['placa_chuto'] = $vehiculos['placa_chuto'];
-        $response['rif'] = $empresas['rif'];
-        $response['nombre'] = verUtf8($empresas['nombre']);
-        $response['responsable'] = verUtf8($empresas['responsable']);
-        $response['telefono'] = $empresas['telefono'];
-
-        return $response;
-    }
 
     function delete($id)
     {

@@ -31,34 +31,52 @@ if ($_POST) {
                     $contenDiv = !empty($_POST['contentDiv']) ? $_POST['contentDiv'] : 'dataContainer';
 
                     $controller->index($baseURL, $tableID, $limit, $totalRows, $offset, $opcion, $contenDiv);
-                    require "../_layout/card_table_choferes.php";
+                    $listarChoferes = $controller->rows;
+                    $totalRowsChoferes = $controller->totalRows;
+                    $links = $controller->links;
+                    $i = $controller->offset;
+                    $keyword = $controller->keyword;
+                    $x = 0;
+                    require '../_layout/choferes/table.php';
 
                     break;
 
                 case 'index':
                     $paginate = true;
                     $controller->index();
-                    require '../_layout/card_table_choferes.php';
+                    $listarChoferes = $controller->rows;
+                    $totalRowsChoferes = $controller->totalRows;
+                    $links = $controller->links;
+                    $i = $controller->offset;
+                    $keyword = $controller->keyword;
+                    $x = 0;
+                    require '../_layout/choferes/table.php';
                     break;
 
                 case 'store':
-                    if (!empty($_POST['choferes_select_empresa']) &&
-                        !empty($_POST['choferes_select_vehiculo']) &&
-                        !empty($_POST['choferes_input_cedula']) &&
-                        !empty($_POST['choferes_input_nombre']) &&
-                        !empty($_POST['choferes_input_telefono'])
+                    if (!empty($_POST['empresas_id']) &&
+                        !empty($_POST['vehiculos_id']) &&
+                        !empty($_POST['cedula']) &&
+                        !empty($_POST['nombre']) &&
+                        !empty($_POST['telefono'])
                     ){
-                        $empresas = $_POST['choferes_select_empresa'];
-                        $vehiculos = $_POST['choferes_select_vehiculo'];
-                        $cedula = $_POST['choferes_input_cedula'];
-                        $nombre = $_POST['choferes_input_nombre'];
-                        $telefono = $_POST['choferes_input_telefono'];
+                        $empresas = $_POST['empresas_id'];
+                        $vehiculos = $_POST['vehiculos_id'];
+                        $cedula = $_POST['cedula'];
+                        $nombre = $_POST['nombre'];
+                        $telefono = $_POST['telefono'];
 
                         $response = $controller->store($empresas, $vehiculos, $cedula, $nombre, $telefono);
                         if ($response['result']){
                             $paginate = true;
                             $controller->index();
-                            require '../_layout/card_table_choferes.php';
+                            $listarChoferes = $controller->rows;
+                            $totalRowsChoferes = $controller->totalRows;
+                            $links = $controller->links;
+                            $i = $controller->offset;
+                            $keyword = $controller->keyword;
+                            $x = 0;
+                            require '../_layout/choferes/table.php';
                         }
 
 
@@ -79,31 +97,22 @@ if ($_POST) {
                     break;
 
                 case 'update':
-                    if (!empty($_POST['choferes_select_empresa']) &&
-                        !empty($_POST['choferes_select_vehiculo']) &&
-                        !empty($_POST['choferes_input_cedula']) &&
-                        !empty($_POST['choferes_input_nombre']) &&
-                        !empty($_POST['choferes_input_telefono']) &&
+                    if (!empty($_POST['empresas_id']) &&
+                        !empty($_POST['vehiculos_id']) &&
+                        !empty($_POST['cedula']) &&
+                        !empty($_POST['nombre']) &&
+                        !empty($_POST['telefono']) &&
                         !empty($_POST['choferes_id'])
                     ){
-                        $empresas = $_POST['choferes_select_empresa'];
-                        $vehiculos = $_POST['choferes_select_vehiculo'];
-                        $cedula = $_POST['choferes_input_cedula'];
-                        $nombre = $_POST['choferes_input_nombre'];
-                        $telefono = $_POST['choferes_input_telefono'];
+                        $empresas = $_POST['empresas_id'];
+                        $vehiculos = $_POST['vehiculos_id'];
+                        $cedula = $_POST['cedula'];
+                        $nombre = $_POST['nombre'];
+                        $telefono = $_POST['telefono'];
                         $id = $_POST['choferes_id'];
 
                         $response = $controller->update($empresas, $vehiculos, $cedula, $nombre, $telefono, $id);
 
-                    }else{
-                        $response = crearResponse('faltan_datos');
-                    }
-                    break;
-
-                case 'get_datos_vehiculo':
-                    if (!empty($_POST['id'])){
-                        $id = $_POST['id'];
-                        $response = $controller->get_datos_vehiculo($id);
                     }else{
                         $response = crearResponse('faltan_datos');
                     }
@@ -123,11 +132,36 @@ if ($_POST) {
                         $paginate = true;
                         $keyword = $_POST['keyword'];
                         $controller->search($keyword);
-                        require '../_layout/card_table_choferes.php';
+                        $listarChoferes = $controller->rows;
+                        $totalRowsChoferes = $controller->totalRows;
+                        $links = $controller->links;
+                        $i = $controller->offset;
+                        $keyword = $controller->keyword;
+                        $x = 0;
+                        require '../_layout/choferes/table.php';
 
                     }else{
                         $response = crearResponse('faltan_datos');
                     }
+                    break;
+
+                case 'get_vehiculos':
+                    $response = crearResponse(
+                        null,
+                        true,
+                        null,
+                        null,
+                        'success',
+                        false,
+                        true);
+
+                    foreach ($controller->getVehiculos() as $vehiculo) {
+                        $id = $vehiculo['id'];
+                        $tipo = $controller->getTipo($vehiculo['tipo']);
+                        $nombre = mb_strtoupper($vehiculo['placa_batea']." - ".$tipo['nombre']);
+                        $response['listarVehiculos'][] = array("id" => $id, "nombre" => $nombre);
+                    }
+
                     break;
 
                 //Por defecto

@@ -31,7 +31,7 @@ $tipos = $controller->getTipo();
                     <input type="hidden" name="opcion" value="store" id="vehiculos_opcion">
                     <button type="submit" class="btn btn-primary">Guardar</button>
                     <button type="button" class="btn btn-default" id="btn_modal_form_vehiculos" data-dismiss="modal"
-                            onclick="cambiarTableVehiculo()">Cancelar
+                            onclick="volverModal('btn_modal_vehiculos')">Cancelar
                     </button>
                 </div>
                 <?php verCargando(); ?>

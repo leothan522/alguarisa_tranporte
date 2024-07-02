@@ -46,8 +46,7 @@
 
              </div>
              <div class="modal-footer">
-
-               <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cambiarTable()">Cerrar</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar_modal_datos_vehiculos">Cerrar</button>
 
              </div>
            </div>

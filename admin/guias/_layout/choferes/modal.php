@@ -1,8 +1,3 @@
-<?php
-use app\controller\ChoferesController;
-$controller = new ChoferesController();
-$controller->index();
-?>
 <!-- Modal -->
 <div class="modal fade" id="modal_table-choferes">
     <div class="modal-dialog modal-lg modal-dialog-centered" id="modal_size">
@@ -18,7 +13,7 @@ $controller->index();
                     <div class="col-md-5 justify-content-end">
                         <form id="form_choferes_buscar">
                             <div class="input-group close">
-                                <input type="search" class="form-control" placeholder="Buscar" name="keyword" required>
+                                <input type="search" class="form-control" placeholder="Buscar" name="keyword" required id="keyword_choferes">
                                 <input type="hidden" name="opcion" value="search">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default">
@@ -34,14 +29,36 @@ $controller->index();
                 </div>
             </div>
             <div class="modal-body p-2">
-                <div class="row">
-                    <div class="col-md-12" id="card_table_choferes">
-                        <?php require 'card_table_choferes.php' ?>
+
+
+
+
+                <div class="row" id="row_table_choferes">
+                    <div class="col-12" id="div_choferes">
+                        <?php require "table.php" ?>
                     </div>
                 </div>
+
+
+                <div class="row m-5 justify-content-center" id="row_form_choferes">
+                    <div class="col-md-8">
+                        <?php require "form.php";?>
+                    </div>
+                </div>
+
+                <div class="row m-5 justify-content-center" id="row_show_vehiculos">
+                    <div class="col-12">
+                        <?php require "_layout/show_vehiculo.php";?>
+                    </div>
+                </div>
+
+
+
+
+
             </div>
             <div class="modal-footer justify-content-end d-none">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="btn_modal_table_choferes">Cerrar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar_btn_modal_choferes">Cerrar</button>
             </div>
             <?php verCargando(); ?>
         </div>

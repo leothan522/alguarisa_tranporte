@@ -43,7 +43,7 @@ $controller = new VehiculosController();
                 </div>
             </div>
             <div class="modal-footer justify-content-end d-none">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="btn_modal_table_vehiculos">Cerrar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar_btn_modal_vehiculos">Cerrar</button>
             </div>
             <?php verCargando(); ?>
         </div>

@@ -11,7 +11,7 @@ $x = 0;
         <h3 class="card-title">
             <?php if ($keyword){ ?>
                  Búsqueda { <span class="text-warning text-bold"><?php echo $controller->keyword?></span> }
-                 <button type="button" class="btn btn btn-tool" onclick="reconstruirTablaChofer()">
+                 <button type="button" class="btn btn btn-tool" onclick="reconstruirTablaVehiculo()">
                     <i class=" fas fa-times-circle"></i>
                 </button>
             <?php }else{ ?>
@@ -20,7 +20,7 @@ $x = 0;
         </h3>
 
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-toggle="modal" data-target="#modal_form-vehiculos" id="btn_modal_form"
+            <button type="button" class="btn btn-tool" data-toggle="modal" data-target="#modal_form-vehiculos" id="btn_modal_form_vehiculos"
                     onclick="cambiarFormVehiculos()">
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>
@@ -35,9 +35,9 @@ $x = 0;
                 <thead>
                 <tr class="text-center">
                     <th style="width: 10px">#</th>
-                    <th>Placa Batea</th>
-                    <th>Tipo</th>
-                    <th>Marca</th>
+                    <th class="text-left">Placa Batea</th>
+                    <th class="text-left">Tipo</th>
+                    <th class="text-left pl-5">Marca</th>
                     <th>cantidad</th>
                     <th style="width: 5px;"> </th>
                 </tr>
@@ -50,23 +50,26 @@ $x = 0;
                     $x++;
 
                 ?>
-                <tr id="tr_item_vehiculos_<?php  ?>">
+                <tr id="tr_item_vehiculos_<?php echo $vehiculo['id'] ?>">
                     <td><?php echo $i; ?></td>
-                    <td class="vehiculos_placa"><span class="btn btn-link" data-toggle="modal"
-                                                     data-target="#modal_datos_vehiculos" onclick=" " ><?php echo $vehiculo['placa_batea']; ?></span>
+                    <td class="vehiculos_placa text-left p-0">
+                        <span class="btn btn-link" data-toggle="modal" data-target="#modal_datos_vehiculos"
+                              onclick="getVehiculo(<?php echo $vehiculo['id'] ?>, origen = 'btn_modal_vehiculos')">
+                            <?php echo $vehiculo['placa_batea']; ?>
+                        </span>
                     </td>
-                    <td class="vehiculos_tipo text-center" ><?php echo $tipo['nombre']; ?></td>
-                    <td class="vehiculos_marca text-center"><?php echo $vehiculo['marca']; ?></td>
-                    <td class="vehiculos_cantidad text-right"><?php echo $vehiculo['capacidad']; ?> </td>
+                    <td class="vehiculos_tipo text-left" ><?php echo mb_strtoupper($tipo['nombre']); ?></td>
+                    <td class="vehiculos_marca text-left pl-5"><?php echo mb_strtoupper($vehiculo['marca']); ?></td>
+                    <td class="vehiculos_cantidad text-right pr-3"><?php echo $vehiculo['capacidad']; ?> </td>
                     <td>
                         <div class="btn-group btn-group-sm">
                             <button type="button" class="btn btn-info"
-                                    onclick="">
+                                    onclick="editVehiculo(<?php echo $vehiculo['id']; ?>)">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button type="button" class="btn btn-info"
-                                    onclick=" "
-                                    id="btn_eliminar_chofer_<?php  ?>">
+                                    onclick="elimVehiculo(<?php echo $vehiculo['id'] ?>)"
+                                    id="btn_eliminar_vehiculo_<?php echo $vehiculo['id']; ?>">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                         </div>
@@ -79,14 +82,14 @@ $x = 0;
     </div>
     <!-- /.card-body -->
     <div class="card-footer clearfix">
-        <input type="hidden" placeholder="valor_$x" value="<?php echo $x ?>" name="chofer_input_hidden_x" id="chofer_input_hidden_x">
+        <input type="hidden" placeholder="valor_$x" value="<?php echo $x ?>" name="vehiculos_input_hidden_x" id="vehiculos_input_hidden_x">
         <?php
-/*        if ($keyword){
+        if ($keyword){
             echo 'Resultados Encontrados: <span class="text-bold text-danger">'. $i.'</span>';
         }else{
             echo $links;
         }
-        */?>
+        ?>
     </div>
 
 </div>
