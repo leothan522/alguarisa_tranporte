@@ -2,6 +2,10 @@ function display(origen) {
     if (origen === 'choferes'){
         displayChoferes();
     }
+
+    if (origen === 'vehiculos'){
+        displayVehiculos();
+    }
 }
 
 function showVehiculo(id, origen) {
@@ -24,6 +28,8 @@ function showVehiculo(id, origen) {
             $('.modal_empresa_telefono').text(data.telefono);
             if (origen === 'choferes'){
                 displayChoferes('show');
+            }else {
+                displayVehiculos('show');
             }
         }
     });
@@ -32,7 +38,7 @@ function showVehiculo(id, origen) {
 function getEmpresas() {
     ajaxRequest({ url: '_request/GuiasRequest.php', data: { opcion: 'get_empresas' } }, function (data) {
         if (data.result){
-            let select = $('#select_choferes_empresa');
+            let select = $('.select_guias_empresas');
             let empresas = data.listarEmpresas.length;
             select.empty();
             select.append('<option value="">Seleccione</option>');

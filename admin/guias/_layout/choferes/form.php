@@ -20,7 +20,7 @@
 
             <div class="form-group">
                 <label for="choferes_select_empresa">Empresa</label>
-                <select class="select2bs4" data-placeholder="Seleccionar" name="empresas_id" id="select_choferes_empresa">
+                <select class="select2bs4 select_guias_empresas" data-placeholder="Seleccionar" name="empresas_id" id="select_choferes_empresa">
                     <option value="">Seleccione</option>
                 </select>
                 <div class="invalid-feedback" id="error_select_choferes_empresa"></div>

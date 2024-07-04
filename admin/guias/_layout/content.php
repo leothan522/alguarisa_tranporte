@@ -7,4 +7,5 @@
 
 <div class="row">
     <?php require 'choferes/modal.php'; ?>
+    <?php require 'vehiculos/modal.php'; ?>
 </div>

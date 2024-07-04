@@ -8,7 +8,7 @@
 
     <ul class="nav nav-pills flex-column">
         <button type="button" class="btn btn-primary btn-sm btn-block m-1" data-toggle="modal"
-                data-target="#modal_table-vehiculos" id="btn_modal_vehiculos">
+                data-target="#modal_table-vehiculos" onclick="initVehiculos()" id="btn_modal_vehiculos">
             Vehículos
         </button>
     </ul>

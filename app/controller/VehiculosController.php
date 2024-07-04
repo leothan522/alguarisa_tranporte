@@ -25,7 +25,7 @@ class VehiculosController extends Admin
         $totalRows = null,
         $offset = null,
         $opcion = 'paginate',
-        $contentDiv = 'card_table_vehiculos'
+        $contentDiv = 'div_vehiculos'
     )
     {
 
@@ -66,10 +66,40 @@ class VehiculosController extends Admin
         return $model->getAll();
     }
 
-    public function getEmpresas()
+    public function get_datos_vehiculo($id)
     {
-        $model = new Empresa();
-        return $model->getAll('1');
+        $model = new Vehiculo();
+        $modelEmpresa = new Empresa();
+        $vehiculos = $model->find($id);
+        $empresas = $modelEmpresa->find($vehiculos['empresas_id']);
+        $tipo = $this->getTipo($vehiculos['tipo']);
+
+        $response = crearResponse(
+            false,
+            true,
+            'Get Chofer',
+            'Get Chofer',
+            'success',
+            false,
+            true
+        );
+        $response['placa_batea'] = $vehiculos['placa_batea'];
+        $response['marca'] = $vehiculos['marca'];
+        $response['tipo'] = $tipo['nombre'];
+        $response['color_vehiculo'] = $vehiculos['color'];
+        $response['placa_chuto'] = $vehiculos['placa_chuto'];
+        $response['rif'] = $empresas['rif'];
+        $response['nombre'] = verUtf8($empresas['nombre']);
+        $response['responsable'] = verUtf8($empresas['responsable']);
+        $response['telefono'] = $empresas['telefono'];
+
+        return $response;
+    }
+
+    public function getTipos()
+    {
+        $model = new VehiculoTipo();
+        return $model->getAll();
     }
 
     public function store($empresas_id, $placa_batea, $placa_chuto, $tipo, $marca, $color, $capacidad)
@@ -169,7 +199,7 @@ class VehiculosController extends Admin
 
             if ($db_placa_chuto != $placa_chuto){
                 $cambios = true;
-                $model->update($id, 'placa_chuto', $placa_batea);
+                $model->update($id, 'placa_chuto', $placa_chuto);
                 $model->update($id, 'updated_at', date("Y-m-d"));
             }
 
@@ -235,36 +265,6 @@ class VehiculosController extends Admin
                 'warning'
             );
         }
-
-        return $response;
-    }
-
-    public function get_datos_vehiculo($id)
-    {
-        $model = new Vehiculo();
-        $modelEmpresa = new Empresa();
-        $vehiculos = $model->find($id);
-        $empresas = $modelEmpresa->find($vehiculos['empresas_id']);
-        $tipo = $this->getTipo($vehiculos['tipo']);
-
-        $response = crearResponse(
-            false,
-            true,
-            'Get Chofer',
-            'Get Chofer',
-            'success',
-            false,
-            true
-        );
-        $response['placa_batea'] = $vehiculos['placa_batea'];
-        $response['marca'] = $vehiculos['marca'];
-        $response['tipo'] = $tipo['nombre'];
-        $response['color_vehiculo'] = $vehiculos['color'];
-        $response['placa_chuto'] = $vehiculos['placa_chuto'];
-        $response['rif'] = $empresas['rif'];
-        $response['nombre'] = verUtf8($empresas['nombre']);
-        $response['responsable'] = verUtf8($empresas['responsable']);
-        $response['telefono'] = $empresas['telefono'];
 
         return $response;
     }
