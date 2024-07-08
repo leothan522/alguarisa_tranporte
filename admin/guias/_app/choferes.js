@@ -10,37 +10,37 @@ function displayChoferes(init = 'true') {
 
     switch (init) {
         case "form":
-            if ($("#row_form_choferes").hasClass( "d-none")){
+            if ($("#row_form_choferes").hasClass("d-none")) {
                 $('#row_form_choferes').removeClass('d-none');
             }
-            if (!$("#row_table_choferes").hasClass( "d-none")){
+            if (!$("#row_table_choferes").hasClass("d-none")) {
                 $('#row_table_choferes').addClass('d-none');
             }
-            if (!$("#row_show_vehiculos").hasClass( "d-none")){
+            if (!$("#row_show_vehiculos").hasClass("d-none")) {
                 $('#row_show_vehiculos').addClass('d-none');
             }
             break;
 
         case "show":
-            if (!$("#row_form_choferes").hasClass( "d-none")){
+            if (!$("#row_form_choferes").hasClass("d-none")) {
                 $('#row_form_choferes').addClass('d-none');
             }
-            if (!$("#row_table_choferes").hasClass( "d-none")){
+            if (!$("#row_table_choferes").hasClass("d-none")) {
                 $('#row_table_choferes').addClass('d-none');
             }
-            if ($("#row_show_vehiculos").hasClass( "d-none")){
+            if ($("#row_show_vehiculos").hasClass("d-none")) {
                 $('#row_show_vehiculos').removeClass('d-none');
             }
             break;
 
         default:
-            if (!$("#row_form_choferes").hasClass( "d-none")){
+            if (!$("#row_form_choferes").hasClass("d-none")) {
                 $('#row_form_choferes').addClass('d-none');
             }
-            if ($("#row_table_choferes").hasClass( "d-none")){
+            if ($("#row_table_choferes").hasClass("d-none")) {
                 $('#row_table_choferes').removeClass('d-none');
             }
-            if (!$("#row_show_vehiculos").hasClass( "d-none")){
+            if (!$("#row_show_vehiculos").hasClass("d-none")) {
                 $('#row_show_vehiculos').addClass('d-none');
             }
             break;
@@ -52,7 +52,7 @@ function displayChoferes(init = 'true') {
 function initChoferes() {
     displayChoferes();
     $('#keyword_choferes').val('');
-    ajaxRequest({ url: '_request/ChoferesRequest.php', data: { opcion: 'index'}, html: true }, function (data) {
+    ajaxRequest({url: '_request/ChoferesRequest.php', data: {opcion: 'index'}, html: true}, function (data) {
         $('#div_choferes').html(data.html);
         datatable('table_choferes');
     });
@@ -61,7 +61,7 @@ function initChoferes() {
 //buscar
 $('#form_choferes_buscar').submit(function (e) {
     e.preventDefault();
-    ajaxRequest({ url: '_request/ChoferesRequest.php', data: $(this).serialize(), html: 'si'  }, function (data) {
+    ajaxRequest({url: '_request/ChoferesRequest.php', data: $(this).serialize(), html: 'si'}, function (data) {
         $('#div_choferes').html(data.html);
         datatable('table_choferes');
         displayChoferes();
@@ -69,7 +69,7 @@ $('#form_choferes_buscar').submit(function (e) {
 
 });
 
-function createChoferes(){
+function createChoferes() {
     $('#title_form_choferes').text('Nuevo Chofer');
     resetChofer();
     getVehiculos();
@@ -78,8 +78,8 @@ function createChoferes(){
 }
 
 function getVehiculos() {
-    ajaxRequest({ url: '_request/ChoferesRequest.php', data: { opcion: 'get_vehiculos' } }, function (data) {
-        if (data.result){
+    ajaxRequest({url: '_request/ChoferesRequest.php', data: {opcion: 'get_vehiculos'}}, function (data) {
+        if (data.result) {
             let select = $('#select_choferes_vehiculo');
             let vehiculos = data.listarVehiculos.length;
             select.empty();
@@ -97,7 +97,7 @@ function destroyChofer(id) {
     MessageDelete.fire().then((result) => {
         if (result.isConfirmed) {
             let valor_x = $('#chofer_input_hidden_x').val();
-            ajaxRequest({ url: '_request/ChoferesRequest.php', data: { opcion: 'destroy', id: id } }, function (data) {
+            ajaxRequest({url: '_request/ChoferesRequest.php', data: {opcion: 'destroy', id: id}}, function (data) {
                 if (data.result) {
 
                     let table = $('#table_choferes').DataTable();
@@ -109,9 +109,9 @@ function destroyChofer(id) {
 
                     $('#paginate_leyenda').text(data.total);
                     valor_x = valor_x - 1;
-                    if (valor_x === 0){
+                    if (valor_x === 0) {
                         reconstruirTablaChofer();
-                    }else {
+                    } else {
                         $('#chofer_input_hidden_x').val(valor_x);
                     }
                 }
@@ -137,7 +137,7 @@ function resetChofer() {
         .removeClass('is-valid')
         .removeClass('is-invalid')
     ;
-    $('#select_choferes_empresa')
+    $('.select_guias_empresas')
         .val('')
         .trigger('change')
         .removeClass('is-valid')
@@ -161,75 +161,75 @@ $('#form_choferes').submit(function (e) {
     let nombre = $('#input_choferes_nombre');
     let telefono = $('#input_choferes_telefono');
 
-    if (empresa.val().length <= 0){
+    if (empresa.val().length <= 0) {
         procesar = false;
         empresa.addClass('is-invalid');
         $('#error_select_choferes_empresa').text('La empresa es obligatoria');
-    }else {
+    } else {
         empresa
             .removeClass('is-invalid')
             .addClass('is-valid');
     }
 
-    if (vehiculo.val().length <= 0){
+    if (vehiculo.val().length <= 0) {
         procesar = false;
         vehiculo.addClass('is-invalid');
         $('#error_select_choferes_vehiculo').text('El vehiculo es obligatorio');
-    }else {
+    } else {
         vehiculo
             .removeClass('is-invalid')
             .addClass('is-valid');
     }
 
-    if (!cedula.inputmask('isComplete')){
+    if (!cedula.inputmask('isComplete')) {
         procesar = false;
         cedula.addClass('is-invalid');
         $('#error_input_choferes_cedula').text('La cedula es obligatoria');
-    }else {
+    } else {
         cedula
             .removeClass('is-invalid')
             .addClass('is-valid');
     }
 
-    if (!nombre.inputmask('isComplete')){
+    if (!nombre.inputmask('isComplete')) {
         procesar = false;
         nombre.addClass('is-invalid');
         $('#error_input_choferes_nombre').text('El nombre es obligatorio');
-    }else {
+    } else {
         nombre
             .removeClass('is-invalid')
             .addClass('is-valid');
     }
 
-    if (!telefono.inputmask('isComplete')){
+    if (!telefono.inputmask('isComplete')) {
         procesar = false;
         telefono.addClass('is-invalid');
         $('#error_input_choferes_telefono').text('El telefono es obligatorio');
-    }else {
+    } else {
         telefono
             .removeClass('is-invalid')
             .addClass('is-valid');
     }
 
-    if (procesar){
+    if (procesar) {
         let opcion = $('#choferes_opcion').val();
-        if (opcion === 'store'){
-            ajaxRequest( {url: '_request/ChoferesRequest.php', data: $(this).serialize(), html: 'si' }, function (data) {
-                if (data.is_json){
-                    if (data.error === 'existe_chofer'){
+        if (opcion === 'store') {
+            ajaxRequest({url: '_request/ChoferesRequest.php', data: $(this).serialize(), html: 'si'}, function (data) {
+                if (data.is_json) {
+                    if (data.error === 'existe_chofer') {
                         cedula.addClass('is-invalid');
                         $('#error_input_choferes_cedula').text('La cedula ya esta registrada.')
                     }
-                }else {
+                } else {
                     $('#div_choferes').html(data.html);
                     datatable('table_choferes');
                     displayChoferes();
                 }
             });
-        }else {
-            ajaxRequest({ url: '_request/ChoferesRequest.php', data: $(this).serialize() }, function (data) {
-                if (data.result){
-                    let btn ='<span class="btn btn-link btn-sm" onclick="showVehiculo('+ data.id +', \'choferes\')">' +
+        } else {
+            ajaxRequest({url: '_request/ChoferesRequest.php', data: $(this).serialize()}, function (data) {
+                if (data.result) {
+                    let btn = '<span class="btn btn-link btn-sm" onclick="showVehiculo(' + data.id + ', \'choferes\')">' +
                         data.placa +
                         '</span>';
                     let table = $('#table_choferes').DataTable();
@@ -251,29 +251,34 @@ $('#form_choferes').submit(function (e) {
 });
 
 function editChofer(id) {
+    displayChoferes('form');
+    verSpinner(true);
     $('#title_form_choferes').text('Editar Chofer');
     $('#btn_guradar_form_choferes').text('Guardar Cambios');
     resetChofer();
+
     getVehiculos();
     getEmpresas();
-    setTimeout(function () {
-        ajaxRequest({ url: '_request/ChoferesRequest.php', data: { opcion: 'edit', id: id } }, function (data) {
-            if (data.result){
+
+        ajaxRequest({url: '_request/ChoferesRequest.php', data: {opcion: 'edit', id: id}}, function (data) {
+            if (data.result) {
+                verSpinner(true);
                 $('#input_choferes_cedula').val(data.cedula);
                 $('#input_choferes_nombre').val(data.nombre);
                 $('#input_choferes_telefono').val(data.telefono);
-                $('#select_choferes_empresa')
-                    .val(data.empresas_id)
-                    .trigger('change');
                 $('#select_choferes_vehiculo')
                     .val(data.vehiculos_id)
                     .trigger('change');
                 $('#choferes_opcion').val('update');
                 $('#choferes_id').val(data.id);
-                displayChoferes('form');
+                setTimeout(function () {
+                    $('.select_guias_empresas')
+                        .val(data.empresas_id)
+                        .trigger('change');
+                },500);
             }
         });
-    }, 500);
+
 }
 
 console.log('choferes..');
