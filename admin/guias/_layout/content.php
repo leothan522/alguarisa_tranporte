@@ -9,4 +9,5 @@
     <?php require 'choferes/modal.php'; ?>
     <?php require 'vehiculos/modal.php'; ?>
     <?php require 'empresas/modal.php'; ?>
+    <?php require 'rutas/modal.php'; ?>
 </div>

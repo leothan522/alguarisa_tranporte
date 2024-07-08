@@ -6,3 +6,4 @@
 6- Importar de la base de datos alguarisa_transporte las tablas municipios yparroquias  a la base de datos alguarisa_old.
 7- Exportar toda la base de datos alguarisa_old e importarla completa en alguarisa_transporte.
 8- Crear los nuevos usuarios.
+9- Agregar en la tabla ruta despues de band la columna version con valor por defecto 0. todos INT.

@@ -22,7 +22,7 @@
 
     <ul class="nav nav-pills flex-column">
         <button type="button" class="btn btn-primary btn-sm btn-block m-1" data-toggle="modal"
-                data-target="#modal-guias-rutas" onclick="" >
+                data-target="#modal_table-rutas" onclick="initRutas()" >
             Rutas
         </button>
     </ul>

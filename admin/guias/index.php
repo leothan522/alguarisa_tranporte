@@ -135,6 +135,7 @@ $controller->isAdmin();
 <script src="<?php asset('admin/guias/_app/choferes.js', true); ?>"></script>
 <script src="<?php asset('admin/guias/_app/empresas.js', true); ?>"></script>
 <script src="<?php asset('admin/guias/_app/vehiculos.js', true); ?>"></script>
+<script src="<?php asset('admin/guias/_app/rutas.js', true); ?>"></script>
 <script src="<?php asset('admin/guias/_app/guias.js', true); ?>"></script>
 
 </body>
