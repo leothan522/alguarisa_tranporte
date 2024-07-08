@@ -11,6 +11,7 @@ class Ruta extends Model
             'origen',
             'destino',
             'ruta',
+            'version',
             'created_at'
         ];
     }
