@@ -1,24 +1,114 @@
 datatable('table_empresas');
 
-inputmask('#empresas_input_rif', 'alfanumerico', 9, 12, '-');
-inputmask('#empresas_input_nombre', 'alfanumerico', 3, 100, ' .');
-inputmask('#empresas_input_responsable', 'alfanumerico', 3, 100, ' ');
-inputmaskTelefono('#empresas_input_telefono');
+inputmask('#input_empresas_rif', 'alfanumerico', 9, 12, '-');
+inputmask('#input_empresas_nombre', 'alfanumerico', 3, 100, ' .');
+inputmask('#input_empresas_responsable', 'alfanumerico', 3, 100, ' ');
+inputmaskTelefono('#input_empresas_telefono');
 
 
-$('#empresas_form').submit(function (e) {
+function displayEmpresas(init = 'true') {
+    verSpinner(true);
+
+    switch (init) {
+        case "form":
+            if ($("#row_form_empresas").hasClass( "d-none")){
+                $('#row_form_empresas').removeClass('d-none');
+            }
+            if (!$("#row_table_empresas").hasClass( "d-none")){
+                $('#row_table_empresas').addClass('d-none');
+            }
+            break;
+
+        default:
+            if (!$("#row_form_empresas").hasClass( "d-none")){
+                $('#row_form_empresas').addClass('d-none');
+            }
+            if ($("#row_table_empresas").hasClass( "d-none")){
+                $('#row_table_empresas').removeClass('d-none');
+            }
+            break;
+    }
+
+    verSpinner(false);
+}
+
+function initEmpresas() {
+    displayEmpresas();
+    $('#keyword_empresas').val('');
+    ajaxRequest({ url: '_request/EmpresasRequest.php', data: { opcion: 'index'}, html: true }, function (data) {
+        $('#div_empresas').html(data.html);
+        datatable('table_empresas');
+    });
+}
+
+//buscar
+$('#form_empresas_buscar').submit(function (e) {
+    e.preventDefault();
+    ajaxRequest({ url: '_request/EmpresasRequest.php', data: $(this).serialize(), html: 'si'  }, function (data) {
+        $('#div_empresas').html(data.html);
+        datatable('table_empresas');
+        displayEmpresas();
+    });
+});
+
+function createEmpresas(){
+    $('#title_form_empresas').text('Nueva Empresa');
+    $('#btn_guradar_form_empresas').text('Guardar');
+    resetEmpresa();
+    displayEmpresas('form');
+}
+
+function resetEmpresa() {
+    $('#input_empresas_rif')
+        .val('')
+        .removeClass('is-invalid')
+        .removeClass('is-valid');
+    $('#input_empresas_nombre')
+        .val('')
+        .removeClass('is-invalid')
+        .removeClass('is-valid');
+    $('#input_empresas_responsable')
+        .val('')
+        .removeClass('is-invalid')
+        .removeClass('is-valid');
+    $('#input_empresas_telefono')
+        .val('')
+        .removeClass('is-invalid')
+        .removeClass('is-valid');
+    $('#empresas_id').val('');
+    $('#empresas_opcion').val('store');
+}
+
+function editEmpresa(id) {
+    resetEmpresa();
+    $('#btn_guradar_form_empresas').text('Guardar Cambios');
+    $('#title_form_empresas').text('Editar Empresa');
+    ajaxRequest({url: '_request/EmpresasRequest.php', data: {opcion: 'edit', id: id}}, function (data) {
+        if (data.result) {
+            $('#input_empresas_rif').val(data.rif);
+            $('#input_empresas_nombre').val(data.nombre);
+            $('#input_empresas_responsable').val(data.responsable);
+            $('#input_empresas_telefono').val(data.telefono);
+            $('#empresas_id').val(data.id);
+            $('#empresas_opcion').val('update');
+            displayEmpresas('form');
+        }
+    });
+}
+
+$('#form_empresas').submit(function (e) {
     e.preventDefault();
     let procesar = true;
-    let rif = $('#empresas_input_rif');
-    let nombre = $('#empresas_input_nombre');
-    let responsable = $('#empresas_input_responsable');
-    let telefono = $('#empresas_input_telefono');
+    let rif = $('#input_empresas_rif');
+    let nombre = $('#input_empresas_nombre');
+    let responsable = $('#input_empresas_responsable');
+    let telefono = $('#input_empresas_telefono');
 
 
     if (!rif.inputmask('isComplete')) {
         procesar = false;
         rif.addClass('is-invalid');
-        $('#error_empresas_input_rif').text('El rif es obligatorio');
+        $('#error_input_empresas_rif').text('El rif es obligatorio');
     } else {
         rif
             .removeClass('is-invalid')
@@ -28,7 +118,7 @@ $('#empresas_form').submit(function (e) {
     if (!nombre.inputmask('isComplete')) {
         procesar = false;
         nombre.addClass('is-invalid');
-        $('#error_empresas_input_nombre').text('El nombre es obligatorio');
+        $('#error_input_empresas_nombre').text('El nombre es obligatorio');
     } else {
         nombre
             .removeClass('is-invalid')
@@ -38,7 +128,7 @@ $('#empresas_form').submit(function (e) {
     if (!responsable.inputmask('isComplete')) {
         procesar = false;
         responsable.addClass('is-invalid');
-        $('#error_empresas_input_responsable').text('El responsable es obligatorio');
+        $('#error_input_empresas_responsable').text('El responsable es obligatorio');
     } else {
         responsable
             .removeClass('is-invalid')
@@ -48,7 +138,7 @@ $('#empresas_form').submit(function (e) {
     if (!telefono.inputmask('isComplete')) {
         procesar = false;
         telefono.addClass('is-invalid');
-        $('#error_empresas_input_telefono').text('El teléfono es obligatorio');
+        $('#error_input_empresas_telefono').text('El teléfono es obligatorio');
     } else {
         telefono
             .removeClass('is-invalid')
@@ -62,19 +152,18 @@ $('#empresas_form').submit(function (e) {
                 if (data.is_json) {
                     if (data.error === 'existe_empresa') {
                         rif.addClass('is-invalid');
-                        $('#error_empresas_input_rif').text(data.message);
+                        $('#error_input_empresas_rif').text(data.message);
                     }
                 } else {
-                    $('#btn_modal_form_empresas').click();
-                    $('#card_table_empresas').html(data.html);
+                    $('#div_empresas').html(data.html);
                     datatable('table_empresas');
+                    displayEmpresas();
                 }
             });
 
         } else {
             ajaxRequest({url: '_request/EmpresasRequest.php', data: $(this).serialize()}, function (data) {
                 if (data.result) {
-                    $('#btn_modal_form_empresas').click();
                     let table = $('#table_empresas').DataTable();
                     let tr = $('#tr_item_empresas_' + data.id);
                     table
@@ -83,10 +172,12 @@ $('#empresas_form').submit(function (e) {
                         .cell(tr.find('.empresa_responsable')).data(data.responsable)
                         .cell(tr.find('.empresa_telefono')).data(data.telefono)
                         .draw();
+                    resetEmpresa();
+                    displayEmpresas();
                 } else {
                     if (data.error === 'datos_duplicados') {
                         rif.addClass('is-invalid');
-                        $('#error_empresas_input_rif').text(data.message);
+                        $('#error_input_empresas_rif').text(data.message);
                     }
                 }
 
@@ -97,54 +188,7 @@ $('#empresas_form').submit(function (e) {
 
 });
 
-function cerrarTable() {
-    resetEmpresa();
-    $('#btn_modal_table_empresas').click();
-}
-
-function cambiarTableEmpresa() {
-    $('#btn_modal_empresas').click();
-}
-
-function editEmpresa(id) {
-    $('#modal_form_empresas').click();
-    ajaxRequest({url: '_request/EmpresasRequest.php', data: {opcion: 'edit', id: id}}, function (data) {
-        if (data.result) {
-            $('#empresas_input_rif').val(data.rif);
-            $('#empresas_input_nombre').val(data.nombre);
-            $('#empresas_input_responsable').val(data.responsable);
-            $('#empresas_input_telefono').val(data.telefono);
-            $('#empresas_id').val(data.id);
-            $('#empresas_opcion').val('update');
-        }
-    });
-}
-
-function resetEmpresa() {
-    $('#empresas_input_rif')
-        .val('')
-        .removeClass('is-invalid')
-        .removeClass('is-valid');
-    $('#empresas_input_nombre')
-        .val('')
-        .removeClass('is-invalid')
-        .removeClass('is-valid');
-    $('#empresas_input_responsable')
-        .val('')
-        .removeClass('is-invalid')
-        .removeClass('is-valid');
-    $('#empresas_input_telefono')
-        .val('')
-        .removeClass('is-invalid')
-        .removeClass('is-valid');
-    $('#empresas_id')
-        .val('')
-        .removeClass('is-invalid')
-        .removeClass('is-valid');
-    $('#empresas_opcion').val('store');
-}
-
-function elimEmpresa(id) {
+function destroyEmpresa(id) {
     MessageDelete.fire().then((result) => {
         if (result.isConfirmed) {
             let valor_x = $('#empresa_input_hidden_x').val();
@@ -169,22 +213,6 @@ function elimEmpresa(id) {
             });
 
         }
-    });
-}
-
-$('#form_empresas_buscar').submit(function (e) {
-    e.preventDefault();
-    ajaxRequest({ url: '_request/EmpresasRequest.php', data: $(this).serialize(), html: 'si'  }, function (data) {
-        $('#card_table_empresas').html(data.html);
-        datatable('table_empresas');
-    });
-});
-
-
-function reconstruirTablaEmpresa() {
-    ajaxRequest({ url: '_request/EmpresasRequest.php', data: { opcion: 'index'}, html: 'si' }, function (data) {
-        $('#card_table_empresas').html(data.html);
-        datatable('table_empresas');
     });
 }
 

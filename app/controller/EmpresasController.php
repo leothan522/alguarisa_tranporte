@@ -23,13 +23,13 @@ class EmpresasController extends Admin
         $totalRows = null,
         $offset = null,
         $opcion = 'paginate',
-        $contentDiv = 'card_table_empresas'
+        $contentDiv = 'div_empresas'
     )
     {
 
         $model = new Empresa();
         if (is_null($limit)) {
-            $this->limit = numRowsPaginate();
+            $this->limit = 30;
         } else {
             $this->limit = $limit;
         }
@@ -159,7 +159,7 @@ class EmpresasController extends Admin
                 $empresa = $model->find($id);
                 $response['rif'] = $empresa['rif'];
                 $response['nombre'] = $empresa['nombre'];
-                $response['responsable'] = $empresa['responsable'];
+                $response['responsable'] = '<small>'.$empresa['responsable'].'<br>'.$empresa['telefono'].'</small>';
                 $response['telefono'] = $empresa['telefono'];
                 $response['id'] = $empresa['id'];
 

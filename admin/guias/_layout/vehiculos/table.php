@@ -37,7 +37,7 @@
                     <th class="text-left">Placa Batea</th>
                     <th class="text-left">Tipo</th>
                     <th class="text-left pl-5">Marca</th>
-                    <th>cantidad</th>
+                    <th>Capacidad</th>
                     <th style="width: 5px;"> </th>
                 </tr>
                 </thead>
@@ -53,13 +53,13 @@
                     <tr id="tr_item_vehiculos_<?php echo $vehiculo['id'] ?>">
                         <td><?php echo $i; ?></td>
                         <td class="vehiculos_placa text-left p-0">
-                            <span class="btn btn-link" onclick="showVehiculo(<?php echo $vehiculo['id'] ?>, origen = 'vehiculos')">
+                            <span class="btn btn-link btn-sm" onclick="showVehiculo(<?php echo $vehiculo['id'] ?>, origen = 'vehiculos')">
                                 <?php echo $vehiculo['placa_batea']; ?>
                             </span>
                         </td>
                         <td class="vehiculos_tipo text-left" ><?php echo mb_strtoupper($tipo['nombre']); ?></td>
                         <td class="vehiculos_marca text-left pl-5"><?php echo mb_strtoupper($vehiculo['marca']); ?></td>
-                        <td class="vehiculos_cantidad text-right pr-3"><?php echo $vehiculo['capacidad']; ?> </td>
+                        <td class="vehiculos_cantidad text-right pr-3"><?php echo formatoMillares($vehiculo['capacidad'], 0); ?> </td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-info"

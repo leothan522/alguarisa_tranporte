@@ -31,32 +31,50 @@ if ($_POST) {
                     $contenDiv = !empty($_POST['contentDiv']) ? $_POST['contentDiv'] : 'dataContainer';
 
                     $controller->index($baseURL, $tableID, $limit, $totalRows, $offset, $opcion, $contenDiv);
-                    require '../_layout/card_table_empresas.php';
+                    $listarEmpresas = $controller->rows;
+                    $totalRowsEmpresas = $controller->totalRows;
+                    $links = $controller->links;
+                    $i = $controller->offset;
+                    $keyword = $controller->keyword;
+                    $x = 0;
+                    require '../_layout/empresas/table.php';
 
                     break;
 
                 case 'index':
                     $paginate = true;
                     $controller->index();
-                    require '../_layout/card_table_empresas.php';
+                    $listarEmpresas = $controller->rows;
+                    $totalRowsEmpresas = $controller->totalRows;
+                    $links = $controller->links;
+                    $i = $controller->offset;
+                    $keyword = $controller->keyword;
+                    $x = 0;
+                    require '../_layout/empresas/table.php';
                     break;
 
                 case 'store':
-                    if (!empty($_POST['empresas_input_rif']) &&
-                        !empty($_POST['empresas_input_nombre']) &&
-                        !empty($_POST['empresas_input_responsable']) &&
-                        !empty($_POST['empresas_input_telefono'])
+                    if (!empty($_POST['rif']) &&
+                        !empty($_POST['nombre']) &&
+                        !empty($_POST['responsable']) &&
+                        !empty($_POST['telefono'])
                     ){
-                        $rif = $_POST['empresas_input_rif'];
-                        $nombre = $_POST['empresas_input_nombre'];
-                        $responsable = $_POST['empresas_input_responsable'];
-                        $telefono = $_POST['empresas_input_telefono'];
+                        $rif = $_POST['rif'];
+                        $nombre = $_POST['nombre'];
+                        $responsable = $_POST['responsable'];
+                        $telefono = $_POST['telefono'];
 
                         $response = $controller->store($rif, $nombre, $responsable, $telefono);
                         if ($response['result']){
                             $paginate = true;
                             $controller->index();
-                            require '../_layout/card_table_empresas.php';
+                            $listarEmpresas = $controller->rows;
+                            $totalRowsEmpresas = $controller->totalRows;
+                            $links = $controller->links;
+                            $i = $controller->offset;
+                            $keyword = $controller->keyword;
+                            $x = 0;
+                            require '../_layout/empresas/table.php';
                         }
 
                     }else{
@@ -74,16 +92,16 @@ if ($_POST) {
                     break;
 
                 case 'update':
-                    if (!empty($_POST['empresas_input_rif']) &&
-                        !empty($_POST['empresas_input_nombre']) &&
-                        !empty($_POST['empresas_input_responsable']) &&
-                        !empty($_POST['empresas_input_telefono']) &&
+                    if (!empty($_POST['rif']) &&
+                        !empty($_POST['nombre']) &&
+                        !empty($_POST['responsable']) &&
+                        !empty($_POST['telefono']) &&
                         !empty($_POST['empresas_id'])
                     ){
-                        $rif = $_POST['empresas_input_rif'];
-                        $nombre = $_POST['empresas_input_nombre'];
-                        $responsable = $_POST['empresas_input_responsable'];
-                        $telefono = $_POST['empresas_input_telefono'];
+                        $rif = $_POST['rif'];
+                        $nombre = $_POST['nombre'];
+                        $responsable = $_POST['responsable'];
+                        $telefono = $_POST['telefono'];
                         $id = $_POST['empresas_id'];
 
                         $response = $controller->update($rif, $nombre, $responsable, $telefono, $id);
@@ -105,7 +123,13 @@ if ($_POST) {
                         $paginate = true;
                         $keyword = $_POST['keyword'];
                         $controller->search($keyword);
-                        require '../_layout/card_table_empresas.php';
+                        $listarEmpresas = $controller->rows;
+                        $totalRowsEmpresas = $controller->totalRows;
+                        $links = $controller->links;
+                        $i = $controller->offset;
+                        $keyword = $controller->keyword;
+                        $x = 0;
+                        require '../_layout/empresas/table.php';
                     }else{
                         $response = crearResponse('faltan_datos');
                     }
