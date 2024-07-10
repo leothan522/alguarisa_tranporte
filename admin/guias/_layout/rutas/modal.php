@@ -10,7 +10,7 @@
                             Rutas
                         </h4>
                     </div>
-                    <div class="col-md-5 justify-content-end">
+                    <div class="col-md-5 justify-content-end d-none">
                         <form id="form_rutas_buscar">
                             <div class="input-group close">
                                 <input type="search" class="form-control" placeholder="Buscar" name="keyword" required id="keyword_rutas">
@@ -43,6 +43,12 @@
                 <div class="row m-5 justify-content-center" id="row_form_rutas">
                     <div class="col-md-8">
                         <?php require "form.php";?>
+                    </div>
+                </div>
+
+                <div class="row m-5 justify-content-center" id="row_show_rutas">
+                    <div class="col-8">
+                        <?php require 'show_rutas.php'; ?>
                     </div>
                 </div>
 

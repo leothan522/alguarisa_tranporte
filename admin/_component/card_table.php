@@ -24,7 +24,7 @@
             <table class="table" id="example1">
                 <thead>
                 <tr>
-                    <th style="width: 10px">#</th>
+                    <th style="width: 10%">#</th>
                     <th>Task</th>
                     <th>Progress</th>
                     <th style="width: 40px">Label</th>

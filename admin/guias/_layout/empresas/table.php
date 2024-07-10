@@ -34,12 +34,12 @@
             <table class="table table-sm table-head-fixed table-hover text-nowrap"  id="table_empresas">
                 <thead>
                 <tr>
-                    <th style="width: 10px">#</th>
+                    <th class="text-center" style="width: 10%">#</th>
                     <th>Rif</th>
                     <th>Nombre</th>
                     <th>Responsable</th>
                     <th class="d-none">Teléfono</th>
-                    <th style="width: 5px;"> </th>
+                    <th style="width: 5%;"> </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -50,7 +50,7 @@
                             $x++;
                             ?>
                             <tr class="text-sm" id="tr_item_empresas_<?php echo $empresa['id']; ?>">
-                                <td><?php echo $i; ?></td>
+                                <td class="text-center"><?php echo $i; ?></td>
                                 <td class="empresa_rif text-bold"><?php echo $empresa['rif']; ?></td>
                                 <td class="empresa_nombre"><?php echo $empresa['nombre']; ?></td>
                                 <td class="empresa_responsable">

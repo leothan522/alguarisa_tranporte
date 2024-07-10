@@ -28,22 +28,28 @@
 
             <div class="form-group">
                 <label class="col-12">
-                    Ruta
+                    Trayecto
                     <button type="button" class="btn btn-link float-right" onclick="addItem()" id="btn_add">
                         <i class="fas fa-plus-circle"></i>
                     </button>
-                    <input type="hidden" value="1" name="contador" id="contador" data-contador="1" placeholder="contador">
+                    <input type="hidden" value="1" name="contador" data-contador="1" placeholder="contador" id="contador">
                 </label>
                 <div id="items">
                     <div class="row" id="item_1">
                         <div class="col-10">
-                            <input type="text" class="form-control" name="ruta_1" placeholder="Lugar" id="ruta_1" required="">
+                            <input type="text" class="form-control input_rutas_items" name="ruta_1" placeholder="Lugar" id="ruta_1">
                         </div>
                         <div class="col-2 p-1">
-                            &nbsp;
+                            <span class="btn">&nbsp;</span>
                         </div>
                     </div>
                 </div>
+                <small class="d-none" id="mensaje_error_ruta">
+                    <small class="text-xs text-danger">
+                        Todos los campos en la ruta son obligatorios
+                    </small>
+                </small>
+
             </div>
 
             <div class="form-group">

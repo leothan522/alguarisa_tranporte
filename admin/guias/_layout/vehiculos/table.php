@@ -33,12 +33,12 @@
             <table class="table table-sm table-head-fixed table-hover text-nowrap"  id="table_vehiculos">
                 <thead>
                 <tr class="text-center">
-                    <th style="width: 10px">#</th>
+                    <th style="width: 10%">#</th>
                     <th class="text-left">Placa Batea</th>
                     <th class="text-left">Tipo</th>
                     <th class="text-left pl-5">Marca</th>
                     <th>Capacidad</th>
-                    <th style="width: 5px;"> </th>
+                    <th style="width: 5%;"> </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@
 
                     ?>
                     <tr id="tr_item_vehiculos_<?php echo $vehiculo['id'] ?>">
-                        <td><?php echo $i; ?></td>
+                        <td class="text-center"><?php echo $i; ?></td>
                         <td class="vehiculos_placa text-left p-0">
                             <span class="btn btn-link btn-sm" onclick="showVehiculo(<?php echo $vehiculo['id'] ?>, origen = 'vehiculos')">
                                 <?php echo $vehiculo['placa_batea']; ?>

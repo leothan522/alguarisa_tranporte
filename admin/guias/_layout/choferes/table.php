@@ -34,12 +34,12 @@
             <table class="table table-sm table-head-fixed table-hover text-nowrap"  id="table_choferes">
                 <thead>
                 <tr>
-                    <th style="width: 10px">#</th>
+                    <th class="text-center" style="width: 10%">#</th>
                     <th class="text-right">Cédula</th>
                     <th>Nombre y Apellido</th>
                     <th class="text-center">Teléfono</th>
                     <th class="text-center">Placa Batea</th>
-                    <th style="width: 5px;"> </th>
+                    <th style="width: 5%;"> </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,7 +53,7 @@
 
                         ?>
                         <tr id="tr_item_choferes_<?php echo $chofer['id']; ?>">
-                            <td><?php echo $i; ?></td>
+                            <td class="text-center"><?php echo $i; ?></td>
                             <td class="choferes_cedula text-right pr-2" ><?php echo formatoMillares($chofer['cedula']); ?></td>
                             <td class="choferes_nombre text-left pl-2"><?php echo mb_strtoupper($chofer['nombre']); ?></td>
                             <td class="choferes_telefono"><?php echo $chofer['telefono']; ?> </td>
