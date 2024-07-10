@@ -1,9 +1,12 @@
-1- Exportamos y importamos la base de datos actual.
-2- Modificar en la tabla parametros en valor guias_num_init al valor actual en la base de datos alguarisa_transporte.
-3- Borrar la tabla parametros de la base de datos alguarisa_old.
-4- Importar la tabla parametros de la base de datos alguarisa_transporte hacia alguarisa_old.
-5- Borrar la tabla de usuarios de alguarisa_old y importar la de alguarisa_transporte.
-6- Importar de la base de datos alguarisa_transporte las tablas municipios yparroquias  a la base de datos alguarisa_old.
-7- Exportar toda la base de datos alguarisa_old e importarla completa en alguarisa_transporte.
-8- Crear los nuevos usuarios.
+1- Exportamos y importamos la base de datos actual.(Borrando alguarisa_old en local).
+2- Borrar la database alguarisa_transporte y la importamos del repositorio nuevo.
+3- Modificar en la tabla parametros de la base de datos alguarisa_transporte el valor guias_num_init de la base de datos alguarisa_old.
+4- Borrar la tabla parametros de la base de datos alguarisa_old.
+5- Importar la tabla parametros de la base de datos alguarisa_transporte hacia alguarisa_old.
+6- Borrar la tabla de usuarios de alguarisa_old y importar la de alguarisa_transporte.
+7- Importar de la base de datos alguarisa_transporte las tablas municipios y parroquias  a la base de datos alguarisa_old.
+8- Exportar toda la base de datos alguarisa_old e importarla completa en alguarisa_transporte.
 9- Agregar en la tabla ruta despues de band la columna version con valor por defecto 0. todos INT.
+10- Subir la database alguarisa_transporte.
+11- Crearr las Rutas en la nueva interfaz guiandose del sistema viejo.
+12- Crear los nuevos usuarios.
