@@ -13,6 +13,7 @@
     <div class="col-12">
         <ul>
             <li>numRowsPaginate[null|int]</li>
+            <li>guias_color_rgb[null|black/blue/(r,g,b)]</li>
         </ul>
     </div>
 </div>

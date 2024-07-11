@@ -1,7 +1,10 @@
 <?php
+session_start();
 require_once "../../../vendor/autoload.php";
+use app\controller\GuiasController;
 use app\resources\fpdf\PDF_WriteTag;
-
+$controller = new GuiasController();
+$color = $controller->getColor();
 function textoUTF8($string)
 {
     return mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8');
@@ -15,9 +18,9 @@ QRcode::png($qr_texto, 'QRcodeManual.png', '', 2);
 $pdf = new PDF_WriteTag();
 $pdf->AliasNbPages();
 //color azul RGB (0,0,128)
-$rojo = 0;
-$verde = 0;
-$negro = 128;
+$rojo = $color[0];
+$verde = $color[1];
+$negro = $color[2];
 $pdf->SetTextColor($rojo, $verde, $negro); //color azul
 //color negro
 /*$pdf->SetTextColor(0, 0, 0);*/
