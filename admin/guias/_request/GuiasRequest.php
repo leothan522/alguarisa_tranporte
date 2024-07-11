@@ -47,6 +47,15 @@ if ($_POST) {
 
                     break;
 
+                case 'incrementar_contador':
+                    if (!empty($_POST['guias_num_init'])){
+                        $num_guia = $_POST['guias_num_init'];
+                        $response = $controller->setNumeroGuia($num_guia);
+                    }else{
+                        $response = crearResponse('faltan_datos');
+                    }
+                    break;
+
 
                 //Por defecto
                 default:

@@ -1,3 +1,5 @@
+inputmask('#guias_num_init', 'numerico', 1, 8, '');
+
 function display(origen) {
     if (origen === 'choferes'){
         displayChoferes();
@@ -50,5 +52,22 @@ function getEmpresas() {
         }
     });
 }
+
+$('#formulari_guia_init').submit(function (e) {
+    e.preventDefault();
+    let procesar = true;
+    let num_guia = $('#guias_num_init');
+
+    if (!num_guia.inputmask('isComplete')  || num_guia.val() <= 0){
+        procesar = false;
+        num_guia.addClass('is-invalid');
+    }
+
+    if (procesar){
+        ajaxRequest({url: '_request/GuiasRequest.php', data: $(this).serialize() }, function (data) {
+
+        });
+    }
+})
 
 console.log('guias.js')

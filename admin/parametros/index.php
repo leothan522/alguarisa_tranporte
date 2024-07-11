@@ -4,7 +4,6 @@ require_once "../../vendor/autoload.php";
 use app\controller\ParametrosController;
 $controller = new ParametrosController();
 $controller->isAdmin();
-
 ?>
 <!DOCTYPE html>
 <html lang="es">

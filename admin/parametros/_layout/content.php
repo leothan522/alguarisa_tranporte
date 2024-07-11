@@ -11,9 +11,11 @@
         </div>
     </div>
     <div class="col-12">
+        <label>Parametros manuales</label>
         <ul>
             <li>numRowsPaginate[null|int]</li>
             <li>guias_color_rgb[null|black/blue/(r,g,b)]</li>
+            <li>guias_num_init[null|int]</li>
         </ul>
     </div>
 </div>
