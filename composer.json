@@ -19,7 +19,9 @@
             "app/funciones/permisos.php",
             "app/funciones/paginate.php",
             "app/funciones/accesoMunicipios.php",
-            "app/funciones/styles_excel.php"
+            "app/funciones/styles_excel.php",
+            "app/resources/fpdf/WriteTag.php",
+            "app/resources/phpqrcode/qrlib.php"
         ]
     }
 }

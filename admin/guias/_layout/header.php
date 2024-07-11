@@ -8,7 +8,7 @@
                 <form class="row mr-2" action="guardar.php" method="post" id="formulari_guia_init">
                     <div class="col-8 p-0 m-0">
                         <div class="input-group">
-                            <a href="formatos/guia_manual.php" class="btn btn-link float-right d-inline">
+                            <a href="_storage/guia_manual.php" class="btn btn-link float-right d-inline" target="_blank">
                                 <i class="far fa-file-alt"></i>
                                 Formato Guía Manual
                             </a>

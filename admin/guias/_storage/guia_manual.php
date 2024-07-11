@@ -1,12 +1,11 @@
 <?php
+require_once "../../../vendor/autoload.php";
+use app\resources\fpdf\PDF_WriteTag;
+
 function textoUTF8($string)
 {
     return mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8');
 }
-include('../../../../phpqrcode/qrlib.php');
-require '../../../../fpdf/WriteTag.php';
-
-
 
 $qr_texto = "GUIA DE TRASLADO MANUAL\nALIMENTOS DEL GUARICO S.A (ALGUARISA)  \nELABORADA POR EVENTUALIDAD EN EL \nDEPARTAMENTO DE TRANSPORTE  \nESTE DOCUMENTO SIN FIRMA Y SELLO \nNO TIENE VALIDEZ ";
 QRcode::png($qr_texto, 'QRcodeManual.png', '', 2);
@@ -26,7 +25,7 @@ $pdf->SetTextColor($rojo, $verde, $negro); //color azul
 //CABECERA ****************************************************************************
 $pdf->AddPage('P', 'Letter');
 $pdf->SetFont('Times', 'BU', 12);
-$pdf->Image('../../../../img/hoja_membretada.png', 0, 0, 210, 280);
+$pdf->Image('hoja_membretada.png', 0, 0, 210, 280);
 $pdf->Image('QRcodeManual.png', 10, 28, 30, 30);
 $pdf->ln(20);
 $pdf->Cell(0, 4, textoUTF8("N°________________________-" . date('Y')), 0, 1, 'R');
@@ -141,4 +140,4 @@ $pdf->Cell(40, 5, textoUTF8('____________________'), 0, 0, 'C');
 $pdf->Cell(55, 5, textoUTF8('TELÉFONO:'), 0, 0, 'R');
 $pdf->Cell(37, 5, textoUTF8('____________________'), 0, 1, 'C');
 
-$pdf->Output('D', 'Guia_Manual.pdf', true,);
+$pdf->Output('I', 'Guia_Manual.pdf', true,);
