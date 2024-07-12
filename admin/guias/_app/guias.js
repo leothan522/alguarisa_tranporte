@@ -1,3 +1,4 @@
+datatable('table_guias');
 inputmask('#guias_num_init', 'numerico', 1, 8, '');
 
 function display(origen) {

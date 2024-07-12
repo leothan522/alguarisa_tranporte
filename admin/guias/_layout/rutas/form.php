@@ -39,7 +39,7 @@
                         <div class="col-10">
                             <input type="text" class="form-control input_rutas_items" name="ruta_1" placeholder="Lugar" id="ruta_1">
                         </div>
-                        <div class="col-2 p-1">
+                        <div class="col-2">
                             <span class="btn">&nbsp;</span>
                         </div>
                     </div>

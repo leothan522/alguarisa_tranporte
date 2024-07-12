@@ -90,7 +90,7 @@ function addItem() {
         '<input type="text" class="form-control input_rutas_items" name="ruta_' + input_nuevo + '" placeholder="Lugar" id="ruta_' + input_nuevo + '" />' +
         /*'<div class="invalid-feedback" id="error_ruta_'+ input_nuevo +'"></div>'+*/
         '</div>' +
-        '<div class="col-2 p-1">' +
+        '<div class="col-2">' +
         '<button type="button" class="btn" onclick="btnRemove(\'item_' + input_nuevo + '\')">' +
         '<i class="fas fa-minus-circle text-danger"></i>' +
         '</button>' +

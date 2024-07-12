@@ -3,7 +3,9 @@
 namespace app\controller;
 
 use app\middleware\Admin;
+use app\model\Chofere;
 use app\model\Empresa;
+use app\model\Guia;
 use app\model\Parametro;
 use app\model\Vehiculo;
 
@@ -11,6 +13,13 @@ class GuiasController extends Admin
 {
     public string $TITTLE = 'Guias';
     public string $MODULO = 'guias.index';
+
+    public $rows;
+    public $totalRows;
+    public $links;
+    public $limit;
+    public $offset;
+    public $keyword;
 
     public int $GUIAS_NUM_INIT = 0;
     public int $ID_GUIAS_NUM_INIT = 0;
@@ -22,6 +31,7 @@ class GuiasController extends Admin
             header('location: ' . ROOT_PATH . 'admin\\');
         }
         $this->getNumeroGuia();
+        $this->index();
     }
 
     public function getVehiculo($id)
@@ -178,6 +188,48 @@ class GuiasController extends Admin
 
         }
         return $response;
+
+    }
+
+    public function index(
+        $baseURL = '_request/GuiasRequest.php',
+        $tableID = 'table_guias',
+        $limit = null,
+        $totalRows = null,
+        $offset = null,
+        $opcion = 'paginate',
+        $contentDiv = 'div_guias'
+    )
+    {
+
+        $model = new Guia();
+        if (is_null($limit)) {
+            $this->limit = numRowsPaginate();
+        } else {
+            $this->limit = $limit;
+        }
+        if (is_null($totalRows)) {
+            $this->totalRows = $model->count(1);
+        } else {
+            $this->totalRows = $totalRows;
+        }
+        $this->offset = $offset;
+
+        $this->links = paginate(
+            $baseURL,
+            $tableID,
+            $this->limit,
+            $this->totalRows,
+            $offset,
+            $opcion,
+            $contentDiv
+        )->createLinks();
+
+        $this->rows = $model->paginate($this->limit, $offset, 'id', 'DESC', 1);
+    }
+
+    public function getRutas($id)
+    {
 
     }
 
