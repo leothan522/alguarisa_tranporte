@@ -20,7 +20,7 @@ $i = $controller->offset;
                     <?php echo formatoMillares($totalRowsGuias, 0); ?>
                 </span>
                 ]
-            <?php echo $controller->FORMATO_GUIA_PDF; } ?>
+            <?php } ?>
         </h3>
 
         <div class="card-tools">
