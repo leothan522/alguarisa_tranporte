@@ -20,7 +20,7 @@ $i = $controller->offset;
                     <?php echo formatoMillares($totalRowsGuias, 0); ?>
                 </span>
                 ]
-            <?php } ?>
+            <?php echo $controller->FORMATO_GUIA_PDF; } ?>
         </h3>
 
         <div class="card-tools">
@@ -79,9 +79,13 @@ $i = $controller->offset;
                                    <button type="button" class="btn btn-info">
                                        <i class="fas fa-eye"></i>
                                    </button>
-                                   <button type="button" class="btn btn-info">
+                                   <button type="button" class="btn btn-info" onclick="generarPDF(<?php echo $guia['id']; ?>)">
                                        <i class="fas fa-file-pdf"></i>
                                    </button>
+                                   <form class="d-none" target="_blank" method="post" action="<?php echo $controller->FORMATO_GUIA_PDF; ?>">
+                                       <input type="text" name="guias_id" value="<?php echo $guia['id']; ?>">
+                                       <input type="submit" value="enviar" id="btn_form_table_ver_pdf_formato_<?php echo $guia['id']; ?>">
+                                   </form>
                                </div>
                            </td>
                        </tr>

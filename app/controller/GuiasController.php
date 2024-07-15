@@ -7,6 +7,7 @@ use app\model\Chofere;
 use app\model\Empresa;
 use app\model\Guia;
 use app\model\Parametro;
+use app\model\RutasTerritorio;
 use app\model\Vehiculo;
 
 class GuiasController extends Admin
@@ -23,6 +24,18 @@ class GuiasController extends Admin
 
     public int $GUIAS_NUM_INIT = 0;
     public int $ID_GUIAS_NUM_INIT = 0;
+    public string $FORMATO_GUIA_PDF = 'null';
+
+
+    //variables exclusivas para el pdf
+    public $codigo, $guias_tipos_id, $tipos_nombre, $vehiculos_id, $vehiculos_tipo, $vehiculos_marca,
+        $vehiculos_placa_batea, $vehiculos_placa_chuto, $vehiculos_color, $vehiculos_capacidad, $choferes_id,
+        $choferes_cedula, $choferes_nombre, $choferes_telefono, $territorios_origen, $territorios_destino, $rutas_id,
+        $rutas_origen, $rutas_destino, $rutas_ruta, $fecha, $user_id, $band, $created_at, $auditoria, $deleted_at,
+        $pdf_id, $pdf_impreso, $estatus, $precinto, $precinto_2, $version, $origen_municipio, $destino_municipio, $trayecto;
+
+
+
 
     public function isAdmin()
     {
@@ -32,6 +45,7 @@ class GuiasController extends Admin
         }
         $this->getNumeroGuia();
         $this->index();
+        $this->getFormato();
     }
 
     public function getVehiculo($id)
@@ -228,9 +242,117 @@ class GuiasController extends Admin
         $this->rows = $model->paginate($this->limit, $offset, 'id', 'DESC', 1);
     }
 
-    public function getRutas($id)
+    public function getGuiaPrint($id)
     {
+        $redireccionar = false;
+        if (empty($id)) {
+            $redireccionar = true;
+        }
+        $model = new Guia();
+        $guia = $model->find($id);
 
+        if ($guia){
+            //sigo procesando
+            $this->codigo = $guia['codigo'];
+            $this->guias_tipos_id = $guia['guias_tipos_id'];
+            $this->tipos_nombre = mb_strtoupper(verUtf8($guia['tipos_nombre']));
+            $this->vehiculos_id = $guia['vehiculos_id'];
+            $this->vehiculos_tipo = verUtf8($guia['vehiculos_tipo']);
+            $this->vehiculos_marca = mb_strtoupper(verUtf8($guia['vehiculos_marca']));
+            $this->vehiculos_placa_batea = mb_strtoupper(verUtf8($guia['vehiculos_placa_batea']));
+            $this->vehiculos_placa_chuto = mb_strtoupper(verUtf8($guia['vehiculos_placa_chuto']));
+            $this->vehiculos_color = mb_strtoupper(verUtf8($guia['vehiculos_color']));
+            $this->vehiculos_capacidad = mb_strtoupper($guia['vehiculos_capacidad']);
+            $this->choferes_id = $guia['choferes_id'];
+            $this->choferes_cedula = formatoMillares($guia['choferes_cedula']);
+            $this->choferes_nombre = mb_strtoupper(verUtf8($guia['choferes_nombre']));
+            $this->choferes_telefono = $guia['choferes_telefono'];
+            $this->territorios_origen = $guia['territorios_origen'];
+            $this->territorios_destino = $guia['territorios_destino'];
+            $this->rutas_id = $guia['rutas_id'];
+            $this->rutas_origen = mb_strtoupper(verUtf8($guia['rutas_origen']));
+            $this->rutas_destino = mb_strtoupper(verUtf8($guia['rutas_destino']));
+            $this->rutas_ruta = $guia['rutas_ruta'];
+            $this->fecha = verFecha($guia['fecha']);
+            $this->user_id = $guia['users_id'];
+            $this->band = $guia['band'];
+            $this->created_at = $guia['created_at'];
+            $this->auditoria = $guia['auditoria'];
+            $this->deleted_at = $guia['deleted_at'];
+            $this->pdf_id = $guia['pdf_id'];
+            $this->pdf_impreso = $guia['pdf_impreso'];
+            $this->estatus = $guia['estatus'];
+            if ($this->precinto){
+                $this->precinto = mb_strtoupper(verUtf8($guia['precinto']));
+            }
+            if ($this->precinto_2){
+                $this->precinto_2 = mb_strtoupper(verUtf8($guia['precinto_2']));
+            }
+            $this->version = $guia['version'];
+            $this->origen_municipio = $this->getGuiaMunicipio($this->territorios_origen, $this->version);
+            $this->destino_municipio = $this->getGuiaMunicipio($this->territorios_destino, $this->version);
+
+
+            $ruta = "";
+            if (is_array(json_decode($this->rutas_ruta))) {
+                $listarTerritorios = json_decode($guia['rutas_ruta']);
+                foreach ($listarTerritorios as $lugar) {
+                    $ruta .= ucfirst($lugar) . ", ";
+                }
+            }
+
+            $this->trayecto = $ruta;
+
+
+
+        }else{
+            $redireccionar = true;
+        }
+
+
+
+        if ($redireccionar){
+            header('location: ' . ROOT_PATH . 'admin\\');
+        }
+    }
+
+    public function getGuiaMunicipio($id, $version): string
+    {
+        $municipio = '';
+        if ($version){
+            //consulta las tablas nuevas
+        }else{
+            //consulto la tabla vieja
+            $model = new RutasTerritorio();
+            $ruta = $model->find($id);
+
+            if ($ruta){
+                $municipio = mb_strtoupper(verUtf8($ruta['municipio']));
+            }
+
+        }
+        return $municipio;
+    }
+
+    public function getFormato()
+    {
+        $model = new Parametro();
+        $parametro = $model->first('nombre', '=', 'guias_formatos_pdf');
+
+        if ($parametro){
+            //sequimos
+            if (!empty($parametro['valor']) && is_string($parametro['valor'])){
+                    if (url_exists(public_url('admin/guias/_storage/formatos/'.$parametro['valor'].'/'))){
+                        $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/'.$parametro['valor'].'/');
+                    }else{
+                        $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
+                    }
+            }else{
+                $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
+            }
+        }else{
+           $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
+        }
     }
 
 }

@@ -16,6 +16,7 @@
             <li>numRowsPaginate[null|int]</li>
             <li>guias_color_rgb[null|black/blue/(r,g,b)]</li>
             <li>guias_num_init[null|int]</li>
+            <li>guias_formatos_pdf[null|string]</li>
         </ul>
     </div>
 </div>

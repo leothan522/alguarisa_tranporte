@@ -71,4 +71,8 @@ $('#formulari_guia_init').submit(function (e) {
     }
 })
 
+function generarPDF(id) {
+    $('#btn_form_table_ver_pdf_formato_'+ id).click();
+}
+
 console.log('guias.js')

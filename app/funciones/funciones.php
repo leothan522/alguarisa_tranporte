@@ -218,7 +218,11 @@ function verHora($hora): string
 
 function verUtf8($string){
     //$utf8_string = "Some UTF-8 encoded BATE QUEBRADO ÑñíÍÁÜ niño ó Ó string: é, ö, ü";
-    return mb_convert_encoding($string, 'UTF-8');
+    if (!empty($string)){
+        return mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8');
+    }
+
+    return $string;
 }
 
 function numRowsPaginate(){
