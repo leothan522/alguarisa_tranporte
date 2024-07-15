@@ -69,6 +69,17 @@ if ($_POST) {
                     }
                     break;
 
+                case 'search':
+                    if (!empty($_POST['keyword'])){
+                        $paginate = true;
+                        $keyword = $_POST['keyword'];
+                        $controller->search($keyword);
+                        require '../_layout/guias/table.php';
+                    }else{
+                        $response = crearResponse('faltan_datos');
+                    }
+                    break;
+
 
                 //Por defecto
                 default:

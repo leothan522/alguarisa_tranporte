@@ -14,7 +14,7 @@ $i = $controller->offset;
                 <button type="button" class="btn btn btn-tool" onclick="initChoferes()">
                     <i class=" fas fa-times-circle"></i>
                 </button>
-            <?php }else{ ?>
+            <?php if (isset($controller->prueba)){echo $controller->prueba; } }else{ ?>
                 Registrados [
                 <span class="text-warning text-bold">
                     <?php echo formatoMillares($totalRowsGuias, 0); ?>

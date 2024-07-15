@@ -1,4 +1,5 @@
 datatable('table_guias');
+$("#navbar_buscar").removeClass('d-none');
 inputmask('#guias_num_init', 'numerico', 1, 8, '');
 
 function display(origen) {
@@ -74,5 +75,14 @@ $('#formulari_guia_init').submit(function (e) {
 function generarPDF(id) {
     $('#btn_form_table_ver_pdf_formato_'+ id).click();
 }
+
+$('#navbar_form_buscar').submit(function (e) {
+   e.preventDefault();
+    let keyword = $('#navbar_input_buscar').val();
+   ajaxRequest({url: '_request/GuiasRequest.php', data: { opcion: 'search', keyword: keyword},html: 'si'}, function (data) {
+       $('#div_guias').html(data.html);
+       datatable('table_guias');
+   });
+});
 
 console.log('guias.js')

@@ -21,6 +21,7 @@ class GuiasController extends Admin
     public $limit;
     public $offset;
     public $keyword;
+    public $prueba;
 
     public int $GUIAS_NUM_INIT = 0;
     public int $ID_GUIAS_NUM_INIT = 0;
@@ -355,4 +356,15 @@ class GuiasController extends Admin
         }
     }
 
+    public function search($keyword)
+    {
+        $model = new Guia();
+        if (strpos($keyword, '-')){
+
+        }
+        $this->totalRows = $model->count(1);
+        $sql = "SELECT * FROM guias WHERE fecha LIKE '%$keyword%' OR codigo LIKE '%$keyword%' OR rutas_destino LIKE '%$keyword%' OR choferes_nombre LIKE '%$keyword%' OR choferes_telefono LIKE '%$keyword%' OR vehiculos_placa_batea LIKE '%$keyword%' AND band = 1;";
+        $this->rows = $model->sqlPersonalizado($sql, 'getAll');
+        $this->keyword = $keyword;
+    }
 }

@@ -3418,10 +3418,11 @@ CREATE TABLE IF NOT EXISTS `municipios` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.municipios: ~14 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.municipios: ~15 rows (aproximadamente)
 INSERT INTO `municipios` (`id`, `nombre`, `mini`, `parroquias`, `familias`, `estatus`, `created_at`, `updated_at`) VALUES
+	(1, 'JUAN GERMAN ROSCIO NIEVES', 'ROSCIO', 3, 32586, 1, '2023-10-23 18:47:26', '2023-10-23 18:47:26'),
 	(2, 'FRANCISCO DE MIRANDA', 'MIRANDA', 4, 34452, 1, '2023-10-23 18:47:26', '2023-10-23 18:47:26'),
 	(3, 'LEONARDO INFANTE', 'INFANTE', 2, 24811, 1, '2023-10-23 18:47:26', '2023-10-23 18:47:26'),
 	(4, 'PEDRO ZARAZA', 'ZARAZA', 2, 20063, 1, '2023-10-23 18:47:26', '2023-10-23 18:47:26'),
@@ -3876,13 +3877,15 @@ CREATE TABLE IF NOT EXISTS `parametros` (
   `tabla_id` int DEFAULT NULL,
   `valor` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- Volcando datos para la tabla alguarisa_transporte.parametros: ~3 rows (aproximadamente)
 INSERT INTO `parametros` (`id`, `nombre`, `tabla_id`, `valor`) VALUES
 	(1, 'fecha_compilacion', NULL, '2024-05-07 14:39:21'),
 	(2, 'php_version', NULL, 'v.8'),
-	(6, 'guias_num_init', NULL, '10');
+	(6, 'guias_num_init', NULL, '10'),
+	(7, 'guias_color_rgb', NULL, 'blue'),
+	(8, 'guias_formatos_pdf', NULL, 'yonathan');
 
 -- Volcando estructura para tabla alguarisa_transporte.parroquias
 CREATE TABLE IF NOT EXISTS `parroquias` (
@@ -3897,9 +3900,9 @@ CREATE TABLE IF NOT EXISTS `parroquias` (
   PRIMARY KEY (`id`),
   KEY `parroquias_municipios_id_foreign` (`municipios_id`),
   CONSTRAINT `parroquias_municipios_id_foreign` FOREIGN KEY (`municipios_id`) REFERENCES `municipios` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.parroquias: ~36 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.parroquias: ~39 rows (aproximadamente)
 INSERT INTO `parroquias` (`id`, `nombre`, `mini`, `municipios_id`, `familias`, `estatus`, `created_at`, `updated_at`) VALUES
 	(1, 'CAMAGUAN', NULL, 7, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(2, 'PUERTO MIRANDA', NULL, 7, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
@@ -3919,6 +3922,9 @@ INSERT INTO `parroquias` (`id`, `nombre`, `mini`, `municipios_id`, `familias`, `
 	(16, 'PASO REAL DE MACAIRA', 'PASO REAL', 5, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(17, 'CARLOS SOUBLETTE', 'SOUBLETTE', 5, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(18, 'FRANCISCO JAVIER DE LAZAMA', 'LEZAMA', 5, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(19, 'SAN JUAN', NULL, 1, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(20, 'PARAPARA', NULL, 1, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
+	(21, 'CANTAGALLO', NULL, 1, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(22, 'LAS MERCEDES DEL LLANO', 'LAS MERCEDES', 12, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(23, 'SANTA RITA DE MANAPIRE', 'SANTA RITA', 12, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
 	(24, 'CABRUTA', NULL, 12, NULL, 1, '2023-09-27 12:03:48', '2023-09-27 12:03:48'),
@@ -4148,7 +4154,7 @@ CREATE TABLE IF NOT EXISTS `rutas` (
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- Volcando datos para la tabla alguarisa_transporte.rutas: ~16 rows (aproximadamente)
 INSERT INTO `rutas` (`id`, `origen`, `destino`, `ruta`, `band`, `version`, `created_at`, `updated_at`) VALUES
@@ -4167,7 +4173,8 @@ INSERT INTO `rutas` (`id`, `origen`, `destino`, `ruta`, `band`, `version`, `crea
 	(13, 1, 14, '["EL TOCO ","PAPARARA","ORTIZ","DOS CAMINOS","TIGUIGUE","EL SOMBRERO","CHAGUARAMA","VALLE DE LA PASCUA","EL SOCORRO"]', 1, 0, '2023-05-16', NULL),
 	(14, 1, 15, '["EL TOCO ","PAPARARA","ORTIZ","DOS CAMINOS","TIGUIGUE","EL SOMBRERO","CHAGUARAMA","VALLE DE LA PASCUA","TUCUPIDO"]', 1, 0, '2023-05-16', NULL),
 	(15, 1, 2, '["EL TOCO","PARAPARA","ORTIZ","DOS CAMINOS"]', 1, 0, '2023-05-30', NULL),
-	(16, 5, 9, '["valle de la pascua"]', 1, 0, '2023-07-20', NULL);
+	(16, 5, 9, '["valle de la pascua"]', 1, 0, '2023-07-20', NULL),
+	(17, 1, 2, '["gdfgdfg"]', 1, 1, '2024-07-12', NULL);
 
 -- Volcando estructura para tabla alguarisa_transporte.rutas_territorio
 CREATE TABLE IF NOT EXISTS `rutas_territorio` (
