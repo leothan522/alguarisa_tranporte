@@ -266,7 +266,7 @@ function verFechaLetras($fecha): string
     $meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
     $nombreMes = str_replace($meses_EN, $meses_ES, $mes);
     //return $nombredia . " " . $numeroDia . " de " . $nombreMes . " de " . $anio;
-    return "A los " . strtoupper($numero_ES[$numeroDia - 1]) . " (" . $numeroDia . ") DEL MES DE " . strtoupper($nombreMes) . " DEL AÑO " . $anio . ".";
+    return verUtf8("A los " . strtoupper($numero_ES[$numeroDia - 1]) . " (" . $numeroDia . ") DEL MES DE " . strtoupper($nombreMes) . " DEL AÑO " . $anio . ".");
 }
 
 function compararFechas($fechaInicial, $fechaFinal): float

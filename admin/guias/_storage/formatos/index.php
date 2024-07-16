@@ -56,51 +56,51 @@ $pdf->Ln(2);
 
 //CARGA *******************************************************************************
 
-/*$pdf->SetFillColor($r, $g, $b);
+$pdf->SetFillColor($controller->color_cargamento[0], $controller->color_cargamento[1], $controller->color_cargamento[2]);
 $pdf->SetFont('times', 'B', 10);
-if (!$guia['precinto'] && !$guia['precinto_2']){
+if (!$controller->precinto && !$controller->precinto_2){
     $pdf->Cell(30, 7, "", 0, 0, 'C');
-    $pdf->Cell(47, 7, textoUTF8('CANTIDAD'), 1, 0, 'C', 1);
-    $pdf->Cell(83, 7, textoUTF8('DESCRIPCIÓN DEL RUBRO'), 1, 0, 'C', 1);
+    $pdf->Cell(47, 7, verUtf8('CANTIDAD'), 1, 0, 'C', 1);
+    $pdf->Cell(83, 7, verUtf8('DESCRIPCIÓN DEL RUBRO'), 1, 0, 'C', 1);
     $pdf->Cell(30, 7, "", 0, 1, 'C');
     $pdf->SetFont('times', '', 10);
 
-    foreach ($listarCargamento as $carga) {
+    foreach ($controller->listarCargamento as $carga) {
         $pdf->Cell(30, 7, "", 0, 0, 'C');
-        $pdf->Cell(47, 7, textoUTF8(strtoupper($carga['cantidad'])), 1, 0, 'C');
-        $pdf->Cell(83, 7, textoUTF8(strtoupper($carga['descripcion'])), 1, 0, 'C');
+        $pdf->Cell(47, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
+        $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
         $pdf->Cell(30, 7, "", 0, 1, 'C');
     }
 }else{
     //con precinto
     $pdf->Cell(24, 7, "PRECINTO:", 1, 0, 'L',1);
-    $pdf->Cell(48, 7, textoUTF8(strtoupper($guia['precinto'])), 1, 0, 'C');
+    $pdf->Cell(48, 7, verUtf8(strtoupper($controller->precinto)), 1, 0, 'C');
     $pdf->Cell(5, 7, "", 0, 0, 'C');
 
-    $pdf->Cell(30, 7, textoUTF8('CANTIDAD'), 1, 0, 'C', 1);
-    $pdf->Cell(83, 7, textoUTF8('DESCRIPCIÓN DEL RUBRO'), 1, 1, 'C', 1);
+    $pdf->Cell(30, 7, verUtf8('CANTIDAD'), 1, 0, 'C', 1);
+    $pdf->Cell(83, 7, verUtf8('DESCRIPCIÓN DEL RUBRO'), 1, 1, 'C', 1);
     $pdf->SetFont('times', '', 10);
 
 
     $mostrar_precinto_2 = true;
-    foreach ($listarCargamento as $carga) {
-        if ($guia['precinto_2'] && $mostrar_precinto_2){
+    foreach ($controller->listarCargamento as $carga) {
+        if ($controller->precinto_2 && $mostrar_precinto_2){
             $pdf->SetFont('times', 'B', 10);
             $pdf->Cell(24, 7, "PRECINTO 2:", 1, 0, 'L',1);
-            $pdf->Cell(48, 7, textoUTF8(strtoupper($guia['precinto_2'])), 1, 0, 'C');
+            $pdf->Cell(48, 7, verUtf8(strtoupper($controller->precinto_2)), 1, 0, 'C');
             $pdf->Cell(5, 7, "", 0, 0, 'C');
             $mostrar_precinto_2 = false;
         }else{
             $pdf->Cell(77, 7, "", 0, 0, 'C');
         }
         $pdf->SetFont('times', '', 10);
-        $pdf->Cell(30, 7, textoUTF8(strtoupper($carga['cantidad'])), 1, 0, 'C');
-        $pdf->Cell(83, 7, textoUTF8(strtoupper($carga['descripcion'])), 1, 1, 'C');
+        $pdf->Cell(30, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
+        $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 1, 'C');
 
 
 
     }
-}*/
+}
 
 
 // notas ********************************************************************************************
@@ -112,8 +112,8 @@ $texto3 = "Nota: Se agradece a las autoridades Civiles y Militares de la Repúbl
 $pdf->MultiCell(0, 5, verUtf8($texto2), 0, 1);
 $pdf->MultiCell(0, 5, verUtf8($texto3), 0, 1,);
 $pdf->SetFont('times', 'B', 10);
-//$pdf->Cell(0, 5, textoUTF8('A los VEINTITRES (23) DIAS DEL MES DE MARZO DEL AÑO 2023.'), 0, 1, 'L');
-$pdf->Cell(0, 5, $controller->fecha, 0, 1, 'L');
+//$pdf->Cell(0, 5, verUtf8('A los VEINTITRES (23) DIAS DEL MES DE MARZO DEL AÑO 2023.'), 0, 1, 'L');
+$pdf->Cell(0, 5, verFechaLetras($controller->fecha), 0, 1, 'L');
 $pdf->SetFont('times', '', 10);
 $pdf->Ln(15);
 

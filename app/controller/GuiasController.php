@@ -6,7 +6,10 @@ use app\middleware\Admin;
 use app\model\Chofere;
 use app\model\Empresa;
 use app\model\Guia;
+use app\model\GuiasCarga;
+use app\model\Municipio;
 use app\model\Parametro;
+use app\model\Parroquia;
 use app\model\RutasTerritorio;
 use app\model\Vehiculo;
 
@@ -33,7 +36,8 @@ class GuiasController extends Admin
         $vehiculos_placa_batea, $vehiculos_placa_chuto, $vehiculos_color, $vehiculos_capacidad, $choferes_id,
         $choferes_cedula, $choferes_nombre, $choferes_telefono, $territorios_origen, $territorios_destino, $rutas_id,
         $rutas_origen, $rutas_destino, $rutas_ruta, $fecha, $user_id, $band, $created_at, $auditoria, $deleted_at,
-        $pdf_id, $pdf_impreso, $estatus, $precinto, $precinto_2, $version, $origen_municipio, $destino_municipio, $trayecto;
+        $pdf_id, $pdf_impreso, $estatus, $precinto, $precinto_2, $version, $origen_municipio, $destino_municipio, $trayecto,
+        $color_cargamento = [], $listarCargamento;
 
 
 
@@ -250,6 +254,8 @@ class GuiasController extends Admin
             $redireccionar = true;
         }
         $model = new Guia();
+        $modelCargamento = new GuiasCarga();
+
         $guia = $model->find($id);
 
         if ($guia){
@@ -266,7 +272,7 @@ class GuiasController extends Admin
             $this->vehiculos_capacidad = mb_strtoupper($guia['vehiculos_capacidad']);
             $this->choferes_id = $guia['choferes_id'];
             $this->choferes_cedula = formatoMillares($guia['choferes_cedula']);
-            $this->choferes_nombre = mb_strtoupper(verUtf8($guia['choferes_nombre']));
+            $this->choferes_nombre = mb_strtoupper($guia['choferes_nombre']);
             $this->choferes_telefono = $guia['choferes_telefono'];
             $this->territorios_origen = $guia['territorios_origen'];
             $this->territorios_destino = $guia['territorios_destino'];
@@ -304,6 +310,22 @@ class GuiasController extends Admin
 
             $this->trayecto = $ruta;
 
+            switch ($guia['guias_tipos_id']) {
+                case 2:
+                    $r = 255;
+                    $g = 95;
+                    $b = 53;
+                    $this->color_cargamento = [$r,$g,$b];
+                    break;
+                default:
+                    $r = 51;
+                    $g = 246;
+                    $b = 255;
+                    $this->color_cargamento = [$r,$g,$b];
+                    break;
+            }
+
+            $this->listarCargamento = $modelCargamento->getList('guias_id', '=', $guia['id']);
 
 
         }else{
@@ -322,6 +344,23 @@ class GuiasController extends Admin
         $municipio = '';
         if ($version){
             //consulta las tablas nuevas
+            $model = new Parroquia();
+            $modelMunicipio = new Municipio();
+            $modelParametro = new Parametro();
+            $ruta = $model->find($id);
+            $get_municipio = $modelMunicipio->find($ruta['municipios_id']);
+
+            if ($ruta){
+                $capital = '';
+                $parametro = $modelParametro->first('nombre', '=', 'id_capital_estado');
+                if ($parametro){
+                    if ($parametro['tabla_id'] == $get_municipio['id']){
+                        $capital = ' CAPITAL';
+                    }
+                }
+                $municipio = mb_strtoupper(verUtf8($get_municipio['nombre']. $capital));
+            }
+
         }else{
             //consulto la tabla vieja
             $model = new RutasTerritorio();
@@ -359,9 +398,6 @@ class GuiasController extends Admin
     public function search($keyword)
     {
         $model = new Guia();
-        if (strpos($keyword, '-')){
-
-        }
         $this->totalRows = $model->count(1);
         $sql = "SELECT * FROM guias WHERE fecha LIKE '%$keyword%' OR codigo LIKE '%$keyword%' OR rutas_destino LIKE '%$keyword%' OR choferes_nombre LIKE '%$keyword%' OR choferes_telefono LIKE '%$keyword%' OR vehiculos_placa_batea LIKE '%$keyword%' AND band = 1;";
         $this->rows = $model->sqlPersonalizado($sql, 'getAll');

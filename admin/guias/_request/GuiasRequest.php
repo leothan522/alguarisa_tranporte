@@ -3,6 +3,7 @@ session_start();
 require_once "../../../vendor/autoload.php";
 use app\controller\GuiasController;
 $controller = new GuiasController();
+$controller->isAdmin();
 
 $response = array();
 $paginate = false;
