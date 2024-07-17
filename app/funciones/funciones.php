@@ -181,9 +181,10 @@ function crearResponse($error = null, $result = false, $title = null, $message =
     return $response;
 }
 
-function verFecha($fecha): string
+function verFecha($fecha, $format = null): string
 {
-    $newDate = date("d-m-Y", strtotime($fecha));
+    if (is_null($format)){ $format = "d-m-Y"; }
+    $newDate = date($format, strtotime($fecha));
     return $newDate;
 }
 
@@ -194,15 +195,26 @@ function diaEspanol($fecha){
     return $dia;
 }
 
-function mesEspanol($numMes = null){
-    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+function mesEspanol($numMes = null): array|int|string|null
+{
+    $meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
     if (!is_null($numMes)){
-        $mes = $meses[$numMes - 1];
-        return $mes;
+        if (is_int($numMes) && $numMes > 0 && $numMes <= 12){
+            $mes = $meses[$numMes - 1];
+            return $mes;
+        }else{
+            if (in_array(strtolower($numMes), $meses)){
+                return array_search(strtolower($numMes), $meses) + 1;
+            }
+            return null;
+        }
+
     }else{
         return $meses;
     }
 }
+
+
 
 function cerosIzquierda($numero, $cant_ceros): string
 {
@@ -389,6 +401,14 @@ function borrarArchivos($path){
             unlink($path);
         }
     }
+}
+
+function validateSizeNumber($number=0, $lenght=0){
+
+    if( is_numeric($number) AND is_numeric($lenght) AND (strlen($number)==$lenght)) return true;
+
+    return false;
+
 }
 
 

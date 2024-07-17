@@ -11,7 +11,7 @@ $i = $controller->offset;
         <h3 class="card-title">
             <?php if (isset($keyword) && $keyword){ ?>
                 Búsqueda { <span class="text-warning text-bold"><?php echo $keyword?></span> }
-                <button type="button" class="btn btn btn-tool" onclick="initChoferes()">
+                <button type="button" class="btn btn btn-tool" onclick="reconstruirTablaGuias()">
                     <i class=" fas fa-times-circle"></i>
                 </button>
             <?php if (isset($controller->prueba)){echo $controller->prueba; } }else{ ?>
@@ -109,4 +109,5 @@ $i = $controller->offset;
         }
         ?>
     </div>
+    <?php verCargando(); ?>
 </div>

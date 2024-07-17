@@ -85,4 +85,11 @@ $('#navbar_form_buscar').submit(function (e) {
    });
 });
 
+function reconstruirTablaGuias() {
+    ajaxRequest({url: '_request/GuiasRequest.php', data: { opcion: 'index'},html: 'si'}, function (data) {
+        $('#div_guias').html(data.html);
+        datatable('table_guias');
+    });
+}
+
 console.log('guias.js')

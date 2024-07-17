@@ -33,6 +33,12 @@ if ($_POST) {
                     require '../_layout/guias/table.php';
                     break;
 
+                case 'index':
+                    $paginate = true;
+                    $controller->index();
+                    require '../_layout/guias/table.php';
+                    break;
+
                 case 'get_vehiculo':
                     if (!empty($_POST['id'])){
                         $id = $_POST['id'];

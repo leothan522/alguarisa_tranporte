@@ -3,7 +3,6 @@
 namespace app\controller;
 
 use app\middleware\Admin;
-use app\model\Chofere;
 use app\model\Empresa;
 use app\model\Guia;
 use app\model\GuiasCarga;
@@ -38,8 +37,6 @@ class GuiasController extends Admin
         $rutas_origen, $rutas_destino, $rutas_ruta, $fecha, $user_id, $band, $created_at, $auditoria, $deleted_at,
         $pdf_id, $pdf_impreso, $estatus, $precinto, $precinto_2, $version, $origen_municipio, $destino_municipio, $trayecto,
         $color_cargamento = [], $listarCargamento;
-
-
 
 
     public function isAdmin()
@@ -93,61 +90,61 @@ class GuiasController extends Admin
     public function getColor(): array
     {
         $model = new Parametro();
-        $color = [0,0,0];
+        $color = [0, 0, 0];
         $parametro = $model->first('nombre', '=', 'guias_color_rgb');
-        if ($parametro){
-           switch ($parametro['valor']){
-               case 'black':
-                   $r = 0;
-                   $g = 0;
-                   $b = 0;
-                   break;
+        if ($parametro) {
+            switch ($parametro['valor']) {
+                case 'black':
+                    $r = 0;
+                    $g = 0;
+                    $b = 0;
+                    break;
 
-               case 'blue':
-                   $r = 0;
-                   $g = 0;
-                   $b = 128;
-                   break;
+                case 'blue':
+                    $r = 0;
+                    $g = 0;
+                    $b = 128;
+                    break;
 
 
-               default:
+                default:
 
-                   $valor = strpos($parametro['valor'], ',');
-                   if ($valor === false){
-                       $r = 0;
-                       $g = 0;
-                       $b = 0;
-                   }else{
-                       $explode = explode(',', $parametro['valor']);
-                       if (count($explode) === 3){
-                           if (is_numeric($explode[0]) && ($explode[0] >= 0) && ($explode[0] <= 255)){
-                              $r = $explode[0];
-                           }else{
-                               $r = 0;
-                           }
+                    $valor = strpos($parametro['valor'], ',');
+                    if ($valor === false) {
+                        $r = 0;
+                        $g = 0;
+                        $b = 0;
+                    } else {
+                        $explode = explode(',', $parametro['valor']);
+                        if (count($explode) === 3) {
+                            if (is_numeric($explode[0]) && ($explode[0] >= 0) && ($explode[0] <= 255)) {
+                                $r = $explode[0];
+                            } else {
+                                $r = 0;
+                            }
 
-                           if (is_numeric($explode[1]) && ($explode[1] >= 0) && ($explode[1] <= 255)){
-                               $g = $explode[1];
-                           }else{
-                               $g = 0;
-                           }
+                            if (is_numeric($explode[1]) && ($explode[1] >= 0) && ($explode[1] <= 255)) {
+                                $g = $explode[1];
+                            } else {
+                                $g = 0;
+                            }
 
-                           if (is_numeric($explode[2]) && ($explode[2] >= 0) && ($explode[2] <= 255)){
-                               $b = $explode[1];
-                           }else{
-                               $b = 0;
-                           }
+                            if (is_numeric($explode[2]) && ($explode[2] >= 0) && ($explode[2] <= 255)) {
+                                $b = $explode[1];
+                            } else {
+                                $b = 0;
+                            }
 
-                       }else{
-                           $r = 0;
-                           $g = 0;
-                           $b = 0;
-                       }
-                   }
+                        } else {
+                            $r = 0;
+                            $g = 0;
+                            $b = 0;
+                        }
+                    }
 
-               break;
-           }
-           $color = [$r,$g,$b];
+                    break;
+            }
+            $color = [$r, $g, $b];
         }
         return $color;
     }
@@ -156,7 +153,7 @@ class GuiasController extends Admin
     {
         $model = new Parametro();
         $parametro = $model->first('nombre', '=', 'guias_num_init');
-        if ($parametro){
+        if ($parametro) {
             $this->GUIAS_NUM_INIT = $parametro['valor'];
             $this->ID_GUIAS_NUM_INIT = $parametro['id'];
         }
@@ -168,24 +165,24 @@ class GuiasController extends Admin
         $actual = $this->GUIAS_NUM_INIT;
         $model = new Parametro();
 
-        if ($num_guia > $actual || $this->USER_ROLE > 99){
-           if ($this->ID_GUIAS_NUM_INIT){
-              $model->update($this->ID_GUIAS_NUM_INIT, 'valor', $num_guia);
-           }else{
-               $data = [
-                   'guias_num_init',
-                   null,
-                   $num_guia
-               ];
-               $model->save($data);
-           }
+        if ($num_guia > $actual || $this->USER_ROLE > 99) {
+            if ($this->ID_GUIAS_NUM_INIT) {
+                $model->update($this->ID_GUIAS_NUM_INIT, 'valor', $num_guia);
+            } else {
+                $data = [
+                    'guias_num_init',
+                    null,
+                    $num_guia
+                ];
+                $model->save($data);
+            }
             $response = crearResponse(
                 false,
                 true,
-                'Numero de Guia Actualizado.'. $this->ID_GUIAS_NUM_INIT
+                'Numero de Guia Actualizado.' . $this->ID_GUIAS_NUM_INIT
             );
-        }else{
-            if ($num_guia == $actual){
+        } else {
+            if ($num_guia == $actual) {
                 $response = crearResponse(
                     'sin_cambios',
                     false,
@@ -194,12 +191,12 @@ class GuiasController extends Admin
                     'warning',
                     true
                 );
-            }else{
+            } else {
                 $response = crearResponse(
                     'numero_menor',
                     false,
                     '¡Número Menor!',
-                    'El nuevo número para las Guias debe ser mayor al número actual. El número actual es '. formatoMillares($actual, 0),
+                    'El nuevo número para las Guias debe ser mayor al número actual. El número actual es ' . formatoMillares($actual, 0),
                     'warning',
                     true
                 );
@@ -258,7 +255,7 @@ class GuiasController extends Admin
 
         $guia = $model->find($id);
 
-        if ($guia){
+        if ($guia) {
             //sigo procesando
             $this->codigo = $guia['codigo'];
             $this->guias_tipos_id = $guia['guias_tipos_id'];
@@ -289,10 +286,10 @@ class GuiasController extends Admin
             $this->pdf_id = $guia['pdf_id'];
             $this->pdf_impreso = $guia['pdf_impreso'];
             $this->estatus = $guia['estatus'];
-            if ($this->precinto){
+            if ($this->precinto) {
                 $this->precinto = mb_strtoupper(verUtf8($guia['precinto']));
             }
-            if ($this->precinto_2){
+            if ($this->precinto_2) {
                 $this->precinto_2 = mb_strtoupper(verUtf8($guia['precinto_2']));
             }
             $this->version = $guia['version'];
@@ -315,26 +312,25 @@ class GuiasController extends Admin
                     $r = 255;
                     $g = 95;
                     $b = 53;
-                    $this->color_cargamento = [$r,$g,$b];
+                    $this->color_cargamento = [$r, $g, $b];
                     break;
                 default:
                     $r = 51;
                     $g = 246;
                     $b = 255;
-                    $this->color_cargamento = [$r,$g,$b];
+                    $this->color_cargamento = [$r, $g, $b];
                     break;
             }
 
             $this->listarCargamento = $modelCargamento->getList('guias_id', '=', $guia['id']);
 
 
-        }else{
+        } else {
             $redireccionar = true;
         }
 
 
-
-        if ($redireccionar){
+        if ($redireccionar) {
             header('location: ' . ROOT_PATH . 'admin\\');
         }
     }
@@ -342,7 +338,7 @@ class GuiasController extends Admin
     public function getGuiaMunicipio($id, $version): string
     {
         $municipio = '';
-        if ($version){
+        if ($version) {
             //consulta las tablas nuevas
             $model = new Parroquia();
             $modelMunicipio = new Municipio();
@@ -350,23 +346,23 @@ class GuiasController extends Admin
             $ruta = $model->find($id);
             $get_municipio = $modelMunicipio->find($ruta['municipios_id']);
 
-            if ($ruta){
+            if ($ruta) {
                 $capital = '';
                 $parametro = $modelParametro->first('nombre', '=', 'id_capital_estado');
-                if ($parametro){
-                    if ($parametro['tabla_id'] == $get_municipio['id']){
+                if ($parametro) {
+                    if ($parametro['tabla_id'] == $get_municipio['id']) {
                         $capital = ' CAPITAL';
                     }
                 }
-                $municipio = mb_strtoupper(verUtf8($get_municipio['nombre']. $capital));
+                $municipio = mb_strtoupper(verUtf8($get_municipio['nombre'] . $capital));
             }
 
-        }else{
+        } else {
             //consulto la tabla vieja
             $model = new RutasTerritorio();
             $ruta = $model->find($id);
 
-            if ($ruta){
+            if ($ruta) {
                 $municipio = mb_strtoupper(verUtf8($ruta['municipio']));
             }
 
@@ -379,27 +375,115 @@ class GuiasController extends Admin
         $model = new Parametro();
         $parametro = $model->first('nombre', '=', 'guias_formatos_pdf');
 
-        if ($parametro){
+        if ($parametro) {
             //sequimos
-            if (!empty($parametro['valor']) && is_string($parametro['valor'])){
-                    if (url_exists(public_url('admin/guias/_storage/formatos/'.$parametro['valor'].'/'))){
-                        $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/'.$parametro['valor'].'/');
-                    }else{
-                        $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
-                    }
-            }else{
+            if (!empty($parametro['valor']) && is_string($parametro['valor'])) {
+                if (url_exists(public_url('admin/guias/_storage/formatos/' . $parametro['valor'] . '/'))) {
+                    $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/' . $parametro['valor'] . '/');
+                } else {
+                    $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
+                }
+            } else {
                 $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
             }
-        }else{
-           $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
+        } else {
+            $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
         }
     }
-
+    
     public function search($keyword)
     {
+
+        $sql_fecha =  ''; //"fecha LIKE '%$keyword%'";
+        $sql_codigo = ''; //"codigo LIKE '%$keyword%'";
+        $sql_destino = ''; //"rutas_destino LIKE '%$keyword%'";
+        $sql_chofer = ''; //"choferes_nombre LIKE '%$keyword%'";
+        $sql_placa = ''; //"vehiculos_placa_batea LIKE '%$keyword%' ";
+
+        $or_1 = '';
+        $or_2 = '';
+        $or_3 = '';
+        $or_4 = '';
+        $and = '';
+
+        //validamos si es una fecha
+        if (strtotime($keyword)){
+            $fecha = null;
+
+            switch ($fecha){
+                default:
+                    $fecha = verFecha($keyword, "Y-m-d");
+                    $sql_fecha = " fecha LIKE '%$fecha%' ";
+                    break;
+            }
+
+        }else{
+
+            $explode = explode('-', $keyword, 2);
+            if (count($explode) > 1){
+                //$this->prueba = count($explode);
+                $mes = null;
+                $year = null;
+                if (validateSizeNumber($explode[1], 4)){
+                    $year = $explode[1];
+                }
+
+                if (mesEspanol($explode[0])){
+                    $mes = cerosIzquierda(mesEspanol($explode[0]), 2);
+                }
+
+                if ($mes && $year){
+                    $sql_fecha = " fecha LIKE '%$year-$mes%' ";
+                }else{
+                    $sql_codigo = " codigo LIKE '%$keyword%' ";
+                    $sql_destino = " rutas_destino LIKE '%$keyword%' ";
+                    $sql_chofer = " choferes_nombre LIKE '%$keyword%' ";
+                    $sql_placa = " vehiculos_placa_batea LIKE '%$keyword%' ";
+                }
+
+            }else{
+                $sql_codigo = " codigo LIKE '%$keyword%' ";
+                $sql_destino = " rutas_destino LIKE '%$keyword%' ";
+                $sql_chofer = " choferes_nombre LIKE '%$keyword%' ";
+                $sql_placa = " vehiculos_placa_batea LIKE '%$keyword%' ";
+            }
+        }
+
+
+        if (!empty($sql_fecha) && !empty($sql_codigo)){
+            $or_1 = 'OR';
+        }
+
+        if (!empty($sql_codigo) && !empty($sql_destino)){
+            $or_2 = 'OR';
+        }
+
+        if (!empty($sql_destino) && !empty($sql_chofer)){
+            $or_3 = 'OR';
+        }
+
+        if (!empty($sql_chofer) && !empty($sql_placa)){
+            $or_4 = 'OR';
+        }
+
+        if (!empty($sql_fecha) || !empty($sql_codigo) || !empty($sql_destino) || !empty($sql_chofer) || !empty($sql_placa)){
+            $and = 'AND';
+        }
+
         $model = new Guia();
-        $this->totalRows = $model->count(1);
-        $sql = "SELECT * FROM guias WHERE fecha LIKE '%$keyword%' OR codigo LIKE '%$keyword%' OR rutas_destino LIKE '%$keyword%' OR choferes_nombre LIKE '%$keyword%' OR choferes_telefono LIKE '%$keyword%' OR vehiculos_placa_batea LIKE '%$keyword%' AND band = 1;";
+        $sql = "SELECT * FROM guias WHERE 
+        $sql_fecha 
+        $or_1
+        $sql_codigo 
+        $or_2
+        $sql_destino
+        $or_3
+        $sql_chofer
+        $or_4
+        $sql_placa
+        $and
+        band = 1;";
+
         $this->rows = $model->sqlPersonalizado($sql, 'getAll');
         $this->keyword = $keyword;
     }
