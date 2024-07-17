@@ -408,15 +408,8 @@ class GuiasController extends Admin
 
         //validamos si es una fecha
         if (strtotime($keyword)){
-            $fecha = null;
-
-            switch ($fecha){
-                default:
-                    $fecha = verFecha($keyword, "Y-m-d");
-                    $sql_fecha = " fecha LIKE '%$fecha%' ";
-                    break;
-            }
-
+            $fecha = verFecha($keyword, "Y-m-d");
+            $sql_fecha = " fecha LIKE '%$fecha%' ";
         }else{
 
             $explode = explode('-', $keyword, 2);
