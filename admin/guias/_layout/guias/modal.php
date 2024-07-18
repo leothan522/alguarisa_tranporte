@@ -38,19 +38,19 @@
             </div>
             <div class="modal-footer justify-content-end">
                 <div class="row col-12 justify-content-between m-0 p-0">
-                    <div class="justify-content-center d-none">
-                        <button type="button" class="btn btn-danger" id="modal_ruta_btn_editar" >
+                    <div class="justify-content-center" id="div_btn_show">
+                        <button type="button" class="btn btn-danger" id="modal_guia_btn_anular" >
                             <i class="fas fa-ban"></i> Anular
                         </button>
-                        <button type="button" class="btn btn-info" id="modal_ruta_btn_editar" >
+                        <button type="button" class="btn btn-info"  id="modal_guia_btn_editar" >
                             <i class="fas fa-edit"></i> Editar
                         </button>
-                        <button type="button" class="btn btn-primary" id="modal_ruta_btn_editar" >
+                        <button type="button" class="btn btn-primary" id="modal_guia_btn_descargar" >
                             <i class="far fa-file-alt"></i> Descargar
                         </button>
                     </div>
-                    <div class="justify-content-center">
-                        <button type="button" class="btn btn-primary" id="modal_ruta_btn_editar" >
+                    <div class="justify-content-center" id="div_btn_form">
+                        <button type="submit" form="form_guias" class="btn btn-primary" id="modal_guia_btn_guardar" >
                             Guardar
                         </button>
                     </div>

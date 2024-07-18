@@ -25,7 +25,7 @@ $i = $controller->offset;
 
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-toggle="modal"
-                    data-target="#modal_create_guia" >
+                    data-target="#modal_create_guia" onclick="displayGuias('form')">
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>
 
@@ -76,7 +76,8 @@ $i = $controller->offset;
                            </td>
                            <td>
                                <div class="btn-group btn-group-sm">
-                                   <button type="button" class="btn btn-info">
+                                   <button type="button" class="btn btn-info" data-toggle="modal"
+                                           data-target="#modal_create_guia" onclick="showGuia(<?php echo $guia['id']; ?>)">
                                        <i class="fas fa-eye"></i>
                                    </button>
                                    <button type="button" class="btn btn-info" onclick="generarPDF(<?php echo $guia['id']; ?>)">

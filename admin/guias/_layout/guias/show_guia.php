@@ -7,8 +7,8 @@
                 <img class="img-circle elevation-2" src="<?php asset('public/img/preloader_171x171.png'); ?>" alt="User Avatar">
             </div>
             <!-- /.widget-user-image -->
-            <h3 class="widget-user-username" id="title_show_guia">Destino</h3>
-            <h5 class="widget-user-desc">Codigo</h5>
+            <h3 class="widget-user-username" id="show_guias_destino">Destino</h3>
+            <h5 class="widget-user-desc" id="show_guias_codigo">Codigo</h5>
         </div>
         <div class="card-footer p-0">
             <ul class="nav flex-column">
@@ -34,7 +34,7 @@
                 </li>
                 <li class="nav-item pr-5 pl-5 pt-3">
                     <div class="table-responsive">
-                        <table class="table table-sm table-bordered" id="dataTable">
+                        <table class="table table-sm table-bordered" id="show_table_guias_cargamento">
                             <thead>
                             <tr class="text-center bg-info">
                                 <th class="text-left" style="width: 30%;">Cantidad</th>
@@ -43,10 +43,7 @@
                             </thead>
 
                             <tbody id="show_guias_cargamento">
-                            <tr>
-                                <td>RUBROS</td>
-                                <td class="text-left">CON RESPALDO ANEXO</td>
-                            </tr>
+                            <!-- lo relleno con js  -->
                             </tbody>
                         </table>
                     </div>

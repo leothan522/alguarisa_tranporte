@@ -92,4 +92,97 @@ function reconstruirTablaGuias() {
     });
 }
 
+function displayGuias(init = 'true') {
+    verSpinner(true);
+
+    switch (init) {
+        case "form":
+            $('#div_btn_show').addClass("d-none");
+            $('#div_btn_form').removeClass("d-none");
+            if ($("#row_form_guias").hasClass("d-none")) {
+                $('#row_form_guias').removeClass('d-none');
+            }
+
+            if (!$("#row_show_guias").hasClass("d-none")) {
+                $('#row_show_guias').addClass('d-none');
+            }
+            break;
+
+        case "show":
+            $('#div_btn_show').removeClass('d-none');
+            $('#div_btn_form').addClass('d-none');
+            if (!$("#row_form_guias").hasClass("d-none")) {
+                $('#row_form_guias').addClass('d-none');
+            }
+
+            if ($("#row_show_guias").hasClass("d-none")) {
+                $('#row_show_guias').removeClass('d-none');
+            }
+            break;
+
+        default:
+            if ($("#row_form_guias").hasClass("d-none")) {
+                $('#row_form_guias').addClass('d-none');
+            }
+
+            if (!$("#row_show_guias").hasClass("d-none")) {
+                $('#row_show_guias').addClass('d-none');
+            }
+            break;
+    }
+
+    verSpinner(false);
+}
+
+function editGuia(id) {
+    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'get_guia', id: id}}, function (data) {
+        if (data.result){
+
+
+            displayGuias('form');
+        }
+    });
+}
+
+function showGuia(id) {
+
+    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'show_guia', id: id}}, function (data) {
+        if (data.result){
+            $('#show_guias_destino').text(data.destino);
+            $('#show_guias_codigo').text(data.codigo);
+            $('#show_guias_fecha').text(data.fecha);
+            $('#show_guias_tipo').text(data.tipo);
+            $('#show_guias_origen').text(data.origen);
+            $('#show_guias_tipo_vehiculo').text(data.vehiculo_tipo);
+            $('#show_guias_placa_batea').text(data.vehiculo_placa_batea);
+            $('#show_guias_placa_chuto').text(data.vehiculo_placa_chuto);
+            $('#show_guias_marca').text(data.vehiculo_marca);
+            $('#show_guias_color').text(data.vehiculo_color);
+            $('#show_guias_capacidad').text(data.vehiculo_capacidad);
+            $('#show_guias_chofer').text(data.chofer);
+            $('#show_guias_cedula').text(data.chofer_cedula);
+            $('#show_guias_telefono').text(data.chofer_telefono);
+
+            let cargamento = data.listarCarga.length;
+            $('#show_guias_cargamento').empty();
+            for (let i = 0; i < cargamento; i++) {
+                let cantidad = data.listarCarga[i]['cantidad'];
+                let descripcion = data.listarCarga[i]['descripcion'];
+
+                let row = '<tr>\n' +
+                    '         <td>'+cantidad+'</td>\n' +
+                    '         <td class="text-left">'+descripcion+'</td>\n' +
+                    '      </tr>'
+
+                $('#show_guias_cargamento').append(row);
+
+            }
+
+            displayGuias('show');
+            $('#modal_guia_btn_editar').attr('onclick', 'editGuia('+id+')');
+            $('#modal_guia_btn_descargar').attr('onclick', 'generarPDF('+id+')');
+        }
+    });
+}
+
 console.log('guias.js')

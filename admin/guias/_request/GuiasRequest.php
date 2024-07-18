@@ -87,6 +87,23 @@ if ($_POST) {
                     }
                     break;
 
+                case 'get_guia':
+                    if (!empty($_POST['id'])){
+                        $id = $_POST['id'];
+                        $response = $controller->getGuia($id);
+                    }else{
+                        $response = crearResponse('faltan_datos');
+                    }
+                    break;
+
+                case 'show_guia':
+                    if (!empty($_POST['id'])){
+                        $id = $_POST['id'];
+                        $response = $controller->showGuia($id);
+                    }else{
+                        $response = crearResponse('faltan_datos');
+                    }
+                    break;
 
                 //Por defecto
                 default:

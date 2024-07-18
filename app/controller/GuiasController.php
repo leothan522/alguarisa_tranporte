@@ -6,6 +6,7 @@ use app\middleware\Admin;
 use app\model\Empresa;
 use app\model\Guia;
 use app\model\GuiasCarga;
+use app\model\GuiasTipo;
 use app\model\Municipio;
 use app\model\Parametro;
 use app\model\Parroquia;
@@ -479,5 +480,83 @@ class GuiasController extends Admin
 
         $this->rows = $model->sqlPersonalizado($sql, 'getAll');
         $this->keyword = $keyword;
+    }
+
+    public function getGuia($id): array
+    {
+        $model = new Guia();
+        $modelCarga = new GuiasCarga();
+        $guia = $model->find($id);
+        $cargamento = $modelCarga->getList('guias_id', '=', $id);
+        $response = crearResponse(
+            false,
+            true,
+            'Editar Guia',
+            'Editar Guia',
+            'success',
+            false,
+            true
+        );
+        $response['id'] = $guia['id'];
+        $response['tipo'] = $guia['guias_tipos_id'];
+        $response['codigo'] = $guia['codigo'];
+        $response['vehiculo'] = $guia['vehiculos_id'];
+        $response['chofer'] = $guia['choferes_id'];
+        $response['origen'] = $guia['territorios_origen'];
+        $response['destino'] = $guia['territorios_destino'];
+        $response['fecha'] = verFecha($guia['fecha']);
+        $response['precinto'] = $guia['precinto'];
+        $response['precinto_2'] = $guia['precinto_2'];
+        foreach ($cargamento as $carga){
+            $id = $carga['id'];
+            $cantidad = $carga['cantidad'];
+            $descripcion = $carga['descripcion'];
+            $response['listarCarga'][] = array("id" => mb_strtoupper($id), "cantidad" => $cantidad, "descripcion" => mb_strtoupper($descripcion));
+        }
+
+        return $response;
+    }
+
+
+    public function showGuia($id): array
+    {
+        $model = new Guia();
+        $modelCarga = new GuiasCarga();
+        $modelGuiasTipo = new GuiasTipo();
+        $guia = $model->find($id);
+        $cargamento = $modelCarga->getList('guias_id', '=', $id);
+        $tipoGuia = $modelGuiasTipo->find($guia['guias_tipos_id']);
+        $response = crearResponse(
+            false,
+            true,
+            'show Guia',
+            'show Guia',
+            'success',
+            false,
+            true
+        );
+        $response['id'] = $guia['id'];
+        $response['destino'] = $guia['rutas_destino'];
+        $response['codigo'] = $guia['codigo'];
+        $response['fecha'] = verFecha($guia['fecha']);
+        $response['tipo'] = $tipoGuia['nombre'];
+        $response['origen'] = $guia['rutas_origen'];
+        foreach ($cargamento as $carga){
+            $id = $carga['id'];
+            $cantidad = $carga['cantidad'];
+            $descripcion = $carga['descripcion'];
+            $response['listarCarga'][] = array("id" => mb_strtoupper($id), "cantidad" => $cantidad, "descripcion" => mb_strtoupper($descripcion));
+        }
+        $response['vehiculo_tipo'] = $guia['vehiculos_tipo'];
+        $response['vehiculo_placa_batea'] = $guia['vehiculos_placa_batea'];
+        $response['vehiculo_placa_chuto'] = $guia['vehiculos_placa_chuto'];
+        $response['vehiculo_marca'] = $guia['vehiculos_marca'];
+        $response['vehiculo_color'] = $guia['vehiculos_color'];
+        $response['vehiculo_capacidad'] = $guia['vehiculos_capacidad'];
+        $response['chofer'] = $guia['choferes_nombre'];
+        $response['chofer_cedula'] = formatoMillares($guia['choferes_cedula']);
+        $response['chofer_telefono'] = $guia['choferes_telefono'];
+
+        return $response;
     }
 }
