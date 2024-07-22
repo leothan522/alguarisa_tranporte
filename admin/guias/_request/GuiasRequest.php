@@ -87,7 +87,49 @@ if ($_POST) {
                     }
                     break;
 
-                case 'get_guia':
+                case 'get_select_guia':
+                    $response = crearResponse(
+                        null,
+                        true,
+                        null,
+                        null,
+                        'success',
+                        false,
+                        true);
+                    $selectGuiaResponse  = $controller->getSelectGuia();
+
+                    foreach ($selectGuiaResponse['territorio'] as $lugar) {
+                        $id = $lugar['id'];
+                        $nombre = $lugar['nombre'];
+                        $response['listarTerritorios'][] = array("id" => $id,"nombre" => $nombre);
+                    }
+
+                    foreach ($selectGuiaResponse['guiasTipo'] as $tipo){
+                        $id = $tipo['id'];
+                        $nombre = $tipo['nombre'];
+                        $codigo = $tipo['codigo'];
+                        $response['listarTipos'][] = array("id" => $id, "nombre" => $nombre, "codigo" => $codigo);
+                    }
+
+                    foreach ($selectGuiaResponse['vehiculos'] as $vehiculo) {
+                        $id = $vehiculo['id'];
+                        $placa = $vehiculo['placa_batea'];
+                        $tipo = $controller->getTipoVehiculo($vehiculo['tipo']);
+                        $nombre = $tipo['nombre'];
+                        $response['listarVehiculos'][] = array("id" => $id, "placa" => $placa, "tipo" => $nombre);
+                    }
+
+                    foreach ($selectGuiaResponse['choferes'] as $chofer){
+                        $id = $chofer['id'];
+                        $cedula = $chofer['cedula'];
+                        $nombre = $chofer['nombre'];
+                        $response['listarChofer'][] = array("id" => $id, "nombre" => $nombre, "cedula" => $cedula);
+                    }
+
+
+                    break;
+
+                case 'edit_guia':
                     if (!empty($_POST['id'])){
                         $id = $_POST['id'];
                         $response = $controller->getGuia($id);

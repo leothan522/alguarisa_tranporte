@@ -59,7 +59,7 @@
                     </span>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item" id="li_show_placa_chuto">
                     <span class="nav-link">
                         Placa Chuto <span class="float-right text-primary" id="show_guias_placa_chuto">12</span>
                     </span>

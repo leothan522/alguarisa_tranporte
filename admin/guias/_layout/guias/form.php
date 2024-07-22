@@ -71,8 +71,7 @@
             <div class="row ml-1 mr-1 mb-3">
                 <span class="col-4 input-group-text">Fecha Guía</span>
                 <span class="col-8">
-                    <select class="select2bs4" data-placeholder="Seleccionar" name="fecha" id="form_guias_fecha">
-                    <option value="">Seleccione</option>
+                    <input class="form-control" type="date" name="fecha" id="form_guias_fecha">
                 </select>
                 </span>
             </div>

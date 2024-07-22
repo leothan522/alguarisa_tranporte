@@ -25,7 +25,7 @@ $i = $controller->offset;
 
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-toggle="modal"
-                    data-target="#modal_create_guia" onclick="displayGuias('form')">
+                    data-target="#modal_create_guia" onclick="getSelectGuia()">
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>
 

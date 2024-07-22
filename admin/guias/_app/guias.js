@@ -134,9 +134,62 @@ function displayGuias(init = 'true') {
     verSpinner(false);
 }
 
-function editGuia(id) {
-    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'get_guia', id: id}}, function (data) {
+function getSelectGuia() {
+    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'get_select_guia'}}, function (data) {
         if (data.result){
+
+            let selectTipo = $('#form_guias_tipo');
+            let tipo = data.listarTipos.length;
+            selectTipo.empty();
+            selectTipo.append('<option value="">Seleccione</option>');
+            for (let i = 0; i < tipo; i++) {
+                let id = data.listarTipos[i]['id'];
+                let nombre = data.listarTipos[i]['nombre'];
+                selectTipo.append('<option value="' + id + '">' + nombre + '</option>');
+            }
+
+            let selectVehiculo = $('#form_guias_vehiculo');
+            let vehiculos = data.listarVehiculos.length;
+            selectVehiculo.empty();
+            selectVehiculo.append('<option value="">Seleccione</option>');
+            for (let i = 0; i < vehiculos; i++) {
+                let id = data.listarVehiculos[i]['id'];
+                let placa = data.listarVehiculos[i]['placa'];
+                let tipo = data.listarVehiculos[i]['tipo'];
+                selectVehiculo.append('<option value="' + id + '">' + placa + ' - ' + tipo + '</option>');
+            }
+
+            let selectChofer = $('#form_guias_chofer');
+            let chofer = data.listarChofer.length;
+            selectChofer.empty();
+            selectChofer.append('<option value="">Seleccione</option>');
+            for (let i = 0; i < chofer; i++) {
+                let id = data.listarChofer[i]['id'];
+                let cedula = data.listarChofer[i]['cedula'];
+                let nombre = data.listarChofer[i]['nombre'];
+                selectChofer.append('<option value="' + id + '">' + cedula + ' - ' + nombre + '</option>');
+            }
+
+            let selecOrigen = $('#form_guias_origen');
+            let origen = data.listarTerritorios.length;
+            selecOrigen.empty();
+            selecOrigen.append('<option value="">Seleccione</option>');
+            for (let i = 0; i < origen; i++) {
+                let id = data.listarTerritorios[i]['id'];
+                let nombre = data.listarTerritorios[i]['nombre'];
+                selecOrigen.append('<option value="' + id + '">' + nombre + '</option>');
+            }
+
+            let selecDestino = $('#form_guias_destino');
+            let destino = data.listarTerritorios.length;
+            selecDestino.empty();
+            selecDestino.append('<option value="">Seleccione</option>');
+            for (let i = 0; i < destino; i++) {
+                let id = data.listarTerritorios[i]['id'];
+                let nombre = data.listarTerritorios[i]['nombre'];
+                selecDestino.append('<option value="' + id + '">' + nombre + '</option>');
+            }
+
 
 
             displayGuias('form');
@@ -155,7 +208,12 @@ function showGuia(id) {
             $('#show_guias_origen').text(data.origen);
             $('#show_guias_tipo_vehiculo').text(data.vehiculo_tipo);
             $('#show_guias_placa_batea').text(data.vehiculo_placa_batea);
-            $('#show_guias_placa_chuto').text(data.vehiculo_placa_chuto);
+            if (data.vehiculo_placa_chuto.length > 0){
+                $('#li_show_placa_chuto').removeClass('d-none');
+                $('#show_guias_placa_chuto').text(data.vehiculo_placa_chuto);
+            }else {
+                $('#li_show_placa_chuto').addClass('d-none');
+            }
             $('#show_guias_marca').text(data.vehiculo_marca);
             $('#show_guias_color').text(data.vehiculo_color);
             $('#show_guias_capacidad').text(data.vehiculo_capacidad);

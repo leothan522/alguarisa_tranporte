@@ -3,6 +3,7 @@
 namespace app\controller;
 
 use app\middleware\Admin;
+use app\model\Chofere;
 use app\model\Empresa;
 use app\model\Guia;
 use app\model\GuiasCarga;
@@ -12,6 +13,7 @@ use app\model\Parametro;
 use app\model\Parroquia;
 use app\model\RutasTerritorio;
 use app\model\Vehiculo;
+use app\model\VehiculoTipo;
 
 class GuiasController extends Admin
 {
@@ -517,7 +519,6 @@ class GuiasController extends Admin
         return $response;
     }
 
-
     public function showGuia($id): array
     {
         $model = new Guia();
@@ -558,5 +559,43 @@ class GuiasController extends Admin
         $response['chofer_telefono'] = $guia['choferes_telefono'];
 
         return $response;
+    }
+
+    public function getTipoVehiculo($id = null)
+    {
+        $model = new VehiculoTipo();
+
+        if ($id) {
+            return $model->first('id', '=', $id);
+        }
+
+        return $model->getAll();
+    }
+
+    public function getSelectGuia()
+    {
+        $model = new Guia();
+        $modelTerritorio = new Parroquia();
+        $modelGuiasTipo = new GuiasTipo();
+        $modelVehiculos = new Vehiculo();
+        $modelChofer = new Chofere();
+
+        $guia = $model->getAll(1);
+        $sql = "SELECT * FROM parroquias WHERE estatus = '1';";
+        $parroquias = $modelTerritorio->sqlPersonalizado($sql, 'getAll');
+        $guiasTipo = $modelGuiasTipo->getAll();
+        $vehiculos = $modelVehiculos->getAll(1);
+        $chofer = $modelChofer->getAll(1);
+
+
+        $response = [
+            'guia' => $guia,
+            'territorio' => $parroquias,
+            'guiasTipo' => $guiasTipo,
+            'vehiculos' => $vehiculos,
+            'choferes' => $chofer
+        ];
+        return $response;
+
     }
 }
