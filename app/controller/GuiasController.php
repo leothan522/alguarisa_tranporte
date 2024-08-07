@@ -7,10 +7,12 @@ use app\model\Chofere;
 use app\model\Empresa;
 use app\model\Guia;
 use app\model\GuiasCarga;
+use app\model\GuiasFormato;
 use app\model\GuiasTipo;
 use app\model\Municipio;
 use app\model\Parametro;
 use app\model\Parroquia;
+use app\model\Ruta;
 use app\model\RutasTerritorio;
 use app\model\Vehiculo;
 use app\model\VehiculoTipo;
@@ -31,6 +33,7 @@ class GuiasController extends Admin
     public int $GUIAS_NUM_INIT = 0;
     public int $ID_GUIAS_NUM_INIT = 0;
     public string $FORMATO_GUIA_PDF = 'null';
+    public int $ID_FORMATO_GUIA = 0;
 
 
     //variables exclusivas para el pdf
@@ -383,6 +386,7 @@ class GuiasController extends Admin
             if (!empty($parametro['valor']) && is_string($parametro['valor'])) {
                 if (url_exists(public_url('admin/guias/_storage/formatos/' . $parametro['valor'] . '/'))) {
                     $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/' . $parametro['valor'] . '/');
+                    return  $this->ID_FORMATO_GUIA = $parametro['id'];
                 } else {
                     $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
                 }
@@ -595,6 +599,209 @@ class GuiasController extends Admin
             'vehiculos' => $vehiculos,
             'choferes' => $chofer
         ];
+        return $response;
+
+    }
+
+    public function getCodigo($valor)
+    {
+        $model = new GuiasTipo();
+        $sql = "SELECT * FROM guias_tipos;";
+        $tipos = $model->sqlPersonalizado($sql, 'getAll');
+        $response = crearResponse(
+            false,
+            true,
+            'get codigo',
+            'get codigo',
+            false,
+            false,
+            false
+        );
+        foreach ($tipos as $indice => $tipo) {
+            if ($valor == 1) {
+                if ($indice === 0) {
+                    $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($this->GUIAS_NUM_INIT, 5).'-'.date("Y");
+                }
+            } else {
+                if ($indice === 1) {
+                    $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($this->GUIAS_NUM_INIT, 5).'-'.date("Y");
+                }
+            }
+        }
+        return $response;
+    }
+
+    public function existeRuta($origen, $destino){
+        $model = new Ruta();
+        $sql = "SELECT * FROM rutas WHERE `origen` = '$origen' AND `destino` = '$destino' AND `band` = '1' AND `version` = '1';";
+        $ruta = $model->sqlPersonalizado($sql);
+        if ($ruta){
+            return $ruta;
+        }else{
+            $sql = "SELECT * FROM rutas WHERE `origen` = '$destino' AND `destino` = '$origen' AND `band` = '1' AND `version` = '1';";
+            $ruta = $model->sqlPersonalizado($sql);
+            if ($ruta){
+                $ruta['ruta'] = array_reverse(json_decode($ruta['ruta']));
+                $ruta['ruta'] = json_encode($ruta['ruta']);
+                return $ruta;
+            }
+        }
+
+    }
+
+
+    public function store($guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador, $array): array
+    {
+        $model = new Guia();
+        $modelGuiasTipo = new GuiasTipo();
+        $modelGuiasCarga = new GuiasCarga();
+        $modelVehiculos = new Vehiculo();
+        $modelVehiculosTipo = new VehiculoTipo();
+        $modelChoferes = new Chofere();
+        $modelRutas = new Ruta();
+        $modelRutasTerritorio = new Parroquia();
+        $modelParametro = new Parametro();
+
+        $tipoGuia = $modelGuiasTipo->find($guias_tipos_id);
+        $tipoNombre = $tipoGuia['nombre'];
+
+        $vehiculo = $modelVehiculos->find($vehiculos_id);
+        $vehiculos_tipo_id = $vehiculo['tipo'];
+        $vehiculo_marca = $vehiculo['marca'];
+        $vehiculo_placa_batea = $vehiculo['placa_batea'];
+        $vehiculo_placa_chuto = $vehiculo['placa_chuto'];
+        $vehiculo_color = $vehiculo['color'];
+        $vehiculo_capacidad = $vehiculo['capacidad'];
+        $tipoVehiculo = $this->getTipoVehiculo($vehiculos_tipo_id);
+        $vehiculo_tipo_nombre = $tipoVehiculo['nombre'];
+
+        $chofer = $modelChoferes->find($choferes_id);
+        $chofer_cedula = $chofer['cedula'];
+        $chofer_nombre = $chofer['nombre'];
+        $chofer_telefono = $chofer['telefono'];
+
+        $ruta = $this->existeRuta($territorios_origen, $territorios_destino);
+
+        if ($ruta){
+            $rutas_id = $ruta['id'];
+            $rutas_ruta = $ruta['ruta'];
+
+
+            $origen = $modelRutasTerritorio->find($territorios_origen);
+            $destino = $modelRutasTerritorio->find($territorios_destino);
+            $rutas_origen = $origen['nombre'];
+            $rutas_destino = $destino['nombre'];
+
+            $pdf_id = $this->getFormato();
+
+            if ($pdf_id){
+                $data = [
+                    $codigo,
+                    $guias_tipos_id,
+                    $tipoNombre,
+                    $vehiculos_id,
+                    $vehiculo_tipo_nombre,
+                    $vehiculo_marca,
+                    $vehiculo_placa_batea,
+                    $vehiculo_placa_chuto,
+                    $vehiculo_capacidad,
+                    $vehiculo_color,
+                    $choferes_id,
+                    $chofer_cedula,
+                    $chofer_nombre,
+                    $chofer_telefono,
+                    $territorios_origen,
+                    $territorios_destino,
+                    $rutas_id,
+                    $rutas_origen,
+                    $rutas_destino,
+                    $rutas_ruta,
+                    $fecha,
+                    $users_id,
+                    date("Y-m-d"),
+                    $pdf_id,
+                    $precinto,
+                    $precinto_2,
+                    '1'
+                ];
+
+                $numeroGuia = explode('-', $codigo);
+                $numeroGuia = '%'. $numeroGuia[1] . '%';
+
+                $existe = $model->existe('codigo', 'LIKE', $numeroGuia, null, 1);
+
+                if (!$existe){
+                    $model->save($data);
+                    $response = crearResponse(
+                        false,
+                        true,
+                        'Guardado Exitosamente',
+                        'Guardado Exitosamente'
+                    );
+                    $guia = $model->first('codigo', '=', $codigo);
+                    $id = $guia['id'];
+
+                    $guias_num_init = $this->GUIAS_NUM_INIT + 1;
+                    $existe_parametro = $modelParametro->existe('nombre', '=', 'guias_num_init');
+
+                    if ($existe_parametro){
+                        $editar = $modelParametro->update($existe_parametro['id'], 'valor', $guias_num_init);
+                    }else{
+                        $dataParametro = [
+                            'guias_num_init',
+                            0,
+                            $guias_num_init
+                        ];
+                        $nuevo = $modelParametro->save($dataParametro);
+                    }
+
+                    foreach ($array as $carga){
+                        $cantidad = $carga['cantidad'];
+                        $descripcion = $carga['descripcion'];
+
+                        $dataCarga = [
+                            $id,
+                            $cantidad,
+                            $descripcion
+                        ];
+
+                        $guardarCarga = $modelGuiasCarga->save($dataCarga);
+                    }
+
+
+                }else {
+                    $response = crearResponse(
+                        'existe_guia',
+                        false,
+                        'Guía Duplicada.',
+                        'Guía Duplicada.',
+                        'warning'
+                    );
+                }
+
+            }else{
+                $response = crearResponse(
+                    'no_formato',
+                    false,
+                    'Formato NO válido',
+                    'NO SE HA DEFINIDO NINGÚN FORMATO DE GUIA EN LA BASE DE DATOS, CONTACTE CON SU ADMINISTRADOR.',
+                    'warning',
+                    true,
+                    true
+                );
+            }
+        }else{
+            $response = crearResponse(
+                'no_ruta',
+                false,
+                'Ruta NO válida',
+                'NO EXISTE LA RUTA, DEBE CREARLA.',
+                'warning',
+                true,
+                true
+            );
+        }
+
         return $response;
 
     }

@@ -55,7 +55,7 @@
                         </button>
                     </div>
 
-                    <button type="reset" class="btn btn-default">Cerrar</button>
+                    <button type="reset" class="btn btn-default" data-dismiss="modal" id="btn_cerrar_modal_guia">Cerrar</button>
 
                 </div>
             </div>

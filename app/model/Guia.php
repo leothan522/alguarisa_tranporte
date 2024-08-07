@@ -30,7 +30,11 @@ class Guia extends Model
             'rutas_ruta',
             'fecha',
             'users_id',
-            'created_at'
+            'created_at',
+            'pdf_id',
+            'precinto',
+            'precinto_2',
+            'version'
         ];
     }
 

@@ -2,6 +2,8 @@
 session_start();
 require_once "../../../vendor/autoload.php";
 use app\controller\GuiasController;
+
+
 $controller = new GuiasController();
 $controller->isAdmin();
 
@@ -142,6 +144,72 @@ if ($_POST) {
                     if (!empty($_POST['id'])){
                         $id = $_POST['id'];
                         $response = $controller->showGuia($id);
+                    }else{
+                        $response = crearResponse('faltan_datos');
+                    }
+                    break;
+
+                case 'get_codigo':
+                    if (!empty($_POST['valor'])){
+                        $valor = $_POST['valor'];
+                        $response = $controller->getCodigo($valor);
+                    }else{
+                        $response = crearResponse('faltan_datos');
+                    }
+                    break;
+
+                case 'store':
+                    if (
+                        !empty($_POST['guias_tipo_id']) &&
+                        !empty($_POST['codigo']) &&
+                        !empty($_POST['vehiculos_id']) &&
+                        !empty($_POST['choferes_id']) &&
+                        !empty($_POST['territorios_origen']) &&
+                        !empty($_POST['territorios_destino']) &&
+                        !empty($_POST['fecha']) &&
+                        isset($_POST['precinto']) &&
+                        isset($_POST['precinto_2'])
+                    )
+                    {
+                        $guias_tipos_id = $_POST['guias_tipo_id'];
+                        $codigo = $_POST['codigo'];
+                        $vehiculos_id = $_POST['vehiculos_id'];
+                        $choferes_id = $_POST['choferes_id'];
+                        $territorios_origen = $_POST['territorios_origen'];
+                        $territorios_destino = $_POST['territorios_destino'];
+                        $fecha = $_POST['fecha'];
+                        $users_id = $_SESSION['id'];
+                        $cantidad = $_POST['cantidad_1'];
+                        $descripcion = $_POST['descripcion_1'];
+                        $contador = $_POST['contador_guia'];
+
+                        if (empty($_POST['precinto'])){
+                            $precinto = null;
+                        }else{
+                            $precinto = $_POST['precinto'];
+                        }
+
+                        if (empty($_POST['precinto_2'])){
+                            $precinto_2 = null;
+                        }else{
+                            $precinto_2 = $_POST['precinto_2'];
+                        }
+
+                        $array = array();
+                        for ($i = 1; $i <= $contador; $i++){
+                            if (isset($_POST['cantidad_'. $i])){
+                                $array[$i]['cantidad'] = $_POST['cantidad_'. $i];
+                                $array[$i]['descripcion'] = $_POST['descripcion_'. $i];
+                            }
+                        }
+
+                        $response = $controller->store($guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador, $array);
+                        if ($response['result']){
+                            $paginate = true;
+                            $controller->index();
+                            require '../_layout/guias/table.php';
+                        }
+
                     }else{
                         $response = crearResponse('faltan_datos');
                     }

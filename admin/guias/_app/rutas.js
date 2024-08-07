@@ -138,11 +138,9 @@ $('#form_rutas').submit(function (e) {
         if (valor_item.length <= 0) {
             procesar = false;
             $(this).addClass('is-invalid');
-            $('#error_' + valor_id).text('La ruta es obligatoria');
             $('#mensaje_error_ruta').removeClass('d-none')
         } else {
             $(this).removeClass('is-invalid').addClass('is-valid');
-            $('#error_' + valor_id).text('');
             if (!$('#mensaje_error_ruta').hasClass("d-none")){
                 $('#mensaje_error_ruta').addClass("d-none");
             }

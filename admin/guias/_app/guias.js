@@ -134,6 +134,13 @@ function displayGuias(init = 'true') {
     verSpinner(false);
 }
 
+function createGuia() {
+    $('#title_form_guias').text('Nueva Guía');
+    resetGuia();
+    getSelectGuia();
+
+}
+
 function getSelectGuia() {
     ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'get_select_guia'}}, function (data) {
         if (data.result){
@@ -197,6 +204,15 @@ function getSelectGuia() {
     });
 }
 
+function editGuia(id) {
+    displayGuias('form');
+    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'edit', id: id}}, function (data) {
+        if (data.result){
+
+        }
+    });
+}
+
 function showGuia(id) {
 
     ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'show_guia', id: id}}, function (data) {
@@ -241,6 +257,226 @@ function showGuia(id) {
             $('#modal_guia_btn_descargar').attr('onclick', 'generarPDF('+id+')');
         }
     });
+}
+
+function addItemGuia() {
+    let contador = document.getElementById("contador_guia");
+    let valor_actual = contador.dataset.contador;
+    let valor_nuevo = parseInt(valor_actual) + 1;
+    contador.dataset.contador = valor_nuevo;
+    let input_actual = contador.value;
+    let input_nuevo = parseInt(input_actual) + 1;
+    contador.value = input_nuevo;
+    let content = '' +
+        ' <div class="row p-0" id="item_guia_'+ input_nuevo +'">\n' +
+        '                        <div class="col-3">\n' +
+        '                            <input type="text" class="form-control input_guias_carga" name="cantidad_'+ input_nuevo +'" placeholder="Cant."  id="cantidad_'+ input_nuevo +'"/>\n' +
+        '                        </div>\n' +
+        '                        <div class="col-7">\n' +
+        '                            <input type="text" class="form-control input_guias_carga" name="descripcion_'+ input_nuevo +'" placeholder="Descripción" id="descripcion_'+ input_nuevo +'"/>\n' +
+        '                        </div>\n' +
+        '                        <div class="col-2">\n' +
+        '                           <button type="button" class="btn" onclick="btnRemoveGuia(\'item_guia_' + input_nuevo + '\')">' +
+        '                               <i class="fas fa-minus-circle text-danger"></i>' +
+        '                           </button>' +
+        '                        </div>\n' +
+        '                    </div>';
+
+    $('#items_guias').append(content);
+}
+
+function btnRemoveGuia(item) {
+    let contador = document.getElementById("contador_guia");
+    let row = document.getElementById(item);
+    let valor_actual = contador.dataset.contador;
+    let valor_nuevo = parseInt(valor_actual) - 1;
+    contador.dataset.contador = valor_nuevo;
+    row.remove();
+}
+
+$('#form_guias').submit(function (e) {
+    e.preventDefault();
+    let procesar = true;
+    let tipo = $('#form_guias_tipo');
+    let codigo = $('#form_guias_codigo');
+    let vehiculo = $('#form_guias_vehiculo');
+    let chofer = $('#form_guias_chofer');
+    let origen = $('#form_guias_origen');
+    let destino = $('#form_guias_destino');
+    let fecha = $('#form_guias_fecha');
+    let carga = $('.input_guias_carga');
+    let opcion = $('#guias_opcion').val();
+
+
+    if (tipo.val().length <= 0) {
+        procesar = false;
+        tipo.addClass('is-invalid');
+        $('#error_select_guias_tipo').text('El tipo es obligatorio');
+    } else {
+        tipo
+            .removeClass('is-invalid')
+            .addClass('is-valid');
+    }
+
+    if (vehiculo.val().length <= 0) {
+        procesar = false;
+        vehiculo.addClass('is-invalid');
+        $('#error_select_guias_vehiculo').text('El vehiculo es obligatorio');
+    } else {
+        vehiculo
+            .removeClass('is-invalid')
+            .addClass('is-valid');
+    }
+
+    if (chofer.val().length <= 0) {
+        procesar = false;
+        chofer.addClass('is-invalid');
+        $('#error_select_guias_chofer').text('El chofer es obligatorio');
+    } else {
+        chofer
+            .removeClass('is-invalid')
+            .addClass('is-valid');
+    }
+
+    if (origen.val().length <= 0) {
+        procesar = false;
+        origen.addClass('is-invalid');
+        $('#error_select_guias_origen').text('El origen es obligatorio');
+    } else {
+        origen
+            .removeClass('is-invalid')
+            .addClass('is-valid');
+    }
+
+    if (destino.val().length <= 0) {
+        procesar = false;
+        destino.addClass('is-invalid');
+        $('#error_select_guias_destino').text('El destino es obligatorio');
+    } else if (destino.val() === origen.val()) {
+        procesar = false;
+        destino.addClass('is-invalid');
+        $('#error_select_guias_destino').text('El destino no puede ser igual al origen');
+    } else {
+        destino
+            .removeClass('is-invalid')
+            .addClass('is-valid');
+    }
+
+    if (fecha.val().length <= 0) {
+        procesar = false;
+        fecha.addClass('is-invalid');
+        $('#error_input_guias_fecha').text('La fecha es es obligatoria');
+    } else {
+        fecha
+            .removeClass('is-invalid')
+            .addClass('is-valid');
+    }
+
+    carga.each(function () {
+        let valor_item = $(this).val();
+
+        if (valor_item.length <= 0){
+            procesar = false;
+            $(this).addClass('is-invalid');
+            $('#mensaje_error_guia').removeClass('d-none')
+        }else {
+            $(this).removeClass('is-invalid').addClass('is-valid');
+            if (!$('#mensaje_error_guia').hasClass("d-none")){
+                $('#mensaje_error_guia').addClass("d-none");
+            }
+            $('#mensaje_error_guia').addClass('d-none');
+        }
+    });
+
+    if (procesar){
+        if (opcion === 'store'){
+            let num_init_guias = $('#guias_num_init').val();
+            ajaxRequest({url: '_request/GuiasRequest.php', data: $(this).serialize(), html: 'si'}, function (data) {
+                if (!data.is_json){
+                    $('#btn_cerrar_modal_guia').click();
+                    num_init_guias = parseInt(num_init_guias) + 1;
+                    $('#guias_num_init').val(num_init_guias);
+                    $('#div_guias').html(data.html);
+                    datatable('table_guias');
+                }else {
+                    if (data.error === 'existe_guia'){
+                        codigo.addClass('is-invalid');
+                    }
+                }
+            });
+        }
+    }
+
+});
+
+function tipoGuia(value) {
+    if (value.length > 0){
+        ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'get_codigo', valor: value}}, function (data) {
+            $('#form_guias_codigo').val(data.codigo);
+        });
+    }
+}
+
+function resetGuia() {
+    $('#form_guias_tipo')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('')
+        .trigger('change');
+    $('#form_guias_codigo')
+        .val('')
+        .removeClass('is-invalid')
+        .removeClass('is-valid');
+    $('#form_guias_vehiculo')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('')
+        .trigger('change');
+    $('#form_guias_chofer')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('')
+        .trigger('change');
+    $('#form_guias_origen')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('')
+        .trigger('change');
+    $('#form_guias_destino')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('')
+        .trigger('change');
+    $('#form_guias_fecha')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('');
+    $('#form_guias_precinto').val('');
+    $('#form_guias_precinto_2').val('');
+    $('#guias_opcion').val('store');
+    let contadorGuia = document.getElementById('contador_guia');
+    for (let i = 1; i <= contadorGuia.value; i++) {
+        if (i > 1){
+            if ($('#item_guia_'+ i).length){
+                btnRemoveGuia('item_guia_' + i);
+            }
+        }
+    }
+    contadorGuia.value = 1;
+    contadorGuia.dataset.contadorGuia = 1;
+    $('#cantidad_1')
+        .val('')
+        .removeClass('is-valid')
+        .removeClass('is-invalid');
+    $('#descripcion_1')
+        .val('')
+        .removeClass('is-valid')
+        .removeClass('is-invalid');
+
+    if (!$('#mensaje_error_guia').hasClass("d-none")){
+        $('#mensaje_error_guia').addClass("d-none");
+    }
+
 }
 
 console.log('guias.js')
