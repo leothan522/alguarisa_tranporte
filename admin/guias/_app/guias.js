@@ -204,15 +204,6 @@ function getSelectGuia() {
     });
 }
 
-function editGuia(id) {
-    displayGuias('form');
-    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'edit', id: id}}, function (data) {
-        if (data.result){
-
-        }
-    });
-}
-
 function showGuia(id) {
 
     ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'show_guia', id: id}}, function (data) {
@@ -257,6 +248,75 @@ function showGuia(id) {
             $('#modal_guia_btn_descargar').attr('onclick', 'generarPDF('+id+')');
         }
     });
+}
+
+function editGuia(id) {
+    getSelectGuia();
+    let update = 'update';
+    $('#modal_guia_btn_guardar').text('Guardar Cambios');
+    $('#title_form_guias').text('Editar Guia');
+    $('#form_guias_tipo').attr('oninput', 'tipoGuia(this.value, "'+update+'", "'+id+'")')
+    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'edit_guia', id: id}}, function (data) {
+        if (data.result){
+            $('#form_guias_tipo')
+                .val(data.tipo)
+                .trigger('change');
+            $('#form_guias_codigo').val(data.codigo);
+            $('#form_guias_vehiculo')
+                .val(data.vehiculo)
+                .trigger('change');
+            $('#form_guias_chofer')
+                .val(data.chofer)
+                .trigger('change');
+            $('#form_guias_origen')
+                .val(data.origen)
+                .trigger('change');
+            $('#form_guias_destino')
+                .val(data.destino)
+                .trigger('change');
+            $('#form_guias_fecha').val(data.fecha);
+            $('#form_guias_precinto').val(data.precinto);
+            $('#form_guias_precinto_2').val(data.precinto_2);
+
+            let total_items = $('#items_guias');
+            let cargamento = data.listarCarga.length;
+            let html = '';
+            let item = 0;
+            let btn = '';
+            for (let i = 0; i < cargamento; i++){
+                item = i+1;
+                let cantidad = data.listarCarga[i]['cantidad'];
+                let descripcion = data.listarCarga[i]['descripcion'];
+                if (item > 1){
+                    btn = '<button type="button" class="btn" onclick="btnRemoveGuia(\'item_guia_' + item + '\')">' +
+                          '      <i class="fas fa-minus-circle text-danger"></i>' +
+                          '</button>';
+                }else {
+                    btn = '<span class="btn">&nbsp;</span>';
+                }
+
+                html += ' <div class="row p-0" id="item_guia_'+ item +'">\n' +
+                    '          <div class="col-3">\n' +
+                    '              <input type="text" class="form-control input_guias_carga" value="'+ cantidad +'" name="cantidad_'+ item +'" placeholder="Cant."  id="cantidad_'+ item +'"/>\n' +
+                    '          </div>\n' +
+                    '          <div class="col-7">\n' +
+                    '              <input type="text" class="form-control input_guias_carga" value="'+ descripcion +'" name="descripcion_'+ item +'" placeholder="Descripción" id="descripcion_'+ item +'"/>\n' +
+                    '          </div>\n' +
+                    '          <div class="col-2">\n' +
+                                btn +
+                    '          </div>\n' +
+                    '      </div>';
+            }
+            total_items.html(html);
+            let contador = document.getElementById('contador_guia');
+            contador.value = cargamento;
+            contador.dataset.contador = cargamento;
+            $('#guias_opcion').val('update');
+            $('#guias_id').val(id);
+            displayGuias('form');
+        }
+    });
+
 }
 
 function addItemGuia() {
@@ -404,14 +464,20 @@ $('#form_guias').submit(function (e) {
                     }
                 }
             });
+        }else {
+            ajaxRequest({url: '_request/GuiasRequest.php', data: $(this).serialize()}, function (data) {
+                if (data.result){
+
+                }
+            });
         }
     }
 
 });
 
-function tipoGuia(value) {
+function tipoGuia(value, accion, id) {
     if (value.length > 0){
-        ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'get_codigo', valor: value}}, function (data) {
+        ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'get_codigo', valor: value, accion, id}}, function (data) {
             $('#form_guias_codigo').val(data.codigo);
         });
     }

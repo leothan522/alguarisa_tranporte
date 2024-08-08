@@ -510,7 +510,7 @@ class GuiasController extends Admin
         $response['chofer'] = $guia['choferes_id'];
         $response['origen'] = $guia['territorios_origen'];
         $response['destino'] = $guia['territorios_destino'];
-        $response['fecha'] = verFecha($guia['fecha']);
+        $response['fecha'] = $guia['fecha'];
         $response['precinto'] = $guia['precinto'];
         $response['precinto_2'] = $guia['precinto_2'];
         foreach ($cargamento as $carga){
@@ -603,9 +603,10 @@ class GuiasController extends Admin
 
     }
 
-    public function getCodigo($valor)
+    public function getCodigo($valor, $accion, $id)
     {
         $model = new GuiasTipo();
+        $modelGuia = new Guia();
         $sql = "SELECT * FROM guias_tipos;";
         $tipos = $model->sqlPersonalizado($sql, 'getAll');
         $response = crearResponse(
@@ -618,15 +619,31 @@ class GuiasController extends Admin
             false
         );
         foreach ($tipos as $indice => $tipo) {
-            if ($valor == 1) {
-                if ($indice === 0) {
-                    $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($this->GUIAS_NUM_INIT, 5).'-'.date("Y");
-                }
-            } else {
-                if ($indice === 1) {
-                    $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($this->GUIAS_NUM_INIT, 5).'-'.date("Y");
-                }
-            }
+           if ($accion == 'create'){
+               //para cuando se crea una guia nueva
+               if ($valor == 1) {
+                   if ($indice === 0) {
+                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($this->GUIAS_NUM_INIT, 5).'-'.date("Y");
+                   }
+               } else {
+                   if ($indice === 1) {
+                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($this->GUIAS_NUM_INIT, 5).'-'.date("Y");
+                   }
+               }
+           }else{
+               //para cuando se edita una guia, solamente se cambia el codigo, lo demas permanece igual.
+               $guia = $modelGuia->find($id);
+               $numero_guia = explode("-", $guia['codigo']);
+               if ($valor == 1) {
+                   if ($indice === 0) {
+                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($numero_guia[1], 5).'-'.$numero_guia[2];
+                   }
+               } else {
+                   if ($indice === 1) {
+                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($numero_guia[1], 5).'-'.$numero_guia[2];
+                   }
+               }
+           }
         }
         return $response;
     }
@@ -804,5 +821,171 @@ class GuiasController extends Admin
 
         return $response;
 
+    }
+
+    public function update($id,$guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador, $array)
+    {
+        $model = new Guia();
+        $cambios = false;
+        $cambiosOrigen = false;
+        $cambiosDestino = false;
+        $guia = $model->find($id);
+        $modelGuiasTipo = new GuiasTipo();
+        $modelGuiasCarga = new GuiasCarga();
+        $modelVehiculos = new Vehiculo();
+        $modelVehiculosTipo = new VehiculoTipo();
+        $modelChoferes = new Chofere();
+        $modelRutas = new Ruta();
+        $modelRutasTerritorio = new Parroquia();
+        $modelParametro = new Parametro();
+
+        $tipoGuia = $modelGuiasTipo->find($guias_tipos_id);
+        $tipoNombre = $tipoGuia['nombre'];
+
+        $vehiculo = $modelVehiculos->find($vehiculos_id);
+        $vehiculos_tipo_id = $vehiculo['tipo'];
+        $vehiculo_marca = $vehiculo['marca'];
+        $vehiculo_placa_batea = $vehiculo['placa_batea'];
+        $vehiculo_placa_chuto = $vehiculo['placa_chuto'];
+        $vehiculo_color = $vehiculo['color'];
+        $vehiculo_capacidad = $vehiculo['capacidad'];
+        $tipoVehiculo = $this->getTipoVehiculo($vehiculos_tipo_id);
+        $vehiculo_tipo_nombre = $tipoVehiculo['nombre'];
+
+        $chofer = $modelChoferes->find($choferes_id);
+        $chofer_cedula = $chofer['cedula'];
+        $chofer_nombre = $chofer['nombre'];
+        $chofer_telefono = $chofer['telefono'];
+
+        $ruta = $this->existeRuta($territorios_origen, $territorios_destino);
+
+        if ($ruta){
+            $rutas_id = $ruta['id'];
+            $rutas_ruta = $ruta['ruta'];
+
+            $origen = $modelRutasTerritorio->find($territorios_origen);
+            $destino = $modelRutasTerritorio->find($territorios_destino);
+            $rutas_origen = $origen['nombre'];
+            $rutas_destino = $destino['nombre'];
+
+            $pdf_id = $this->getFormato();
+
+            if ($pdf_id){
+                $db_tipo = $guia['guias_tipos_id'];
+                $db_codigo = $guia['codigo'];
+                $db_vehiculo = $guia['vehiculos_id'];
+                $db_chofer = $guia['choferes_id'];
+                $db_origen = $guia['territorios_origen'];
+                $db_destino = $guia['territorios_destino'];
+                $db_ruta = $guia['rutas_id'];
+                $db_fecha = $guia['fecha'];
+                $db_precinto = $guia['precinto'];
+                $db_precinto_2 = $guia['precinto_2'];
+
+                if ($db_tipo != $guias_tipos_id){
+                    $cambios = true;
+                    $model->update($id, 'guias_tipos_id', $guias_tipos_id);
+                    $model->update($id, 'tipos_nombre', $tipoNombre);
+                }
+
+                if ($db_codigo != $codigo){
+                    $cambios = true;
+                    $model->update($id, 'codigo', $codigo);
+                }
+
+                if ($db_vehiculo != $vehiculos_id){
+                    $cambios = true;
+                    $model->update($id, 'vehiculos_id', $vehiculos_id);
+                    $model->update($id, 'vehiculos_tipo', $vehiculo_tipo_nombre);
+                    $model->update($id, 'vehiculos_marca', $vehiculo_marca);
+                    $model->update($id, 'vehiculos_placa_batea', $vehiculo_placa_batea);
+                    $model->update($id, 'vehiculos_placa_chuto', $vehiculo_placa_chuto);
+                    $model->update($id, 'vehiculos_color', $vehiculo_color);
+                    $model->update($id, 'vehiculos_capacidad', $vehiculo_capacidad);
+                }
+
+                if ($db_chofer != $choferes_id){
+                    $cambios = true;
+                    $model->update($id, 'choferes_id', $choferes_id);
+                    $model->update($id, 'choferes_cedula', $chofer_cedula);
+                    $model->update($id, 'choferes_nombre', $chofer_nombre);
+                    $model->update($id, 'choferes_telefono', $chofer_telefono);
+                }
+
+                if ($db_origen != $territorios_origen){
+                    $cambios = true;
+                    $cambiosOrigen = true;
+                    $model->update($id, 'territorios_origen', $territorios_origen);
+                    $model->update($id, 'rutas_origen', $rutas_origen);
+                }
+
+                if ($db_destino != $territorios_destino){
+                    $cambios = true;
+                    $cambiosDestino = true;
+                    $model->update($id, 'territorios_destino', $territorios_destino);
+                    $model->update($id, 'rutas_destino', $rutas_destino);
+                }
+
+                if ($db_ruta != $rutas_id){
+                    $cambios = true;
+                    $model->update($id, 'rutas_id', $rutas_id);
+                    $model->update($id, 'rutas_ruta', $rutas_ruta);
+                }
+
+                if ($cambiosOrigen && $cambiosDestino){
+                    $cambios = true;
+                    $model->update($id, 'rutas_ruta', json_encode($rutas_ruta));
+                }
+
+                if ($db_fecha != $fecha){
+                    $cambios = true;
+                    $model->update($id, 'fecha', $fecha);
+                }
+
+                if ($db_precinto != $precinto){
+                    $cambios = true;
+                    $model->update($id, 'precinto', $precinto);
+                }
+
+                if ($db_precinto_2 != $precinto_2){
+                    $cambios = true;
+                    $model->update($id, 'precinto_2', $precinto_2);
+                }
+
+                if ($cambios){
+                    $model->update($id, 'users_id', $users_id);
+                    $response = crearResponse(
+                        false,
+                        true,
+                        'Editado Exitosamente',
+                        'Editado Exitosamente'
+                    );
+                }else{
+                    $response = crearResponse('no_cambios');
+                }
+
+            }else{
+                $response = crearResponse(
+                    'no_formato',
+                    false,
+                    'Formato NO válido',
+                    'NO SE HA DEFINIDO NINGÚN FORMATO DE GUIA EN LA BASE DE DATOS, CONTACTE CON SU ADMINISTRADOR.',
+                    'warning',
+                    true,
+                    true
+                );
+            }
+        }else{
+            $response = crearResponse(
+                'no_ruta',
+                false,
+                'Ruta NO válida',
+                'NO EXISTE LA RUTA, DEBE CREARLA.',
+                'warning',
+                true,
+                true
+            );
+        }
+        return $response;
     }
 }

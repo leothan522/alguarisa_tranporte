@@ -19,7 +19,7 @@
             <div class="row ml-1 mr-1 mb-3">
                 <span class="col-4 input-group-text">Tipo de Guía</span>
                 <span class="col-8">
-                    <select class="select2bs4" data-placeholder="Seleccionar" name="guias_tipo_id" onchange="tipoGuia(this.value)" id="form_guias_tipo">
+                    <select class="select2bs4" data-placeholder="Seleccionar" name="guias_tipo_id" oninput="tipoGuia(this.value, 'create', '')" id="form_guias_tipo">
                     <option value="">Seleccione</option>
                 </select>
                     <div class="invalid-feedback" id="error_select_guias_tipo"></div>
