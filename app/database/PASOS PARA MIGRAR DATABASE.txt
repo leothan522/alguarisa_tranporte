@@ -8,8 +8,9 @@
 8- Exportar toda la base de datos alguarisa_old e importarla completa en alguarisa_transporte.
 9- Agregar en la tabla ruta despues de band la columna version con valor por defecto 0. todos INT.
 10- Agregar a la tabla guias el despues de precinto_2 la columna version de tipo INT con valor por defecto 0.
-11- Eliminar la tabla guias_formatos_pdf.
-12- Subir la database alguarisa_transporte.
-13- Crear las Rutas en la nueva interfaz guiandose del sistema viejo.
-14- Crear los nuevos usuarios.
+11- Agrega a la tabla guias despues de auditoria la columna updated_at de tipo date, valor por defecto null.
+12- Eliminar la tabla guias_formatos_pdf.
+13- Subir la database alguarisa_transporte.
+14- Crear las Rutas en la nueva interfaz guiandose del sistema viejo.
+15- Crear los nuevos usuarios.
  

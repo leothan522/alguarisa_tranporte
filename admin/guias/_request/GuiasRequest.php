@@ -241,8 +241,7 @@ if ($_POST) {
                         $territorios_destino = $_POST['territorios_destino'];
                         $fecha = $_POST['fecha'];
                         $users_id = $_SESSION['id'];
-                        $cantidad = $_POST['cantidad_1'];
-                        $descripcion = $_POST['descripcion_1'];
+
                         $id = $_POST['guias_id'];
                         $contador = $_POST['contador_guia'];
 
@@ -258,19 +257,19 @@ if ($_POST) {
                             $precinto_2 = $_POST['precinto_2'];
                         }
 
-                        $array = array();
-                        for ($i = 1; $i <= $contador; $i++){
-                            if (isset($_POST['cantidad_'. $i])){
-                                $array[$i]['cantidad'] = $_POST['cantidad_'. $i];
-                                $array[$i]['descripcion'] = $_POST['descripcion_'. $i];
-                            }
-                        }
-
-                        $response = $controller->update($id, $guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador, $array);
+                        $response = $controller->update($id, $guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador);
 
 
                     }else{
                         $response = crearResponse('faltan_datos');
+                    }
+                    break;
+
+                case 'destroy':
+                    if (!empty($_POST['id'])){
+                        $id = $_POST['id'];
+                        $opt = $_POST['opt'];
+                        $response = $controller->destroy($id, $opt);
                     }
                     break;
 

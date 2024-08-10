@@ -37,7 +37,7 @@
                         <table class="table table-sm table-bordered" id="show_table_guias_cargamento">
                             <thead>
                             <tr class="text-center bg-info">
-                                <th class="text-left" style="width: 30%;">Cantidad</th>
+                                <th class="text-right pr-3" style="width: 30%;">Cantidad</th>
                                 <th class="text-left">Descripción</th>
                             </tr>
                             </thead>

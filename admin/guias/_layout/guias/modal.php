@@ -1,6 +1,7 @@
 <!-- Modal -->
+<form id="form_guias">
 <div class="modal fade" id="modal_create_guia">
-    <div class="modal-dialog modal-lg modal-dialog-centered" id="modal_size">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="row col-md-12">
@@ -16,7 +17,7 @@
                     </button>
                 </div>
             </div>
-            <div class="modal-body table-responsive" style=" height: 63vh;">
+            <div class="modal-body table-responsive">
 
 
                 <div class="row justify-content-center" id="row_form_guias">
@@ -32,13 +33,13 @@
                 </div>
 
 
-
-
-
             </div>
             <div class="modal-footer justify-content-end">
                 <div class="row col-12 justify-content-between m-0 p-0">
                     <div class="justify-content-center" id="div_btn_show">
+                        <button type="button" class="btn btn-danger d-none" id="modal_guia_btn_eliminar" >
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
                         <button type="button" class="btn btn-danger" id="modal_guia_btn_anular" >
                             <i class="fas fa-ban"></i> Anular
                         </button>
@@ -65,4 +66,5 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+</form>
 <!-- /.modal -->

@@ -1,4 +1,4 @@
-<form id="form_guias">
+
     <div class="card card-primary">
         <div class="card-header">
             <h3 class="card-title">
@@ -139,4 +139,3 @@
             <button type="reset" class="btn btn-default float-right">Cancelar</button>
         </div>
     </div>
-</form>

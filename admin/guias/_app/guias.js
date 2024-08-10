@@ -235,7 +235,7 @@ function showGuia(id) {
                 let descripcion = data.listarCarga[i]['descripcion'];
 
                 let row = '<tr>\n' +
-                    '         <td>'+cantidad+'</td>\n' +
+                    '         <td class="text-right pr-3"> '+cantidad+'</td>\n' +
                     '         <td class="text-left">'+descripcion+'</td>\n' +
                     '      </tr>'
 
@@ -243,14 +243,34 @@ function showGuia(id) {
 
             }
 
+            if (data.estatus > 0){
+                $('#modal_guia_btn_editar').removeClass('d-none');
+                $('#modal_guia_btn_descargar').removeClass('d-none');
+                $('#modal_guia_btn_anular').removeClass('d-none');
+                $('#modal_guia_btn_editar').attr('onclick', 'editGuia('+id+')');
+                $('#modal_guia_btn_descargar').attr('onclick', 'generarPDF('+id+')');
+                $('#modal_guia_btn_anular').attr('onclick', 'destroy('+id+')');
+            }else {
+                $('#modal_guia_btn_editar').addClass('d-none');
+                $('#modal_guia_btn_descargar').addClass('d-none');
+                $('#modal_guia_btn_anular').addClass('d-none');
+            }
+            if (data.role >= 99){
+                $('#modal_guia_btn_eliminar').removeClass('d-none');
+                $('#modal_guia_btn_eliminar').click(function () {
+                   $('#btn_eliminar_guia_'+id).click();
+                });
+            }else {
+                $('#modal_guia_btn_eliminar').addClass('d-none');
+            }
+
             displayGuias('show');
-            $('#modal_guia_btn_editar').attr('onclick', 'editGuia('+id+')');
-            $('#modal_guia_btn_descargar').attr('onclick', 'generarPDF('+id+')');
         }
     });
 }
 
 function editGuia(id) {
+    resetGuia();
     getSelectGuia();
     let update = 'update';
     $('#modal_guia_btn_guardar').text('Guardar Cambios');
@@ -467,7 +487,24 @@ $('#form_guias').submit(function (e) {
         }else {
             ajaxRequest({url: '_request/GuiasRequest.php', data: $(this).serialize()}, function (data) {
                 if (data.result){
+                    let table = $('#table_guias').DataTable();
+                    let tr = $('#tr_item_guias_' + data.id);
+                    table
+                        .cell(tr.find('.guias_fecha')).data(data.fecha)
+                        .cell(tr.find('.guias_codigo')).data(data.codigo)
+                        .cell(tr.find('.guias_origen')).data(data.origen)
+                        .cell(tr.find('.guias_destino')).data(data.destino)
+                        .cell(tr.find('.guias_chofer')).data(data.chofer)
+                        .cell(tr.find('.guias_telefono')).data(data.chofer_telefono)
+                        .cell(tr.find('.guias_placa')).data(data.vehiculo_placa_batea)
+                        .draw();
 
+                    resetGuia();
+                    $('#btn_cerrar_modal_guia').click();
+                }else {
+                    if (data.error === 'existe_guia'){
+                        codigo.addClass('is-invalid');
+                    }
                 }
             });
         }
@@ -543,6 +580,55 @@ function resetGuia() {
         $('#mensaje_error_guia').addClass("d-none");
     }
 
+}
+
+function destroy(id, opt = 'anular') {
+    MessageDelete.fire().then((result) => {
+        if (result.isConfirmed) {
+            ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'destroy', id: id, opt: opt}}, function (data) {
+                if (data.result){
+                    if (data.opt === 'anular'){
+                        let html = '<td class="guias_codigo text-center">' +
+                            '           <span class="font-italic text-gray">'+data.codigo+'</span>&ensp;' +
+                            '           <span><i class="fas fa-backspace text-danger"></i></span>' +
+                            '      </td>';
+                        let btn = ' <div class="btn-group btn-group-sm">\n' +
+                            '              <button type="button" class="btn btn-info" data-toggle="modal"\n' +
+                            '                      data-target="#modal_create_guia" onclick="showGuia('+data.id+')">\n' +
+                            '                  <i class="fas fa-eye"></i>\n' +
+                            '              </button>\n' +
+                            '              <button type="button" class="btn btn-info" disabled>\n' +
+                            '                  <i class="fas fa-file-pdf"></i>\n' +
+                            '              </button>\n' +
+                            '              <?php } ?>\n' +
+                            '              <form class="d-none" target="_blank" method="post" action="<?php echo $controller->FORMATO_GUIA_PDF; ?>">\n' +
+                            '                  <input type="text" name="guias_id" value="'+data.id+'">\n' +
+                            '                  <input type="submit" value="enviar" id="btn_form_table_ver_pdf_formato_'+data.id+'">\n' +
+                            '              </form>\n' +
+                            '     </div>';
+
+                        let table = $('#table_guias').DataTable();
+                        let tr = $('#tr_item_guias_' + data.id);
+                        table
+                            .cell(tr.find('.guias_codigo')).data(html)
+                            .cell(tr.find('.guias_btns')).data(btn)
+                            .draw();
+                    }else {
+
+                        let table = $('#table_guias').DataTable();
+                        let item = $('#btn_eliminar_guia_' + id).closest('tr');
+                        table
+                            .row(item)
+                            .remove()
+                            .draw();
+                        $('#paginate_leyenda').text(data.total);
+                        $('#btn_cerrar_modal_guia').click();
+                    }
+
+                }
+            });
+        }
+    });
 }
 
 console.log('guias.js')

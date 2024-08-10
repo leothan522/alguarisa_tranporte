@@ -66,6 +66,19 @@ function permisos(): array
                     'text' => 'Estatus Parroquias'
                 ]
             ]
+        ],
+        [ 'permiso' => 'guias.index',
+            'text' => 'Guias',
+            'opciones' => [
+                [
+                    'permiso' => 'guias.create',
+                    'text' => 'Crear Guía'
+                ],
+                [
+                    'permiso' => 'guias.edit',
+                    'text' => 'Editar Guia'
+                ]
+            ]
         ]
 
         /*
