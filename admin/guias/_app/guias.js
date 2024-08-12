@@ -136,6 +136,10 @@ function displayGuias(init = 'true') {
 
 function createGuia() {
     $('#title_form_guias').text('Nueva Guía');
+    $('#icono_span_title').html('<i class="fas fa-file"></i>');
+    $('#btn_cerrar_modal_guia')
+        .attr("data-dismiss", "modal")
+        .text('Cerrar');
     resetGuia();
     getSelectGuia();
 
@@ -197,7 +201,7 @@ function getSelectGuia() {
                 selecDestino.append('<option value="' + id + '">' + nombre + '</option>');
             }
 
-
+            $('#form_guias_fecha').val(data.hoy);
 
             displayGuias('form');
         }
@@ -228,6 +232,20 @@ function showGuia(id) {
             $('#show_guias_cedula').text(data.chofer_cedula);
             $('#show_guias_telefono').text(data.chofer_telefono);
 
+            if (data.precinto_1 === 'precinto_vacio'){
+                $('#li_modal_guias_precinto_1').addClass('d-none');
+            }else {
+                $('#li_modal_guias_precinto_1').removeClass('d-none');
+            }
+
+            if (data.precinto_2 === 'precinto_vacio'){
+                $('#li_modal_guias_precinto_2').addClass('d-none');
+            }else {
+                $('#li_modal_guias_precinto_2').removeClass('d-none');
+            }
+
+            $('#show_guias_precinto_1').text(data.precinto_1);
+            $('#show_guias_precinto_2').text(data.precinto_2);
             let cargamento = data.listarCarga.length;
             $('#show_guias_cargamento').empty();
             for (let i = 0; i < cargamento; i++) {
@@ -244,6 +262,7 @@ function showGuia(id) {
             }
 
             if (data.estatus > 0){
+                $('#texto_guia_anulada').addClass('d-none');
                 $('#modal_guia_btn_editar').removeClass('d-none');
                 $('#modal_guia_btn_descargar').removeClass('d-none');
                 $('#modal_guia_btn_anular').removeClass('d-none');
@@ -251,18 +270,28 @@ function showGuia(id) {
                 $('#modal_guia_btn_descargar').attr('onclick', 'generarPDF('+id+')');
                 $('#modal_guia_btn_anular').attr('onclick', 'destroy('+id+')');
             }else {
+                let anulada = '&nbsp;<i class="fas fa-ban text-danger mt-2"></i></i>&nbsp; <span class="text-danger text-bold">Guía Anulada</span>';
+                $('#texto_guia_anulada').removeClass('d-none');
+                $('#texto_guia_anulada').html(anulada);
+                $('#texto_guia_anulada').removeClass('d-none');
                 $('#modal_guia_btn_editar').addClass('d-none');
                 $('#modal_guia_btn_descargar').addClass('d-none');
                 $('#modal_guia_btn_anular').addClass('d-none');
             }
             if (data.role >= 99){
-                $('#modal_guia_btn_eliminar').removeClass('d-none');
+                $('#modal_guia_btn_eliminar')
+                    .removeClass('d-none');
                 $('#modal_guia_btn_eliminar').click(function () {
                    $('#btn_eliminar_guia_'+id).click();
                 });
             }else {
                 $('#modal_guia_btn_eliminar').addClass('d-none');
             }
+
+            $('#btn_cerrar_modal_guia')
+                .removeAttr('onclick')
+                .attr("data-dismiss", "modal")
+                .text('Cerrar');
 
             displayGuias('show');
         }
@@ -275,6 +304,13 @@ function editGuia(id) {
     let update = 'update';
     $('#modal_guia_btn_guardar').text('Guardar Cambios');
     $('#title_form_guias').text('Editar Guia');
+    $('#icono_span_title').html('<i class="fas fa-edit"></i>');
+    $('#btn_cerrar_modal_guia')
+        .removeAttr("data-dismiss")
+        .attr("type", "button")
+        .attr("onclick", "showGuia("+id+")")
+        .text('Cancelar');
+
     $('#form_guias_tipo').attr('oninput', 'tipoGuia(this.value, "'+update+'", "'+id+'")')
     ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'edit_guia', id: id}}, function (data) {
         if (data.result){
@@ -588,6 +624,13 @@ function destroy(id, opt = 'anular') {
             ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'destroy', id: id, opt: opt}}, function (data) {
                 if (data.result){
                     if (data.opt === 'anular'){
+                        $('#modal_guia_btn_editar').addClass('d-none');
+                        $('#modal_guia_btn_descargar').addClass('d-none');
+                        $('#modal_guia_btn_anular').addClass('d-none');
+                        $('#texto_guia_anulada').removeClass('d-none');
+
+                        let anulada = '&nbsp;<i class="fas fa-ban text-danger mt-2"></i>&nbsp; <span class="text-danger">Guía Anulada</span>';
+
                         let html = '<td class="guias_codigo text-center">' +
                             '           <span class="font-italic text-gray">'+data.codigo+'</span>&ensp;' +
                             '           <span><i class="fas fa-backspace text-danger"></i></span>' +
@@ -600,7 +643,11 @@ function destroy(id, opt = 'anular') {
                             '              <button type="button" class="btn btn-info" disabled>\n' +
                             '                  <i class="fas fa-file-pdf"></i>\n' +
                             '              </button>\n' +
-                            '              <?php } ?>\n' +
+                            '              <button type="button" class="btn btn-info d-none" ' +
+                            '                      onClick="destroy(' + data.id + ', \'delete\')" ' +
+                            '                      id="btn_eliminar_guia_'+ data.id +'"> ' +
+                            '                      <i class="far fa-trash-alt"></i> ' +
+                            '               </button> ' +
                             '              <form class="d-none" target="_blank" method="post" action="<?php echo $controller->FORMATO_GUIA_PDF; ?>">\n' +
                             '                  <input type="text" name="guias_id" value="'+data.id+'">\n' +
                             '                  <input type="submit" value="enviar" id="btn_form_table_ver_pdf_formato_'+data.id+'">\n' +
@@ -613,6 +660,18 @@ function destroy(id, opt = 'anular') {
                             .cell(tr.find('.guias_codigo')).data(html)
                             .cell(tr.find('.guias_btns')).data(btn)
                             .draw();
+
+                        $('#texto_guia_anulada').html(anulada);
+
+                        if (data.role >= 99){
+                            $('#modal_guia_btn_eliminar')
+                                .removeClass('d-none')
+                                .attr('onclick', 'destroy('+id+', \'delete\')');
+
+                        }else {
+                            $('#modal_guia_btn_eliminar').addClass('d-none');
+                        }
+
                     }else {
 
                         let table = $('#table_guias').DataTable();
@@ -622,7 +681,9 @@ function destroy(id, opt = 'anular') {
                             .remove()
                             .draw();
                         $('#paginate_leyenda').text(data.total);
-                        $('#btn_cerrar_modal_guia').click();
+                        $('#btn_cerrar_modal_guia')
+                            .attr('data-dismiss', 'modal')
+                            .click();
                     }
 
                 }

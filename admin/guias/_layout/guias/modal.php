@@ -36,10 +36,15 @@
             </div>
             <div class="modal-footer justify-content-end">
                 <div class="row col-12 justify-content-between m-0 p-0">
+
+                    <!--data-dismiss="modal"-->
+                    <button type="reset" class="btn btn-default"  id="btn_cerrar_modal_guia">Cerrar</button>
+
                     <div class="justify-content-center" id="div_btn_show">
                         <button type="button" class="btn btn-danger d-none" id="modal_guia_btn_eliminar" >
                             <i class="fas fa-trash-alt"></i> Eliminar
                         </button>
+                        <span class="d-none" id="texto_guia_anulada">hola...mundo</span>
                         <button type="button" class="btn btn-danger" id="modal_guia_btn_anular" >
                             <i class="fas fa-ban"></i> Anular
                         </button>
@@ -56,7 +61,6 @@
                         </button>
                     </div>
 
-                    <button type="reset" class="btn btn-default" data-dismiss="modal" id="btn_cerrar_modal_guia">Cerrar</button>
 
                 </div>
             </div>

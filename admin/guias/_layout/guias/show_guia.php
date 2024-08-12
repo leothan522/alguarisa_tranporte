@@ -27,6 +27,16 @@
                         Origen <span class="float-right text-primary" id="show_guias_origen">842</span>
                     </span>
                 </li>
+                <li class="nav-item" id="li_modal_guias_precinto_1">
+                    <span class="nav-link">
+                        Precinto <span class="float-right text-primary text-uppercase" id="show_guias_precinto_1">842</span>
+                    </span>
+                </li>
+                <li class="nav-item" id="li_modal_guias_precinto_2">
+                    <span class="nav-link">
+                        Precinto 2 <span class="float-right text-primary text-uppercase" id="show_guias_precinto_2">842</span>
+                    </span>
+                </li>
                 <li class="nav-item">
                     <span class="nav-link">
                         Cargamento:

@@ -128,6 +128,8 @@ if ($_POST) {
                         $response['listarChofer'][] = array("id" => $id, "nombre" => $nombre, "cedula" => $cedula);
                     }
 
+                    $response['hoy'] = date("Y-m-d");
+
 
                     break;
 

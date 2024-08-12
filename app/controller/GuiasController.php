@@ -185,7 +185,7 @@ class GuiasController extends Admin
             $response = crearResponse(
                 false,
                 true,
-                'Numero de Guia Actualizado.' . $this->ID_GUIAS_NUM_INIT
+                'Numero de Guia Actualizado.'
             );
         } else {
             if ($num_guia == $actual) {
@@ -292,10 +292,10 @@ class GuiasController extends Admin
             $this->pdf_id = $guia['pdf_id'];
             $this->pdf_impreso = $guia['pdf_impreso'];
             $this->estatus = $guia['estatus'];
-            if ($this->precinto) {
+            if ($guia['precinto']) {
                 $this->precinto = mb_strtoupper(verUtf8($guia['precinto']));
             }
-            if ($this->precinto_2) {
+            if ($guia['precinto_2']) {
                 $this->precinto_2 = mb_strtoupper(verUtf8($guia['precinto_2']));
             }
             $this->version = $guia['version'];
@@ -378,6 +378,7 @@ class GuiasController extends Admin
 
     public function getFormato()
     {
+        $this->ID_FORMATO_GUIA = 1;
         $model = new Parametro();
         $parametro = $model->first('nombre', '=', 'guias_formatos_pdf');
 
@@ -386,16 +387,17 @@ class GuiasController extends Admin
             if (!empty($parametro['valor']) && is_string($parametro['valor'])) {
                 if (url_exists(public_url('admin/guias/_storage/formatos/' . $parametro['valor'] . '/'))) {
                     $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/' . $parametro['valor'] . '/');
-                    return  $this->ID_FORMATO_GUIA = $parametro['id'];
+                    $this->ID_FORMATO_GUIA = $parametro['id'];
                 } else {
-                    $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
+                    $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/default/');
                 }
             } else {
-                $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
+                $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/default/');
             }
         } else {
-            $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/');
+            $this->FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/default/');
         }
+        return $this->ID_FORMATO_GUIA;
     }
     
     public function search($keyword)
@@ -563,6 +565,8 @@ class GuiasController extends Admin
         $response['chofer_telefono'] = $guia['choferes_telefono'];
         $response['estatus'] = $guia['estatus'];
         $response['role'] = $this->USER_ROLE;
+        $response['precinto_1'] = empty($guia['precinto']) ? 'precinto_vacio' : $guia['precinto'];
+        $response['precinto_2'] = empty($guia['precinto_2']) ? 'precinto_vacio' : $guia['precinto_2'];
 
         return $response;
     }
@@ -960,13 +964,6 @@ class GuiasController extends Admin
                 }
 
 
-                for ($i = 1; $i <= $contador; $i++) {
-                    if (isset($_POST['cantidad_' . $i])) {
-                        $cantidad = $_POST['cantidad_' . $i];
-                        $descripcion = $_POST['descripcion_' . $i];
-                    }
-                }
-
                 $guiasCarga = $modelGuiasCarga->getList('guias_id', '=', $id);
                 foreach ($guiasCarga as $carga) {
                     $modelGuiasCarga->delete($carga['id']);
@@ -975,16 +972,16 @@ class GuiasController extends Admin
                     if (isset($_POST['cantidad_' . $i])) {
                         $cantidad = $_POST['cantidad_' . $i];
                         $descripcion = $_POST['descripcion_' . $i];
+
+                        $dataCarga = [
+                            $id,
+                            $cantidad,
+                            $descripcion
+                        ];
+
+                        $modelGuiasCarga->save($dataCarga);
+                        $cambios = true;
                     }
-                    $dataCarga = [
-                        $id,
-                        $cantidad,
-                        $descripcion
-                    ];
-
-
-                    $modelGuiasCarga->save($dataCarga);
-                    $cambios = true;
 
                 }
 
@@ -1077,6 +1074,7 @@ class GuiasController extends Admin
         $response['codigo'] = $guia['codigo'];
         $response['opt'] = $opt;
         $response['total'] = $this->totalRows;
+        $response['role'] = $this->USER_ROLE;
         return $response;
     }
 }

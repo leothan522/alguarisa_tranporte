@@ -6,9 +6,9 @@
             </h3>
 
             <div class="card-tools">
-                <button type="button" class="btn btn-tool">
+                <span class="btn btn-tool" id="icono_span_title">
                     Cancelar
-                </button>
+                </span>
             </div>
             <!-- /.card-tools -->
         </div>

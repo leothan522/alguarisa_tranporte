@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../../../../vendor/autoload.php";
+require_once "../../../../../vendor/autoload.php";
 use app\controller\GuiasController;
 use app\resources\fpdf\PDF_WriteTag;
 $controller = new GuiasController();
@@ -35,7 +35,7 @@ $pdf->SetTextColor($rojo, $verde, $negro);
 //CABECERA ****************************************************************************
 $pdf->AddPage('P', 'Letter');
 $pdf->SetFont('Times', 'BU', 12);
-$pdf->Image('../hoja_membretada.png', 0, 0, 210, 280);
+$pdf->Image('../../hoja_membretada.png', 0, 0, 210, 280);
 $pdf->Image('QRcode.png', 10, 28, 30, 30);
 $pdf->ln(20);
 $pdf->Cell(0, 4,$controller->codigo, 0, 1, 'R');
