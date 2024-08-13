@@ -490,87 +490,6 @@ class GuiasController extends Admin
         $this->keyword = $keyword;
     }
 
-    public function getGuia($id): array
-    {
-        $model = new Guia();
-        $modelCarga = new GuiasCarga();
-        $guia = $model->find($id);
-        $cargamento = $modelCarga->getList('guias_id', '=', $id);
-        $response = crearResponse(
-            false,
-            true,
-            'Editar Guia',
-            'Editar Guia',
-            'success',
-            false,
-            true
-        );
-        $response['id'] = $guia['id'];
-        $response['tipo'] = $guia['guias_tipos_id'];
-        $response['codigo'] = $guia['codigo'];
-        $response['vehiculo'] = $guia['vehiculos_id'];
-        $response['chofer'] = $guia['choferes_id'];
-        $response['origen'] = $guia['territorios_origen'];
-        $response['destino'] = $guia['territorios_destino'];
-        $response['fecha'] = $guia['fecha'];
-        $response['precinto'] = $guia['precinto'];
-        $response['precinto_2'] = $guia['precinto_2'];
-        foreach ($cargamento as $carga){
-            $id = $carga['id'];
-            $cantidad = $carga['cantidad'];
-            $descripcion = $carga['descripcion'];
-            $response['listarCarga'][] = array("id" => $id, "cantidad" => $cantidad, "descripcion" => $descripcion);
-        }
-
-        return $response;
-    }
-
-    public function showGuia($id): array
-    {
-        $model = new Guia();
-        $modelCarga = new GuiasCarga();
-        $modelGuiasTipo = new GuiasTipo();
-        $guia = $model->find($id);
-        $cargamento = $modelCarga->getList('guias_id', '=', $id);
-        $tipoGuia = $modelGuiasTipo->find($guia['guias_tipos_id']);
-        $response = crearResponse(
-            false,
-            true,
-            'show Guia',
-            'show Guia',
-            'success',
-            false,
-            true
-        );
-        $response['id'] = $guia['id'];
-        $response['destino'] = $guia['rutas_destino'];
-        $response['codigo'] = $guia['codigo'];
-        $response['fecha'] = verFecha($guia['fecha']);
-        $response['tipo'] = $tipoGuia['nombre'];
-        $response['origen'] = $guia['rutas_origen'];
-        foreach ($cargamento as $carga){
-            $id = $carga['id'];
-            $cantidad = is_numeric($carga['cantidad']) ? formatoMillares($carga['cantidad']) : $carga['cantidad'];
-            $descripcion = $carga['descripcion'];
-            $response['listarCarga'][] = array("id" => $id, "cantidad" => mb_strtoupper($cantidad), "descripcion" => mb_strtoupper($descripcion));
-        }
-        $response['vehiculo_tipo'] = $guia['vehiculos_tipo'];
-        $response['vehiculo_placa_batea'] = $guia['vehiculos_placa_batea'];
-        $response['vehiculo_placa_chuto'] = $guia['vehiculos_placa_chuto'];
-        $response['vehiculo_marca'] = $guia['vehiculos_marca'];
-        $response['vehiculo_color'] = $guia['vehiculos_color'];
-        $response['vehiculo_capacidad'] =  is_numeric($guia['vehiculos_capacidad']) ? formatoMillares($guia['vehiculos_capacidad']) : $guia['vehiculos_capacidad'];
-        $response['chofer'] = $guia['choferes_nombre'];
-        $response['chofer_cedula'] = formatoMillares($guia['choferes_cedula']);
-        $response['chofer_telefono'] = $guia['choferes_telefono'];
-        $response['estatus'] = $guia['estatus'];
-        $response['role'] = $this->USER_ROLE;
-        $response['precinto_1'] = empty($guia['precinto']) ? 'precinto_vacio' : $guia['precinto'];
-        $response['precinto_2'] = empty($guia['precinto_2']) ? 'precinto_vacio' : $guia['precinto_2'];
-
-        return $response;
-    }
-
     public function getTipoVehiculo($id = null)
     {
         $model = new VehiculoTipo();
@@ -582,7 +501,7 @@ class GuiasController extends Admin
         return $model->getAll();
     }
 
-    public function getSelectGuia(): array
+    public function create(): array
     {
         $model = new Guia();
         $modelTerritorio = new Parroquia();
@@ -590,85 +509,54 @@ class GuiasController extends Admin
         $modelVehiculos = new Vehiculo();
         $modelChofer = new Chofere();
 
-        $guia = $model->getAll(1);
+        //$guia = $model->getAll(1);
         $sql = "SELECT * FROM parroquias WHERE estatus = '1';";
         $parroquias = $modelTerritorio->sqlPersonalizado($sql, 'getAll');
         $guiasTipo = $modelGuiasTipo->getAll();
         $vehiculos = $modelVehiculos->getAll(1);
-        $chofer = $modelChofer->getAll(1);
+        $choferes = $modelChofer->getAll(1);
 
 
-        $response = [
-            'guia' => $guia,
-            'territorio' => $parroquias,
-            'guiasTipo' => $guiasTipo,
-            'vehiculos' => $vehiculos,
-            'choferes' => $chofer
-        ];
-        return $response;
-
-    }
-
-    public function getCodigo($valor, $accion, $id): array
-    {
-        $model = new GuiasTipo();
-        $modelGuia = new Guia();
-        $sql = "SELECT * FROM guias_tipos;";
-        $tipos = $model->sqlPersonalizado($sql, 'getAll');
         $response = crearResponse(
-            false,
+            null,
             true,
-            'get codigo',
-            'get codigo',
+            null,
+            null,
+            'success',
             false,
-            false,
-            false
-        );
-        foreach ($tipos as $indice => $tipo) {
-           if ($accion == 'create'){
-               //para cuando se crea una guia nueva
-               if ($valor == 1) {
-                   if ($indice === 0) {
-                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($this->GUIAS_NUM_INIT, 5).'-'.date("Y");
-                   }
-               } else {
-                   if ($indice === 1) {
-                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($this->GUIAS_NUM_INIT, 5).'-'.date("Y");
-                   }
-               }
-           }else{
-               //para cuando se edita una guia, solamente se cambia el codigo, lo demas permanece igual.
-               $guia = $modelGuia->find($id);
-               $numero_guia = explode("-", $guia['codigo']);
-               if ($valor == 1) {
-                   if ($indice === 0) {
-                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($numero_guia[1], 5).'-'.$numero_guia[2];
-                   }
-               } else {
-                   if ($indice === 1) {
-                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($numero_guia[1], 5).'-'.$numero_guia[2];
-                   }
-               }
-           }
-        }
-        return $response;
-    }
+            true);
 
-    public function existeRuta($origen, $destino){
-        $model = new Ruta();
-        $sql = "SELECT * FROM rutas WHERE `origen` = '$origen' AND `destino` = '$destino' AND `band` = '1' AND `version` = '1';";
-        $ruta = $model->sqlPersonalizado($sql);
-        if ($ruta){
-            return $ruta;
-        }else{
-            $sql = "SELECT * FROM rutas WHERE `origen` = '$destino' AND `destino` = '$origen' AND `band` = '1' AND `version` = '1';";
-            $ruta = $model->sqlPersonalizado($sql);
-            if ($ruta){
-                $ruta['ruta'] = array_reverse(json_decode($ruta['ruta']));
-                $ruta['ruta'] = json_encode($ruta['ruta']);
-                return $ruta;
-            }
+        foreach ($parroquias as $lugar) {
+            $id = $lugar['id'];
+            $nombre = $lugar['nombre'];
+            $response['listarTerritorios'][] = array("id" => $id,"nombre" => $nombre);
         }
+
+        foreach ($guiasTipo as $tipo){
+            $id = $tipo['id'];
+            $nombre = $tipo['nombre'];
+            $codigo = $tipo['codigo'];
+            $response['listarTipos'][] = array("id" => $id, "nombre" => $nombre, "codigo" => $codigo);
+        }
+
+        foreach ($vehiculos as $vehiculo) {
+            $id = $vehiculo['id'];
+            $placa = $vehiculo['placa_batea'];
+            $tipo = $this->getTipoVehiculo($vehiculo['tipo']);
+            $nombre = $tipo['nombre'];
+            $response['listarVehiculos'][] = array("id" => $id, "placa" => $placa, "tipo" => $nombre);
+        }
+
+        foreach ($choferes as $chofer){
+            $id = $chofer['id'];
+            $cedula = $chofer['cedula'];
+            $nombre = $chofer['nombre'];
+            $response['listarChofer'][] = array("id" => $id, "nombre" => $nombre, "cedula" => $cedula);
+        }
+
+        $response['hoy'] = date("Y-m-d");
+
+        return $response;
 
     }
 
@@ -826,6 +714,124 @@ class GuiasController extends Admin
 
         return $response;
 
+    }
+
+    public function showGuia($id): array
+    {
+        $model = new Guia();
+        $modelCarga = new GuiasCarga();
+        $modelGuiasTipo = new GuiasTipo();
+        $guia = $model->find($id);
+        $cargamento = $modelCarga->getList('guias_id', '=', $id);
+        $tipoGuia = $modelGuiasTipo->find($guia['guias_tipos_id']);
+        $response = crearResponse(
+            false,
+            true,
+            'show Guia',
+            'show Guia',
+            'success',
+            false,
+            true
+        );
+        $response['id'] = $guia['id'];
+        $response['destino'] = $guia['rutas_destino'];
+        $response['codigo'] = $guia['codigo'];
+        $response['fecha'] = verFecha($guia['fecha']);
+        $response['tipo'] = $tipoGuia['nombre'];
+        $response['origen'] = $guia['rutas_origen'];
+        foreach ($cargamento as $carga){
+            $id = $carga['id'];
+            $cantidad = is_numeric($carga['cantidad']) ? formatoMillares($carga['cantidad']) : $carga['cantidad'];
+            $descripcion = $carga['descripcion'];
+            $response['listarCarga'][] = array("id" => $id, "cantidad" => mb_strtoupper($cantidad), "descripcion" => mb_strtoupper($descripcion));
+        }
+        $response['vehiculo_tipo'] = $guia['vehiculos_tipo'];
+        $response['vehiculo_placa_batea'] = $guia['vehiculos_placa_batea'];
+        $response['vehiculo_placa_chuto'] = $guia['vehiculos_placa_chuto'];
+        $response['vehiculo_marca'] = $guia['vehiculos_marca'];
+        $response['vehiculo_color'] = $guia['vehiculos_color'];
+        $response['vehiculo_capacidad'] =  is_numeric($guia['vehiculos_capacidad']) ? formatoMillares($guia['vehiculos_capacidad']) : $guia['vehiculos_capacidad'];
+        $response['chofer'] = $guia['choferes_nombre'];
+        $response['chofer_cedula'] = formatoMillares($guia['choferes_cedula']);
+        $response['chofer_telefono'] = $guia['choferes_telefono'];
+        $response['estatus'] = $guia['estatus'];
+        $response['role'] = $this->USER_ROLE;
+        $response['precinto_1'] = empty($guia['precinto']) ? 'precinto_vacio' : $guia['precinto'];
+        $response['precinto_2'] = empty($guia['precinto_2']) ? 'precinto_vacio' : $guia['precinto_2'];
+
+        return $response;
+    }
+
+    public function getCodigo($valor, $accion, $id): array
+    {
+        $model = new GuiasTipo();
+        $modelGuia = new Guia();
+        $sql = "SELECT * FROM guias_tipos;";
+        $tipos = $model->sqlPersonalizado($sql, 'getAll');
+        $response = crearResponse(
+            false,
+            true,
+            'get codigo',
+            'get codigo',
+            false,
+            false,
+            false
+        );
+        foreach ($tipos as $indice => $tipo) {
+           if ($accion == 'create'){
+               //para cuando se crea una guia nueva
+               if ($valor == 1) {
+                   if ($indice === 0) {
+                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($this->GUIAS_NUM_INIT, 5).'-'.date("Y");
+                   }
+               } else {
+                   if ($indice === 1) {
+                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($this->GUIAS_NUM_INIT, 5).'-'.date("Y");
+                   }
+               }
+           }else{
+               //para cuando se edita una guia, solamente se cambia el codigo, lo demas permanece igual.
+               $guia = $modelGuia->find($id);
+               $numero_guia = explode("-", $guia['codigo']);
+               if ($valor == 1) {
+                   if ($indice === 0) {
+                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($numero_guia[1], 5).'-'.$numero_guia[2];
+                   }
+               } else {
+                   if ($indice === 1) {
+                       $response['codigo'] = $tipo['codigo']. '-'. cerosIzquierda($numero_guia[1], 5).'-'.$numero_guia[2];
+                   }
+               }
+           }
+        }
+        return $response;
+    }
+
+    public function edit($id): array
+    {
+        $model = new Guia();
+        $modelCarga = new GuiasCarga();
+        $guia = $model->find($id);
+        $cargamento = $modelCarga->getList('guias_id', '=', $id);
+
+        $response['id'] = $guia['id'];
+        $response['tipo'] = $guia['guias_tipos_id'];
+        $response['codigo'] = $guia['codigo'];
+        $response['vehiculo'] = $guia['vehiculos_id'];
+        $response['chofer'] = $guia['choferes_id'];
+        $response['origen'] = $guia['territorios_origen'];
+        $response['destino'] = $guia['territorios_destino'];
+        $response['fecha'] = $guia['fecha'];
+        $response['precinto'] = $guia['precinto'];
+        $response['precinto_2'] = $guia['precinto_2'];
+        foreach ($cargamento as $carga){
+            $id = $carga['id'];
+            $cantidad = $carga['cantidad'];
+            $descripcion = $carga['descripcion'];
+            $response['listarCarga'][] = array("id" => $id, "cantidad" => $cantidad, "descripcion" => $descripcion);
+        }
+
+        return $response;
     }
 
     public function update($id,$guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador): array
@@ -1076,5 +1082,23 @@ class GuiasController extends Admin
         $response['total'] = $this->totalRows;
         $response['role'] = $this->USER_ROLE;
         return $response;
+    }
+
+    public function existeRuta($origen, $destino){
+        $model = new Ruta();
+        $sql = "SELECT * FROM rutas WHERE `origen` = '$origen' AND `destino` = '$destino' AND `band` = '1' AND `version` = '1';";
+        $ruta = $model->sqlPersonalizado($sql);
+        if ($ruta){
+            return $ruta;
+        }else{
+            $sql = "SELECT * FROM rutas WHERE `origen` = '$destino' AND `destino` = '$origen' AND `band` = '1' AND `version` = '1';";
+            $ruta = $model->sqlPersonalizado($sql);
+            if ($ruta){
+                $ruta['ruta'] = array_reverse(json_decode($ruta['ruta']));
+                $ruta['ruta'] = json_encode($ruta['ruta']);
+                return $ruta;
+            }
+        }
+
     }
 }

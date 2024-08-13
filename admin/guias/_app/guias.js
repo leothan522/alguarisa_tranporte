@@ -85,6 +85,68 @@ $('#navbar_form_buscar').submit(function (e) {
    });
 });
 
+function resetGuia() {
+    $('#form_guias_tipo')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('')
+        .trigger('change');
+    $('#form_guias_codigo')
+        .val('')
+        .removeClass('is-invalid')
+        .removeClass('is-valid');
+    $('#form_guias_vehiculo')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('')
+        .trigger('change');
+    $('#form_guias_chofer')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('')
+        .trigger('change');
+    $('#form_guias_origen')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('')
+        .trigger('change');
+    $('#form_guias_destino')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('')
+        .trigger('change');
+    $('#form_guias_fecha')
+        .removeClass('is-valid')
+        .removeClass('is-invalid')
+        .val('');
+    $('#form_guias_precinto').val('');
+    $('#form_guias_precinto_2').val('');
+    $('#guias_opcion').val('store');
+    let contadorGuia = document.getElementById('contador_guia');
+    for (let i = 1; i <= contadorGuia.value; i++) {
+        if (i > 1){
+            if ($('#item_guia_'+ i).length){
+                btnRemoveGuia('item_guia_' + i);
+            }
+        }
+    }
+    contadorGuia.value = 1;
+    contadorGuia.dataset.contadorGuia = 1;
+    $('#cantidad_1')
+        .val('')
+        .removeClass('is-valid')
+        .removeClass('is-invalid');
+    $('#descripcion_1')
+        .val('')
+        .removeClass('is-valid')
+        .removeClass('is-invalid');
+
+    if (!$('#mensaje_error_guia').hasClass("d-none")){
+        $('#mensaje_error_guia').addClass("d-none");
+    }
+
+}
+
 function reconstruirTablaGuias() {
     ajaxRequest({url: '_request/GuiasRequest.php', data: { opcion: 'index'},html: 'si'}, function (data) {
         $('#div_guias').html(data.html);
@@ -134,6 +196,123 @@ function displayGuias(init = 'true') {
     verSpinner(false);
 }
 
+function rellenarForm(data, option = 'create') {
+    let selectTipo = $('#form_guias_tipo');
+    let tipo = data.listarTipos.length;
+    selectTipo.empty();
+    selectTipo.append('<option value="">Seleccione</option>');
+    for (let i = 0; i < tipo; i++) {
+        let id = data.listarTipos[i]['id'];
+        let nombre = data.listarTipos[i]['nombre'];
+        selectTipo.append('<option value="' + id + '">' + nombre + '</option>');
+    }
+
+    let selectVehiculo = $('#form_guias_vehiculo');
+    let vehiculos = data.listarVehiculos.length;
+    selectVehiculo.empty();
+    selectVehiculo.append('<option value="">Seleccione</option>');
+    for (let i = 0; i < vehiculos; i++) {
+        let id = data.listarVehiculos[i]['id'];
+        let placa = data.listarVehiculos[i]['placa'];
+        let tipo = data.listarVehiculos[i]['tipo'];
+        selectVehiculo.append('<option value="' + id + '">' + placa + ' - ' + tipo + '</option>');
+    }
+
+    let selectChofer = $('#form_guias_chofer');
+    let chofer = data.listarChofer.length;
+    selectChofer.empty();
+    selectChofer.append('<option value="">Seleccione</option>');
+    for (let i = 0; i < chofer; i++) {
+        let id = data.listarChofer[i]['id'];
+        let cedula = data.listarChofer[i]['cedula'];
+        let nombre = data.listarChofer[i]['nombre'];
+        selectChofer.append('<option value="' + id + '">' + cedula + ' - ' + nombre + '</option>');
+    }
+
+    let selecOrigen = $('#form_guias_origen');
+    let origen = data.listarTerritorios.length;
+    selecOrigen.empty();
+    selecOrigen.append('<option value="">Seleccione</option>');
+    for (let i = 0; i < origen; i++) {
+        let id = data.listarTerritorios[i]['id'];
+        let nombre = data.listarTerritorios[i]['nombre'];
+        selecOrigen.append('<option value="' + id + '">' + nombre + '</option>');
+    }
+
+    let selecDestino = $('#form_guias_destino');
+    let destino = data.listarTerritorios.length;
+    selecDestino.empty();
+    selecDestino.append('<option value="">Seleccione</option>');
+    for (let i = 0; i < destino; i++) {
+        let id = data.listarTerritorios[i]['id'];
+        let nombre = data.listarTerritorios[i]['nombre'];
+        selecDestino.append('<option value="' + id + '">' + nombre + '</option>');
+    }
+
+    $('#form_guias_fecha').val(data.hoy);
+
+    if (option !== 'create'){
+        //colocar datos de la guia a editar
+        $('#form_guias_tipo')
+            .val(data.tipo)
+            .trigger('change');
+        $('#form_guias_codigo').val(data.codigo);
+        $('#form_guias_vehiculo')
+            .val(data.vehiculo)
+            .trigger('change');
+        $('#form_guias_chofer')
+            .val(data.chofer)
+            .trigger('change');
+        $('#form_guias_origen')
+            .val(data.origen)
+            .trigger('change');
+        $('#form_guias_destino')
+            .val(data.destino)
+            .trigger('change');
+        $('#form_guias_fecha').val(data.fecha);
+        $('#form_guias_precinto').val(data.precinto);
+        $('#form_guias_precinto_2').val(data.precinto_2);
+
+        let total_items = $('#items_guias');
+        let cargamento = data.listarCarga.length;
+        let html = '';
+        let item = 0;
+        let btn = '';
+        for (let i = 0; i < cargamento; i++){
+            item = i+1;
+            let cantidad = data.listarCarga[i]['cantidad'];
+            let descripcion = data.listarCarga[i]['descripcion'];
+            if (item > 1){
+                btn = '<button type="button" class="btn" onclick="btnRemoveGuia(\'item_guia_' + item + '\')">' +
+                    '      <i class="fas fa-minus-circle text-danger"></i>' +
+                    '</button>';
+            }else {
+                btn = '<span class="btn">&nbsp;</span>';
+            }
+
+            html += ' <div class="row p-0" id="item_guia_'+ item +'">\n' +
+                '          <div class="col-3">\n' +
+                '              <input type="text" class="form-control input_guias_carga" value="'+ cantidad +'" name="cantidad_'+ item +'" placeholder="Cant."  id="cantidad_'+ item +'"/>\n' +
+                '          </div>\n' +
+                '          <div class="col-7">\n' +
+                '              <input type="text" class="form-control input_guias_carga" value="'+ descripcion +'" name="descripcion_'+ item +'" placeholder="Descripción" id="descripcion_'+ item +'"/>\n' +
+                '          </div>\n' +
+                '          <div class="col-2">\n' +
+                btn +
+                '          </div>\n' +
+                '      </div>';
+        }
+        total_items.html(html);
+        let contador = document.getElementById('contador_guia');
+        contador.value = cargamento;
+        contador.dataset.contador = cargamento;
+        $('#guias_opcion').val('update');
+        $('#guias_id').val(data.id);
+    }
+
+    displayGuias('form');
+}
+
 function createGuia() {
     $('#title_form_guias').text('Nueva Guía');
     $('#icono_span_title').html('<i class="fas fa-file"></i>');
@@ -141,69 +320,10 @@ function createGuia() {
         .attr("data-dismiss", "modal")
         .text('Cerrar');
     resetGuia();
-    getSelectGuia();
-
-}
-
-function getSelectGuia() {
-    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'get_select_guia'}}, function (data) {
+    ajaxRequest({url: '_request/GuiasRequest.php', data: { opcion: 'create' } }, function (data) {
         if (data.result){
-
-            let selectTipo = $('#form_guias_tipo');
-            let tipo = data.listarTipos.length;
-            selectTipo.empty();
-            selectTipo.append('<option value="">Seleccione</option>');
-            for (let i = 0; i < tipo; i++) {
-                let id = data.listarTipos[i]['id'];
-                let nombre = data.listarTipos[i]['nombre'];
-                selectTipo.append('<option value="' + id + '">' + nombre + '</option>');
-            }
-
-            let selectVehiculo = $('#form_guias_vehiculo');
-            let vehiculos = data.listarVehiculos.length;
-            selectVehiculo.empty();
-            selectVehiculo.append('<option value="">Seleccione</option>');
-            for (let i = 0; i < vehiculos; i++) {
-                let id = data.listarVehiculos[i]['id'];
-                let placa = data.listarVehiculos[i]['placa'];
-                let tipo = data.listarVehiculos[i]['tipo'];
-                selectVehiculo.append('<option value="' + id + '">' + placa + ' - ' + tipo + '</option>');
-            }
-
-            let selectChofer = $('#form_guias_chofer');
-            let chofer = data.listarChofer.length;
-            selectChofer.empty();
-            selectChofer.append('<option value="">Seleccione</option>');
-            for (let i = 0; i < chofer; i++) {
-                let id = data.listarChofer[i]['id'];
-                let cedula = data.listarChofer[i]['cedula'];
-                let nombre = data.listarChofer[i]['nombre'];
-                selectChofer.append('<option value="' + id + '">' + cedula + ' - ' + nombre + '</option>');
-            }
-
-            let selecOrigen = $('#form_guias_origen');
-            let origen = data.listarTerritorios.length;
-            selecOrigen.empty();
-            selecOrigen.append('<option value="">Seleccione</option>');
-            for (let i = 0; i < origen; i++) {
-                let id = data.listarTerritorios[i]['id'];
-                let nombre = data.listarTerritorios[i]['nombre'];
-                selecOrigen.append('<option value="' + id + '">' + nombre + '</option>');
-            }
-
-            let selecDestino = $('#form_guias_destino');
-            let destino = data.listarTerritorios.length;
-            selecDestino.empty();
-            selecDestino.append('<option value="">Seleccione</option>');
-            for (let i = 0; i < destino; i++) {
-                let id = data.listarTerritorios[i]['id'];
-                let nombre = data.listarTerritorios[i]['nombre'];
-                selecDestino.append('<option value="' + id + '">' + nombre + '</option>');
-            }
-
-            $('#form_guias_fecha').val(data.hoy);
-
-            displayGuias('form');
+            //rellenar formulario
+            rellenarForm(data);
         }
     });
 }
@@ -299,9 +419,9 @@ function showGuia(id) {
 }
 
 function editGuia(id) {
+
     resetGuia();
-    getSelectGuia();
-    let update = 'update';
+
     $('#modal_guia_btn_guardar').text('Guardar Cambios');
     $('#title_form_guias').text('Editar Guia');
     $('#icono_span_title').html('<i class="fas fa-edit"></i>');
@@ -311,65 +431,12 @@ function editGuia(id) {
         .attr("onclick", "showGuia("+id+")")
         .text('Cancelar');
 
-    $('#form_guias_tipo').attr('oninput', 'tipoGuia(this.value, "'+update+'", "'+id+'")')
-    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'edit_guia', id: id}}, function (data) {
+    $('#form_guias_tipo').attr('oninput', 'tipoGuia(this.value, "\'update\'", "'+id+'")');
+
+    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'edit', id: id}}, function (data) {
         if (data.result){
-            $('#form_guias_tipo')
-                .val(data.tipo)
-                .trigger('change');
-            $('#form_guias_codigo').val(data.codigo);
-            $('#form_guias_vehiculo')
-                .val(data.vehiculo)
-                .trigger('change');
-            $('#form_guias_chofer')
-                .val(data.chofer)
-                .trigger('change');
-            $('#form_guias_origen')
-                .val(data.origen)
-                .trigger('change');
-            $('#form_guias_destino')
-                .val(data.destino)
-                .trigger('change');
-            $('#form_guias_fecha').val(data.fecha);
-            $('#form_guias_precinto').val(data.precinto);
-            $('#form_guias_precinto_2').val(data.precinto_2);
-
-            let total_items = $('#items_guias');
-            let cargamento = data.listarCarga.length;
-            let html = '';
-            let item = 0;
-            let btn = '';
-            for (let i = 0; i < cargamento; i++){
-                item = i+1;
-                let cantidad = data.listarCarga[i]['cantidad'];
-                let descripcion = data.listarCarga[i]['descripcion'];
-                if (item > 1){
-                    btn = '<button type="button" class="btn" onclick="btnRemoveGuia(\'item_guia_' + item + '\')">' +
-                          '      <i class="fas fa-minus-circle text-danger"></i>' +
-                          '</button>';
-                }else {
-                    btn = '<span class="btn">&nbsp;</span>';
-                }
-
-                html += ' <div class="row p-0" id="item_guia_'+ item +'">\n' +
-                    '          <div class="col-3">\n' +
-                    '              <input type="text" class="form-control input_guias_carga" value="'+ cantidad +'" name="cantidad_'+ item +'" placeholder="Cant."  id="cantidad_'+ item +'"/>\n' +
-                    '          </div>\n' +
-                    '          <div class="col-7">\n' +
-                    '              <input type="text" class="form-control input_guias_carga" value="'+ descripcion +'" name="descripcion_'+ item +'" placeholder="Descripción" id="descripcion_'+ item +'"/>\n' +
-                    '          </div>\n' +
-                    '          <div class="col-2">\n' +
-                                btn +
-                    '          </div>\n' +
-                    '      </div>';
-            }
-            total_items.html(html);
-            let contador = document.getElementById('contador_guia');
-            contador.value = cargamento;
-            contador.dataset.contador = cargamento;
-            $('#guias_opcion').val('update');
-            $('#guias_id').val(id);
-            displayGuias('form');
+            //rellenar formulario
+            rellenarForm(data, 'edit');
         }
     });
 
@@ -554,68 +621,6 @@ function tipoGuia(value, accion, id) {
             $('#form_guias_codigo').val(data.codigo);
         });
     }
-}
-
-function resetGuia() {
-    $('#form_guias_tipo')
-        .removeClass('is-valid')
-        .removeClass('is-invalid')
-        .val('')
-        .trigger('change');
-    $('#form_guias_codigo')
-        .val('')
-        .removeClass('is-invalid')
-        .removeClass('is-valid');
-    $('#form_guias_vehiculo')
-        .removeClass('is-valid')
-        .removeClass('is-invalid')
-        .val('')
-        .trigger('change');
-    $('#form_guias_chofer')
-        .removeClass('is-valid')
-        .removeClass('is-invalid')
-        .val('')
-        .trigger('change');
-    $('#form_guias_origen')
-        .removeClass('is-valid')
-        .removeClass('is-invalid')
-        .val('')
-        .trigger('change');
-    $('#form_guias_destino')
-        .removeClass('is-valid')
-        .removeClass('is-invalid')
-        .val('')
-        .trigger('change');
-    $('#form_guias_fecha')
-        .removeClass('is-valid')
-        .removeClass('is-invalid')
-        .val('');
-    $('#form_guias_precinto').val('');
-    $('#form_guias_precinto_2').val('');
-    $('#guias_opcion').val('store');
-    let contadorGuia = document.getElementById('contador_guia');
-    for (let i = 1; i <= contadorGuia.value; i++) {
-        if (i > 1){
-            if ($('#item_guia_'+ i).length){
-                btnRemoveGuia('item_guia_' + i);
-            }
-        }
-    }
-    contadorGuia.value = 1;
-    contadorGuia.dataset.contadorGuia = 1;
-    $('#cantidad_1')
-        .val('')
-        .removeClass('is-valid')
-        .removeClass('is-invalid');
-    $('#descripcion_1')
-        .val('')
-        .removeClass('is-valid')
-        .removeClass('is-invalid');
-
-    if (!$('#mensaje_error_guia').hasClass("d-none")){
-        $('#mensaje_error_guia').addClass("d-none");
-    }
-
 }
 
 function destroy(id, opt = 'anular') {
