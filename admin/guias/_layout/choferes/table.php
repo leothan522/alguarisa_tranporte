@@ -21,6 +21,14 @@
         </h3>
 
         <div class="card-tools">
+            <a href="https://alguarisa.com/guias/admin/transporte/choferes/descargar_excel.php" target="_blank" class="btn btn-tool d-none" onclick="">
+                <i class="fas fa-file-excel"></i> Descargar Excel
+            </a>
+
+            <a href="https://alguarisa.com/guias/admin/transporte/choferes/choferes_pdf.php" target="_blank" class="btn btn-tool" onclick="">
+                <i class="fas fa-qrcode"></i> Choferes QR
+            </a>
+
             <button type="button" class="btn btn-tool" onclick="createChoferes()">
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>
