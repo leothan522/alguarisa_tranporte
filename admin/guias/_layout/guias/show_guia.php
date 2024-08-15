@@ -39,10 +39,10 @@
                 </li>
                 <li class="nav-item">
                     <span class="nav-link">
-                        Cargamento:
+                        Cargamento: <span class="float-right text-primary text-uppercase" id="show_guias_cargamento"></span>
                     </span>
                 </li>
-                <li class="nav-item pr-5 pl-5 pt-3">
+                <li class="nav-item pr-5 pl-5 pt-3" id="show_table_ocultar">
                     <div class="table-responsive">
                         <table class="table table-sm table-bordered" id="show_table_guias_cargamento">
                             <thead>
@@ -52,7 +52,7 @@
                             </tr>
                             </thead>
 
-                            <tbody id="show_guias_cargamento">
+                            <tbody id="show_guias_table_cargamento">
                             <!-- lo relleno con js  -->
                             </tbody>
                         </table>

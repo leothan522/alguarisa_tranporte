@@ -104,7 +104,7 @@ if ($_POST) {
                     }
                     break;
 
-                case 'show_guia':
+                case 'show':
                     if (!empty($_POST['id'])){
                         $id = $_POST['id'];
                         $response = $controller->showGuia($id);
@@ -115,13 +115,11 @@ if ($_POST) {
 
                 case 'get_codigo':
                     if (
-                        !empty($_POST['valor']) &&
-                        !empty($_POST['accion'])
+                        !empty($_POST['tipos_id'])
                     ){
-                        $valor = $_POST['valor'];
-                        $accion = $_POST['accion'];
+                        $tipos_id = $_POST['tipos_id'];
                         $id = $_POST['id'];
-                        $response = $controller->getCodigo($valor, $accion, $id);
+                        $response = $controller->getCodigo($tipos_id, $id);
                     }else{
                         $response = crearResponse('faltan_datos');
                     }
@@ -164,15 +162,8 @@ if ($_POST) {
                             $precinto_2 = $_POST['precinto_2'];
                         }
 
-                        $array = array();
-                        for ($i = 1; $i <= $contador; $i++){
-                            if (isset($_POST['cantidad_'. $i])){
-                                $array[$i]['cantidad'] = $_POST['cantidad_'. $i];
-                                $array[$i]['descripcion'] = $_POST['descripcion_'. $i];
-                            }
-                        }
 
-                        $response = $controller->store($guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador, $array);
+                        $response = $controller->store($guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador);
                         if ($response['result']){
                             $paginate = true;
                             $controller->index();

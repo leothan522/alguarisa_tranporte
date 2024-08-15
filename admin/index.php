@@ -4,6 +4,7 @@ require_once "../vendor/autoload.php";
 use app\controller\DashboardController;
 $controller = new DashboardController();
 $controller->isAdmin();
+$controller->index();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -97,6 +98,7 @@ $controller->isAdmin();
 <script src="<?php asset('app/resources/adminlte/plugins/sweetalert2/sweetalert2.min.js'); ?>"></script>
 <script src="<?php asset('public/js/sweetalert-app.js', true);  ?>"></script>
 <script src="<?php asset('public/js/app.js', true); ?>"></script>
+<script src="<?php asset('admin/index/_app/dashboard.js', true); ?>"></script>
 
 </body>
 </html>

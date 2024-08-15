@@ -16,14 +16,15 @@
         <div class="card-body">
 
 
-            <div class="row ml-1 mr-1 mb-3">
+            <div class="row ml-1 mr-1 mb-3 justify-content-end">
                 <span class="col-4 input-group-text">Tipo de Guía</span>
                 <span class="col-8">
                     <select class="select2bs4" data-placeholder="Seleccionar" name="guias_tipo_id" oninput="tipoGuia(this.value, 'create', '')" id="form_guias_tipo">
-                    <option value="">Seleccione</option>
-                </select>
-                    <div class="invalid-feedback" id="error_select_guias_tipo"></div>
+                        <option value="">Seleccione</option>
+                    </select>
+                    <!--<div class="invalid-feedback" id="error_select_guias_tipo"></div>-->
                 </span>
+                <small class="col-8 text-xs text-danger" id="error_select_guias_tipo"></small>
             </div>
 
             <div class="row ml-1 mr-1 mb-3">
@@ -34,59 +35,58 @@
                 </span>
             </div>
 
-            <div class="row ml-1 mr-1 mb-3">
+            <div class="row ml-1 mr-1 mb-3 justify-content-end">
                 <span class="col-4 input-group-text">Vehículo</span>
                 <span class="col-8">
                     <select class="select2bs4" data-placeholder="Seleccionar" name="vehiculos_id" id="form_guias_vehiculo">
-                    <option value="">Seleccione</option>
-                </select>
-                    <div class="invalid-feedback" id="error_select_guias_vehiculo"></div>
+                        <option value="">Seleccione</option>
+                    </select>
                 </span>
+                <small class="col-8 text-xs text-danger" id="error_select_guias_vehiculo"></small>
             </div>
 
-            <div class="row ml-1 mr-1 mb-3">
+            <div class="row ml-1 mr-1 mb-3 justify-content-end">
                 <span class="col-4 input-group-text">Chofer</span>
                 <span class="col-8">
                     <select class="select2bs4" data-placeholder="Seleccionar" name="choferes_id" id="form_guias_chofer">
-                    <option value="">Seleccione</option>
-                </select>
-                    <div class="invalid-feedback" id="error_select_guias_chofer"></div>
+                        <option value="">Seleccione</option>
+                    </select>
                 </span>
+                <small class="col-8 text-xs text-danger" id="error_select_guias_chofer"></small>
             </div>
 
-            <div class="row ml-1 mr-1 mb-3 ">
+            <div class="row ml-1 mr-1 mb-3 justify-content-end">
                 <span class="col-4 input-group-text">Lugar de Origen</span>
                 <span class="col-8">
                     <select class="select2bs4" data-placeholder="Seleccionar" name="territorios_origen" id="form_guias_origen">
                         <option value="">Seleccione</option>
                     </select>
-                    <div class="invalid-feedback" id="error_select_guias_origen"></div>
                 </span>
+                <small class="col-8 text-xs text-danger" id="error_select_guias_origen"></small>
             </div>
 
-            <div class="row ml-1 mr-1 mb-3">
+            <div class="row ml-1 mr-1 mb-3 justify-content-end">
                 <span class="col-4 input-group-text">Lugar de Destino</span>
                 <span class="col-8">
                     <select class="select2bs4" data-placeholder="Seleccionar" name="territorios_destino" id="form_guias_destino">
-                    <option value="">Seleccione</option>
-                </select>
-                    <div class="invalid-feedback" id="error_select_guias_destino"></div>
+                        <option value="">Seleccione</option>
+                    </select>
                 </span>
+                <small class="col-8 text-xs text-danger" id="error_select_guias_destino"></small>
             </div>
 
-            <div class="row ml-1 mr-1 mb-3">
+            <div class="row ml-1 mr-1 mb-3 justify-content-end">
                 <span class="col-4 input-group-text">Fecha Guía</span>
                 <span class="col-8">
                     <input class="form-control" type="date" name="fecha" id="form_guias_fecha">
-                    <div class="invalid-feedback" id="error_input_guias_fecha"></div>
                 </span>
+                <small class="col-8 text-xs text-danger" id="error_input_guias_fecha"></small>
             </div>
 
             <div class="row ml-1 mr-1 mb-3">
                 <span class="col-4 input-group-text">Precinto</span>
                 <span class="col-8">
                     <input type="text" class="form-control" placeholder="(Opcional)" name="precinto" id="form_guias_precinto">
-                    <div class="invalid-feedback" id="error_input_guias_precinto"></div>
                 </span>
             </div>
 
@@ -94,7 +94,6 @@
                 <span class="col-4 input-group-text">Precinto 2</span>
                 <span class="col-8">
                      <input type="text" class="form-control" placeholder="(Opcional)" name="precinto_2" id="form_guias_precinto_2">
-                    <div class="invalid-feedback" id="error_input_guias_precinto_2"></div>
                 </span>
             </div>
 

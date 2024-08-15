@@ -122,6 +122,13 @@ function resetGuia() {
     $('#form_guias_precinto').val('');
     $('#form_guias_precinto_2').val('');
     $('#guias_opcion').val('store');
+    $('#error_select_guias_tipo').text('');
+    $('#error_select_guias_vehiculo').text('');
+    $('#error_select_guias_chofer').text('');
+    $('#error_select_guias_origen').text('');
+    $('#error_select_guias_destino').text('');
+    $('#error_input_guias_fecha').text('');
+
     let contadorGuia = document.getElementById('contador_guia');
     for (let i = 1; i <= contadorGuia.value; i++) {
         if (i > 1){
@@ -330,7 +337,7 @@ function createGuia() {
 
 function showGuia(id) {
 
-    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'show_guia', id: id}}, function (data) {
+    ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'show', id: id}}, function (data) {
         if (data.result){
             $('#show_guias_destino').text(data.destino);
             $('#show_guias_codigo').text(data.codigo);
@@ -366,20 +373,28 @@ function showGuia(id) {
 
             $('#show_guias_precinto_1').text(data.precinto_1);
             $('#show_guias_precinto_2').text(data.precinto_2);
-            let cargamento = data.listarCarga.length;
-            $('#show_guias_cargamento').empty();
-            for (let i = 0; i < cargamento; i++) {
-                let cantidad = data.listarCarga[i]['cantidad'];
-                let descripcion = data.listarCarga[i]['descripcion'];
+            if (data.listarCarga !== 'cargamento_vacio'){
+                let cargamento = data.listarCarga.length;
+                $('#show_guias_table_cargamento').empty();
+                for (let i = 0; i < cargamento; i++) {
+                    let cantidad = data.listarCarga[i]['cantidad'];
+                    let descripcion = data.listarCarga[i]['descripcion'];
 
-                let row = '<tr>\n' +
-                    '         <td class="text-right pr-3"> '+cantidad+'</td>\n' +
-                    '         <td class="text-left">'+descripcion+'</td>\n' +
-                    '      </tr>'
+                    let row = '<tr>\n' +
+                        '         <td class="text-right pr-3"> '+cantidad+'</td>\n' +
+                        '         <td class="text-left">'+descripcion+'</td>\n' +
+                        '      </tr>';
 
-                $('#show_guias_cargamento').append(row);
+                    $('#show_guias_table_cargamento').append(row);
 
+                }
+                $('#show_table_ocultar').removeClass('d-none');
+                $('#show_guias_cargamento').text('');
+            }else {
+                $('#show_table_ocultar').addClass('d-none');
+                $('#show_guias_cargamento').text('Sin Carga');
             }
+
 
             if (data.estatus > 0){
                 $('#texto_guia_anulada').addClass('d-none');
@@ -499,6 +514,8 @@ $('#form_guias').submit(function (e) {
         tipo
             .removeClass('is-invalid')
             .addClass('is-valid');
+        $('#error_select_guias_tipo').text('');
+
     }
 
     if (vehiculo.val().length <= 0) {
@@ -509,6 +526,7 @@ $('#form_guias').submit(function (e) {
         vehiculo
             .removeClass('is-invalid')
             .addClass('is-valid');
+        $('#error_select_guias_vehiculo').text('');
     }
 
     if (chofer.val().length <= 0) {
@@ -519,6 +537,7 @@ $('#form_guias').submit(function (e) {
         chofer
             .removeClass('is-invalid')
             .addClass('is-valid');
+        $('#error_select_guias_chofer').text('');
     }
 
     if (origen.val().length <= 0) {
@@ -529,6 +548,7 @@ $('#form_guias').submit(function (e) {
         origen
             .removeClass('is-invalid')
             .addClass('is-valid');
+        $('#error_select_guias_origen').text('');
     }
 
     if (destino.val().length <= 0) {
@@ -543,6 +563,7 @@ $('#form_guias').submit(function (e) {
         destino
             .removeClass('is-invalid')
             .addClass('is-valid');
+        $('#error_select_guias_destino').text('');
     }
 
     if (fecha.val().length <= 0) {
@@ -553,6 +574,7 @@ $('#form_guias').submit(function (e) {
         fecha
             .removeClass('is-invalid')
             .addClass('is-valid');
+        $('#error_input_guias_fecha').text('');
     }
 
     carga.each(function () {
@@ -585,6 +607,15 @@ $('#form_guias').submit(function (e) {
                     if (data.error === 'existe_guia'){
                         codigo.addClass('is-invalid');
                     }
+
+                    if (data.error === 'no_ruta'){
+                        origen
+                            .removeClass('is-valid')
+                            .addClass('is-invalid');
+                        destino
+                            .removeClass('is-valid')
+                            .addClass('is-invalid');
+                    }
                 }
             });
         }else {
@@ -608,6 +639,11 @@ $('#form_guias').submit(function (e) {
                     if (data.error === 'existe_guia'){
                         codigo.addClass('is-invalid');
                     }
+
+                    if (data.error === 'no_ruta'){
+                        origen.addClass('is-invalid');
+                        destino.addClass('is-invalid');
+                    }
                 }
             });
         }
@@ -617,7 +653,7 @@ $('#form_guias').submit(function (e) {
 
 function tipoGuia(value, accion, id) {
     if (value.length > 0){
-        ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'get_codigo', valor: value, accion, id}}, function (data) {
+        ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'get_codigo', tipos_id: value, accion, id}}, function (data) {
             $('#form_guias_codigo').val(data.codigo);
         });
     }
@@ -626,6 +662,7 @@ function tipoGuia(value, accion, id) {
 function destroy(id, opt = 'anular') {
     MessageDelete.fire().then((result) => {
         if (result.isConfirmed) {
+            let countGuias = $('#count_guias').val();
             ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'destroy', id: id, opt: opt}}, function (data) {
                 if (data.result){
                     if (data.opt === 'anular'){
@@ -685,6 +722,13 @@ function destroy(id, opt = 'anular') {
                             .row(item)
                             .remove()
                             .draw();
+                        countGuias = countGuias - 1;
+                        if (countGuias === 0){
+                            reconstruirTablaGuias();
+                        }else {
+                            $('#count_guias').val(countGuias);
+                        }
+
                         $('#paginate_leyenda').text(data.total);
                         $('#btn_cerrar_modal_guia')
                             .attr('data-dismiss', 'modal')

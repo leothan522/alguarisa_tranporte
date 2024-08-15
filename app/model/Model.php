@@ -6,7 +6,7 @@ class Model
     public $TABLA;
     public $DATA;
 
-    public function getAll($band = null, $orderBy = null, $opt ='ASC'): array
+    public function getAll($band = null, $orderBy = null, $opt ='ASC', $limit = null): array
     {
         $extra = null;
         $order = null;
@@ -16,8 +16,11 @@ class Model
         if (!is_null($orderBy)) {
             $order = "ORDER BY `$orderBy` $opt";
         }
+        if (!is_null($limit)){
+            $limit = "LIMIT $limit";
+        }
         $query = new Query();
-        $sql = "SELECT * FROM `$this->TABLA` $extra  $order;";
+        $sql = "SELECT * FROM `$this->TABLA` $extra  $order $limit;";
         $rows = $query->getAll($sql);
         return $rows;
     }

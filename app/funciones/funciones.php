@@ -214,8 +214,6 @@ function mesEspanol($numMes = null): array|int|string|null
     }
 }
 
-
-
 function cerosIzquierda($numero, $cant_ceros): string
 {
     $numeroConCeros = str_pad($numero, $cant_ceros, "0", STR_PAD_LEFT);
@@ -249,10 +247,34 @@ function numRowsPaginate(){
     return $default;
 }
 
+ function getFormato(): array
+ {
+    $ID_FORMATO_GUIA = 1;
+    $model = new Parametro();
+    $parametro = $model->first('nombre', '=', 'guias_formatos_pdf');
+
+    if ($parametro) {
+        //sequimos
+        if (!empty($parametro['valor']) && is_string($parametro['valor'])) {
+            if (url_exists(public_url('admin/guias/_storage/formatos/' . $parametro['valor'] . '/'))) {
+                $FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/' . $parametro['valor'] . '/');
+                $ID_FORMATO_GUIA = $parametro['id'];
+            } else {
+                $FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/default/');
+            }
+        } else {
+            $FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/default/');
+        }
+    } else {
+        $FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/default/');
+    }
+    return [$FORMATO_GUIA_PDF, $ID_FORMATO_GUIA];
+}
+
 //**************************************************************** */
 
 function numSizeCodigo(){
-    $default = 6;
+    $default = 5;
     $model = new Parametro();
     $parametro = $model->first('nombre', '=', 'size_codigo');
     if ($parametro) {

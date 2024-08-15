@@ -3,7 +3,7 @@ $listarGuias = $controller->rows;
 $links = $controller->links;
 $totalRowsGuias = $controller->totalRows;
 $i = $controller->offset;
-
+$x = 0;
 ?>
 <div class="card card-outline card-primary">
     <div class="card-header">
@@ -59,7 +59,7 @@ $i = $controller->offset;
                <?php
                if (!empty($listarGuias)){
                    foreach ($listarGuias as $guia){
-
+                       $x++;
                ?>
                        <tr id="tr_item_guias_<?php echo $guia['id'] ?>">
                            <td class="text-center"><?php echo ++$i; ?></td>
@@ -123,6 +123,7 @@ $i = $controller->offset;
     </div>
     <!-- /.card-body -->
     <div class="card-footer clearfix ">
+        <input type="hidden" value="<?php echo $x; ?>" name="count_guias" id="count_guias">
         <?php
         if (isset($keyword) && $keyword){
             echo 'Resultados Encontrados: <span class="text-bold text-danger">'. $i.'</span>';

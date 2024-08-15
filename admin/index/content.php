@@ -1,8 +1,12 @@
-<div class="row">
-    <div class="col-12">
-        Bienvenido <?php echo $controller->USER_NAME ?>. <br>
-        <?php echo mesEspanol(2); ?>
-        <!--<a href="_component/export_excel.php">Ejemplo de Export Excel.</a>
-        --><?php /*echo verUtf8("Restablecer Contraseña hola"); */?>
+
+<div class="row justify-content-center" onclick="irGuias()">
+    <?php require 'info-box.php'; ?>
+</div>
+
+<?php if (!empty($controller->LISTAR_GUIAS)){ ?>
+<div class="row justify-content-center" id="row_table_ultimas_guias">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+        <?php require 'table.php'; ?>
     </div>
 </div>
+<?php } ?>

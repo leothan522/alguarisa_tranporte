@@ -18,6 +18,7 @@
             <li>guias_num_init[null|int]</li>
             <li>guias_formatos_pdf[null|string]</li>
             <li>id_capital_estado[int|null]</li>
+            <li>size_codigo[int|null]</li>
         </ul>
     </div>
 </div>
