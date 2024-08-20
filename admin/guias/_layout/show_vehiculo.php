@@ -15,20 +15,22 @@
     <div class="card-body">
 
 
-        <div class="row col-md-12 justify-content-center">
-            <div class="col-md-6">
-                <div class="card" style="width:100%">
-                    <div class="card-header">
-                        <span class="text-primary" > Empresa </span>
+        <div class="row justify-content-center">
+            <?php if (validarPermisos('empresas.index')){ ?>
+                <div class="col-md-6">
+                    <div class="card" style="width:100%">
+                        <div class="card-header">
+                            <span class="text-primary" > Empresa </span>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Rif: <br><span class="text-primary modal_empresa_rif"> jefe </span></li>
+                            <li class="list-group-item">Nombre: <br><span class="text-primary modal_empresa_nombre"> jefe </span></li>
+                            <li class="list-group-item">Responsable: <br><span class="text-primary modal_empresa_responsable"> jefe </span></li>
+                            <li class="list-group-item">Teléfono: <br><span class="text-primary modal_empresa_telefono"> jefe </span></li>
+                        </ul>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Rif: <br><span class="text-primary modal_empresa_rif"> jefe </span></li>
-                        <li class="list-group-item">Nombre: <br><span class="text-primary modal_empresa_nombre"> jefe </span></li>
-                        <li class="list-group-item">Responsable: <br><span class="text-primary modal_empresa_responsable"> jefe </span></li>
-                        <li class="list-group-item">Teléfono: <br><span class="text-primary modal_empresa_telefono"> jefe </span></li>
-                    </ul>
                 </div>
-            </div>
+            <?php } ?>
             <div class="col-md-6">
                 <div class="card" style="width:100%">
                     <div class="card-header">

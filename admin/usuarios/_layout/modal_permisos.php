@@ -1,8 +1,9 @@
 <!-- Modal -->
-<div class="modal fade" id="modal_permisos">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form id="form_permisos_usuario">
+<form id="form_permisos_usuario">
+    <div class="modal fade" id="modal_permisos">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
                 <div class="modal-header bg-primary">
                     <h4 class="modal-title">Permisos de Usuario</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -33,10 +34,10 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 </div>
                 <?php verCargando(); ?>
-            </form>
+            </div>
+            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-content -->
+        <!-- /.modal-dialog -->
     </div>
-    <!-- /.modal-dialog -->
-</div>
+</form>
 <!-- /.modal -->

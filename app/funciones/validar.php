@@ -9,7 +9,7 @@ function validarPermisos($key = null): bool
 
     if (
         ((leerJson($user['permisos'], $key) || $user['role'] == 99) && ($user['band'] == 1 && $user['estatus'] == 1)) ||
-        $user['role'] == 100
+        $user['role'] == 100 || $key == 'dashboard'
     ){
         $acceso = true;
     }

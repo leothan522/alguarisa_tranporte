@@ -28,11 +28,16 @@
                 <i class="fas fa-file-excel"></i> Descargar Excel
             </a>
 
-            <a href="https://alguarisa.com/guias/admin/transporte/choferes/choferes_pdf.php" target="_blank" class="btn btn-tool" onclick="">
+            <?php if (validarPermisos('choferes.descargar')){  ?>
+            <a href="https://alguarisa.com/guias/admin/transporte/choferes/choferes_pdf.php" target="_blank" class="btn btn-tool">
                 <i class="fas fa-qrcode"></i> Choferes QR
             </a>
-
-            <button type="button" class="btn btn-tool" onclick="createChoferes()">
+            <?php }else{ ?>
+                <button type="button" class="btn btn-tool" disabled>
+                    <i class="fas fa-qrcode"></i> Choferes QR
+                </button>
+            <?php } ?>
+            <button type="button" class="btn btn-tool" onclick="createChoferes()" <?php if (!validarPermisos('choferes.create')){ echo 'disabled'; } ?>>
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>
 
@@ -45,7 +50,7 @@
             <table class="table table-sm table-head-fixed table-hover text-nowrap"  id="table_choferes">
                 <thead>
                 <tr>
-                    <th class="text-center" style="width: 10%">#</th>
+                    <th class="text-center" style="width: 5%">#</th>
                     <th class="text-right">Cédula</th>
                     <th>Nombre y Apellido</th>
                     <th class="text-center">Teléfono</th>
@@ -69,19 +74,26 @@
                             <td class="choferes_nombre text-left pl-2"><?php echo mb_strtoupper($chofer['nombre']); ?></td>
                             <td class="choferes_telefono"><?php echo $chofer['telefono']; ?> </td>
                             <td class="choferes_placa">
-                                <span class="btn btn-link btn-sm" onclick="showVehiculo(<?php echo $vehiculo['id']; ?>, 'choferes')">
+                                <?php if (validarPermisos('vehiculos.index')){ ?>
+                                <span class="btn btn-link btn-sm" onclick="showVehiculo(<?php echo $vehiculo['id']; ?>, 'choferes')" >
                                     <?php echo $vehiculo['placa_batea']; ?>
                                 </span>
+                                <?php }else{ ?>
+                                    <span class="btn btn-link btn-sm" style="cursor: text;">
+                                    <?php echo $vehiculo['placa_batea']; ?>
+                                </span>
+                                <?php } ?>
                             </td>
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <button type="button" class="btn btn-info"
-                                            onclick="editChofer(<?php echo $chofer['id']; ?>)">
+                                            onclick="editChofer(<?php echo $chofer['id']; ?>)" <?php if (!validarPermisos('choferes.edit')){ echo 'disabled'; } ?>>
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button type="button" class="btn btn-info"
                                             onclick="destroyChofer(<?php echo $chofer['id']; ?>)"
-                                            id="btn_eliminar_chofer_<?php echo $chofer['id']; ?>">
+                                            id="btn_eliminar_chofer_<?php echo $chofer['id']; ?>"
+                                            <?php if (!validarPermisos('choferes.destroy')){ echo 'disabled'; } ?>>
                                         <i class="far fa-trash-alt"></i>
                                     </button>
                                 </div>

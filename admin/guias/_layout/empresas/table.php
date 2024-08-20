@@ -24,7 +24,7 @@
             <button type="button" class="btn btn-tool" onclick="initEmpresas()">
                 <i class="fas fa-sync-alt"></i>
             </button>
-            <button type="button" class="btn btn-tool" onclick="createEmpresas()">
+            <button type="button" class="btn btn-tool" onclick="createEmpresas()" <?php if (!validarPermisos('empresas.create')){ echo 'disabled'; } ?>>
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>
 
@@ -37,7 +37,7 @@
             <table class="table table-sm table-head-fixed table-hover text-nowrap"  id="table_empresas">
                 <thead>
                 <tr>
-                    <th class="text-center" style="width: 10%">#</th>
+                    <th class="text-center" style="width: 5%">#</th>
                     <th>Rif</th>
                     <th>Nombre</th>
                     <th>Responsable</th>
@@ -67,12 +67,14 @@
                                 <td>
                                     <div class="btn-group btn-group-sm">
                                         <button type="button" class="btn btn-info"
-                                                onclick="editEmpresa(<?php echo $empresa['id']; ?>)">
+                                                onclick="editEmpresa(<?php echo $empresa['id']; ?>)"
+                                                <?php if (!validarPermisos('empresas.edit')){ echo 'disabled'; } ?>>
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button type="button" class="btn btn-info"
                                                 onclick="destroyEmpresa(<?php echo $empresa['id']; ?>)"
-                                                id="btn_eliminar_empresa_<?php echo $empresa['id']; ?>">
+                                                id="btn_eliminar_empresa_<?php echo $empresa['id']; ?>"
+                                                <?php if (!validarPermisos('empresas.destroy')){ echo 'disabled'; } ?>>
                                             <i class="far fa-trash-alt"></i>
                                         </button>
                                     </div>

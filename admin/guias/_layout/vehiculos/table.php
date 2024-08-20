@@ -23,7 +23,7 @@
             <button type="button" class="btn btn-tool" onclick="initVehiculos()">
                 <i class="fas fa-sync-alt"></i>
             </button>
-            <button type="button" class="btn btn-tool"  onclick="createVehiculos()">
+            <button type="button" class="btn btn-tool"  onclick="createVehiculos()" <?php if (!validarPermisos('vehiculos.create')){ echo 'disabled'; } ?>>
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>
 
@@ -66,12 +66,14 @@
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-info"
-                                        onclick="editVehiculo(<?php echo $vehiculo['id']; ?>)">
+                                        onclick="editVehiculo(<?php echo $vehiculo['id']; ?>)"
+                                        <?php if (!validarPermisos('vehiculos.edit')){ echo 'disabled'; } ?>>
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-info"
                                         onclick="destroyVehiculo(<?php echo $vehiculo['id'] ?>)"
-                                        id="btn_eliminar_vehiculo_<?php echo $vehiculo['id']; ?>">
+                                        id="btn_eliminar_vehiculo_<?php echo $vehiculo['id']; ?>"
+                                        <?php if (!validarPermisos('vehiculos.destroy')){ echo 'disabled'; } ?>>
                                     <i class="far fa-trash-alt"></i>
                                 </button>
                             </div>

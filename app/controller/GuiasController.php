@@ -329,6 +329,7 @@ class GuiasController extends Admin
             }
 
             $this->listarCargamento = $modelCargamento->getList('guias_id', '=', $guia['id']);
+            $model->update($id, 'pdf_impreso', 1);
 
 
         } else {
@@ -756,6 +757,7 @@ class GuiasController extends Admin
         $response['role'] = $this->USER_ROLE;
         $response['precinto_1'] = empty($guia['precinto']) ? 'precinto_vacio' : $guia['precinto'];
         $response['precinto_2'] = empty($guia['precinto_2']) ? 'precinto_vacio' : $guia['precinto_2'];
+        $response['impreso'] = $guia['pdf_impreso'];
 
         return $response;
     }

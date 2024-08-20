@@ -74,6 +74,7 @@ $('#formulari_guia_init').submit(function (e) {
 
 function generarPDF(id) {
     $('#btn_form_table_ver_pdf_formato_'+ id).click();
+    $('#modal_guia_btn_editar').attr('disabled', 'disabled');
 }
 
 $('#navbar_form_buscar').submit(function (e) {
@@ -401,7 +402,12 @@ function showGuia(id) {
                 $('#modal_guia_btn_editar').removeClass('d-none');
                 $('#modal_guia_btn_descargar').removeClass('d-none');
                 $('#modal_guia_btn_anular').removeClass('d-none');
-                $('#modal_guia_btn_editar').attr('onclick', 'editGuia('+id+')');
+                if (data.impreso > 0){
+                    $('#modal_guia_btn_editar').attr('disabled', 'disabled');
+                }else {
+                    $('#modal_guia_btn_editar').removeAttr('disabled', 'disabled');
+                    $('#modal_guia_btn_editar').attr('onclick', 'editGuia('+id+')');
+                }
                 $('#modal_guia_btn_descargar').attr('onclick', 'generarPDF('+id+')');
                 $('#modal_guia_btn_anular').attr('onclick', 'destroy('+id+')');
             }else {

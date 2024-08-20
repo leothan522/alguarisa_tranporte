@@ -24,7 +24,7 @@
             <button type="button" class="btn btn-tool" onclick="initRutas()">
                 <i class="fas fa-sync-alt"></i>
             </button>
-            <button type="button" class="btn btn-tool" onclick="createRutas()">
+            <button type="button" class="btn btn-tool" onclick="createRutas()" <?php if (!validarPermisos('rutas.create')){ echo 'disabled'; } ?>>
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>
 
@@ -72,7 +72,8 @@
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <button type="button" class="btn btn-info"
-                                            onclick="editRuta(<?php echo $ruta['id']; ?>)">
+                                            onclick="editRuta(<?php echo $ruta['id']; ?>)"
+                                            <?php if (!validarPermisos('rutas.edit')){ echo 'disabled'; } ?>>
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button type="button" class="btn btn-info"

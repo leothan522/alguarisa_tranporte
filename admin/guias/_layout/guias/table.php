@@ -28,7 +28,7 @@ $x = 0;
                 <i class="fas fa-sync-alt"></i>
             </button>
             <button type="button" class="btn btn-tool" data-toggle="modal"
-                    data-target="#modal_create_guia" onclick="createGuia()">
+                    data-target="#modal_create_guia" onclick="createGuia()" <?php if (!validarPermisos('guias.create')){ echo 'disabled'; } ?>>
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>
 
@@ -93,8 +93,8 @@ $x = 0;
                                    </button>
                                    <?php
                                         if ($guia['estatus'] > 0){ ?>
-                                            <button type="button" class="btn btn-info" onclick="generarPDF(<?php echo $guia['id']; ?>)" id="btn_guias_generar_pdf">
-                                                <i class="fas fa-file-pdf"></i>
+                                            <button type="button" class="btn btn-info" onclick="generarPDF(<?php echo $guia['id']; ?>)" id="btn_guias_generar_pdf" <?php if (!validarPermisos('guias.descargar')){ echo 'disabled'; } ?>>
+                                                <i class="fas fa-print"></i>
                                             </button>
                                    <?php }else{ ?>
                                             <button type="button" class="btn btn-info" disabled>

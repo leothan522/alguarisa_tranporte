@@ -72,11 +72,91 @@ function permisos(): array
             'opciones' => [
                 [
                     'permiso' => 'guias.create',
-                    'text' => 'Crear Guía'
+                    'text' => 'Crear chofer'
                 ],
                 [
                     'permiso' => 'guias.edit',
                     'text' => 'Editar Guia'
+                ],
+                [
+                    'permiso' => 'guias.anular',
+                    'text' => 'Anular Guia'
+                ],
+                [
+                    'permiso' => 'guias.descargar',
+                    'text' => 'Descargar Guia'
+                ]
+            ]
+        ],
+        [ 'permiso' => 'choferes.index',
+            'text' => 'Choferes',
+            'opciones' => [
+                [
+                    'permiso' => 'choferes.create',
+                    'text' => 'Crear choferes'
+                ],
+                [
+                    'permiso' => 'choferes.edit',
+                    'text' => 'Editar Choferes'
+                ],
+                [
+                    'permiso' => 'choferes.destroy',
+                    'text' => 'Borrar Choferes'
+                ],
+                [
+                    'permiso' => 'choferes.descargar',
+                    'text' => 'Descargar QR'
+                ]
+            ]
+        ],
+        [ 'permiso' => 'vehiculos.index',
+            'text' => 'Vehículos',
+            'opciones' => [
+                [
+                    'permiso' => 'vehiculos.create',
+                    'text' => 'Crear Vehículos'
+                ],
+                [
+                    'permiso' => 'vehiculos.edit',
+                    'text' => 'Editar Vehículos'
+                ],
+                [
+                    'permiso' => 'vehiculos.destroy',
+                    'text' => 'Borrar Vehículos'
+                ]
+            ]
+        ],
+        [ 'permiso' => 'empresas.index',
+            'text' => 'Empresas',
+            'opciones' => [
+                [
+                    'permiso' => 'empresas.create',
+                    'text' => 'Crear Empresas'
+                ],
+                [
+                    'permiso' => 'empresas.edit',
+                    'text' => 'Editar Empresas'
+                ],
+                [
+                    'permiso' => 'empresas.destroy',
+                    'text' => 'Borrar Empresas'
+                ]
+            ]
+        ],
+        [ 'permiso' => 'rutas.index',
+            'text' => 'Rutas',
+            'opciones' => [
+                [
+                    'permiso' => 'rutas.create',
+                    'text' => 'Crear Rutas'
+                ],
+                [
+                    'permiso' => 'rutas.edit',
+                    'text' => 'Editar Rutas'
+                ],
+                [
+                    'permiso' => 'rutas.destroy',
+                    'text' => 'Borrar Rutas'
                 ]
             ]
         ]

@@ -41,18 +41,18 @@
                     <button type="reset" class="btn btn-default"  id="btn_cerrar_modal_guia">Cerrar</button>
 
                     <div class="justify-content-center" id="div_btn_show">
-                        <button type="button" class="btn btn-danger d-none" id="modal_guia_btn_eliminar" >
+                        <button type="button" class="btn btn-danger d-none" id="modal_guia_btn_eliminar">
                             <i class="fas fa-trash-alt"></i> Eliminar
                         </button>
                         <span class="d-none" id="texto_guia_anulada">hola...mundo</span>
-                        <button type="button" class="btn btn-danger" id="modal_guia_btn_anular" >
+                        <button type="button" class="btn btn-danger" id="modal_guia_btn_anular" <?php if (!validarPermisos('guias.anular')){ echo 'disabled'; } ?>>
                             <i class="fas fa-ban"></i> Anular
                         </button>
-                        <button type="button" class="btn btn-info"  id="modal_guia_btn_editar" >
+                        <button type="button" class="btn btn-info"  id="modal_guia_btn_editar" <?php if (!validarPermisos('guias.edit')){ echo 'disabled'; } ?>>
                             <i class="fas fa-edit"></i> Editar
                         </button>
-                        <button type="button" class="btn btn-primary" id="modal_guia_btn_descargar" >
-                            <i class="far fa-file-alt"></i> Descargar
+                        <button type="button" class="btn btn-primary" id="modal_guia_btn_descargar" <?php if (!validarPermisos('guias.descargar')){ echo 'disabled'; } ?>>
+                            <i class="fas fa-print"></i> Imprimir
                         </button>
                     </div>
                     <div class="justify-content-center" id="div_btn_form">

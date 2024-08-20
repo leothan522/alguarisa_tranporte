@@ -143,6 +143,10 @@ function existeElemento(id) {
     return $(id).length > 0;
 }
 
+$(document).on('select2:open', () => {
+    document.querySelector('.select2-search__field').focus();
+});
+
 
 
 /*
@@ -176,6 +180,8 @@ ajaxRequest({ data: $(this).serialize() },
         });
 
 * */
+
+
 
 console.log('hola app global')
 
