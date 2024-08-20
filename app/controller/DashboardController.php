@@ -14,10 +14,10 @@ class DashboardController extends Admin
     public string $TITTLE = 'Dashboard';
     public string $MODULO = 'dashboard';
 
-    public int $NUM_TOTAL_GUIAS = 0;
-    public int $NUM_TOTAL_CHOFERES = 0;
-    public int $NUM_TOTAL_VEHICULOS = 0;
-    public int $NUM_TOTAL_EMPRESAS = 0;
+    public float $NUM_TOTAL_GUIAS = 0;
+    public float $NUM_TOTAL_CHOFERES = 0;
+    public float $NUM_TOTAL_VEHICULOS = 0;
+    public float $NUM_TOTAL_EMPRESAS = 0;
     public array $LISTAR_GUIAS = [];
     public string $FORMATO_GUIA_PDF = 'null';
     public int $ID_FORMATO_GUIA = 0;
@@ -38,7 +38,7 @@ class DashboardController extends Admin
         $modelVehiculos = new Vehiculo();
         $modelEmpresas = new Empresa();
 
-        $this->NUM_TOTAL_GUIAS = formatoMillares($modelGuia->count(1));
+        $this->NUM_TOTAL_GUIAS = formatoMillares(intval($modelGuia->count(1)));
         $this->NUM_TOTAL_CHOFERES = formatoMillares($modelChoferes->count(1));
         $this->NUM_TOTAL_VEHICULOS = formatoMillares($modelVehiculos->count(1));
         $this->NUM_TOTAL_EMPRESAS = formatoMillares($modelEmpresas->count(1));
