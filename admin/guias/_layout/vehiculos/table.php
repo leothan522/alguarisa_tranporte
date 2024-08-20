@@ -20,6 +20,9 @@
         </h3>
 
         <div class="card-tools">
+            <button type="button" class="btn btn-tool" onclick="initVehiculos()">
+                <i class="fas fa-sync-alt"></i>
+            </button>
             <button type="button" class="btn btn-tool"  onclick="createVehiculos()">
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>

@@ -29,7 +29,7 @@ class EmpresasController extends Admin
 
         $model = new Empresa();
         if (is_null($limit)) {
-            $this->limit = 30;
+            $this->limit = numRowsPaginate();
         } else {
             $this->limit = $limit;
         }

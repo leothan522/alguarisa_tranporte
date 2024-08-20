@@ -88,7 +88,7 @@ class RutasController extends Admin
 
         $model = new Ruta();
         if (is_null($limit)) {
-            $this->limit = 30;
+            $this->limit = numRowsPaginate();
         } else {
             $this->limit = $limit;
         }

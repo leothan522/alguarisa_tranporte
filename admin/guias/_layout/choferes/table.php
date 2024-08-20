@@ -21,6 +21,9 @@
         </h3>
 
         <div class="card-tools">
+            <button type="button" class="btn btn-tool" onclick="initChoferes()">
+                <i class="fas fa-sync-alt"></i>
+            </button>
             <a href="https://alguarisa.com/guias/admin/transporte/choferes/descargar_excel.php" target="_blank" class="btn btn-tool d-none" onclick="">
                 <i class="fas fa-file-excel"></i> Descargar Excel
             </a>

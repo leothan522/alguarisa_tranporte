@@ -21,6 +21,9 @@
         </h3>
 
         <div class="card-tools">
+            <button type="button" class="btn btn-tool" onclick="initRutas()">
+                <i class="fas fa-sync-alt"></i>
+            </button>
             <button type="button" class="btn btn-tool" onclick="createRutas()">
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>

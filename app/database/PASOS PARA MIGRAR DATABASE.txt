@@ -13,4 +13,9 @@
 13- Subir la database alguarisa_transporte.
 14- Crear las Rutas en la nueva interfaz guiandose del sistema viejo.
 15- Crear los nuevos usuarios.
+
+********* aplicar por consola para despligue en linux ********
+chmod -R 777 {path_root}/admin/guias/_storage/
+chmod -R 777 {path_root}/admin/guias/_storage/formatos/default/
+chmod -R 777 {path_root}/public/img/profile/
  
