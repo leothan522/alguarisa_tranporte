@@ -56,7 +56,7 @@ $controller->index();
                 <img class="img-thumbnail border-transparent" src="<?php asset('public/img/logo_alguarisa.jpg'); ?>" alt="Alimentos del Guárico">
             </a>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="card_form_login">
             <p class="login-box-msg">Inicia sesión para ingresar</p>
 
             <form id="form_login">

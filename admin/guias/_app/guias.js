@@ -74,7 +74,7 @@ $('#formulari_guia_init').submit(function (e) {
 
 function generarPDF(id) {
     $('#btn_form_table_ver_pdf_formato_'+ id).click();
-    $('#modal_guia_btn_editar').attr('disabled', 'disabled');
+    //$('#modal_guia_btn_editar').attr('disabled', 'disabled');
 }
 
 $('#navbar_form_buscar').submit(function (e) {
@@ -402,19 +402,14 @@ function showGuia(id) {
                 $('#modal_guia_btn_editar').removeClass('d-none');
                 $('#modal_guia_btn_descargar').removeClass('d-none');
                 $('#modal_guia_btn_anular').removeClass('d-none');
-                if (data.impreso > 0){
-                    $('#modal_guia_btn_editar').attr('disabled', 'disabled');
-                }else {
-                    $('#modal_guia_btn_editar').removeAttr('disabled', 'disabled');
-                    $('#modal_guia_btn_editar').attr('onclick', 'editGuia('+id+')');
-                }
+
+                $('#modal_guia_btn_editar').attr('onclick', 'editGuia('+id+')');
                 $('#modal_guia_btn_descargar').attr('onclick', 'generarPDF('+id+')');
                 $('#modal_guia_btn_anular').attr('onclick', 'destroy('+id+')');
             }else {
                 let anulada = '&nbsp;<i class="fas fa-ban text-danger mt-2"></i></i>&nbsp; <span class="text-danger text-bold">Guía Anulada</span>';
                 $('#texto_guia_anulada').removeClass('d-none');
                 $('#texto_guia_anulada').html(anulada);
-                $('#texto_guia_anulada').removeClass('d-none');
                 $('#modal_guia_btn_editar').addClass('d-none');
                 $('#modal_guia_btn_descargar').addClass('d-none');
                 $('#modal_guia_btn_anular').addClass('d-none');
@@ -627,18 +622,7 @@ $('#form_guias').submit(function (e) {
         }else {
             ajaxRequest({url: '_request/GuiasRequest.php', data: $(this).serialize()}, function (data) {
                 if (data.result){
-                    let table = $('#table_guias').DataTable();
-                    let tr = $('#tr_item_guias_' + data.id);
-                    table
-                        .cell(tr.find('.guias_fecha')).data(data.fecha)
-                        .cell(tr.find('.guias_codigo')).data(data.codigo)
-                        .cell(tr.find('.guias_origen')).data(data.origen)
-                        .cell(tr.find('.guias_destino')).data(data.destino)
-                        .cell(tr.find('.guias_chofer')).data(data.chofer)
-                        .cell(tr.find('.guias_telefono')).data(data.chofer_telefono)
-                        .cell(tr.find('.guias_placa')).data(data.vehiculo_placa_batea)
-                        .draw();
-
+                    setRowGuias(data);
                     resetGuia();
                     $('#btn_cerrar_modal_guia').click();
                 }else {
@@ -677,39 +661,11 @@ function destroy(id, opt = 'anular') {
                         $('#modal_guia_btn_anular').addClass('d-none');
                         $('#texto_guia_anulada').removeClass('d-none');
 
-                        let anulada = '&nbsp;<i class="fas fa-ban text-danger mt-2"></i>&nbsp; <span class="text-danger">Guía Anulada</span>';
-
-                        let html = '<td class="guias_codigo text-center">' +
-                            '           <span class="font-italic text-gray">'+data.codigo+'</span>&ensp;' +
-                            '           <span><i class="fas fa-backspace text-danger"></i></span>' +
-                            '      </td>';
-                        let btn = ' <div class="btn-group btn-group-sm">\n' +
-                            '              <button type="button" class="btn btn-info" data-toggle="modal"\n' +
-                            '                      data-target="#modal_create_guia" onclick="showGuia('+data.id+')">\n' +
-                            '                  <i class="fas fa-eye"></i>\n' +
-                            '              </button>\n' +
-                            '              <button type="button" class="btn btn-info" disabled>\n' +
-                            '                  <i class="fas fa-file-pdf"></i>\n' +
-                            '              </button>\n' +
-                            '              <button type="button" class="btn btn-info d-none" ' +
-                            '                      onClick="destroy(' + data.id + ', \'delete\')" ' +
-                            '                      id="btn_eliminar_guia_'+ data.id +'"> ' +
-                            '                      <i class="far fa-trash-alt"></i> ' +
-                            '               </button> ' +
-                            '              <form class="d-none" target="_blank" method="post" action="<?php echo $controller->FORMATO_GUIA_PDF; ?>">\n' +
-                            '                  <input type="text" name="guias_id" value="'+data.id+'">\n' +
-                            '                  <input type="submit" value="enviar" id="btn_form_table_ver_pdf_formato_'+data.id+'">\n' +
-                            '              </form>\n' +
-                            '     </div>';
-
-                        let table = $('#table_guias').DataTable();
-                        let tr = $('#tr_item_guias_' + data.id);
-                        table
-                            .cell(tr.find('.guias_codigo')).data(html)
-                            .cell(tr.find('.guias_btns')).data(btn)
-                            .draw();
-
-                        $('#texto_guia_anulada').html(anulada);
+                        setRowGuias(data);
+                        let anulada = '&nbsp;<i class="fas fa-ban text-danger mt-2"></i></i>&nbsp; <span class="text-danger text-bold">Guía Anulada</span>';
+                        $('#texto_guia_anulada')
+                            .removeClass('d-none')
+                            .html(anulada);
 
                         if (data.role >= 99){
                             $('#modal_guia_btn_eliminar')
@@ -745,6 +701,20 @@ function destroy(id, opt = 'anular') {
             });
         }
     });
+}
+
+function setRowGuias(data) {
+    let table = $('#table_guias').DataTable();
+    let tr = $('#tr_item_guias_' + data.id);
+    table
+        .cell(tr.find('.guias_fecha')).data(data.fecha)
+        .cell(tr.find('.guias_codigo')).data(data.codigo)
+        .cell(tr.find('.guias_origen')).data(data.origen)
+        .cell(tr.find('.guias_destino')).data(data.destino)
+        .cell(tr.find('.guias_chofer')).data(data.chofer)
+        .cell(tr.find('.guias_telefono')).data(data.chofer_telefono)
+        .cell(tr.find('.guias_placa')).data(data.vehiculo_placa_batea)
+        .draw();
 }
 
 console.log('guias.js')

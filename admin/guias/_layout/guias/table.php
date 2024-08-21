@@ -60,31 +60,17 @@ $x = 0;
                if (!empty($listarGuias)){
                    foreach ($listarGuias as $guia){
                        $x++;
+                       $estatus = $guia['estatus'];
                ?>
                        <tr id="tr_item_guias_<?php echo $guia['id'] ?>">
-                           <td class="text-center"><?php echo ++$i; ?></td>
-                           <td class="guias_fecha text-center"><?php echo verFecha($guia['fecha']); ?></td>
-
-                           <td class="guias_codigo text-center text-uppercase">
-                               <?php
-                                    if ($guia['estatus'] > 0){
-                                        echo $guia['codigo'];
-                                    }else{
-                                        ?>
-                                        <span class="font-italic text-gray"><?php echo $guia['codigo']; ?></span>&ensp;<i class="fas fa-backspace text-danger"></i>
-                                        <?php
-                                    }
-                               ?>
-                           </td>
-                           <td class="guias_origen d-none text-uppercase"><?php echo $guia['rutas_origen']; ?></td>
-                           <td class="guias_destino text-uppercase"><?php echo $guia['rutas_destino']; ?></td>
-                           <td class="guias_chofer text-uppercase"><?php echo $guia['choferes_nombre']?></td>
-                           <td class="guias_telefono d-none d-lg-table-cell">
-                               <?php echo $guia['choferes_telefono']; ?>
-                           </td>
-                           <td class="guias_placa d-none d-lg-table-cell text-uppercase">
-                               <?php echo $guia['vehiculos_placa_batea']; ?>
-                           </td>
+                           <td class="text-center"><?php echo $controller->showValue(++$i, $estatus); ?></td>
+                           <td class="guias_fecha text-center"><?php echo $controller->showValue(verFecha($guia['fecha']), $estatus); ?></td>
+                           <td class="guias_codigo text-center text-uppercase"><?php echo  $controller->showValue($guia['codigo'], $estatus, true)?></td>
+                           <td class="guias_origen d-none text-uppercase"><?php echo $controller->showValue($guia['rutas_origen'], $estatus); ?></td>
+                           <td class="guias_destino text-uppercase"><?php echo $controller->showValue($guia['rutas_destino'], $estatus); ?></td>
+                           <td class="guias_chofer text-uppercase"><?php echo $controller->showValue($guia['choferes_nombre'], $estatus); ?></td>
+                           <td class="guias_telefono d-none d-lg-table-cell"><?php echo $controller->showValue($guia['choferes_telefono'], $estatus); ?></td>
+                           <td class="guias_placa d-none d-lg-table-cell text-uppercase"><?php echo $controller->showValue($guia['vehiculos_placa_batea'], $estatus); ?></td>
                            <td class="guias_btns">
                                <div class="btn-group btn-group-sm">
                                    <button type="button" class="btn btn-info" data-toggle="modal"
@@ -98,7 +84,7 @@ $x = 0;
                                             </button>
                                    <?php }else{ ?>
                                             <button type="button" class="btn btn-info" disabled>
-                                                <i class="fas fa-file-pdf"></i>
+                                                <i class="fas fa-print"></i>
                                             </button>
                                    <?php } ?>
                                    <button type="button" class="btn btn-info d-none"

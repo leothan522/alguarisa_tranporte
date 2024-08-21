@@ -26,6 +26,8 @@ $('#form_login').submit(function (e) {
 
         ajaxRequest({ url: '_request/LoginRequest.php', data: $(this).serialize() }, function (data) {
                 if (data.result){
+                    $('#card_form_login').addClass('d-none');
+                    verSpinner(true);
                     window.location.replace("../admin/");
                 }else {
                     if (data.error === "no_email"){
