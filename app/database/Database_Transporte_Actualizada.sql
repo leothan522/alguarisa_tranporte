@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
--- Host:                         92.205.26.108
--- Versión del servidor:         10.6.12-MariaDB-0ubuntu0.22.04.1 - Ubuntu 22.04
--- SO del servidor:              debian-linux-gnu
+-- Host:                         127.0.0.1
+-- Versión del servidor:         8.0.30 - MySQL Community Server - GPL
+-- SO del servidor:              Win64
 -- HeidiSQL Versión:             12.1.0.6537
 -- --------------------------------------------------------
 
@@ -16,14 +16,14 @@
 
 
 -- Volcando estructura de base de datos para alguarisa_transporte
-CREATE DATABASE IF NOT EXISTS `alguarisa_transporte` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+CREATE DATABASE IF NOT EXISTS `alguarisa_transporte` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `alguarisa_transporte`;
 
 -- Volcando estructura para tabla alguarisa_transporte.cargos
 CREATE TABLE IF NOT EXISTS `cargos` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cargo` varchar(200) NOT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `cargo` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `band` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -96,15 +96,15 @@ INSERT INTO `cargos` (`id`, `cargo`, `band`) VALUES
 
 -- Volcando estructura para tabla alguarisa_transporte.casos
 CREATE TABLE IF NOT EXISTS `casos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `personas_id` int(11) NOT NULL,
-  `fecha` varchar(100) NOT NULL DEFAULT '',
-  `hora` varchar(100) NOT NULL DEFAULT '',
-  `donativo` varchar(100) NOT NULL,
-  `tipo` varchar(100) NOT NULL,
-  `status` varchar(100) DEFAULT NULL,
-  `observacion` varchar(100) NOT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `personas_id` int NOT NULL,
+  `fecha` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT '',
+  `hora` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT '',
+  `donativo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `tipo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `status` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `observacion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `band` int NOT NULL DEFAULT '1',
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -396,13 +396,13 @@ INSERT INTO `casos` (`id`, `personas_id`, `fecha`, `hora`, `donativo`, `tipo`, `
 
 -- Volcando estructura para tabla alguarisa_transporte.choferes
 CREATE TABLE IF NOT EXISTS `choferes` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `empresas_id` int(11) NOT NULL,
-  `vehiculos_id` int(11) DEFAULT NULL,
-  `cedula` varchar(50) NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `telefono` varchar(50) NOT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `empresas_id` int NOT NULL,
+  `vehiculos_id` int DEFAULT NULL,
+  `cedula` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `telefono` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `band` int NOT NULL DEFAULT '1',
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -478,12 +478,12 @@ INSERT INTO `choferes` (`id`, `empresas_id`, `vehiculos_id`, `cedula`, `nombre`,
 
 -- Volcando estructura para tabla alguarisa_transporte.empresas
 CREATE TABLE IF NOT EXISTS `empresas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `rif` varchar(50) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `responsable` varchar(100) NOT NULL,
-  `telefono` varchar(50) NOT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `rif` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `responsable` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `telefono` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `band` int NOT NULL DEFAULT '1',
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -513,12 +513,12 @@ INSERT INTO `empresas` (`id`, `rif`, `nombre`, `responsable`, `telefono`, `band`
 
 -- Volcando estructura para tabla alguarisa_transporte.firmantes
 CREATE TABLE IF NOT EXISTS `firmantes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) NOT NULL,
-  `cargo` varchar(100) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `cargo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `band` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -529,44 +529,44 @@ INSERT INTO `firmantes` (`id`, `nombre`, `cargo`, `created_at`, `updated_at`, `b
 
 -- Volcando estructura para tabla alguarisa_transporte.guias
 CREATE TABLE IF NOT EXISTS `guias` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `codigo` varchar(50) NOT NULL,
-  `guias_tipos_id` int(11) NOT NULL,
-  `tipos_nombre` varchar(50) NOT NULL,
-  `vehiculos_id` int(11) NOT NULL,
-  `vehiculos_tipo` varchar(50) NOT NULL,
-  `vehiculos_marca` varchar(50) NOT NULL,
-  `vehiculos_placa_batea` varchar(50) NOT NULL,
-  `vehiculos_placa_chuto` varchar(50) NOT NULL,
-  `vehiculos_color` varchar(50) NOT NULL,
-  `vehiculos_capacidad` varchar(50) NOT NULL,
-  `choferes_id` int(11) NOT NULL,
-  `choferes_cedula` varchar(50) NOT NULL,
-  `choferes_nombre` varchar(50) NOT NULL,
-  `choferes_telefono` varchar(50) NOT NULL,
-  `territorios_origen` int(11) NOT NULL,
-  `territorios_destino` int(11) NOT NULL,
-  `rutas_id` int(11) NOT NULL,
-  `rutas_origen` varchar(50) NOT NULL,
-  `rutas_destino` varchar(50) NOT NULL,
-  `rutas_ruta` text NOT NULL,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `guias_tipos_id` int NOT NULL,
+  `tipos_nombre` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `vehiculos_id` int NOT NULL,
+  `vehiculos_tipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `vehiculos_marca` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `vehiculos_placa_batea` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `vehiculos_placa_chuto` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `vehiculos_color` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `vehiculos_capacidad` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `choferes_id` int NOT NULL,
+  `choferes_cedula` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `choferes_nombre` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `choferes_telefono` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `territorios_origen` int NOT NULL,
+  `territorios_destino` int NOT NULL,
+  `rutas_id` int NOT NULL,
+  `rutas_origen` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `rutas_destino` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `rutas_ruta` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   `fecha` date NOT NULL,
-  `users_id` int(11) NOT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `users_id` int NOT NULL,
+  `band` int NOT NULL DEFAULT '1',
   `created_at` date DEFAULT NULL,
-  `auditoria` text DEFAULT NULL,
+  `auditoria` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci,
   `updated_at` date DEFAULT NULL,
   `deleted_at` date DEFAULT NULL,
-  `pdf_id` int(11) DEFAULT 1,
-  `pdf_impreso` int(11) DEFAULT 0,
-  `estatus` int(11) DEFAULT 1,
-  `precinto` varchar(100) DEFAULT NULL,
-  `precinto_2` varchar(100) DEFAULT NULL,
-  `version` int(11) DEFAULT 0,
+  `pdf_id` int DEFAULT '1',
+  `pdf_impreso` int DEFAULT '0',
+  `estatus` int DEFAULT '1',
+  `precinto` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `precinto_2` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `version` int DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1465 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1467 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.guias: ~1.437 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.guias: ~1.453 rows (aproximadamente)
 INSERT INTO `guias` (`id`, `codigo`, `guias_tipos_id`, `tipos_nombre`, `vehiculos_id`, `vehiculos_tipo`, `vehiculos_marca`, `vehiculos_placa_batea`, `vehiculos_placa_chuto`, `vehiculos_color`, `vehiculos_capacidad`, `choferes_id`, `choferes_cedula`, `choferes_nombre`, `choferes_telefono`, `territorios_origen`, `territorios_destino`, `rutas_id`, `rutas_origen`, `rutas_destino`, `rutas_ruta`, `fecha`, `users_id`, `band`, `created_at`, `auditoria`, `updated_at`, `deleted_at`, `pdf_id`, `pdf_impreso`, `estatus`, `precinto`, `precinto_2`, `version`) VALUES
 	(1, 'BC-00273-2023', 1, 'BOLSAS CLAP', 12, 'GANDOLA PLATAFORMA', 'MACK', 'A25A17H', '', 'AMARILLO Y BLANCO', '2000', 13, '4365053', 'FREDYS ONSALO', '(0412) 449.15.98', 1, 7, 8, 'SAN JUAN DE LOS MORROS', 'VALLE DE LA PASCUA', '["EL TOCO ","PAPARARA","ORTIZ","DOS CAMINOS","TIGUIGUE","EL SOMBRERO","CHAGUARAMA"]', '2023-05-24', 8, 1, '2023-05-24', NULL, NULL, NULL, 1, 1, 1, NULL, NULL, 0),
 	(2, 'BC-00274-2023', 1, 'BOLSAS CLAP', 19, 'CAMION CAVA', 'FORD', 'A21AK2M', '', 'BLANCO', '1000', 21, '14637694', 'HECTOR FERNANDEZ', '(0424) 367.43.28', 1, 7, 8, 'SAN JUAN DE LOS MORROS', 'VALLE DE LA PASCUA', '["EL TOCO ","PAPARARA","ORTIZ","DOS CAMINOS","TIGUIGUE","EL SOMBRERO","CHAGUARAMA"]', '2023-05-24', 1, 1, '2023-05-24', '[{"fecha":"2023-05-24 21:08:44","afectados":[[{"campo":"territorios_destino","anterior":12,"nuevo":"7"}],[{"campo":"rutas_id","anterior":4,"nuevo":8}],[{"campo":"rutas_destino","anterior":"GUAYABAL","nuevo":"VALLE DE LA PASCUA"}],[{"campo":"rutas_ruta","anterior":"["EL TOCO ","PAPARARA","ORTIZ","DOS CAMINOS","CALABOZO","COROZOPANDO","CAMAGUAN"]","nuevo":""[\\"EL TOCO \\",\\"PAPARARA\\",\\"ORTIZ\\",\\"DOS CAMINOS\\",\\"TIGUIGUE\\",\\"EL SOMBRERO\\",\\"CHAGUARAMA\\"]""}]],"user":1}]', NULL, NULL, 1, 1, 1, NULL, NULL, 0),
@@ -2031,18 +2031,20 @@ INSERT INTO `guias` (`id`, `codigo`, `guias_tipos_id`, `tipos_nombre`, `vehiculo
 	(1461, 'BC-02046-2024', 1, 'BOLSAS CLAP', 44, 'CAMION CAVA', 'HOWO', 'A94BU0A', '', 'BLANCO', '1000', 21, '14637694', 'HECTOR FERNANDEZ', '(0424) 367.43.28', 1, 11, 1, 'SAN JUAN DE LOS MORROS', 'ORTIZ', '["EL TOCO ","PARAPARA"]', '2024-08-16', 8, 1, '2024-08-16', NULL, NULL, NULL, 1, 1, 1, NULL, NULL, 0),
 	(1462, 'BC-02047-2024', 1, 'BOLSAS CLAP', 48, 'GANDOLA PLATAFORMA', 'MACK', 'A52DN6A', '', 'BLANCO', '2000', 52, '17063733', 'ROLAND LOPEZ', '(0412) 299.24.89', 1, 11, 1, 'SAN JUAN DE LOS MORROS', 'ORTIZ', '["EL TOCO ","PARAPARA"]', '2024-08-16', 8, 1, '2024-08-16', NULL, NULL, NULL, 1, 1, 1, NULL, NULL, 0),
 	(1463, 'BC-02048-2024', 1, 'BOLSAS CLAP', 44, 'CAMION CAVA', 'HOWO', 'A94BU0A', '', 'BLANCO', '1000', 21, '14637694', 'HECTOR FERNANDEZ', '(0424) 367.43.28', 1, 11, 1, 'SAN JUAN DE LOS MORROS', 'ORTIZ', '["EL TOCO ","PARAPARA"]', '2024-08-16', 8, 1, '2024-08-16', NULL, NULL, NULL, 1, 1, 1, NULL, NULL, 0),
-	(1464, 'BC-02049-2024', 1, 'BOLSAS CLAP', 48, 'GANDOLA PLATAFORMA', 'MACK', 'A52DN6A', '', 'BLANCO', '2000', 52, '17063733', 'ROLAND LOPEZ', '(0412) 299.24.89', 1, 11, 1, 'SAN JUAN DE LOS MORROS', 'ORTIZ', '["EL TOCO ","PARAPARA"]', '2024-08-17', 8, 1, '2024-08-17', NULL, NULL, NULL, 1, 1, 1, NULL, NULL, 0);
+	(1464, 'BC-02049-2024', 1, 'BOLSAS CLAP', 48, 'GANDOLA PLATAFORMA', 'MACK', 'A52DN6A', '', 'BLANCO', '2000', 52, '17063733', 'ROLAND LOPEZ', '(0412) 299.24.89', 1, 11, 1, 'SAN JUAN DE LOS MORROS', 'ORTIZ', '["EL TOCO ","PARAPARA"]', '2024-08-17', 8, 1, '2024-08-17', NULL, NULL, NULL, 1, 1, 1, NULL, NULL, 0),
+	(1465, 'RB-02050-2024', 2, 'RUBROS', 6, 'CAMION CAVA', 'CHEVROLET-NPR', 'A91AX5F', '', 'BLANCO', '500', 6, '4391736', 'EDGAR GOMEZ', '(0412) 440.17.34', 1, 7, 8, 'SAN JUAN DE LOS MORROS', 'VALLE DE LA PASCUA', '["EL TOCO ","PAPARARA","ORTIZ","DOS CAMINOS","TIGUIGUE","EL SOMBRERO","CHAGUARAMA"]', '2024-08-20', 8, 1, '2024-08-20', NULL, NULL, NULL, 1, 1, 1, NULL, NULL, 0),
+	(1466, 'RB-02051-2024', 2, 'RUBROS', 6, 'CAMION CAVA', 'CHEVROLET-NPR', 'A91AX5F', '', 'BLANCO', '500', 6, '4391736', 'EDGAR GOMEZ', '(0412) 440.17.34', 7, 1, 8, 'VALLE DE LA PASCUA', 'SAN JUAN DE LOS MORROS', 'Array', '2024-08-20', 8, 1, '2024-08-20', NULL, NULL, NULL, 1, 1, 1, NULL, NULL, 0);
 
 -- Volcando estructura para tabla alguarisa_transporte.guias_carga
 CREATE TABLE IF NOT EXISTS `guias_carga` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `guias_id` int(11) NOT NULL,
-  `cantidad` varchar(50) NOT NULL,
-  `descripcion` varchar(50) NOT NULL,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `guias_id` int NOT NULL,
+  `cantidad` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3593 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3595 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.guias_carga: ~2.575 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.guias_carga: ~2.577 rows (aproximadamente)
 INSERT INTO `guias_carga` (`id`, `guias_id`, `cantidad`, `descripcion`) VALUES
 	(2, 1, '2000', 'MODULOS CLAP GUARIQUEÑOS'),
 	(3, 1, '2000', 'ACEITE COMESTIBLE'),
@@ -4618,13 +4620,15 @@ INSERT INTO `guias_carga` (`id`, `guias_id`, `cantidad`, `descripcion`) VALUES
 	(3589, 1463, '1000', 'MODULOS CLAP'),
 	(3590, 1463, '1000', 'ACEITE COMESTIBLE'),
 	(3591, 1464, '1581', 'MODULOS CLAP'),
-	(3592, 1464, '1581', 'ACEITE COMESTIBLE');
+	(3592, 1464, '1581', 'ACEITE COMESTIBLE'),
+	(3593, 1465, 'RUBROS', 'CON RESPALDO ANEXO'),
+	(3594, 1466, 'RUBROS', 'CON RESPALDO ANEXO');
 
 -- Volcando estructura para tabla alguarisa_transporte.guias_tipos
 CREATE TABLE IF NOT EXISTS `guias_tipos` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
-  `codigo` varchar(50) DEFAULT NULL,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `codigo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -4635,12 +4639,12 @@ INSERT INTO `guias_tipos` (`id`, `nombre`, `codigo`) VALUES
 
 -- Volcando estructura para tabla alguarisa_transporte.instituciones
 CREATE TABLE IF NOT EXISTS `instituciones` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `rif` varchar(100) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `telefono` varchar(100) NOT NULL,
-  `direccion` varchar(100) NOT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `rif` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `telefono` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `direccion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `band` int NOT NULL DEFAULT '1',
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -4671,12 +4675,12 @@ INSERT INTO `instituciones` (`id`, `rif`, `nombre`, `telefono`, `direccion`, `ba
 
 -- Volcando estructura para tabla alguarisa_transporte.municipios
 CREATE TABLE IF NOT EXISTS `municipios` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) NOT NULL,
-  `mini` varchar(255) DEFAULT NULL,
-  `parroquias` int(11) DEFAULT 0,
-  `familias` int(10) unsigned DEFAULT NULL,
-  `estatus` int(11) NOT NULL DEFAULT 1,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mini` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `parroquias` int DEFAULT '0',
+  `familias` int unsigned DEFAULT NULL,
+  `estatus` int NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -4702,20 +4706,20 @@ INSERT INTO `municipios` (`id`, `nombre`, `mini`, `parroquias`, `familias`, `est
 
 -- Volcando estructura para tabla alguarisa_transporte.nomina
 CREATE TABLE IF NOT EXISTS `nomina` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cedula` varchar(15) NOT NULL,
-  `nombre` varchar(150) NOT NULL,
-  `apellido` varchar(150) DEFAULT NULL,
-  `cargos_id` int(11) DEFAULT NULL,
-  `administrativa_id` int(11) DEFAULT NULL,
-  `geografica_id` int(11) DEFAULT NULL,
-  `cargo` varchar(50) DEFAULT NULL,
-  `ubicacion_administrativa` varchar(50) DEFAULT NULL,
-  `ubicacion_geografica` varchar(30) DEFAULT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
-  `carnet` varchar(30) DEFAULT NULL,
-  `path` text DEFAULT NULL,
-  `mini` text DEFAULT NULL,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `cedula` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `apellido` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `cargos_id` int DEFAULT NULL,
+  `administrativa_id` int DEFAULT NULL,
+  `geografica_id` int DEFAULT NULL,
+  `cargo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `ubicacion_administrativa` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `ubicacion_geografica` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `band` int NOT NULL DEFAULT '1',
+  `carnet` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci,
+  `mini` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci,
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -4995,9 +4999,9 @@ INSERT INTO `nomina` (`id`, `cedula`, `nombre`, `apellido`, `cargos_id`, `admini
 
 -- Volcando estructura para tabla alguarisa_transporte.nomina_cargos
 CREATE TABLE IF NOT EXISTS `nomina_cargos` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cargo` varchar(200) NOT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `cargo` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `band` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -5070,10 +5074,10 @@ INSERT INTO `nomina_cargos` (`id`, `cargo`, `band`) VALUES
 
 -- Volcando estructura para tabla alguarisa_transporte.nomina_ubicaciones
 CREATE TABLE IF NOT EXISTS `nomina_ubicaciones` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(50) NOT NULL,
-  `nombre` varchar(200) NOT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `band` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -5116,13 +5120,13 @@ INSERT INTO `nomina_ubicaciones` (`id`, `tipo`, `nombre`, `band`) VALUES
 
 -- Volcando estructura para tabla alguarisa_transporte.oficios
 CREATE TABLE IF NOT EXISTS `oficios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `instituciones_id` int(11) NOT NULL,
-  `personas_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `instituciones_id` int NOT NULL,
+  `personas_id` int NOT NULL,
   `fecha` date NOT NULL,
-  `requerimientos` text NOT NULL,
-  `status` varchar(100) DEFAULT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `requerimientos` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `status` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `band` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -5133,29 +5137,30 @@ INSERT INTO `oficios` (`id`, `instituciones_id`, `personas_id`, `fecha`, `requer
 
 -- Volcando estructura para tabla alguarisa_transporte.parametros
 CREATE TABLE IF NOT EXISTS `parametros` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
-  `tabla_id` int(11) DEFAULT NULL,
-  `valor` text DEFAULT NULL,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `tabla_id` int DEFAULT NULL,
+  `valor` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.parametros: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.parametros: ~6 rows (aproximadamente)
 INSERT INTO `parametros` (`id`, `nombre`, `tabla_id`, `valor`) VALUES
 	(1, 'fecha_compilacion', NULL, '2024-05-07 14:39:21'),
 	(2, 'php_version', NULL, 'v.8'),
-	(6, 'guias_num_init', NULL, '2050'),
+	(6, 'guias_num_init', NULL, '2052'),
 	(9, 'id_capital_estado', 1, ''),
-	(11, 'numRowsPaginate', NULL, '10');
+	(11, 'numRowsPaginate', NULL, '10'),
+	(12, 'Transporte', -1, '{"guias.index":true,"guias.create":true,"guias.edit":true,"guias.anular":true,"guias.descargar":true,"choferes.index":true,"choferes.create":true,"choferes.edit":true,"choferes.destroy":true,"choferes.descargar":true,"vehiculos.index":true,"vehiculos.create":true,"vehiculos.edit":true,"vehiculos.destroy":true,"empresas.index":true,"empresas.create":true,"empresas.edit":true,"empresas.destroy":true,"rutas.index":true,"rutas.create":true,"rutas.edit":true,"rutas.destroy":true}');
 
 -- Volcando estructura para tabla alguarisa_transporte.parroquias
 CREATE TABLE IF NOT EXISTS `parroquias` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) NOT NULL,
-  `mini` varchar(255) DEFAULT NULL,
-  `municipios_id` bigint(20) unsigned NOT NULL,
-  `familias` int(10) unsigned DEFAULT NULL,
-  `estatus` int(11) NOT NULL DEFAULT 1,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mini` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `municipios_id` bigint unsigned NOT NULL,
+  `familias` int unsigned DEFAULT NULL,
+  `estatus` int NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -5207,12 +5212,12 @@ INSERT INTO `parroquias` (`id`, `nombre`, `mini`, `municipios_id`, `familias`, `
 
 -- Volcando estructura para tabla alguarisa_transporte.personas
 CREATE TABLE IF NOT EXISTS `personas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cedula` varchar(100) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `telefono` varchar(100) DEFAULT NULL,
-  `direccion` varchar(100) NOT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `cedula` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `telefono` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `direccion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `band` int NOT NULL DEFAULT '1',
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -5392,26 +5397,26 @@ INSERT INTO `personas` (`id`, `cedula`, `nombre`, `telefono`, `direccion`, `band
 
 -- Volcando estructura para tabla alguarisa_transporte.productos
 CREATE TABLE IF NOT EXISTS `productos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `casos_id` int(11) NOT NULL,
-  `producto` varchar(100) NOT NULL,
-  `cantidad` varchar(100) NOT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `casos_id` int NOT NULL,
+  `producto` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `cantidad` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `band` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.productos: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.productos: ~0 rows (aproximadamente)
 INSERT INTO `productos` (`id`, `casos_id`, `producto`, `cantidad`, `band`) VALUES
 	(1, 1, 'bolsa clap', '1', 1);
 
 -- Volcando estructura para tabla alguarisa_transporte.rutas
 CREATE TABLE IF NOT EXISTS `rutas` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `origen` int(10) unsigned NOT NULL,
-  `destino` int(10) unsigned NOT NULL,
-  `ruta` text DEFAULT NULL,
-  `band` int(11) DEFAULT 1,
-  `version` int(11) DEFAULT 0,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `origen` int unsigned NOT NULL,
+  `destino` int unsigned NOT NULL,
+  `ruta` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci,
+  `band` int DEFAULT '1',
+  `version` int DEFAULT '0',
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -5454,13 +5459,13 @@ INSERT INTO `rutas` (`id`, `origen`, `destino`, `ruta`, `band`, `version`, `crea
 
 -- Volcando estructura para tabla alguarisa_transporte.rutas_territorio
 CREATE TABLE IF NOT EXISTS `rutas_territorio` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `municipio` varchar(50) NOT NULL,
-  `parroquia` varchar(50) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `municipio` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `parroquia` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.rutas_territorio: ~16 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.rutas_territorio: ~0 rows (aproximadamente)
 INSERT INTO `rutas_territorio` (`id`, `municipio`, `parroquia`) VALUES
 	(1, 'JUAN GERMAN ROSCIO NIEVES CAPITAL', 'SAN JUAN DE LOS MORROS'),
 	(2, 'ORTIZ', 'SAN JOSE DE TIZNADO'),
@@ -5481,51 +5486,51 @@ INSERT INTO `rutas_territorio` (`id`, `municipio`, `parroquia`) VALUES
 
 -- Volcando estructura para tabla alguarisa_transporte.users
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(150) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `password` varchar(150) NOT NULL,
-  `telefono` varchar(50) NOT NULL,
-  `token` text DEFAULT NULL,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `email` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `password` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `telefono` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci,
   `date_token` datetime DEFAULT NULL,
-  `path` text DEFAULT NULL,
-  `role` int(11) NOT NULL DEFAULT 0,
-  `role_id` int(11) DEFAULT 0,
-  `permisos` text DEFAULT NULL,
-  `acceso_municipio` text DEFAULT NULL,
-  `estatus` int(11) NOT NULL DEFAULT 1,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci,
+  `role` int NOT NULL DEFAULT '0',
+  `role_id` int DEFAULT '0',
+  `permisos` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci,
+  `acceso_municipio` text CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci,
+  `estatus` int NOT NULL DEFAULT '1',
+  `band` int NOT NULL DEFAULT '1',
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   `deleted_at` date DEFAULT NULL,
-  `dispositivo` int(11) DEFAULT 0,
+  `dispositivo` int DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.users: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.users: ~0 rows (aproximadamente)
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `telefono`, `token`, `date_token`, `path`, `role`, `role_id`, `permisos`, `acceso_municipio`, `estatus`, `band`, `created_at`, `updated_at`, `deleted_at`, `dispositivo`) VALUES
 	(1, 'Yonathan Castillo', 'leothan522@gmail.com', '$2y$10$P7uNBW6cLTouGVhfpkv80O.7LxYNBYY6POFuu6SBGey3ZFgB9V556', '(0424) 338-66.00', NULL, NULL, 'public/img/profile/user_id_XGQj9n.png', 100, 0, NULL, NULL, 1, 1, '2023-08-12', '2024-08-19', NULL, 0),
 	(2, 'Antonny Maluenga', 'gabrielmalu15@gmail.com', '$2y$10$ikRcKe/5Q1B/br8w3r5M4Ot1l8q9vZLaQDZ7FkvdzTZhu/7A9Ycd2', '(0412) 199-56.47', NULL, NULL, 'public/img/profile/user_id_3lKfHa.jpg', 100, 0, NULL, NULL, 1, 1, '2023-08-28', '2024-05-10', NULL, 0),
 	(3, 'Administrador', 'admin@alguarisa.com', '$2y$10$5Fl3weju4a/JQi/x92lIMuXgXUr0dsxp6CIIikPNtNRyjDUlxj4ge', '(0424) 338-66.00', NULL, NULL, NULL, 99, 0, '{"usuarios.index":true}', NULL, 0, 0, '2023-09-28', NULL, '2023-09-29', 0),
-	(4, 'Prueba', 'prueba@gmail.com', '$2y$10$u2Pp72nZmuieRgWDuP5yne7.3UNLWj/9PspOtuvGyPsgPacU./l4a', '(0412) 199-56.47', NULL, NULL, NULL, 1, 0, '{"guias.index":true}', NULL, 1, 1, '2024-08-10', NULL, NULL, 0);
+	(4, 'Prueba', 'prueba@gmail.com', '$2y$10$u2Pp72nZmuieRgWDuP5yne7.3UNLWj/9PspOtuvGyPsgPacU./l4a', '(0412) 199-56.47', NULL, NULL, 'public/img/profile/user_id_dEyHIT.jpg', 2, 12, '{"guias.index":true,"guias.create":true,"guias.edit":true,"guias.anular":true,"guias.descargar":true,"choferes.index":true,"choferes.create":true,"choferes.edit":true,"choferes.destroy":true,"choferes.descargar":true,"vehiculos.index":true,"vehiculos.create":true,"vehiculos.edit":true,"vehiculos.destroy":true,"empresas.index":true,"empresas.create":true,"empresas.edit":true,"empresas.destroy":true,"rutas.index":true,"rutas.create":true,"rutas.edit":true,"rutas.destroy":true}', NULL, 1, 1, '2024-08-10', '2024-08-20', NULL, 0);
 
 -- Volcando estructura para tabla alguarisa_transporte.vehiculos
 CREATE TABLE IF NOT EXISTS `vehiculos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `empresas_id` int(11) NOT NULL,
-  `tipo` varchar(50) NOT NULL,
-  `marca` varchar(50) NOT NULL,
-  `placa_batea` varchar(50) NOT NULL,
-  `placa_chuto` varchar(50) DEFAULT NULL,
-  `color` varchar(50) NOT NULL,
-  `capacidad` varchar(50) NOT NULL,
-  `band` int(11) NOT NULL DEFAULT 1,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `empresas_id` int NOT NULL,
+  `tipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `marca` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `placa_batea` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `placa_chuto` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  `color` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `capacidad` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `band` int NOT NULL DEFAULT '1',
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla alguarisa_transporte.vehiculos: ~65 rows (aproximadamente)
+-- Volcando datos para la tabla alguarisa_transporte.vehiculos: ~0 rows (aproximadamente)
 INSERT INTO `vehiculos` (`id`, `empresas_id`, `tipo`, `marca`, `placa_batea`, `placa_chuto`, `color`, `capacidad`, `band`, `created_at`, `updated_at`) VALUES
 	(1, 1, '2', 'FREIGHTLINER', 'A21AD2C', '', 'BLANCO', '1000', 1, '2023-05-16', NULL),
 	(2, 2, '2', 'FORD 600', 'A57BY5K', '', 'ROJO', '1000', 1, '2023-05-16', NULL),
@@ -5595,8 +5600,8 @@ INSERT INTO `vehiculos` (`id`, `empresas_id`, `tipo`, `marca`, `placa_batea`, `p
 
 -- Volcando estructura para tabla alguarisa_transporte.vehiculos_tipo
 CREATE TABLE IF NOT EXISTS `vehiculos_tipo` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 

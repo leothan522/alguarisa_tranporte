@@ -65,7 +65,7 @@ $x = 0;
                            <td class="text-center"><?php echo ++$i; ?></td>
                            <td class="guias_fecha text-center"><?php echo verFecha($guia['fecha']); ?></td>
 
-                           <td class="guias_codigo text-center">
+                           <td class="guias_codigo text-center text-uppercase">
                                <?php
                                     if ($guia['estatus'] > 0){
                                         echo $guia['codigo'];
@@ -76,13 +76,13 @@ $x = 0;
                                     }
                                ?>
                            </td>
-                           <td class="guias_origen d-none"><?php echo $guia['rutas_origen']; ?></td>
-                           <td class="guias_destino"><?php echo $guia['rutas_destino']; ?></td>
-                           <td class="guias_chofer"><?php echo $guia['choferes_nombre']?></td>
+                           <td class="guias_origen d-none text-uppercase"><?php echo $guia['rutas_origen']; ?></td>
+                           <td class="guias_destino text-uppercase"><?php echo $guia['rutas_destino']; ?></td>
+                           <td class="guias_chofer text-uppercase"><?php echo $guia['choferes_nombre']?></td>
                            <td class="guias_telefono d-none d-lg-table-cell">
                                <?php echo $guia['choferes_telefono']; ?>
                            </td>
-                           <td class="guias_placa d-none d-lg-table-cell">
+                           <td class="guias_placa d-none d-lg-table-cell text-uppercase">
                                <?php echo $guia['vehiculos_placa_batea']; ?>
                            </td>
                            <td class="guias_btns">

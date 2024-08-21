@@ -55,14 +55,14 @@
                     ?>
                     <tr id="tr_item_vehiculos_<?php echo $vehiculo['id'] ?>">
                         <td class="text-center"><?php echo $i; ?></td>
-                        <td class="vehiculos_placa text-left p-0">
+                        <td class="vehiculos_placa text-left p-0 text-uppercase">
                             <span class="btn btn-link btn-sm" onclick="showVehiculo(<?php echo $vehiculo['id'] ?>, origen = 'vehiculos')">
                                 <?php echo $vehiculo['placa_batea']; ?>
                             </span>
                         </td>
-                        <td class="vehiculos_tipo text-left" ><?php echo mb_strtoupper($tipo['nombre']); ?></td>
+                        <td class="vehiculos_tipo text-left text-uppercase" ><?php echo mb_strtoupper($tipo['nombre']); ?></td>
                         <td class="vehiculos_marca text-left pl-5"><?php echo mb_strtoupper($vehiculo['marca']); ?></td>
-                        <td class="vehiculos_cantidad text-right pr-3"><?php echo formatoMillares($vehiculo['capacidad'], 0); ?> </td>
+                        <td class="vehiculos_cantidad text-right pr-3 text-uppercase"><?php echo formatoMillares($vehiculo['capacidad'], 0); ?> </td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-info"

@@ -62,13 +62,13 @@
                         ?>
                         <tr id="tr_item_rutas_<?php echo $ruta['id']; ?>">
                             <td class="text-center"><?php echo $i; ?></td>
-                            <td class="origen" ><?php echo $origen; ?></td>
+                            <td class="origen text-uppercase" ><?php echo $origen; ?></td>
                             <td class="ruta text-center">
                                 <button class="btn btn-link btn-sm" onclick="showRutas(<?php echo $ruta['id']; ?>)">
                                     Ver ruta
                                 </button>
                             </td>
-                            <td class="destino"><?php echo $destino; ?> </td>
+                            <td class="destino text-uppercase"><?php echo $destino; ?> </td>
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <button type="button" class="btn btn-info"

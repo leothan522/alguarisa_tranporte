@@ -2,7 +2,7 @@
 
     <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-            <h5>Tablas</h5>
+            <span class="text-small text-muted float-right">Tablas</span>
         </li>
         <li class="dropdown-divider"></li>
 

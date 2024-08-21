@@ -54,9 +54,9 @@
                             ?>
                             <tr class="text-sm" id="tr_item_empresas_<?php echo $empresa['id']; ?>">
                                 <td class="text-center"><?php echo $i; ?></td>
-                                <td class="empresa_rif text-bold"><?php echo $empresa['rif']; ?></td>
-                                <td class="empresa_nombre"><?php echo $empresa['nombre']; ?></td>
-                                <td class="empresa_responsable">
+                                <td class="empresa_rif text-bold text-uppercase"><?php echo $empresa['rif']; ?></td>
+                                <td class="empresa_nombre text-uppercase"><?php echo $empresa['nombre']; ?></td>
+                                <td class="empresa_responsable text-uppercase">
                                     <small>
                                         <?php echo $empresa['responsable']; ?> <br>
                                         <?php echo $empresa['telefono']; ?>

@@ -71,9 +71,9 @@
                         <tr id="tr_item_choferes_<?php echo $chofer['id']; ?>">
                             <td class="text-center"><?php echo $i; ?></td>
                             <td class="choferes_cedula text-right pr-2" ><?php echo formatoMillares($chofer['cedula']); ?></td>
-                            <td class="choferes_nombre text-left pl-2"><?php echo mb_strtoupper($chofer['nombre']); ?></td>
+                            <td class="choferes_nombre text-left pl-2 text-uppercase"><?php echo mb_strtoupper($chofer['nombre']); ?></td>
                             <td class="choferes_telefono"><?php echo $chofer['telefono']; ?> </td>
-                            <td class="choferes_placa">
+                            <td class="choferes_placa text-uppercase">
                                 <?php if (validarPermisos('vehiculos.index')){ ?>
                                 <span class="btn btn-link btn-sm" onclick="showVehiculo(<?php echo $vehiculo['id']; ?>, 'choferes')" >
                                     <?php echo $vehiculo['placa_batea']; ?>
