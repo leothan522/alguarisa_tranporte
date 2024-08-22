@@ -662,6 +662,7 @@ function destroy(id, opt = 'anular') {
                         $('#texto_guia_anulada').removeClass('d-none');
 
                         setRowGuias(data);
+                        $('#btn_guias_generar_pdf').attr("disabled", "disabled");
                         let anulada = '&nbsp;<i class="fas fa-ban text-danger mt-2"></i></i>&nbsp; <span class="text-danger text-bold">Guía Anulada</span>';
                         $('#texto_guia_anulada')
                             .removeClass('d-none')
@@ -675,6 +676,7 @@ function destroy(id, opt = 'anular') {
                         }else {
                             $('#modal_guia_btn_eliminar').addClass('d-none');
                         }
+
 
                     }else {
 

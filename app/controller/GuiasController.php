@@ -170,7 +170,7 @@ class GuiasController extends Admin
         $actual = $this->GUIAS_NUM_INIT;
         $model = new Parametro();
 
-        if ($num_guia > $actual || $this->USER_ROLE > 99) {
+        if ($num_guia != $actual) {
             if ($this->ID_GUIAS_NUM_INIT) {
                 $model->update($this->ID_GUIAS_NUM_INIT, 'valor', $num_guia);
             } else {
@@ -193,15 +193,6 @@ class GuiasController extends Admin
                     false,
                     'Proximo Número de Guía',
                     'No se realizo ningun cambio.',
-                    'warning',
-                    true
-                );
-            } else {
-                $response = crearResponse(
-                    'numero_menor',
-                    false,
-                    '¡Número Menor!',
-                    'El nuevo número para las Guias debe ser mayor al número actual. El número actual es ' . formatoMillares($actual, 0),
                     'warning',
                     true
                 );
