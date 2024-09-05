@@ -37,6 +37,11 @@
                         Precinto 2 <span class="float-right text-primary text-uppercase" id="show_guias_precinto_2">842</span>
                     </span>
                 </li>
+                <li class="nav-item" id="li_modal_guias_precinto_3">
+                    <span class="nav-link">
+                        Precinto 3 <span class="float-right text-primary text-uppercase" id="show_guias_precinto_3">842</span>
+                    </span>
+                </li>
                 <li class="nav-item">
                     <span class="nav-link">
                         Cargamento: <span class="float-right text-primary text-uppercase" id="show_guias_cargamento"></span>

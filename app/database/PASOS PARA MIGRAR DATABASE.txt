@@ -7,12 +7,13 @@
 7- Importar de la base de datos alguarisa_transporte las tablas municipios y parroquias  a la base de datos alguarisa_old.
 8- Exportar toda la base de datos alguarisa_old e importarla completa en alguarisa_transporte.
 9- Agregar en la tabla ruta despues de band la columna version con valor por defecto 0. todos INT.
-10- Agregar a la tabla guias el despues de precinto_2 la columna version de tipo INT con valor por defecto 0.
-11- Agrega a la tabla guias despues de auditoria la columna updated_at de tipo date, valor por defecto null.
-12- Eliminar la tabla guias_formatos_pdf.
-13- Subir la database alguarisa_transporte.
-14- Crear las Rutas en la nueva interfaz guiandose del sistema viejo.
-15- Crear los nuevos usuarios.
+10- Agregar a la tabla guias despues de precinto_2 la columna precinto_3 de tipo VARCHAR con valor por defecto NULL.
+11- Agregar a la tabla guias despues de precinto_3 la columna version de tipo INT con valor por defecto 0.
+12- Agrega a la tabla guias despues de auditoria la columna updated_at de tipo date, valor por defecto null.
+13- Eliminar la tabla guias_formatos_pdf.
+14- Subir la database alguarisa_transporte.
+15- Crear las Rutas en la nueva interfaz guiandose del sistema viejo.
+16- Crear los nuevos usuarios.
 
 ********* aplicar por consola para despligue en linux ********
 chmod -R 777 {path_root}/admin/guias/_storage/

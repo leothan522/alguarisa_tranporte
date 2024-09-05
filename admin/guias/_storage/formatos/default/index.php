@@ -96,7 +96,19 @@ if (!$controller->precinto && !$controller->precinto_2){
         $pdf->SetFont('times', '', 10);
         $pdf->Cell(30, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
         $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 1, 'C');
+    }
 
+    $mostrar_precinto_3 = true;
+    foreach ($controller->listarCargamento as $carga){
+        if ($controller->precinto_3 && $mostrar_precinto_3){
+            $pdf->SetFont('times', 'B', 10);
+            $pdf->Cell(24, 7, "PRECINTO 3:", 1, 0, 'L',1);
+            $pdf->Cell(48, 7, verUtf8(strtoupper($controller->precinto_3)), 1, 0, 'C');
+            $pdf->Cell(5, 7, "", 0, 1, 'C');
+            $mostrar_precinto_3 = false;
+        }else{
+            $pdf->Cell(77, 7, "", 0, 0, 'C');
+        }
 
 
     }

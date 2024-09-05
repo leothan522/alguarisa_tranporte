@@ -97,6 +97,13 @@
                 </span>
             </div>
 
+            <div class="row ml-1 mr-1 mb-3">
+                <span class="col-4 input-group-text">Precinto 3</span>
+                <span class="col-8">
+                     <input type="text" class="form-control" placeholder="(Opcional)" name="precinto_3" id="form_guias_precinto_3">
+                </span>
+            </div>
+
             <div class="form-group">
                 <label class="col-12">
                     <i class="fas fa-truck-loading"></i> Carga a trasladar:

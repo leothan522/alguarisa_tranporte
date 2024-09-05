@@ -122,6 +122,7 @@ function resetGuia() {
         .val('');
     $('#form_guias_precinto').val('');
     $('#form_guias_precinto_2').val('');
+    $('#form_guias_precinto_3').val('');
     $('#guias_opcion').val('store');
     $('#error_select_guias_tipo').text('');
     $('#error_select_guias_vehiculo').text('');
@@ -280,6 +281,7 @@ function rellenarForm(data, option = 'create') {
         $('#form_guias_fecha').val(data.fecha);
         $('#form_guias_precinto').val(data.precinto);
         $('#form_guias_precinto_2').val(data.precinto_2);
+        $('#form_guias_precinto_3').val(data.precinto_3);
 
         let total_items = $('#items_guias');
         let cargamento = data.listarCarga.length;
@@ -372,8 +374,15 @@ function showGuia(id) {
                 $('#li_modal_guias_precinto_2').removeClass('d-none');
             }
 
+            if (data.precinto_3 === 'precinto_vacio'){
+                $('#li_modal_guias_precinto_3').addClass('d-none');
+            }else {
+                $('#li_modal_guias_precinto_3').removeClass('d-none');
+            }
+
             $('#show_guias_precinto_1').text(data.precinto_1);
             $('#show_guias_precinto_2').text(data.precinto_2);
+            $('#show_guias_precinto_3').text(data.precinto_3);
             if (data.listarCarga !== 'cargamento_vacio'){
                 let cargamento = data.listarCarga.length;
                 $('#show_guias_table_cargamento').empty();

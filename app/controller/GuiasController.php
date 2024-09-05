@@ -40,7 +40,7 @@ class GuiasController extends Admin
         $vehiculos_placa_batea, $vehiculos_placa_chuto, $vehiculos_color, $vehiculos_capacidad, $choferes_id,
         $choferes_cedula, $choferes_nombre, $choferes_telefono, $territorios_origen, $territorios_destino, $rutas_id,
         $rutas_origen, $rutas_destino, $rutas_ruta, $fecha, $user_id, $band, $created_at, $auditoria, $deleted_at,
-        $pdf_id, $pdf_impreso, $estatus, $precinto, $precinto_2, $version, $origen_municipio, $destino_municipio, $trayecto,
+        $pdf_id, $pdf_impreso, $estatus, $precinto, $precinto_2, $precinto_3, $version, $origen_municipio, $destino_municipio, $trayecto,
         $color_cargamento = [], $listarCargamento;
 
 
@@ -287,6 +287,9 @@ class GuiasController extends Admin
             }
             if ($guia['precinto_2']) {
                 $this->precinto_2 = mb_strtoupper(verUtf8($guia['precinto_2']));
+            }
+            if ($guia['precinto_3']) {
+                $this->precinto_3 = mb_strtoupper(verUtf8($guia['precinto_3']));
             }
             $this->version = $guia['version'];
             $this->origen_municipio = $this->getGuiaMunicipio($this->territorios_origen, $this->version);
@@ -535,7 +538,7 @@ class GuiasController extends Admin
 
     }
 
-    public function store($guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador): array
+    public function store($guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $precinto_3, $contador): array
     {
         $model = new Guia();
         $modelGuiasTipo = new GuiasTipo();
@@ -607,6 +610,7 @@ class GuiasController extends Admin
                     $pdf_id,
                     $precinto,
                     $precinto_2,
+                    $precinto_3,
                     '1'
                 ];
 
@@ -615,7 +619,6 @@ class GuiasController extends Admin
                 $sql = "SELECT * FROM guias WHERE codigo LIKE '%$numeroGuia[1]%' AND band = 1 AND estatus = 1;";
                 $existe = $model->sqlPersonalizado($sql);
 
-                //$existe = $model->existe('codigo', 'LIKE', $numeroGuia, null, 1);
 
                 if (!$existe){
                     $model->save($data);
@@ -749,6 +752,7 @@ class GuiasController extends Admin
         $response['role'] = $this->USER_ROLE;
         $response['precinto_1'] = empty($guia['precinto']) ? 'precinto_vacio' : $guia['precinto'];
         $response['precinto_2'] = empty($guia['precinto_2']) ? 'precinto_vacio' : $guia['precinto_2'];
+        $response['precinto_3'] = empty($guia['precinto_3']) ? 'precinto_vacio' : $guia['precinto_3'];
         $response['impreso'] = $guia['pdf_impreso'];
 
         return $response;
@@ -841,6 +845,7 @@ class GuiasController extends Admin
         $response['fecha'] = $guia['fecha'];
         $response['precinto'] = $guia['precinto'];
         $response['precinto_2'] = $guia['precinto_2'];
+        $response['precinto_3'] = $guia['precinto_3'];
         foreach ($cargamento as $carga){
             $id = $carga['id'];
             $cantidad = $carga['cantidad'];
@@ -851,7 +856,7 @@ class GuiasController extends Admin
         return $response;
     }
 
-    public function update($id, $guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador): array
+    public function update($id, $guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $precinto_3, $contador): array
     {
         $model = new Guia();
         $cambios = false;
@@ -907,6 +912,7 @@ class GuiasController extends Admin
                 $db_fecha = $guia['fecha'];
                 $db_precinto = $guia['precinto'];
                 $db_precinto_2 = $guia['precinto_2'];
+                $db_precinto_3 = $guia['precinto_3'];
 
                 if ($db_tipo != $guias_tipos_id){
                     $cambios = true;
@@ -976,6 +982,11 @@ class GuiasController extends Admin
                 if ($db_precinto_2 != $precinto_2){
                     $cambios = true;
                     $model->update($id, 'precinto_2', $precinto_2);
+                }
+
+                if ($db_precinto_3 != $precinto_3){
+                    $cambios = true;
+                    $model->update($id, 'precinto_3', $precinto_3);
                 }
 
 

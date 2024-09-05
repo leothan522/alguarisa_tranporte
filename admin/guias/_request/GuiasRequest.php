@@ -135,7 +135,8 @@ if ($_POST) {
                         !empty($_POST['territorios_destino']) &&
                         !empty($_POST['fecha']) &&
                         isset($_POST['precinto']) &&
-                        isset($_POST['precinto_2'])
+                        isset($_POST['precinto_2']) &&
+                        isset($_POST['precinto_3'])
                     )
                     {
                         $guias_tipos_id = $_POST['guias_tipo_id'];
@@ -162,8 +163,13 @@ if ($_POST) {
                             $precinto_2 = $_POST['precinto_2'];
                         }
 
+                        if (empty($_POST['precinto_3'])){
+                            $precinto_3 = null;
+                        }else{
+                            $precinto_3 = $_POST['precinto_3'];
+                        }
 
-                        $response = $controller->store($guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador);
+                        $response = $controller->store($guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $precinto_3, $contador);
                         if ($response['result']){
                             $paginate = true;
                             $controller->index();
@@ -186,7 +192,8 @@ if ($_POST) {
                         !empty($_POST['fecha']) &&
                         !empty($_POST['guias_id']) &&
                         isset($_POST['precinto']) &&
-                        isset($_POST['precinto_2'])
+                        isset($_POST['precinto_2']) &&
+                        isset($_POST['precinto_3'])
                     ) {
                         $guias_tipos_id = $_POST['guias_tipo_id'];
                         $codigo = $_POST['codigo'];
@@ -212,7 +219,13 @@ if ($_POST) {
                             $precinto_2 = $_POST['precinto_2'];
                         }
 
-                        $response = $controller->update($id, $guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $contador);
+                        if (empty($_POST['precinto_3'])){
+                            $precinto_3 = null;
+                        }else{
+                            $precinto_3 = $_POST['precinto_3'];
+                        }
+
+                        $response = $controller->update($id, $guias_tipos_id, $codigo, $vehiculos_id, $choferes_id, $territorios_origen, $territorios_destino, $fecha, $users_id, $precinto, $precinto_2, $precinto_3, $contador);
 
 
                     }else{

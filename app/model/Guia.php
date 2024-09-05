@@ -34,6 +34,7 @@ class Guia extends Model
             'pdf_id',
             'precinto',
             'precinto_2',
+            'precinto_3',
             'version'
         ];
     }
