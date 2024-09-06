@@ -161,6 +161,12 @@ function reconstruirTabla() {
     });
 }
 
+function setRowquid() {
+    ajaxRequest({ url: '_request/ParametrosRequest.php', data: {opcion: 'set_rowquid'} }, function (data) {
+
+    });
+}
+
 console.log('hi!');
 
 

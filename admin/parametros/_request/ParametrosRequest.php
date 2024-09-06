@@ -110,6 +110,10 @@ if ($_POST) {
 
                     break;
 
+                case 'set_rowquid':
+                    $response = $controller->setRowquid();
+                    break;
+
                 //Por defecto
                 default:
                     $response = crearResponse('no_opcion', false, null, $opcion);
