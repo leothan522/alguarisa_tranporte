@@ -79,7 +79,7 @@ $controller = new PerfilController();
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
-      <?php require_once "_layout/right-sidebar.php" ?>
+      <?php require_once "../_layout/right-sidebar.php" ?>
   </aside>
   <!-- /.control-sidebar -->
 

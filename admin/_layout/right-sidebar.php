@@ -4,8 +4,5 @@
             <span class="text-small text-muted float-right">Extras</span>
         </li>
         <li class="dropdown-divider"></li>
-        <button type="button" class="btn btn-primary btn-sm btn-block m-1">
-            ROWQUID
-        </button>
     </ul>
 </div>
