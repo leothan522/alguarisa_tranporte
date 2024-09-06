@@ -79,10 +79,12 @@ function verCargando(): void
       ';
 }
 
-function formatoMillares($cantidad, $decimales = 0): string
+function formatoMillares($cantidad, $decimal = 0): string
 {
-    if (is_null($cantidad)){ $cantidad = 0; }
-    return number_format($cantidad, $decimales, ',', '.');
+    if (!is_numeric($cantidad)){
+        $cantidad = 0;
+    }
+    return number_format($cantidad, $decimal, ',', '.');
 }
 
 function crearResponse($error = null, $result = false, $title = null, $message = null, $icon = 'success', $alerta = false, $noToast = null ): array

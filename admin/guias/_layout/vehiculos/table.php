@@ -62,7 +62,13 @@
                         </td>
                         <td class="vehiculos_tipo text-left text-uppercase" ><?php echo mb_strtoupper($tipo['nombre']); ?></td>
                         <td class="vehiculos_marca text-left pl-5"><?php echo mb_strtoupper($vehiculo['marca']); ?></td>
-                        <td class="vehiculos_cantidad text-right pr-3 text-uppercase"><?php echo formatoMillares($vehiculo['capacidad'], 0); ?> </td>
+                        <td class="vehiculos_cantidad text-right pr-3 text-uppercase">
+                            <?php if (is_numeric($vehiculo['capacidad'])){
+                                echo formatoMillares($vehiculo['capacidad'], 0);
+                            }else{
+                                echo $vehiculo['capacidad'];
+                            }?>
+                        </td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-info"

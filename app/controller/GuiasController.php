@@ -29,7 +29,7 @@ class GuiasController extends Admin
     public $keyword;
     public $prueba;
 
-    public int $GUIAS_NUM_INIT = 0;
+    public int $GUIAS_NUM_INIT = 1;
     public int $ID_GUIAS_NUM_INIT = 0;
     public string $FORMATO_GUIA_PDF = 'null';
     public int $ID_FORMATO_GUIA = 0;
@@ -794,8 +794,13 @@ class GuiasController extends Admin
             $repetido = false;
             $sql = 'SELECT * FROM guias ORDER BY id DESC;';
             $getGuia = $modelGuia->sqlPersonalizado($sql);
-            $explode = explode('-', $getGuia['codigo']);
-            $ultimoNumero = intval($explode[1]);
+            if ($getGuia){
+                $explode = explode('-', $getGuia['codigo']);
+                $ultimoNumero = intval($explode[1]);
+            }else{
+                $ultimoNumero = 0;
+            }
+
 
             do{
                 $codigoGuia = $codigo.'-'.cerosIzquierda($numero, numSizeCodigo()).'-'.$year;
