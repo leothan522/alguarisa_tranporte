@@ -462,7 +462,7 @@ class TerritorioController extends Admin
                     $parroquias = $model->find($id);
                     $municipio = $modelMunicipio->find($parroquias['municipios_id']);
                     $response['id'] = $id;
-                    $response['municipio'] = '<p class="text-uppercase">'.$municipio['mini'].'</p>';
+                    $response['municipio'] = '<p class="text-center text-uppercase">'.$municipio['mini'].'</p>';
                     $response['parroquia'] = '<p class="text-uppercase">'.$nombre.'</p>';
                     $response['total'] = $model->count();
                     $response['mini'] = '<p class="text-center text-uppercase">'.$parroquias['mini'].'</p>';
