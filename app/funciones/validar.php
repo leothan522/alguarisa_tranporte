@@ -4,7 +4,7 @@ use app\model\User;
 function validarPermisos($key = null): bool
 {
     $model = new User();
-    $user = $model->find($_SESSION['id']);
+    $user = $model->find($_SESSION[APP_KEY]);
     $acceso = false;
 
     if (

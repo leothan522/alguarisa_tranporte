@@ -83,7 +83,7 @@ if ($_POST) if (!empty($_POST['opcion'])) {
                        );
                    }
 
-                   $response['path'] = !empty($imagen[1]) ? public_url($imagen[1]) : null;
+                   $response['path'] = !empty($imagen[1]) ? public_path($imagen[1]) : null;
 
 
 

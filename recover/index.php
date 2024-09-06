@@ -28,7 +28,7 @@ $controller->recover();
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="<?php asset('public\\favicon\\ms-icon-144x144.png') ?>">
     <meta name="theme-color" content="#ffffff">
-    <title><?php echo config('app_name'); ?> | Recuperar contraseña</title>
+    <title><?php echo APP_NAME; ?> | Recuperar contraseña</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -47,7 +47,7 @@ $controller->recover();
 <div class="login-box">
     <div class="card card-outline card-primary">
         <div class="card-header text-center p-0">
-            <a href="<?php echo config('app_dominio'); ?>">
+            <a href="<?php echo APP_DOMINIO; ?>">
                 <img class="img-thumbnail border-transparent" src="<?php asset('public/img/logo_alguarisa.jpg'); ?>" alt="Alimentos del Guárico">
             </a>
         </div>

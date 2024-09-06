@@ -10,7 +10,7 @@ function sidebar($modulo = null): ?string
     $sidebar = [
         [
             'permiso' => true,
-            'url' => public_url('admin'),
+            'url' => public_path('admin'),
             'active' => $modulo == 'dashboard',
             'icono' => '<i class="fas fa-tachometer-alt"></i> ',
             'titulo' => 'Dashboard',
@@ -19,7 +19,7 @@ function sidebar($modulo = null): ?string
         ],
         [
             'permiso' => validarPermisos('guias.index'),
-            'url' => public_url('admin/guias'),
+            'url' => public_path('admin/guias'),
             'active' => $modulo == 'guias.index',
             'icono' => ' <i class="fas fa-file-alt"></i> ',
             'titulo' => 'Guias',
@@ -37,21 +37,21 @@ function sidebar($modulo = null): ?string
             'treeview' => [
                 [
                     'permiso' => validarPermisos('territorio.index'),
-                    'url' => public_url('admin/territorio'),
+                    'url' => public_path('admin/territorio'),
                     'active' => $modulo == 'territorio.index',
                     'icono' => '<i class="fas fa-globe-americas nav-icon"></i>',
                     'titulo' => 'Territorio'
                 ],
                 [
                     'permiso' => validarPermisos('usuarios.index'),
-                    'url' => public_url('admin/usuarios'),
+                    'url' => public_path('admin/usuarios'),
                     'active' => $modulo == 'usuarios.index',
                     'icono' => '<i class="fas fa-users-cog nav-icon"></i>',
                     'titulo' => 'Usuarios'
                 ],
                 [
                     'permiso' => validarPermisos('root'),
-                    'url' => public_url('admin/parametros'),
+                    'url' => public_path('admin/parametros'),
                     'active' => $modulo == 'parametros.index',
                     'icono' => '<i class="fas fa-cog"></i> ',
                     'titulo' => 'Parametros'

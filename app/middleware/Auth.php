@@ -25,12 +25,12 @@ class Auth
     
     public function __construct($index = false)
     {
-        if (isset($_SESSION['id'])) {
+        if (isset($_SESSION[APP_KEY])) {
             
             try {
                 
                 $user = new User();
-                $getUser = $user->find($_SESSION['id']);
+                $getUser = $user->find($_SESSION[APP_KEY]);
                 $this->USER_ID = $getUser['id'];
                 $this->USER_NAME = $getUser['name'];
                 $this->USER_EMAIL = $getUser['email'];
@@ -48,23 +48,23 @@ class Auth
 
                 if (!$this->USER_BAND) {
                     session_destroy();
-                    header('location: '. ROOT_PATH. 'login\\');
+                    header('location: '. ROOT_PATH. '\\login');
                 }
 
                 if (!$this->USER_STATUS) {
                     session_destroy();
-                    header('location: '. ROOT_PATH. 'login\\');
+                    header('location: '. ROOT_PATH. '\\login');
                 }
                 
             } catch (PDOException $e) {
                 session_destroy();
-                header('location: '. ROOT_PATH. 'login\\'); 
+                header('location: '. ROOT_PATH. '\\login');
             }
 
         } else {
             if (!$index) {
                 session_destroy();
-                header('location: '. ROOT_PATH. 'login\\');
+                header('location: '. ROOT_PATH. '\\login');
             }
         }
         

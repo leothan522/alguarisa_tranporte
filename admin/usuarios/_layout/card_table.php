@@ -66,12 +66,12 @@ $x = 0;
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-info" onclick="edit(<?php echo $user['id'] ?>)"
                                         data-toggle="modal" data-target="#modal_edit_usuarios"
-                                    <?php if (($_SESSION['id'] == $user['id']) || ($user['role'] == 100) || (!validarPermisos('usuarios.edit')) || ($user['role'] > $userRole && $userRole != 100)) { echo 'disabled'; } ?> >
+                                    <?php if (($controller->USER_ID == $user['id']) || ($user['role'] == 100) || (!validarPermisos('usuarios.edit')) || ($user['role'] > $userRole && $userRole != 100)) { echo 'disabled'; } ?> >
                                     <i class="fas fa-user-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-info" data-toggle="modal"
                                         data-target="#modal_permisos" onclick="getPermisos(<?php echo $user['id'] ?>)"
-                                    <?php if (($_SESSION['id'] == $user['id']) || ($user['role'] == 100) || (!validarPermisos())) {
+                                    <?php if (($controller->USER_ID == $user['id']) || ($user['role'] == 100) || (!validarPermisos())) {
                                         echo 'disabled';
                                     } ?>>
                                     <i class="fas fa-user-shield"></i>
@@ -79,7 +79,7 @@ $x = 0;
                                 <button type="button" class="btn btn-info"
                                         onclick="destroy(<?php echo $user['id']; ?>)"
                                         id="btn_eliminar_<?php echo $user['id'] ?>"
-                                    <?php if (($_SESSION['id'] == $user['id']) || ($user['role'] == 100) || (!validarPermisos('usuarios.destroy')) || ($user['role'] > $userRole && $userRole != 100)) { echo 'disabled'; } ?> >
+                                    <?php if (($controller->USER_ID == $user['id']) || ($user['role'] == 100) || (!validarPermisos('usuarios.destroy')) || ($user['role'] > $userRole && $userRole != 100)) { echo 'disabled'; } ?> >
                                     <i class="far fa-trash-alt"></i>
                                 </button>
                             </div>

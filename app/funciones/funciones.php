@@ -1,31 +1,92 @@
 <?php
 
 use app\model\Parametro;
+use Carbon\Carbon;
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(dirname(__FILE__, 3));
-$dotenv->load();
-define('ROOT_PATH', $_ENV['APP_URL']);
+init();
+
+function init(): void
+{
+    try {
+        $dotenv = Dotenv::createImmutable(dirname(__FILE__, 3));
+        $dotenv->load();
+    }catch (Exception $e){
+        echo $e->getMessage();
+        exit();
+    }
+
+    define('ROOT_PATH', $_ENV['APP_URL']);
+
+    //Definimois valores por defecto para las variebles de entorno
+    define('APP_NAME', env('APP_NAME'));
+    $key = 'id';
+    if (env('APP_KEY')){
+        $key = str_replace(':', '', env('APP_KEY'));
+        $key = str_replace('=', '', $key);
+    }
+    define('APP_KEY', $key);
+    define('APP_DEBUG', env('APP_DEBUG', true));
+    define('APP_URL', env('APP_URL', getURLActual()));
+    define('APP_DOMINIO', env('APP_DOMINIO', getURLActual()));
+    define('APP_TIMEZONE', env('APP_TIMEZONE', "America/Caracas"));
+    define('APP_REGISTER', env('APP_REGISTER', false));
+
+    //database
+    define('DB_CONNECTION', env('DB_CONNECTION', "mysql"));
+    define('DB_HOST', env('DB_HOST', "127.0.0.1"));
+    define('DB_PORT', env('DB_PORT', 3306));
+    define('DB_DATABASE', env('DB_DATABASE', "nombre_database"));
+    define('DB_USERNAME', env('DB_USERNAME', "root"));
+    define('DB_PASSWORD', env('DB_PASSWORD'));
+
+    //mail
+    define('MAIL_MAILER', env('MAIL_MAILER', "smtp"));
+    define('MAIL_HOST', env('MAIL_HOST', "mailpit"));
+    define('MAIL_PORT', env('MAIL_PORT', 1025));
+    define('MAIL_USERNAME', env('MAIL_USERNAME'));
+    define('MAIL_PASSWORD', env('MAIL_PASSWORD'));
+    define('MAIL_ENCRYPTION', env('MAIL_ENCRYPTION'));
+    define('MAIL_FROM_ADDRESS', env('MAIL_FROM_ADDRESS', "hello@example.com"));
+    define('MAIL_FROM_NAME', env('MAIL_FROM_NAME', APP_NAME));
+}
+
+function env($env, $default = null): mixed
+{
+    if (isset($_ENV[mb_strtoupper($env)])){
+        $response = $_ENV[mb_strtoupper($env)];
+    }else{
+        $response = $default;
+    }
+    return $response;
+}
 
 function asset($url, $noCache = false): void
 {
     $version = null;
     if ($noCache){
-        if (isset($_ENV['APP_DEBUG']) && config('app_debug') == 'true'){
+        if (env('APP_DEBUG')){
             $version = "?v=".rand();
         }
     }
-    echo ROOT_PATH . $url . $version;
+    echo APP_URL . '/' . $url . $version;
 }
 
-function public_url($url): string
+function public_path($url): string
 {
-    return ROOT_PATH . $url;
+    return ROOT_PATH."/".$url;
 }
 
-function config($env)
+function getURLActual(): string
 {
-    return $_ENV[strtoupper($env)];
+    // Obtener el protocolo (http o https)
+    $protocolo = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+    // Obtener el nombre del host
+    $host = $_SERVER['HTTP_HOST'];
+    // Obtener la URI de la solicitud
+    $uri = $_SERVER['REQUEST_URI'];
+    // Combinar todo para obtener la URL completa
+    return $protocolo . $host . $uri;
 }
 
 function generar_string_aleatorio($largo = 10, $espacio = false): string
@@ -39,7 +100,110 @@ function generar_string_aleatorio($largo = 10, $espacio = false): string
     return $string;
 }
 
-//Leer JSON
+function verUtf8($string, $safeNull = false): string
+{
+    //$utf8_string = "Some UTF-8 encoded BATE QUEBRADO ÑñíÍÁÜ niño ó Ó string: é, ö, ü";
+    $response = null;
+    $text = 'NULL';
+    if ($safeNull){
+        $text = '';
+    }
+    if (!is_null($string)){
+        $response = mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8');
+    }
+    if (!is_null($response)){
+        $text = "$response";
+    }
+    return $text;
+}
+
+function getFecha($fecha = null, $format = null): string
+{
+    if (is_null($fecha)){
+        if (is_null($format)){
+            $date = Carbon::now(APP_TIMEZONE)->toDateString();
+        }else{
+            $date = Carbon::now(APP_TIMEZONE)->format($format);
+        }
+    }else{
+        if (is_null($format)){
+            $date = Carbon::parse($fecha)->format('d/m/Y');
+        }else{
+            $date = Carbon::parse($fecha)->format($format);
+        }
+    }
+    return $date;
+}
+
+function haceCuanto($fecha): string
+{
+    return Carbon::parse($fecha)->diffForHumans();
+}
+
+// Obtener la fecha en español
+function fechaEnLetras($fecha, $isoFormat = null): string
+{
+    // dddd => Nombre del DIA ejemplo: lunes
+    // MMMM => nombre del mes ejemplo: febrero
+    $format = "dddd D [de] MMMM [de] YYYY"; // fecha completa
+    if (!is_null($isoFormat)){
+        $format = $isoFormat;
+    }
+    return Carbon::parse($fecha)->isoFormat($format);
+}
+
+function formatoMillares($cantidad, $decimal = 0): string
+{
+    if (!is_numeric($cantidad)){
+        $cantidad = 0;
+    }
+    return number_format($cantidad, $decimal, ',', '.');
+}
+
+function listarDias(): array
+{
+    return ["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
+}
+
+function ListarMeses(): array
+{
+    return ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+}
+
+function numRowsPaginate(): int
+{
+    $num = 30;
+    $model = new Parametro();
+    $parametro = $model->first('nombre', '=', 'numRowsPaginate');
+    if ($parametro) {
+        if (is_numeric($parametro['valor'])) {
+            $num = intval($parametro['valor']);
+        }
+    }
+    return $num;
+}
+
+function cerosIzquierda($cantidad, $cantCeros = 2): int|string
+{
+    if ($cantidad == 0) {
+        return 0;
+    }
+    return str_pad($cantidad, $cantCeros, "0", STR_PAD_LEFT);
+}
+
+function numSizeCodigo(): int
+{
+    $num = 5;
+    $model = new Parametro();
+    $parametro = $model->first('nombre', '=', 'size_codigo');
+    if ($parametro) {
+        if (is_int($parametro['tabla_id'])) {
+            $num = intval($parametro['tabla_id']);
+        }
+    }
+    return $num;
+}
+
 function leerJson($json, $key)
 {
     if ($json == null) {
@@ -55,7 +219,6 @@ function leerJson($json, $key)
     }
 }
 
-//Crear JSON
 function crearJson($array): bool|string
 {
     $json = array();
@@ -79,13 +242,32 @@ function verCargando(): void
       ';
 }
 
-function formatoMillares($cantidad, $decimal = 0): string
+function verImagen($path, $user = false): string
 {
-    if (!is_numeric($cantidad)){
-        $cantidad = 0;
+    if (!empty($path)){
+
+        $url = public_path($path);
+
+        if (url_exists($url)){
+            return $url;
+        }else{
+            if ($user){
+                return public_path('public/img/user_blank.png');
+            }else{
+                return public_path('public/img/img_placeholder.jpeg');
+            }
+        }
+
+    }else{
+        if ($user){
+            return public_path('public/img/user_blank.png');
+        }else{
+            return public_path('public/img/img_placeholder.jpeg');
+        }
     }
-    return number_format($cantidad, $decimal, ',', '.');
 }
+
+//**************************************************************** */
 
 function crearResponse($error = null, $result = false, $title = null, $message = null, $icon = 'success', $alerta = false, $noToast = null ): array
 {
@@ -190,13 +372,6 @@ function verFecha($fecha, $format = null): string
     return $newDate;
 }
 
-function diaEspanol($fecha){
-    $diaSemana = date("w",strtotime($fecha));
-    $diasEspanol = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
-    $dia = $diasEspanol[$diaSemana];
-    return $dia;
-}
-
 function mesEspanol($numMes = null): array|int|string|null
 {
     $meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
@@ -216,37 +391,10 @@ function mesEspanol($numMes = null): array|int|string|null
     }
 }
 
-function cerosIzquierda($numero, $cant_ceros): string
-{
-    $numeroConCeros = str_pad($numero, $cant_ceros, "0", STR_PAD_LEFT);
-    return $numeroConCeros;
-}
-
 function verHora($hora): string
 {
     $newHora = date("g:i a", strtotime($hora));
     return $newHora;
-}
-
-function verUtf8($string){
-    //$utf8_string = "Some UTF-8 encoded BATE QUEBRADO ÑñíÍÁÜ niño ó Ó string: é, ö, ü";
-    if (!empty($string)){
-        return mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8');
-    }
-
-    return $string;
-}
-
-function numRowsPaginate(){
-    $default = 30;
-    $model = new Parametro();
-    $parametro = $model->first('nombre', '=', 'numRowsPaginate');
-    if ($parametro) {
-        if (is_numeric($parametro['valor'])) {
-            return $parametro['valor'];
-        }
-    }
-    return $default;
 }
 
  function getFormato(): array
@@ -258,33 +406,19 @@ function numRowsPaginate(){
     if ($parametro) {
         //sequimos
         if (!empty($parametro['valor']) && is_string($parametro['valor'])) {
-            if (url_exists(public_url('admin/guias/_storage/formatos/' . $parametro['valor'] . '/'))) {
-                $FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/' . $parametro['valor'] . '/');
+            if (url_exists(public_path('admin/guias/_storage/formatos/' . $parametro['valor'] . '/'))) {
+                $FORMATO_GUIA_PDF = public_path('admin/guias/_storage/formatos/' . $parametro['valor'] . '/');
                 $ID_FORMATO_GUIA = $parametro['id'];
             } else {
-                $FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/default/');
+                $FORMATO_GUIA_PDF = public_path('admin/guias/_storage/formatos/default/');
             }
         } else {
-            $FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/default/');
+            $FORMATO_GUIA_PDF = public_path('admin/guias/_storage/formatos/default/');
         }
     } else {
-        $FORMATO_GUIA_PDF = public_url('admin/guias/_storage/formatos/default/');
+        $FORMATO_GUIA_PDF = public_path('admin/guias/_storage/formatos/default/');
     }
     return [$FORMATO_GUIA_PDF, $ID_FORMATO_GUIA];
-}
-
-//**************************************************************** */
-
-function numSizeCodigo(){
-    $default = 5;
-    $model = new Parametro();
-    $parametro = $model->first('nombre', '=', 'size_codigo');
-    if ($parametro) {
-        if (is_numeric($parametro['tabla_id'])) {
-            return $parametro['tabla_id'];
-        }
-    }
-    return $default;
 }
 
 function verFechaLetras($fecha): string
@@ -367,31 +501,6 @@ function url_exists( $url = NULL ) {
     }
 }
 
-function verImagen($path, $user = false)
-{
-    if (!empty($path)){
-
-        $url = public_url($path);
-
-        if (url_exists($url)){
-            return $url;
-        }else{
-            if ($user){
-                return public_url('public/img/user_blank.png');
-            }else{
-                return public_url('public/img/img_placeholder.jpeg');
-            }
-        }
-
-    }else{
-        if ($user){
-            return public_url('public/img/user_blank.png');
-        }else{
-            return public_url('public/img/img_placeholder.jpeg');
-        }
-    }
-}
-
 function subirImagen($file, $nombre, $dir = 'public/img/', $path_file = '../../../'){
     $imagen = $file; // Acceder al archivo de imagen
     $nombreImagen = $imagen['name']; // Obtener el nombre del archivo
@@ -435,12 +544,3 @@ function validateSizeNumber($number=0, $lenght=0){
 
 }
 
-
-
-/*
-//Comportamiento similar como una redirección HTTP
-window.location.replace ("http://es.stackoverflow.com");
-
-//Comportamiento similar como hacer clic en un enlace
-window.location.href = "http://es.stackoverflow.com";
-*/

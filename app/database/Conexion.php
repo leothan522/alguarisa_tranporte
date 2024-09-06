@@ -1,28 +1,35 @@
 <?php
 namespace app\database;
-use Dotenv\Dotenv;
+
 use PDO;
+use PDOException;
 
 header("Access-Control-Allow-Origin: *");
-date_default_timezone_set('America/Caracas');
-
-$dotenv = Dotenv::createImmutable(dirname(__FILE__,3));
-$dotenv->load();
-
+date_default_timezone_set(APP_TIMEZONE);
 class Conexion{
 
     public PDO $CONEXION;
     public function __construct()
     {
 
-        $db_conexion = $_ENV['DB_CONNECTION'];
-        $db_host = $_ENV['DB_HOST'];
-        $db_port = $_ENV['DB_PORT'];
-        $db_database = $_ENV['DB_DATABASE'];
-        $db_username = $_ENV['DB_USERNAME'];
-        $db_password = $_ENV['DB_PASSWORD'];
-        $this->CONEXION = new PDO("$db_conexion:host=$db_host;dbname=$db_database", $db_username, $db_password);
- 
+        try {
+            $db_conexion = DB_CONNECTION;
+            $db_host = DB_HOST;
+            $db_port = DB_PORT;
+            $db_database = DB_DATABASE;
+            $db_username = DB_USERNAME;
+            $db_password = DB_PASSWORD;
+            $db_dns = "$db_conexion:host=$db_host;dbname=$db_database";
+            $this->CONEXION = new PDO($db_dns, $db_username, $db_password);
+        }catch (PDOException $e){
+            $response['result'] = false;
+            $response['icon'] = "error";
+            $response['title'] = 'Error de CONEXION';
+            $response['text'] = "PDOException {$e->getMessage()}";
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit();
+        }
+
     }
 
 

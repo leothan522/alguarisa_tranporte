@@ -32,7 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="<?php asset('public\\favicon\\ms-icon-144x144.png') ?>">
     <meta name="theme-color" content="#ffffff">
-  <title><?php echo config('app_name'); ?> | Inicio</title>
+  <title><?php echo APP_NAME ?> | Inicio</title>
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="<?php asset('app/resources/adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css'); ?>">
   <!-- Google Font: Source Sans Pro -->

@@ -10,8 +10,8 @@ class GuestController
 
     public function index(): void
     {
-        if (isset($_SESSION['id'])){
-            header('location:'. ROOT_PATH.'admin\\');
+        if (isset($_SESSION[APP_KEY])){
+            header('location:'. ROOT_PATH.'\\admin');
         }
     }
 
@@ -30,7 +30,7 @@ class GuestController
             if (password_verify($password, $db_password)) {
 
                 if ($estatus) {
-                    $_SESSION['id'] = $id;
+                    $_SESSION[APP_KEY] = $id;
                     $response = crearResponse(
                         null,
                         true,
@@ -193,7 +193,7 @@ class GuestController
 
             $token = generar_string_aleatorio(50);
             $email_url = str_replace('@', '%40', $email);
-            $url = public_url('recover/') . '?token=' . $token . '&email=' . $email_url . '';
+            $url = public_path('recover/') . '?token=' . $token . '&email=' . $email_url . '';
             $hoy = date("Y-m-d H:i:s");
 
             //definir variables

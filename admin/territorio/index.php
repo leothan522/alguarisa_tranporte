@@ -31,9 +31,9 @@ $controller->isAdmin();
     <meta name="theme-color" content="#ffffff">
 
     <title><?php if (isset($controller->TITTLE)) {
-            echo config('app_name').' | '.$controller->TITTLE;
+            echo APP_NAME.' | '.$controller->TITTLE;
         } else {
-            echo config('app_name').' | Dashboard';
+            echo APP_NAME.' | Dashboard';
         } ?></title>
 
     <!-- Google Font: Source Sans Pro -->
