@@ -17,62 +17,10 @@ class RutasController extends Admin
     public $offset;
     public $keyword;
 
-    public function getParroquias()
+    public function getParroquias(): array
     {
         $model = new Parroquia();
         return $model->getAll();
-    }
-
-    public function store($origen, $contador, $destino)
-    {
-        $model = new Ruta();
-
-        $array = array();
-        for ($i = 1; $i <= $contador; $i++) {
-            if (isset($_POST['ruta_' . $i])) {
-                $item = $_POST['ruta_' . $i];
-                array_push($array, $item);
-            }
-        }
-        $ruta = json_encode($array);
-
-        $sql = "SELECT * FROM rutas WHERE `origen` = '$origen' AND `destino` = '$destino' AND `version` = '1' AND `band` = '1';";
-        $existe = $model->sqlPersonalizado($sql);
-
-        $sql = "SELECT * FROM rutas WHERE `origen` = '$destino' AND `destino` = '$origen' AND `version` = '1' AND `band` = '1';";
-        $inverso = $model->sqlPersonalizado($sql);
-
-        if (!$existe && !$inverso){
-            $data = [
-                $origen,
-                $destino,
-                $ruta,
-                1,
-                date("Y-m-d")
-            ];
-
-            $model->save($data);
-            $response = crearResponse(
-                false,
-                true,
-                'Guardado Exitosamente',
-                'Se Guardo Exitosamente'
-            );
-            $response['total'] = $model->count();
-        }else{
-            $response = crearResponse(
-            'ruta_duplicada',
-            false,
-            'La ruta que intentas crear ya esta registrada.',
-            'La ruta que intentas crear ya esta registrada.',
-            'warning',
-            false,
-            true
-            );
-        }
-
-        return $response;
-
     }
 
     public function index(
@@ -83,7 +31,7 @@ class RutasController extends Admin
         $offset = null,
         $opcion = 'paginate',
         $contentDiv = 'div_rutas'
-    )
+    ): void
     {
 
         $model = new Ruta();
@@ -112,6 +60,59 @@ class RutasController extends Admin
         $this->rows = $model->paginate($this->limit, $offset, 'id', 'DESC', 1, 'version', '=', 1);
     }
 
+    public function store($origen, $contador, $destino): array
+    {
+        $model = new Ruta();
+
+        $array = array();
+        for ($i = 1; $i <= $contador; $i++) {
+            if (isset($_POST['ruta_' . $i])) {
+                $item = $_POST['ruta_' . $i];
+                array_push($array, $item);
+            }
+        }
+        $ruta = json_encode($array);
+
+        $sql = "SELECT * FROM rutas WHERE `origen` = '$origen' AND `destino` = '$destino' AND `version` = '1' AND `band` = '1';";
+        $existe = $model->sqlPersonalizado($sql);
+
+        $sql = "SELECT * FROM rutas WHERE `origen` = '$destino' AND `destino` = '$origen' AND `version` = '1' AND `band` = '1';";
+        $inverso = $model->sqlPersonalizado($sql);
+
+        if (!$existe && !$inverso){
+            $data = [
+                $origen,
+                $destino,
+                $ruta,
+                1,
+                getFecha(),
+                getRowquid($model)
+            ];
+
+            $model->save($data);
+            $response = crearResponse(
+                false,
+                true,
+                'Guardado Exitosamente',
+                'Se Guardo Exitosamente'
+            );
+            $response['total'] = $model->count();
+        }else{
+            $response = crearResponse(
+                'ruta_duplicada',
+                false,
+                'La ruta que intentas crear ya esta registrada.',
+                'La ruta que intentas crear ya esta registrada.',
+                'warning',
+                false,
+                true
+            );
+        }
+
+        return $response;
+
+    }
+
     public function getParroquia($id)
     {
         $model = new Parroquia();
@@ -119,7 +120,7 @@ class RutasController extends Admin
         return mb_strtoupper($parroquia['nombre']);
     }
 
-    public function getRuta($id)
+    public function getRuta($id): array
     {
         $model = new Ruta();
         $ruta = $model->find($id);
@@ -144,7 +145,7 @@ class RutasController extends Admin
         return $response;
     }
 
-    public function update($origen, $contador, $destino, $id)
+    public function update($origen, $contador, $destino, $id): array
     {
         $model = new Ruta();
         $ruta = $model->find($id);
@@ -277,7 +278,7 @@ class RutasController extends Admin
 
     }
 
-    public function destroy($id)
+    public function destroy($id): array
     {
         $model = new Ruta();
         $modelGuias = new Guia();

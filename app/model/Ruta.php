@@ -12,7 +12,8 @@ class Ruta extends Model
             'destino',
             'ruta',
             'version',
-            'created_at'
+            'created_at',
+            'rowquid'
         ];
     }
 

@@ -35,7 +35,8 @@ class Guia extends Model
             'precinto',
             'precinto_2',
             'precinto_3',
-            'version'
+            'version',
+            'rowquid'
         ];
     }
 

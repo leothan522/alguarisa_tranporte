@@ -5,7 +5,7 @@ namespace app\controller;
 use app\middleware\Admin;
 use app\model\Cargo;
 use app\model\Caso;
-use app\model\Chofere;
+use app\model\Chofer;
 use app\model\Empresa;
 use app\model\Firmante;
 use app\model\Guia;
@@ -82,10 +82,12 @@ class ParametrosController extends Admin
             $tabla_id = null;
         }
 
+
         $data = [
             $name,
             $tabla_id,
-            $valor
+            $valor,
+            getRowquid($model)
         ];
 
         $model->save($data);
@@ -207,7 +209,7 @@ class ParametrosController extends Admin
         $casos = new Caso();
         $this->setColumnTable($casos);
 
-        $choferes = new Chofere();
+        $choferes = new Chofer();
         $this->setColumnTable($choferes);
 
         $empresas = new Empresa();

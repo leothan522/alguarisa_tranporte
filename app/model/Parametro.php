@@ -11,7 +11,8 @@ class Parametro extends Model
         $this->DATA = [
            'nombre',
            'tabla_id',
-           'valor'
+           'valor',
+           'rowquid'
         ];
     }
 }

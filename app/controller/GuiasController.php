@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use app\middleware\Admin;
-use app\model\Chofere;
+use app\model\Chofer;
 use app\model\Empresa;
 use app\model\Guia;
 use app\model\GuiasCarga;
@@ -154,7 +154,7 @@ class GuiasController extends Admin
         return $color;
     }
 
-    public function getNumeroGuia()
+    public function getNumeroGuia(): void
     {
         $model = new Parametro();
         $parametro = $model->first('nombre', '=', 'guias_num_init');
@@ -211,7 +211,7 @@ class GuiasController extends Admin
         $offset = null,
         $opcion = 'paginate',
         $contentDiv = 'div_guias'
-    )
+    ): void
     {
 
         $model = new Guia();
@@ -240,7 +240,7 @@ class GuiasController extends Admin
         $this->rows = $model->paginate($this->limit, $offset, 'id', 'DESC', 1);
     }
 
-    public function getGuiaPrint($id)
+    public function getGuiaPrint($id): void
     {
         $redireccionar = false;
         if (empty($id)) {
@@ -370,7 +370,7 @@ class GuiasController extends Admin
         return $municipio;
     }
 
-    public function getFormato()
+    public function getFormato(): void
     {
         $formato = getFormato();
         $this->FORMATO_GUIA_PDF = $formato[0];
@@ -378,7 +378,7 @@ class GuiasController extends Admin
 
     }
     
-    public function search($keyword)
+    public function search($keyword): void
     {
 
         $sql_fecha =  ''; //"fecha LIKE '%$keyword%'";
@@ -485,7 +485,7 @@ class GuiasController extends Admin
         $modelTerritorio = new Parroquia();
         $modelGuiasTipo = new GuiasTipo();
         $modelVehiculos = new Vehiculo();
-        $modelChofer = new Chofere();
+        $modelChofer = new Chofer();
 
         //$guia = $model->getAll(1);
         $sql = "SELECT * FROM parroquias WHERE estatus = '1';";
@@ -545,7 +545,7 @@ class GuiasController extends Admin
         $modelGuiasCarga = new GuiasCarga();
         $modelVehiculos = new Vehiculo();
         $modelVehiculosTipo = new VehiculoTipo();
-        $modelChoferes = new Chofere();
+        $modelChoferes = new Chofer();
         $modelRutas = new Ruta();
         $modelRutasTerritorio = new Parroquia();
         $modelParametro = new Parametro();
@@ -606,12 +606,13 @@ class GuiasController extends Admin
                     $rutas_ruta,
                     $fecha,
                     $users_id,
-                    date("Y-m-d"),
+                    getFecha(),
                     $pdf_id,
                     $precinto,
                     $precinto_2,
                     $precinto_3,
-                    '1'
+                    '1',
+                    getRowquid($model)
                 ];
 
                 $numeroGuia = explode('-', $codigo);
@@ -870,7 +871,7 @@ class GuiasController extends Admin
         $modelGuiasTipo = new GuiasTipo();
         $modelGuiasCarga = new GuiasCarga();
         $modelVehiculos = new Vehiculo();
-        $modelChoferes = new Chofere();
+        $modelChoferes = new Chofer();
         $modelRutasTerritorio = new Parroquia();
 
         $guia = $model->find($id);

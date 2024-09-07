@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use app\middleware\Admin;
-use app\model\Chofere;
+use app\model\Chofer;
 use app\model\Empresa;
 use app\model\Vehiculo;
 
@@ -24,7 +24,7 @@ class EmpresasController extends Admin
         $offset = null,
         $opcion = 'paginate',
         $contentDiv = 'div_empresas'
-    )
+    ): void
     {
 
         $model = new Empresa();
@@ -53,7 +53,7 @@ class EmpresasController extends Admin
         $this->rows = $model->paginate($this->limit, $offset, 'id', 'DESC', 1);
     }
 
-    public function store($rif, $nombre, $responsable, $telefono)
+    public function store($rif, $nombre, $responsable, $telefono): array
     {
         $model = new Empresa();
         $existeEmpresa = $model->existe('rif', '=', $rif, null, 1);
@@ -64,7 +64,8 @@ class EmpresasController extends Admin
                 $nombre,
                 $responsable,
                 $telefono,
-                date("Y-m-d")
+                getFecha(),
+                getRowquid($model)
             ];
 
             $model->save($data);
@@ -88,7 +89,7 @@ class EmpresasController extends Admin
         return $response;
     }
 
-    public function edit($id)
+    public function edit($id): array
     {
         $model = new Empresa();
         $empresa = $model->find($id);
@@ -110,7 +111,7 @@ class EmpresasController extends Admin
         return $response;
     }
 
-    public function update($rif, $nombre, $responsable, $telefono, $id)
+    public function update($rif, $nombre, $responsable, $telefono, $id): array
     {
         $model = new Empresa();
         $empresa = $model->find($id);
@@ -187,11 +188,11 @@ class EmpresasController extends Admin
 
     }
 
-    public function destroy($id)
+    public function destroy($id): array
     {
         $model = new Empresa();
         $modelVehiculo = new Vehiculo();
-        $modelChoferes = new Chofere();
+        $modelChoferes = new Chofer();
 
         $empresa = $model->find($id);
         $vinculado = false;
@@ -231,7 +232,8 @@ class EmpresasController extends Admin
         return $response;
     }
 
-    public function search($keyword){
+    public function search($keyword): void
+    {
         $model = new Empresa();
         $this->totalRows = $model->count(1);
         $sql = "SELECT * FROM empresas WHERE (rif LIKE '%$keyword%' OR nombre LIKE '%$keyword%' OR responsable LIKE '%$keyword%' OR telefono LIKE '%$keyword%') AND band = 1;";

@@ -13,7 +13,8 @@ class Parroquia extends Model
             'mini',
             'municipios_id',
             'familias',
-            'created_at'
+            'created_at',
+            'rowquid'
         ];
     }
 }

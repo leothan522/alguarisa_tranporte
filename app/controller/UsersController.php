@@ -73,7 +73,6 @@ class UsersController extends Admin
     {
 
         $model = new User();
-        $created_at = date('Y-m-d');
         $existeEmail = $model->existe('email', '=', $email, null, 1);
 
         if (!$existeEmail) {
@@ -97,7 +96,8 @@ class UsersController extends Admin
                 $tipo,
                 $role_id,
                 $permisos,
-                $created_at
+                getFecha(),
+                getRowquid($model)
             ];
 
             $model->save($data);

@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use app\middleware\Admin;
-use app\model\Chofere;
+use app\model\Chofer;
 use app\model\Empresa;
 use app\model\Guia;
 use app\model\Vehiculo;
@@ -27,10 +27,10 @@ class ChoferesController extends Admin
         $offset = null,
         $opcion = 'paginate',
         $contentDiv = 'div_choferes'
-    )
+    ): void
     {
 
-        $model = new Chofere();
+        $model = new Chofer();
         if (is_null($limit)) {
             $this->limit = numRowsPaginate();
         } else {
@@ -56,9 +56,9 @@ class ChoferesController extends Admin
         $this->rows = $model->paginate($this->limit, $offset, 'id', 'DESC', 1);
     }
 
-    public function store($empresas, $vehiculos, $cedula, $nombre, $telefono)
+    public function store($empresas, $vehiculos, $cedula, $nombre, $telefono): array
     {
-        $model = new Chofere();
+        $model = new Chofer();
         $existeChofer = $model->existe('cedula', '=', $cedula);
 
         if (!$existeChofer) {
@@ -68,7 +68,8 @@ class ChoferesController extends Admin
                 $cedula,
                 $nombre,
                 $telefono,
-                date("Y-m-d")
+                getFecha(),
+                getRowquid($model)
             ];
 
             $model->save($data);
@@ -106,21 +107,15 @@ class ChoferesController extends Admin
         return $model->first('id', '=', $id);
     }
 
-    public function getEmpresas()
-    {
-        $model = new Empresa();
-        return $model->getAll('1');
-    }
-
-    public function getVehiculos()
+    public function getVehiculos(): array
     {
         $model = new Vehiculo();
         return $model->getAll(1);
     }
 
-    public function edit($id)
+    public function edit($id): array
     {
-        $model = new Chofere();
+        $model = new Chofer();
         $chofer = $model->find($id);
         $response = crearResponse(
             false,
@@ -141,9 +136,9 @@ class ChoferesController extends Admin
         return $response;
     }
 
-    public function update($empresas, $vehiculos, $cedula, $nombre, $telefono, $id)
+    public function update($empresas, $vehiculos, $cedula, $nombre, $telefono, $id): array
     {
-        $model = new Chofere();
+        $model = new Chofer();
         $modelVehiculo = new Vehiculo();
         $cambios = false;
         $choferes = $model->find($id);
@@ -228,11 +223,9 @@ class ChoferesController extends Admin
         return $response;
     }
 
-
-
-    function delete($id)
+    function delete($id): array
     {
-        $model = new Chofere();
+        $model = new Chofer();
         $modelGuias = new Guia();
 
         $chofer = $model->find($id);
@@ -273,9 +266,9 @@ class ChoferesController extends Admin
         return $response;
     }
 
-    public function search($keyword)
+    public function search($keyword): void
     {
-        $model = new Chofere();
+        $model = new Chofer();
         $this->totalRows = $model->count(1);
         $sql = "SELECT * FROM choferes WHERE (cedula LIKE '%$keyword%' OR nombre LIKE '%$keyword%' OR telefono LIKE '%$keyword%') AND band = 1;";
         $this->rows = $model->sqlPersonalizado($sql, 'getAll');

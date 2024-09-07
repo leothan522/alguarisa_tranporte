@@ -12,7 +12,8 @@ class Empresa extends Model
             'nombre',
             'responsable',
             'telefono',
-            'created_at'
+            'created_at',
+            'rowquid'
         ];
     }
 

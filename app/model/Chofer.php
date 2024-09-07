@@ -2,7 +2,7 @@
 
 namespace app\model;
 
-class Chofere extends Model
+class Chofer extends Model
 {
     public function __construct()
     {
@@ -13,7 +13,8 @@ class Chofere extends Model
             'cedula',
             'nombre',
             'telefono',
-            'created_at'
+            'created_at',
+            'rowquid'
         ];
     }
 

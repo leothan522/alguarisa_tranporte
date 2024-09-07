@@ -14,7 +14,8 @@ class User extends Model
             'role',
             'role_id',
             'permisos',
-            'created_at'
+            'created_at',
+            'rowquid'
         ];
     }
 }

@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use app\middleware\Admin;
-use app\model\Chofere;
+use app\model\Chofer;
 use app\model\Empresa;
 use app\model\Guia;
 use app\model\Vehiculo;
@@ -26,7 +26,7 @@ class VehiculosController extends Admin
         $offset = null,
         $opcion = 'paginate',
         $contentDiv = 'div_vehiculos'
-    )
+    ): void
     {
 
         $model = new Vehiculo();
@@ -66,43 +66,13 @@ class VehiculosController extends Admin
         return $model->getAll();
     }
 
-    public function get_datos_vehiculo($id)
-    {
-        $model = new Vehiculo();
-        $modelEmpresa = new Empresa();
-        $vehiculos = $model->find($id);
-        $empresas = $modelEmpresa->find($vehiculos['empresas_id']);
-        $tipo = $this->getTipo($vehiculos['tipo']);
-
-        $response = crearResponse(
-            false,
-            true,
-            'Get Chofer',
-            'Get Chofer',
-            'success',
-            false,
-            true
-        );
-        $response['placa_batea'] = $vehiculos['placa_batea'];
-        $response['marca'] = $vehiculos['marca'];
-        $response['tipo'] = $tipo['nombre'];
-        $response['color_vehiculo'] = $vehiculos['color'];
-        $response['placa_chuto'] = $vehiculos['placa_chuto'];
-        $response['rif'] = $empresas['rif'];
-        $response['nombre'] = verUtf8($empresas['nombre']);
-        $response['responsable'] = verUtf8($empresas['responsable']);
-        $response['telefono'] = $empresas['telefono'];
-
-        return $response;
-    }
-
-    public function getTipos()
+    public function getTipos(): array
     {
         $model = new VehiculoTipo();
         return $model->getAll();
     }
 
-    public function store($empresas_id, $placa_batea, $placa_chuto, $tipo, $marca, $color, $capacidad)
+    public function store($empresas_id, $placa_batea, $placa_chuto, $tipo, $marca, $color, $capacidad): array
     {
         $model = new Vehiculo();
         $existeBatea = $model->existe('placa_batea', '=', $placa_batea, null, 1);
@@ -117,7 +87,8 @@ class VehiculosController extends Admin
                $placa_chuto,
                $color,
                $capacidad,
-               date("Y-m-d")
+               getFecha(),
+               getRowquid($model)
            ];
 
            $model->save($data);
@@ -142,7 +113,7 @@ class VehiculosController extends Admin
         return $response;
     }
 
-    public function edit($id)
+    public function edit($id): array
     {
         $model = new Vehiculo();
         $vehiculos = $model->find($id);
@@ -167,7 +138,7 @@ class VehiculosController extends Admin
         return $response;
     }
 
-    public function update($empresas_id, $placa_batea, $placa_chuto, $tipo, $marca, $color, $capacidad, $id)
+    public function update($empresas_id, $placa_batea, $placa_chuto, $tipo, $marca, $color, $capacidad, $id): array
     {
         $model = new Vehiculo();
         $cambios = false;
@@ -269,11 +240,11 @@ class VehiculosController extends Admin
         return $response;
     }
 
-    public function destroy($id)
+    public function destroy($id): array
     {
         $model = new Vehiculo();
         $modelGuias = new Guia();
-        $modelChoferes = new Chofere();
+        $modelChoferes = new Chofer();
         $vehiculo = $model->find($id);
         $vinculado = false;
 
@@ -311,7 +282,7 @@ class VehiculosController extends Admin
         return $response;
     }
 
-    public function search($keyword)
+    public function search($keyword): void
     {
         $model = new Vehiculo();
         $this->totalRows = $model->count(1);

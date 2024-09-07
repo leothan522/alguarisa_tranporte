@@ -146,7 +146,7 @@ if ($_POST) {
                         $territorios_origen = $_POST['territorios_origen'];
                         $territorios_destino = $_POST['territorios_destino'];
                         $fecha = $_POST['fecha'];
-                        $users_id = $_SESSION['id'];
+                        $users_id = $controller->USER_ID;
                         $cantidad = $_POST['cantidad_1'];
                         $descripcion = $_POST['descripcion_1'];
                         $contador = $_POST['contador_guia'];
@@ -202,7 +202,7 @@ if ($_POST) {
                         $territorios_origen = $_POST['territorios_origen'];
                         $territorios_destino = $_POST['territorios_destino'];
                         $fecha = $_POST['fecha'];
-                        $users_id = $_SESSION['id'];
+                        $users_id = $controller->USER_ID;
 
                         $id = $_POST['guias_id'];
                         $contador = $_POST['contador_guia'];

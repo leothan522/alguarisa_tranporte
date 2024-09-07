@@ -11,7 +11,8 @@ class Municipio extends Model
             'nombre',
             'mini',
             'familias',
-            'created_at'
+            'created_at',
+            'rowquid'
         ];
     }
 }

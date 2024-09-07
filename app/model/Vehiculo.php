@@ -15,7 +15,8 @@ class Vehiculo extends Model
             'placa_chuto',
             'color',
             'capacidad',
-            'created_at'
+            'created_at',
+            'rowquid'
         ];
     }
 

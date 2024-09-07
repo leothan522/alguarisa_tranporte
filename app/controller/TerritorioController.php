@@ -82,7 +82,8 @@ class TerritorioController extends Admin
                     $nombre,
                     $mini,
                     $asignacion,
-                    $hoy
+                    getFecha(),
+                    getRowquid($model)
                 ];
 
                 $model->save($data);
@@ -168,7 +169,8 @@ class TerritorioController extends Admin
                     $mini,
                     $municipio,
                     $asignacion,
-                    $hoy
+                    getFecha(),
+                    getRowquid($model)
                 ];
 
                 $model->save($data);

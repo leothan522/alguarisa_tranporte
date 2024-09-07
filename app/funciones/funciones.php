@@ -267,6 +267,15 @@ function verImagen($path, $user = false): string
     }
 }
 
+function getRowquid($model): string
+{
+    do{
+        $rowquid = generar_string_aleatorio(16);
+        $existe = $model->existe('rowquid', '=', $rowquid);
+    }while($existe);
+    return $rowquid;
+}
+
 //**************************************************************** */
 
 function crearResponse($error = null, $result = false, $title = null, $message = null, $icon = 'success', $alerta = false, $noToast = null ): array

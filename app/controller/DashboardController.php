@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use app\middleware\Admin;
-use app\model\Chofere;
+use app\model\Chofer;
 use app\model\Empresa;
 use app\model\Guia;
 use app\model\Parametro;
@@ -34,7 +34,7 @@ class DashboardController extends Admin
     {
         $response = [];
         $modelGuia = new Guia();
-        $modelChoferes = new Chofere();
+        $modelChoferes = new Chofer();
         $modelVehiculos = new Vehiculo();
         $modelEmpresas = new Empresa();
 
