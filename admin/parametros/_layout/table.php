@@ -12,9 +12,9 @@ $x = 0;
 
     <div class="card-header">
         <h3 class="card-title">
-            <?php if (!$keyword){ ?>
+            <?php if (!$keyword) { ?>
                 Parametros Registrados
-            <?php }else{ ?>
+            <?php } else { ?>
                 Resultados para la busqueda [ <strong class="text-danger"><?php echo $keyword; ?></strong> ]
                 <button type="button" class="btn btn-tool" onclick="reconstruirTabla()">
                     <i class="fas fa-times-circle"></i>
@@ -25,10 +25,14 @@ $x = 0;
         </h3>
 
         <div class="card-tools">
+            <button type="button" class="btn btn-tool" onclick="reconstruirTabla()">
+                <i class="fas fa-sync-alt"></i>
+            </button>
             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                 <i class="fas fa-expand"></i>
             </button>
         </div>
+
 
     </div>
     <!-- /.card-header -->
@@ -50,7 +54,8 @@ $x = 0;
                 </thead>
                 <tbody>
                 <?php
-                foreach ($listarParametros as $parametro){  $x++; ?>
+                foreach ($listarParametros as $parametro) {
+                    $x++; ?>
                     <tr id="tr_item_<?php echo $parametro['id']; ?>">
                         <td><span class="text-bold"><?php echo ++$i; ?></span></td>
                         <td class="nombre">
@@ -61,25 +66,28 @@ $x = 0;
                         </td>
                         <td class="valor">
                             <?php
-                            if ($parametro['tabla_id'] == -1){
+                            if ($parametro['tabla_id'] == -1) {
                                 echo 'JSON {...}';
-                            }else{
+                            } else {
                                 echo $parametro['valor'];
                             }
                             ?>
                         </td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-info" onclick="edit(<?php echo $parametro['id'] ?>)">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button type="button" class="btn btn-info" onclick="borrar(<?php echo $parametro['id']; ?>)" id="btn_eliminar_<?php echo $parametro['id'] ?>">
-                                <i class="far fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            <?php } ?>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-info"
+                                        onclick="edit(<?php echo $parametro['id'] ?>)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-info"
+                                        onclick="borrar(<?php echo $parametro['id']; ?>)"
+                                        id="btn_eliminar_<?php echo $parametro['id'] ?>">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -88,10 +96,10 @@ $x = 0;
     <div class="card-footer clearfix">
         <input type="hidden" placeholder="valor_$x" value="<?php echo $x ?>" name="input_hidden_x" id="input_hidden_x">
         <?php
-        if (isset($links)){
+        if (isset($links)) {
             echo $links;
         }
-         ?>
+        ?>
     </div>
-        <?php verCargando(); ?>
+    <?php verCargando(); ?>
 </div>

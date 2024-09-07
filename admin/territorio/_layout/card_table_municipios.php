@@ -19,6 +19,10 @@ $x = 0;
         </h3>
 
         <div class="card-tools">
+            <button type="button" class="btn btn-tool" onclick="reconstruirTablaMunicipios()">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+
             <button class="btn btn-tool"
                     onclick="resetMunicipio()" data-toggle="modal"
                     data-target="#modal-municipios"

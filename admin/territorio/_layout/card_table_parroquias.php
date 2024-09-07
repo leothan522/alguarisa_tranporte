@@ -30,6 +30,11 @@ $x = 0;
                 <i class="fas fa-sync-alt"></i> Reestablacer
             </button>
             <?php } ?>
+
+            <button type="button" class="btn btn-tool" onclick="reconstruirTablaParroquias()">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+
             <button class="btn btn-tool" data-toggle="modal"
                     onclick="resetParroquia()"
                     data-target="#modal-parroquias"

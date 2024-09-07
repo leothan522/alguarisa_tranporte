@@ -294,6 +294,7 @@ $('#navbar_form_buscar').submit(function (e) {
 });
 
 function reconstruirTablaMunicipios() {
+
     ajaxRequest({ url: '_request/MunicipiosRequest.php', data: { opcion: 'index'}, html: true }, function (data) {
         $('#dataContainerMunicipio').html(data.html);
         datatable('tabla_municipios');
