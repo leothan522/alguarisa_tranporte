@@ -221,6 +221,11 @@ function leerImagen(input) {
     }
 }
 
+function eliminarImagen() {
+    $('#profile_imagen').attr('src', '../../public/img/user_blank.png');
+    $('#btn_guardar_cancelar').addClass('d-none');
+}
+
 $("#seleccionar_imagen").change(function() {
     leerImagen(this);
     $('#btn_guardar_cancelar').removeClass('d-none');
@@ -240,11 +245,6 @@ $('#form_profile_imagen').submit(function (e) {
 
 function cargarImagen() {
     $('#seleccionar_imagen').click();
-}
-
-function reconstruirCard() {
-
-
 }
 
 console.log('perfil.!')
