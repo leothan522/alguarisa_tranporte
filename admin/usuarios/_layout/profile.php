@@ -31,12 +31,17 @@
             </li>
         </ul>
 
-        <button type="button" class="btn btn-primary btn-block" onclick="resetPassword()" id="btn_profile_reset_password">
-            <b>Restablecer Contraseña</b>
-        </button>
-        <button type="button" class="btn btn-danger btn-block" onclick="cambiarEstatus()" id="btn_profile_band_user">
-            <b>Inactivar Usuario</b>
-        </button>
+        <div class="row justify-content-between">
+            <button type="button" class="btn btn-primary" onclick="resetPassword()" id="btn_profile_reset_password">
+                <b>Restablecer Contraseña</b>
+            </button>
+
+            <button type="button" class="btn btn-danger btn-lg" onclick="cambiarEstatus()" id="btn_profile_band_user">
+
+            </button>
+
+        </div>
+
     </div>
     <!-- /.card-body -->
 </div>

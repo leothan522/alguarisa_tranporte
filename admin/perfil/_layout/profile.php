@@ -43,7 +43,7 @@
                 <b>Estatus</b> <a class="float-right" id="profile_estatus"><span class="text-success"><?php echo $controller->verEstatusUsuario($controller->USER_STATUS, false) ?></span></a>
             </li>
             <li class="list-group-item">
-                <b>Fecha Registro</b> <a class="float-right" id="profile_fecha"><?php echo verFecha($controller->USER_CREATED_AT)?></a>
+                <b>Fecha Registro</b> <a class="float-right" id="profile_fecha"><?php echo getFecha($controller->USER_CREATED_AT)?></a>
             </li>
 
         </ul>

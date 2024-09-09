@@ -158,14 +158,15 @@ function setUser(data) {
         .trigger('change');
 
     let button = $('#btn_profile_band_user');
+    let texto = 'Suspender <br> Usuario';
     if (data.band !== 1) {
         button.removeClass('btn-danger');
         button.addClass('btn-success');
         button.text('Activar Usuario');
     } else {
-        button.addClass('btn-danger');
+        button.addClass('btn-danger text-bold');
         button.removeClass('btn-success');
-        button.text('Inactivar Usuario');
+        button.html(texto);
     }
 }
 
@@ -372,14 +373,12 @@ $('#form_permisos_usuario').submit(function (e) {
         //muestro toast
     });
 });
-
 function reconstruirTabla() {
     ajaxRequest({ url: '_request/UsersRequest.php', data: { opcion: 'index'}, html: 'si' }, function (data) {
         $('#dataContainer').html(data.html);
         datatable('tabla_usuarios');
     });
 }
-
 $('#navbar_form_buscar').submit(function (e) {
     e.preventDefault();
     let keyword = $('#navbar_input_buscar').val();
@@ -389,6 +388,5 @@ $('#navbar_form_buscar').submit(function (e) {
     });
 
 });
-
 
 console.log('Usuarios.!');
