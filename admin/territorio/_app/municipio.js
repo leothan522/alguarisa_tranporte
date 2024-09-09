@@ -303,4 +303,12 @@ function reconstruirTablaMunicipios() {
 
 }
 
+$('#btn_header_municipios').click(function () {
+    $("#custom-tabs-one-home-tab").trigger("click");
+});
+
+$('#btn_header_parroquias').click(function () {
+    $("#custom-tabs-one-profile-tab").trigger("click");
+})
+
 console.log('Municipio.!');
