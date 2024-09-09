@@ -268,6 +268,8 @@ function filtrarParroquias(id) {
         $('#dataContainerParroquia').html(data.html); datatable('tabla_parroquias');
         $('#parroquias_btn_restablecer').removeClass('d-none');
         $('#custom-tabs-one-profile-tab').click();
+        $("#btn_header_municipios").removeClass('text-muted');
+        $("#btn_header_parroquias").addClass('text-muted');
     });
 
 

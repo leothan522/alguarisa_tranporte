@@ -649,7 +649,7 @@ class TerritorioController extends Admin
         $model = new Parroquia();
         $modelMunicipio = new Municipio();
         $municipio = $modelMunicipio->find($id);
-        $this->verMuncipio = $municipio['nombre'];
+        $this->verMuncipio = $municipio['mini'];
         $this->rows = $model->getList('municipios_id', '=', $id);
     }
 

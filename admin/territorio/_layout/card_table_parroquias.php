@@ -3,7 +3,7 @@ $listarParroquias = $controller->rows;
 $links = $controller->links;
 $i = $controller->offset;
 $x = 0;
-
+$count = count($listarParroquias);
 ?>
 
 <div class="card card-outline card-primary">
@@ -12,7 +12,7 @@ $x = 0;
             <?php
             if (empty($controller->keyword)){
                 if (isset($restablecer) && $restablecer){ ?>
-                    Filtrando por municipio [ <strong class="text-danger"><?php echo $controller->verMuncipio; ?></strong> ]
+                    Filtrando { <strong class="text-danger"><?php echo $controller->verMuncipio; ?></strong> } [ <span class="text-danger text-bold"><?php echo $count ?></span> ]
                 <?php }else{ ?>
                     Parroquias [ <span class="text-danger text-bold"><?php echo $controller->totalParroquia; ?></span> ]
                 <?php
@@ -26,12 +26,6 @@ $x = 0;
         </h3>
 
         <div class="card-tools">
-            <?php if (isset($restablecer) && $restablecer){ ?>
-            <button class="btn btn-tool d-none" onclick="filtrarParroquias('')" id="parroquias_btn_restablecer">
-                <i class="fas fa-sync-alt"></i> Reestablacer
-            </button>
-            <?php } ?>
-
             <button type="button" class="btn btn-tool" onclick="reconstruirTablaParroquias()">
                 <i class="fas fa-sync-alt"></i>
             </button>
