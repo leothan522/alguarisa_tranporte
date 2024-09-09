@@ -32,7 +32,7 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        <div class="table-responsive" style="height: 60vh; ">
+        <div class="table-responsive">
             <table class="table table-sm table-head-fixed table-hover text-nowrap"  id="table_vehiculos">
                 <thead>
                 <tr class="text-center">

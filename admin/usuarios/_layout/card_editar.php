@@ -1,4 +1,4 @@
-<form id="form_editar_user">
+
     <div class="card card-primary">
         <div class="card-header">
             <h3 class="card-title">Datos a Editar</h3>
@@ -89,4 +89,3 @@
             <button type="reset" class="btn btn-default float-right" onclick="edit()" id="btn_edit_cancelar">Restablecer</button>
         </div>
     </div>
-</form>

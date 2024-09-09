@@ -21,9 +21,9 @@
                     <i class="fas fa-save"></i> Guardar
                 </button>
 
-                <a class="btn btn-danger  btn-xs">
+                <button type="button" class="btn btn-danger  btn-xs" id="btn_cancelar_subida_imagen">
                     <i class="fas fa-times"></i> Cancelar
-                </a>
+                </button>
             </div>
         </form>
 

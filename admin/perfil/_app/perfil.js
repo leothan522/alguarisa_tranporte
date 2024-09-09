@@ -57,6 +57,9 @@ $('#form_perfil_datos').submit(function (e){
 
         ajaxRequest({ url: '_request/PerfilRequest.php', data: $(this).serialize() }, function (data) {
             if (data.result){
+                $('#collapseOne')
+                    .removeClass('collapse show')
+                    .addClass('collapse');
                 $('#profile_name').text(data.nombre);
                 $('#profile_email').text(data.email);
                 $('#profile_telefono').text(data.telefono);
@@ -132,7 +135,9 @@ $('#form_perfil_seguridad').submit(function (e){
         ajaxRequest({ url: '_request/PerfilRequest.php', data: $(this).serialize() }, function (data) {
 
             if (data.result){
-
+                $('#collapseTwo')
+                    .removeClass('collapse show')
+                    .addClass('collapse');
                 password_actual
                     .removeClass('is-valid')
                     .val('')
@@ -221,7 +226,6 @@ $("#seleccionar_imagen").change(function() {
     $('#btn_guardar_cancelar').removeClass('d-none');
 });
 
-
 $('#form_profile_imagen').submit(function (e) {
     e.preventDefault();
     let datos = new FormData(this);
@@ -236,6 +240,11 @@ $('#form_profile_imagen').submit(function (e) {
 
 function cargarImagen() {
     $('#seleccionar_imagen').click();
+}
+
+function reconstruirCard() {
+
+
 }
 
 console.log('perfil.!')
