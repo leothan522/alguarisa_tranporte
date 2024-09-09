@@ -86,6 +86,7 @@ function edit(id) {
             $('#valor').val(data.valor);
             $('#opcion').val("update");
             $('#id').val(data.id);
+            $('#parametro_title').text('Editar');
         }
     });
 
@@ -125,11 +126,18 @@ function borrar(id) {
 }
 
 function reset() {
-    $('#nombre').removeClass('is-invalid');
-    $('#tabla_id').removeClass('is-invalid');
-    $('#valor').removeClass('is-invalid');
+    $('#name')
+        .val('')
+        .removeClass('is-invalid');
+    $('#tabla_id')
+        .val('')
+        .removeClass('is-invalid');
+    $('#valor')
+        .val('')
+        .removeClass('is-invalid');
     $('#opcion').val("store");
     $('#id').val("");
+    $('#parametro_title').text('Nuevo')
 }
 
 $('#btn_cancelar').click(function () {
@@ -164,6 +172,13 @@ function reconstruirTabla() {
 function setRowquid() {
     ajaxRequest({ url: '_request/ParametrosRequest.php', data: {opcion: 'set_rowquid'} }, function (data) {
 
+    });
+}
+
+function reconstruirBuscar(keyword) {
+    ajaxRequest({ url: '_request/ParametrosRequest.php', data: {opcion: 'search', keyword: keyword}, html: 'si' }, function (data) {
+        $('#dataContainerParametros').html(data.html);
+        datatable('table_parametros');
     });
 }
 

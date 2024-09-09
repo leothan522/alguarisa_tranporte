@@ -1,54 +1,42 @@
 <div class="card card-primary card-outline">
     <div class="card-body box-profile">
+        <div class="text-center">
+            <img class="profile-user-img img-fluid img-circle"
+                 src="<?php asset('public/img/user_blank.png'); ?>"
+                 alt="User profile picture" id="profile_imagen">
+        </div>
 
-            <div class="text-center">
-                <img class="profile-user-img img-fluid img-circle ima_profile_user" style="cursor: pointer" onclick="cargarImagen()"
-                     src="<?php echo verImagen($controller->USER_PATH, true); ?>"
-                     alt="User profile picture" id="profile_imagen">
-            </div>
+        <h3 class="profile-username text-center" id="profile_name">Nina Mcintire</h3>
 
+        <p class="text-muted text-center" id="profile_tipo">Usuario Publico</p>
 
-        <form enctype="multipart/form-data" id="form_profile_imagen">
-            <div class="text-center mt-2 d-none" id="btn_subir">
-                <label class="btn btn-primary btn-sm">
-                    Subir Foto <i class="fas fa-edit"></i>
-                    <input type="file" name="seleccionar_imagen" id="seleccionar_imagen" hidden accept="image/*">
-                </label>
-            </div>
-            <input type="hidden" value="store_imagen" name="opcion" id="opcion">
-            <div class="text-center d-none mt-2" id="btn_guardar_cancelar">
-                <button type="submit" class="btn btn-success  btn-xs" name="guardar_imagen" id="guardar_imagen">
-                    <i class="fas fa-save"></i> Guardar
-                </button>
-
-                <button type="button" class="btn btn-danger  btn-xs" id="btn_cancelar_subida_imagen" onclick="eliminarImagen()">
-                    <i class="fas fa-times"></i> Cancelar
-                </button>
-            </div>
-        </form>
-
-
-        <h3 class="profile-username text-center" id="profile_name"><?php echo $controller->USER_NAME?></h3>
-
-        <p class="text-muted text-center" id="profile_tipo"><?php echo $controller->getRol($controller->USER_ROLE, $controller->USER_ROLE_ID) ?></p>
-
-        <ul class="list-group list-group-unbordered">
+        <ul class="list-group list-group-unbordered mb-3">
             <li class="list-group-item">
-                <b>Email</b> <a class="float-right" id="profile_email"><?php echo $controller->USER_EMAIL ?></a>
+                <b>Email</b> <a class="float-right" id="profile_email">correo@email.com</a>
             </li>
             <li class="list-group-item">
-                <b>Teléfono</b> <a class="float-right" id="profile_telefono"><?php echo $controller->USER_TELEFONO ?></a>
+                <b>Teléfono</b> <a class="float-right" id="profile_telefono">(9999) 999.99.99</a>
             </li>
             <li class="list-group-item">
-                <b>Estatus</b> <a class="float-right" id="profile_estatus"><span class="text-success"><?php echo $controller->verEstatusUsuario($controller->USER_STATUS, false) ?></span></a>
+                <b>Estatus</b> <a class="float-right" id="profile_estatus"><span class="text-success">Activo</span></a>
             </li>
             <li class="list-group-item">
-                <b>Fecha Registro</b> <a class="float-right" id="profile_fecha"><?php echo getFecha($controller->USER_CREATED_AT)?></a>
+                <b>Fecha Registro</b> <a class="float-right" id="profile_fecha">19/08/2023</a>
             </li>
-
+            <li class="list-group-item d-none" id="ver_new_password">
+                <b>Nueva Contraseña</b>
+                <span class="float-right">
+                    <input size="13" type="text" placeholder="Nueva Contraseña" id="profile_new_password">
+                </span>
+            </li>
         </ul>
 
+        <button type="button" class="btn btn-primary btn-block" onclick="resetPassword()" id="btn_profile_reset_password">
+            <b>Restablecer Contraseña</b>
+        </button>
+        <button type="button" class="btn btn-danger btn-block" onclick="cambiarEstatus()" id="btn_profile_band_user">
+            <b>Inactivar Usuario</b>
+        </button>
     </div>
     <!-- /.card-body -->
-    <?php verCargando(); ?>
 </div>
