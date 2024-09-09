@@ -3,16 +3,17 @@ $listarMunicipios = $controller->rows;
 $links = $controller->links;
 $i = $controller->offset;
 $x = 0;
+$count = count($controller->rows);
 ?>
 
 <div class="card card-outline card-primary">
     <div class="card-header">
         <h3 class="card-title">
             <?php if (empty($controller->keyword)){ ?>
-            Municipios
+            Municipios [ <span class="text-danger text-bold"><?php echo $controller->totalMunicipio ?></span> ]
             <?php }else{ ?>
-                Resultados para la busqueda [ <strong class="text-danger"><?php echo $controller->keyword; ?></strong> ] en Municipios
-                <button type="button" class="btn btn-tool" onclick="reconstruirTablaMunicipios()">
+                Municipio { <strong class="text-danger"><?php echo $controller->keyword; ?></strong> } [ <span class="text-danger text-bold"><?php echo $controller->totalMunicipio ?></span> ]
+                <button type="button" class="btn btn-tool text-danger" onclick="reconstruirTablaMunicipios()">
                     <i class="fas fa-times-circle"></i>
                 </button>
             <?php } ?>

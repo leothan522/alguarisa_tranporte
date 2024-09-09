@@ -3,6 +3,7 @@ $listarParroquias = $controller->rows;
 $links = $controller->links;
 $i = $controller->offset;
 $x = 0;
+
 ?>
 
 <div class="card card-outline card-primary">
@@ -13,11 +14,11 @@ $x = 0;
                 if (isset($restablecer) && $restablecer){ ?>
                     Filtrando por municipio [ <strong class="text-danger"><?php echo $controller->verMuncipio; ?></strong> ]
                 <?php }else{ ?>
-                    Parroquias
+                    Parroquias [ <span class="text-danger text-bold"><?php echo $controller->totalParroquia; ?></span> ]
                 <?php
                 }
             }else{?>
-                Resultados para la busqueda [ <strong class="text-danger"><?php echo $controller->keyword; ?></strong> ] en Parroquias
+                Parroquia { <strong class="text-danger"><?php echo $controller->keyword; ?></strong> } [ <span class="text-danger text-bold"><?php echo $controller->totalParroquia ?></span> ]
                 <button type="button" class="btn btn-tool" onclick="reconstruirTablaParroquias()">
                     <i class="fas fa-times-circle"></i>
                 </button>

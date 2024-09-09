@@ -190,6 +190,10 @@ class Model
             case 'save':
                 $row = $query->save($sql);
                 break;
+            case 'count':
+                $sql = "SELECT COUNT(*) FROM $sql";
+                $row = $query->count($sql);
+                break;
             default:
                 $row = $query->getFirst($sql);
                 break;

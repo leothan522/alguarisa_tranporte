@@ -7,6 +7,17 @@ inputmask('#municipio_asignacion', 'numerico', 3, 10, '');
 datatable('tabla_municipios');
 
 $("#navbar_buscar").removeClass('d-none');
+$("#btn_header_municipios").addClass('text-muted');
+
+$("#btn_header_parroquias").click(function (e) {
+    $("#btn_header_municipios").removeClass('text-muted');
+    $("#btn_header_parroquias").addClass('text-muted');
+});
+
+$("#btn_header_municipios").click(function (e) {
+    $("#btn_header_parroquias").removeClass('text-muted');
+    $("#btn_header_municipios").addClass('text-muted');
+});
 
 //Aqui se hace la solicitud ajax para registrar un nuevo municipio o editar uno existente
 $('#form_territorio_municipio').submit(function (e) {
