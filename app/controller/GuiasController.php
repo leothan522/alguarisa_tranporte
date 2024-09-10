@@ -29,6 +29,8 @@ class GuiasController extends Admin
     public $keyword;
     public $prueba;
 
+    public $busquedaTotal;
+
     public int $GUIAS_NUM_INIT = 1;
     public int $ID_GUIAS_NUM_INIT = 0;
     public string $FORMATO_GUIA_PDF = 'null';
@@ -464,8 +466,22 @@ class GuiasController extends Admin
         $and
         band = 1;";
 
+        $sql_count = "guias WHERE 
+        $sql_fecha 
+        $or_1
+        $sql_codigo 
+        $or_2
+        $sql_destino
+        $or_3
+        $sql_chofer
+        $or_4
+        $sql_placa
+        $and
+        band = 1;";
+
         $this->rows = $model->sqlPersonalizado($sql, 'getAll');
         $this->keyword = $keyword;
+        $this->busquedaTotal = $model->sqlPersonalizado($sql_count, 'count');
     }
 
     public function getTipoVehiculo($id = null)

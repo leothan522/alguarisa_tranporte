@@ -10,13 +10,13 @@ $x = 0;
 
         <h3 class="card-title">
             <?php if (isset($keyword) && $keyword){ ?>
-                Búsqueda { <span class="text-warning text-bold"><?php echo $keyword?></span> }
+                Búsqueda { <span class="text-danger text-bold"><?php echo $keyword?></span> } [ <span class="text-danger text-bold"><?php echo $controller->busquedaTotal ?></span> ]
                 <button type="button" class="btn btn btn-tool" onclick="reconstruirTablaGuias()">
                     <i class=" fas fa-times-circle"></i>
                 </button>
             <?php if (isset($controller->prueba)){echo $controller->prueba; } }else{ ?>
-                Registrados [
-                <span class="text-warning text-bold" id="total_rows_table_guias">
+                Registradas [
+                <span class="text-danger text-bold" id="total_rows_table_guias">
                     <?php echo formatoMillares($totalRowsGuias, 0); ?>
                 </span>
                 ]
@@ -24,9 +24,16 @@ $x = 0;
         </h3>
 
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" onclick="reconstruirTablaGuias()">
-                <i class="fas fa-sync-alt"></i>
-            </button>
+            <?php if (empty($keyword)){ ?>
+                <button type="button" class="btn btn-tool" onclick="reconstruirTablaGuias()">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            <?php }else{ ?>
+                <button type="button" class="btn btn-tool" onclick="reconstruirBuscarGuia('<?php echo $keyword ?>')">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            <?php } ?>
+
             <button type="button" class="btn btn-tool" data-toggle="modal"
                     data-target="#modal_create_guia" onclick="createGuia()" <?php if (!validarPermisos('guias.create')){ echo 'disabled'; } ?>>
                 <i class="fas fa-file-alt"></i> Nuevo
@@ -112,7 +119,7 @@ $x = 0;
         <input type="hidden" value="<?php echo $x; ?>" name="count_guias" id="count_guias">
         <?php
         if (isset($keyword) && $keyword){
-            echo 'Resultados Encontrados: <span class="text-bold text-danger">'. $i.'</span>';
+            echo 'Resultados Encontrados: <span class="text-bold text-danger">'. $x.'</span>';
         }else{
             if (isset($links)){
                 echo $links;

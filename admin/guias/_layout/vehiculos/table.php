@@ -3,7 +3,7 @@
 
         <h3 class="card-title">
             <?php if (isset($keyword) && $keyword){ ?>
-                 Búsqueda { <span class="text-warning text-bold"><?php echo $keyword?></span> }
+                 Búsqueda { <span class="text-warning text-bold"><?php echo $keyword?></span> } [ <span class="text-warning text-bold"><?php echo $totalRowsVehiculos; ?></span> ]
                  <button type="button" class="btn btn btn-tool" onclick="initVehiculos()">
                     <i class=" fas fa-times-circle"></i>
                 </button>
@@ -20,9 +20,15 @@
         </h3>
 
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" onclick="initVehiculos()">
-                <i class="fas fa-sync-alt"></i>
-            </button>
+            <?php if (empty($controller->keyword)){ ?>
+                <button type="button" class="btn btn-tool" onclick="initVehiculos()">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            <?php }else{ ?>
+                <button type="button" class="btn btn-tool" onclick="reconstruirBuscarVehiculo('<?php echo $controller->keyword ?>')">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            <?php } ?>
             <button type="button" class="btn btn-tool"  onclick="createVehiculos()" <?php if (!validarPermisos('vehiculos.create')){ echo 'disabled'; } ?>>
                 <i class="fas fa-file-alt"></i> Nuevo
             </button>

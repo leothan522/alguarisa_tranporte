@@ -216,4 +216,12 @@ function destroyEmpresa(id) {
     });
 }
 
+function reconstruirBuscarEmpresas(keyword) {
+    ajaxRequest({ url: '_request/EmpresasRequest.php', data: { opcion: 'search', keyword: keyword}, html: 'si'  }, function (data) {
+        $('#div_empresas').html(data.html);
+        datatable('table_empresas');
+        displayEmpresas();
+    });
+}
+
 console.log('empresas');

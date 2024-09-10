@@ -305,3 +305,10 @@ $('#form_vehiculos').submit(function (e) {
     }
 
 });
+
+function reconstruirBuscarVehiculo(keyword) {
+    ajaxRequest({ url: '_request/VehiculosRequest.php', data: { opcion: 'search', keyword: keyword}, html: 'si'  }, function (data) {
+        $('#div_vehiculos').html(data.html);
+        datatable('table_vehiculos');
+    });
+}

@@ -155,14 +155,12 @@ function resetGuia() {
     }
 
 }
-
 function reconstruirTablaGuias() {
     ajaxRequest({url: '_request/GuiasRequest.php', data: { opcion: 'index'},html: 'si'}, function (data) {
         $('#div_guias').html(data.html);
         datatable('table_guias');
     });
 }
-
 function displayGuias(init = 'true') {
     verSpinner(true);
 
@@ -204,7 +202,6 @@ function displayGuias(init = 'true') {
 
     verSpinner(false);
 }
-
 function rellenarForm(data, option = 'create') {
     let selectTipo = $('#form_guias_tipo');
     let tipo = data.listarTipos.length;
@@ -322,7 +319,6 @@ function rellenarForm(data, option = 'create') {
 
     displayGuias('form');
 }
-
 function createGuia() {
     $('#title_form_guias').text('Nueva Guía');
     $('#icono_span_title').html('<i class="fas fa-file"></i>');
@@ -337,7 +333,6 @@ function createGuia() {
         }
     });
 }
-
 function showGuia(id) {
 
     ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'show', id: id}}, function (data) {
@@ -442,7 +437,6 @@ function showGuia(id) {
         }
     });
 }
-
 function editGuia(id) {
 
     resetGuia();
@@ -466,7 +460,6 @@ function editGuia(id) {
     });
 
 }
-
 function addItemGuia() {
     let contador = document.getElementById("contador_guia");
     let valor_actual = contador.dataset.contador;
@@ -492,7 +485,6 @@ function addItemGuia() {
 
     $('#items_guias').append(content);
 }
-
 function btnRemoveGuia(item) {
     let contador = document.getElementById("contador_guia");
     let row = document.getElementById(item);
@@ -501,7 +493,6 @@ function btnRemoveGuia(item) {
     contador.dataset.contador = valor_nuevo;
     row.remove();
 }
-
 $('#form_guias').submit(function (e) {
     e.preventDefault();
     let procesar = true;
@@ -649,7 +640,6 @@ $('#form_guias').submit(function (e) {
     }
 
 });
-
 function tipoGuia(value, accion, id) {
     if (value.length > 0){
         ajaxRequest({url: '_request/GuiasRequest.php', data: {opcion: 'get_codigo', tipos_id: value, accion, id}}, function (data) {
@@ -657,7 +647,6 @@ function tipoGuia(value, accion, id) {
         });
     }
 }
-
 function destroy(id, opt = 'anular') {
     MessageDelete.fire().then((result) => {
         if (result.isConfirmed) {
@@ -713,7 +702,6 @@ function destroy(id, opt = 'anular') {
         }
     });
 }
-
 function setRowGuias(data) {
     let table = $('#table_guias').DataTable();
     let tr = $('#tr_item_guias_' + data.id);
@@ -726,6 +714,12 @@ function setRowGuias(data) {
         .cell(tr.find('.guias_telefono')).data(data.chofer_telefono)
         .cell(tr.find('.guias_placa')).data(data.vehiculo_placa_batea)
         .draw();
+}
+function reconstruirBuscarGuia(keyword) {
+    ajaxRequest({url: '_request/GuiasRequest.php', data: { opcion: 'search', keyword: keyword},html: 'si'}, function (data) {
+        $('#div_guias').html(data.html);
+        datatable('table_guias');
+    });
 }
 
 console.log('guias.js')

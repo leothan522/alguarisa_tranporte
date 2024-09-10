@@ -14,7 +14,7 @@ $count = count($controller->rows);
             <?php } else { ?>
                 Municipio { <strong class="text-danger"><?php echo $controller->keyword; ?></strong> } [ <span
                         class="text-danger text-bold"><?php echo $controller->totalMunicipio ?></span> ]
-                <button type="button" class="btn btn-tool text-danger" onclick="reconstruirTablaMunicipios()">
+                <button type="button" class="btn btn-tool" onclick="reconstruirTablaMunicipios()">
                     <i class="fas fa-times-circle"></i>
                 </button>
             <?php } ?>

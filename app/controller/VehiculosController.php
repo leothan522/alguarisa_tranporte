@@ -287,8 +287,10 @@ class VehiculosController extends Admin
         $model = new Vehiculo();
         $this->totalRows = $model->count(1);
         $sql = "SELECT * FROM vehiculos WHERE (placa_batea LIKE '%$keyword%' OR marca LIKE '%$keyword%' OR capacidad LIKE '%$keyword%') AND band = 1;";
+        $sql_count = "vehiculos WHERE (placa_batea LIKE '%$keyword%' OR marca LIKE '%$keyword%' OR capacidad LIKE '%$keyword%') AND band = 1;";
         $this->rows = $model->sqlPersonalizado($sql, 'getAll');
         $this->keyword = $keyword;
+        $this->totalRows = $model->sqlPersonalizado($sql_count, 'count');
     }
 
 }

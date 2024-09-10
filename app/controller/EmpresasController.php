@@ -237,8 +237,10 @@ class EmpresasController extends Admin
         $model = new Empresa();
         $this->totalRows = $model->count(1);
         $sql = "SELECT * FROM empresas WHERE (rif LIKE '%$keyword%' OR nombre LIKE '%$keyword%' OR responsable LIKE '%$keyword%' OR telefono LIKE '%$keyword%') AND band = 1;";
+        $sql_count = "empresas WHERE (rif LIKE '%$keyword%' OR nombre LIKE '%$keyword%' OR responsable LIKE '%$keyword%' OR telefono LIKE '%$keyword%') AND band = 1;";
         $this->rows = $model->sqlPersonalizado($sql, 'getAll');
         $this->keyword = $keyword;
+        $this->totalRows = $model->sqlPersonalizado($sql_count, 'count');
     }
 
 }

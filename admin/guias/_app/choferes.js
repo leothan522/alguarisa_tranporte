@@ -260,25 +260,33 @@ function editChofer(id) {
     getVehiculos();
     getEmpresas();
 
-        ajaxRequest({url: '_request/ChoferesRequest.php', data: {opcion: 'edit', id: id}}, function (data) {
-            if (data.result) {
-                verSpinner(true);
-                $('#input_choferes_cedula').val(data.cedula);
-                $('#input_choferes_nombre').val(data.nombre);
-                $('#input_choferes_telefono').val(data.telefono);
-                $('#select_choferes_vehiculo')
-                    .val(data.vehiculos_id)
+    ajaxRequest({url: '_request/ChoferesRequest.php', data: {opcion: 'edit', id: id}}, function (data) {
+        if (data.result) {
+            verSpinner(true);
+            $('#input_choferes_cedula').val(data.cedula);
+            $('#input_choferes_nombre').val(data.nombre);
+            $('#input_choferes_telefono').val(data.telefono);
+            $('#select_choferes_vehiculo')
+                .val(data.vehiculos_id)
+                .trigger('change');
+            $('#choferes_opcion').val('update');
+            $('#choferes_id').val(data.id);
+            setTimeout(function () {
+                $('.select_guias_empresas')
+                    .val(data.empresas_id)
                     .trigger('change');
-                $('#choferes_opcion').val('update');
-                $('#choferes_id').val(data.id);
-                setTimeout(function () {
-                    $('.select_guias_empresas')
-                        .val(data.empresas_id)
-                        .trigger('change');
-                },500);
-            }
-        });
+            }, 500);
+        }
+    });
 
+}
+
+function reconstruirBuscarChoferes(keyword) {
+    ajaxRequest({url: '_request/ChoferesRequest.php', data: { opcion: 'search', keyword: keyword}, html: 'si'}, function (data) {
+        $('#div_choferes').html(data.html);
+        datatable('table_choferes');
+        displayChoferes();
+    });
 }
 
 console.log('choferes..');
