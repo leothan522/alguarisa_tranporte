@@ -37,9 +37,6 @@ $x = 0;
             <button class="btn btn-tool" onclick="reset()" data-toggle="modal" data-target="#modal-parametros">
                 <i class="far fa-file-alt"></i> Nuevo
             </button>
-            <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                <i class="fas fa-expand"></i>
-            </button>
         </div>
 
 

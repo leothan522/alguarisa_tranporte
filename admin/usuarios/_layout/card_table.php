@@ -34,9 +34,6 @@ $x = 0;
                 <?php if (!validarPermisos('usuarios.create')){ echo 'disabled'; } ?>>
                 <i class="far fa-file-alt"></i> Nuevo
             </button>
-            <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                <i class="fas fa-expand"></i>
-            </button>
         </div>
 
     </div>

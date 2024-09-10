@@ -26,13 +26,16 @@ $count = count($listarParroquias);
         </h3>
 
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" onclick="reconstruirTablaParroquias()">
-                <i class="fas fa-sync-alt"></i>
-            </button>
-
-            <button class="btn btn-tool" data-toggle="modal"
-                    onclick="resetParroquia()"
-                    data-target="#modal-parroquias"
+           <?php if (empty($controller->keyword)){ ?>
+               <button type="button" class="btn btn-tool" onclick="reconstruirTablaParroquias()">
+                   <i class="fas fa-sync-alt"></i>
+               </button>
+           <?php }else{ ?>
+               <button type="button" class="btn btn-tool" onclick="reconstruirBuscarParroquia('<?php echo $controller->keyword; ?>')">
+                   <i class="fas fa-sync-alt"></i>
+               </button>
+           <?php } ?>
+            <button class="btn btn-tool" data-toggle="modal" onclick="resetParroquia()" data-target="#modal-parroquias"
                     <?php if (!validarPermisos('parroquias.create')){ echo 'disabled'; } ?> >
                 <i class="far fa-file-alt"></i> Nuevo
             </button>

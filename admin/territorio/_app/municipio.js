@@ -320,6 +320,13 @@ $('#btn_header_municipios').click(function () {
 
 $('#btn_header_parroquias').click(function () {
     $("#custom-tabs-one-profile-tab").trigger("click");
-})
+});
+
+function reconstruirBuscarMunicipio(keyword) {
+    ajaxRequest({ url: '_request/MunicipiosRequest.php', data: { opcion: 'search', keyword: keyword}, html: 'si' }, function (data) {
+        $('#dataContainerMunicipio').html(data.html);
+        datatable('tabla_municipios');
+    });
+}
 
 console.log('Municipio.!');

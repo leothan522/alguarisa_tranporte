@@ -344,7 +344,12 @@ function reconstruirTablaParroquias() {
         $('#dataContainerParroquia').html(data.html); datatable('tabla_parroquias');
         $('#parroquias_btn_restablecer').removeClass('d-none');
     });
+}
 
-
+function reconstruirBuscarParroquia(keyword) {
+    ajaxRequest({ url: '_request/ParroquiasRequest.php', data: { opcion: 'search', keyword: keyword}, html: 'si' }, function (data) {
+        $('#dataContainerParroquia').html(data.html);
+        datatable('tabla_parroquias');
+    });
 }
 console.log('Parroquia.!');
