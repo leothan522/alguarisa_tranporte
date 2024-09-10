@@ -8,10 +8,11 @@ $x = 0;
 <div class="card card-outline card-primary">
     <div class="card-header">
         <h3 class="card-title">
-            <?php if (empty($controller->keyword)){ ?>
-                Usuarios Registrados
-                <?php }else{ ?>
-                Resultados para la busqueda [ <strong class="text-danger"><?php echo $controller->keyword; ?></strong> ]
+            <?php if (empty($controller->keyword)) { ?>
+                Registrados [ <span class="text-danger text-bold"><?php echo $controller->totalUsers ?></span> ]
+            <?php } else { ?>
+                Búsqueda { <strong class="text-danger"><?php echo $controller->keyword; ?></strong> } [ <span
+                        class="text-danger text-bold"><?php echo $controller->totalUsers ?></span> ]
                 <button type="button" class="btn btn-tool" onclick="reconstruirTabla()">
                     <i class="fas fa-times-circle"></i>
                 </button>
@@ -19,8 +20,19 @@ $x = 0;
         </h3>
 
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" onclick="reconstruirTabla()">
-                <i class="fas fa-sync-alt"></i>
+            <?php if (empty($controller->keyword)) { ?>
+                <button type="button" class="btn btn-tool" onclick="reconstruirTabla()">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            <?php } else { ?>
+                <button type="button" class="btn btn-tool"
+                        onclick="reconstruirBuscar('<?php echo $controller->keyword ?>')">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            <?php } ?>
+            <button class="btn btn-tool" onclick="resetForm()" data-toggle="modal" data-target="#modal-create-user"
+                <?php if (!validarPermisos('usuarios.create')){ echo 'disabled'; } ?>>
+                <i class="far fa-file-alt"></i> Nuevo
             </button>
             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                 <i class="fas fa-expand"></i>
@@ -40,6 +52,7 @@ $x = 0;
                     <th class="text-center">Teléfono</th>
                     <th class="text-center">Tipo</th>
                     <th class="text-center">Estatus</th>
+                    <th style="width: 10%" class="text-center d-none d-lg-table-cell">Creado</th>
                     <th style="width: 5%">&nbsp;</th>
                 </tr>
                 </thead>
@@ -56,11 +69,14 @@ $x = 0;
                         <td class="telefono text-center"><?php echo $user['telefono'] ?></td>
                         <td class="role text-center"><?php echo $controller->getRol($user['role'], $user['role_id']) ?></td>
                         <td class="estatus text-center"><?php echo $controller->verEstatusUsuario($user['estatus']) ?></td>
+                        <td class="created_at text-center d-none d-lg-table-cell"><?php echo getFecha($user['created_at']); ?></td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-info" onclick="edit(<?php echo $user['id'] ?>)"
                                         data-toggle="modal" data-target="#modal_edit_usuarios"
-                                    <?php if (($controller->USER_ID == $user['id']) || ($user['role'] == 100) || (!validarPermisos('usuarios.edit')) || ($user['role'] > $userRole && $userRole != 100)) { echo 'disabled'; } ?> >
+                                    <?php if (($controller->USER_ID == $user['id']) || ($user['role'] == 100) || (!validarPermisos('usuarios.edit')) || ($user['role'] > $userRole && $userRole != 100)) {
+                                        echo 'disabled';
+                                    } ?> >
                                     <i class="fas fa-user-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-info" data-toggle="modal"
@@ -70,10 +86,12 @@ $x = 0;
                                     } ?>>
                                     <i class="fas fa-user-shield"></i>
                                 </button>
-                                <button type="button" class="btn btn-info"
+                                <button type="button" class="btn btn-info d-none"
                                         onclick="destroy(<?php echo $user['id']; ?>)"
                                         id="btn_eliminar_<?php echo $user['id'] ?>"
-                                    <?php if (($controller->USER_ID == $user['id']) || ($user['role'] == 100) || (!validarPermisos('usuarios.destroy')) || ($user['role'] > $userRole && $userRole != 100)) { echo 'disabled'; } ?> >
+                                    <?php if (($controller->USER_ID == $user['id']) || ($user['role'] == 100) || (!validarPermisos('usuarios.destroy')) || ($user['role'] > $userRole && $userRole != 100)) {
+                                        echo 'disabled';
+                                    } ?> >
                                     <i class="far fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -87,10 +105,10 @@ $x = 0;
     <!-- /.card-body -->
     <div class="card-footer clearfix">
         <?php
-        if (empty($controller->keyword)){
+        if (empty($controller->keyword)) {
             echo $links;
-        }else{
-            echo "Mostrando ".$x;
+        } else {
+            echo "Mostrando " . $x;
         }
 
         ?>

@@ -2,24 +2,15 @@
     <div class="card-header">
         <h3 class="card-title">Datos a Editar</h3>
 
-        <!--<div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source="widgets.html" data-source-selector="#card-refresh-content" data-load-on-init="false">
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" onclick="edit()">
                 <i class="fas fa-sync-alt"></i>
             </button>
-            <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                <i class="fas fa-expand"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>-->
+        </div>
         <!-- /.card-tools -->
     </div>
     <!-- /.card-header -->
-    <div class="card-body pt-5">
+    <div class="card-body">
 
         <label for="edit_name">Nombre</label>
         <div class="input-group mb-3">
@@ -83,8 +74,6 @@
     <div class="card-footer">
         <input type="hidden" name="opcion" value="update" id="edit_opcion">
         <input type="hidden" name="id" id="edit_id">
-        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        <button type="reset" class="btn btn-default float-right" onclick="edit()" id="btn_edit_cancelar">Restablecer
-        </button>
+        <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
     </div>
 </div>

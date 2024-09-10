@@ -157,15 +157,18 @@ function setUser(data) {
         .val(data.role)
         .trigger('change');
 
-    let button = $('#btn_profile_band_user');
+    //let button = $('#btn_profile_band_user');
+    let inactivo = '<button type="button" class="btn btn-success btn-block" onclick="cambiarEstatus()" id="btn_profile_band_user">\n' +
+        '                   <b>Activar</b><br><b>Usuario</b>\n' +
+        '              </button>';
+
+    let activo = '<button type="button" class="btn btn-danger btn-block" onclick="cambiarEstatus()" id="btn_profile_band_user">\n' +
+        '                       <b>Inactivar</b><br><b> Usuario</b>\n' +
+        '               </button>';
     if (data.band !== 1) {
-        button.removeClass('btn-danger');
-        button.addClass('btn-success');
-        button.text('Activar Usuario');
+        $('#btn_profile_band_user').html(inactivo);
     } else {
-        button.addClass('btn-danger');
-        button.removeClass('btn-success');
-        button.text('Inactivar Usuario');
+        $('#btn_profile_band_user').html(activo);
     }
 }
 
@@ -189,6 +192,11 @@ function edit(id = null) {
             setUser(data);
             $('#ver_new_password').addClass('d-none');
             $('#profile_new_password').val('');
+            if (data.permiso === 'no_permiso'){
+                $('#btn_modal_eliminar').addClass('disabled');
+            }else {
+                $('#btn_modal_eliminar').attr("onclick", "destroy('"+id+"')");
+            }
             resetForm(true);
         }
     });
@@ -324,6 +332,7 @@ function destroy(id) {
                     }else {
                         $('#input_hidden_x').val(valor_x);
                     }
+                    $('#btn_cerrar_modal_edit').click();
                 }
 
             });
@@ -389,6 +398,13 @@ $('#navbar_form_buscar').submit(function (e) {
     });
 
 });
+
+function reconstruirBuscar(keyword) {
+    ajaxRequest({ url: '_request/UsersRequest.php', data: { opcion: 'search', keyword: keyword}, html: 'si' }, function (data) {
+        $('#dataContainer').html(data.html);
+        datatable('tabla_usuarios');
+    });
+}
 
 
 console.log('Usuarios.!');
