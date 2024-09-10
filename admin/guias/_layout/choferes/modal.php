@@ -54,7 +54,7 @@
 
 
                 </div>
-                <div class="modal-footer justify-content-end d-none">
+                <div class="modal-footer justify-content-end">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar_btn_modal_choferes">
                         Cerrar
                     </button>
