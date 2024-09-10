@@ -3,8 +3,10 @@
 namespace app\controller;
 
 use app\middleware\Admin;
+use app\model\Guia;
 use app\model\Municipio;
 use app\model\Parroquia;
+use app\model\Ruta;
 use app\model\User;
 
 class TerritorioController extends Admin
@@ -524,10 +526,22 @@ class TerritorioController extends Admin
 
     public function delete($table, $id): array
     {
+        $modelGuia = new Guia();
+        $modelRuta = new Ruta();
         $vinculado = false;
+
+        $guia_origen = $modelGuia->first('territorios_origen', '=', $id);
+        $guia_destino = $modelGuia->first('territorios_destino', '=', $id);
+
+        $ruta_origen = $modelRuta->first('origen', '=', $id);
+        $ruta_destino = $modelRuta->first('destino', '=', $id);
+
+        if ($guia_origen || $guia_destino || $ruta_origen || $ruta_destino){
+            $vinculado = true;
+        }
+
         
         if ($vinculado){
-            $vinculado = true;
             $response = crearResponse('vinculado');
         }else{
             if ($table == 'municipios'){
