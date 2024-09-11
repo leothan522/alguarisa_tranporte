@@ -358,6 +358,16 @@ function crearResponse($error = null, $result = false, $title = null, $message =
 
             break;
 
+        case 'no_found':
+            $response['result'] = false;
+            $response['alerta'] = true;
+            $response['error'] = "no_found";
+            $response['icon'] = "warning";
+            $response['title'] = "¡No encontrado!";
+            $response['message'] = "El registro no se encuentra en nuestra Base de Datos.";
+
+            break;
+
         default:
             $response['result'] = $result;
             $response['alerta'] = $alerta;

@@ -98,30 +98,35 @@ class ParametrosController extends Admin
         $model->save($data);
     }
 
-    public function edit($id): array
+    public function edit($rowquid): array
     {
-        $model = new Parametro();
-        $row = $model->find($id);
 
-        $response = crearResponse(
-            null,
-            true,
-            'Editar Parametro.',
-            'Editar Parametro.',
-            'info',
-            false,
-            true
-        );
+        $row = $this->getParametro($rowquid);
+        if ($row){
+            $response = crearResponse(
+                null,
+                true,
+                'Editar Parametro.',
+                'Editar Parametro.',
+                'info',
+                false,
+                true
+            );
 
-        //datos extras para el $response
-        $response['id'] = $row['id'];
-        $response['nombre'] = $row['nombre'];
-        $response['tabla_id'] = $row['tabla_id'];
-        $response['valor'] = $row['valor'];
+            //datos extras para el $response
+            $response['id'] = $row['rowquid'];
+            $response['nombre'] = $row['nombre'];
+            $response['tabla_id'] = $row['tabla_id'];
+            $response['valor'] = $row['valor'];
+        }else{
+            $response = crearResponse('no_found');
+        }
+
+
         return $response;
     }
 
-    public function update($id, $name, $tabla_id, $valor): array
+    public function update($rowquid, $name, $tabla_id, $valor): array
     {
         $model = new Parametro();
 
@@ -129,7 +134,8 @@ class ParametrosController extends Admin
             $tabla_id = null;
         }
 
-        $parametro = $model->find($id);
+        $parametro = $this->getParametro($rowquid);
+        $id = $parametro['id'];
         $db_nombre = $parametro['nombre'];
         $db_tabla_id = $parametro['tabla_id'];
         $db_valor = $parametro['valor'];
@@ -161,7 +167,7 @@ class ParametrosController extends Admin
             );
 
             //datos extras para el $response
-            $response['id'] = $id;
+            $response['id'] = $parametro['rowquid'];
             $response['nombre'] = $name;
             $response['tabla_id'] = $tabla_id;
             $response['valor'] = $valor;
@@ -174,18 +180,23 @@ class ParametrosController extends Admin
 
     }
 
-    public function delete($id): array
+    public function delete($rowquid): array
     {
-        $model = new Parametro();
-        $model->delete($id);
-        $response = crearResponse(
-            null,
-            true,
-            'Parametro Borrado.',
-            'Parametro Borrado.'
-        );
-        //datos extras para el $response
-        $response['total'] = $model->count();
+        $parametro = $this->getParametro($rowquid);
+        if ($parametro){
+            $model = new Parametro();
+            $model->delete($parametro['id']);
+            $response = crearResponse(
+                null,
+                true,
+                'Parametro Borrado.',
+                'Parametro Borrado.'
+            );
+            //datos extras para el $response
+            $response['total'] = $model->count();
+        }else{
+            $response = crearResponse('no_found');
+        }
         return $response;
     }
 
@@ -292,6 +303,17 @@ class ParametrosController extends Admin
                 $model->update($id, 'rowquid', generar_string_aleatorio(16));
             }
         }
+    }
+
+    protected function getParametro($rowquid)
+    {
+        $response = null;
+        $model = new Parametro();
+        $parametro = $model->first('rowquid', '=', $rowquid);
+        if ($parametro){
+            $response = $parametro;
+        }
+        return $response;
     }
 
 }

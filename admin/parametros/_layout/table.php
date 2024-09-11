@@ -62,7 +62,7 @@ $x = 0;
                 <?php
                 foreach ($listarParametros as $parametro) {
                     $x++; ?>
-                    <tr id="tr_item_<?php echo $parametro['id']; ?>">
+                    <tr id="tr_item_<?php echo $parametro['rowquid']; ?>">
                         <td><span class="text-bold"><?php echo ++$i; ?></span></td>
                         <td class="nombre">
                             <?php echo $parametro['nombre'] ?>
@@ -82,12 +82,12 @@ $x = 0;
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-parametros"
-                                        onclick="edit(<?php echo $parametro['id'] ?>)">
+                                        onclick="edit('<?php echo $parametro['rowquid'] ?>')">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-info"
-                                        onclick="borrar(<?php echo $parametro['id']; ?>)"
-                                        id="btn_eliminar_<?php echo $parametro['id'] ?>">
+                                        onclick="borrar('<?php echo $parametro['rowquid']; ?>')"
+                                        id="btn_eliminar_<?php echo $parametro['rowquid'] ?>">
                                     <i class="far fa-trash-alt"></i>
                                 </button>
                             </div>
