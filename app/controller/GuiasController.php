@@ -742,7 +742,7 @@ class GuiasController extends Admin
         $response['id'] = $guia['id'];
         $response['destino'] = $anular ? $this->showValue($guia['rutas_destino'], $guia['estatus']) : $guia['rutas_destino'];
         $response['codigo'] = $anular ? $this->showValue($guia['codigo'], $guia['estatus'], true) : $guia['codigo'];
-        $response['fecha'] = $anular ? $this->showValue(verFecha($guia['fecha']), $guia['estatus']) : verFecha($guia['fecha']);
+        $response['fecha'] = $anular ? $this->showValue(getFecha($guia['fecha']), $guia['estatus']) : getFecha($guia['fecha']);
         $response['tipo'] = $tipoGuia['nombre'];
         $response['origen'] = $guia['rutas_origen'];
         if (!empty($cargamento)){

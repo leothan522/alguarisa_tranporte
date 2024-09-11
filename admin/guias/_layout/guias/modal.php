@@ -8,7 +8,7 @@
 
                     <div class="col-md-6">
                         <h4 class="modal-title">
-                            Guias
+                            Ver Guía
                         </h4>
                     </div>
 
