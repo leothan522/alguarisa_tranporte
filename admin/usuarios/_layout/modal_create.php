@@ -15,7 +15,8 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <input type="hidden" name="opcion" value="store" id="opcion">
-                    <button type="reset" class="btn btn-default float-right" onclick="resetForm()" data-dismiss="modal" id="btn_reset_create_user">Cancelar</button>
+                    <button type="reset" class="d-none" id="btn_modal_create_reset"> resetear</button>
+                    <button type="button" class="btn btn-default float-right" onclick="resetForm()" data-dismiss="modal"  id="btn_reset_create_user">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Crear Usuario</button>
                 </div>
                 <?php verCargando(); ?>

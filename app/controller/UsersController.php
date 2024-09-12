@@ -80,49 +80,57 @@ class UsersController extends Admin
         $existeEmail = $model->existe('email', '=', $email, null, 1);
 
         if (!$existeEmail) {
-            if ($tipo != 0 && $tipo != 1 && $tipo != 99){
-                $rol = $this->getParametro($tipo);
-                $role_id = $rol['id'];
-                $permisos = $rol['valor'];
-                $tipo = 2;
-            }else{
-                $role_id = 0;
-                $permisos = null;
+            $rol = $this->getParametro($tipo);
+            if ($rol) {
+
+                $tipo = $rol['valor'];
+
+                if ($tipo != 0 && $tipo != 1 && $tipo != 99) {
+                    $role_id = $rol['id'];
+                    $permisos = $rol['valor'];
+                    $tipo = 2;
+                } else {
+                    $role_id = 0;
+                    $permisos = null;
+                }
+
+                $data = [
+                    $name,
+                    $email,
+                    $password,
+                    $telefono,
+                    $tipo,
+                    $role_id,
+                    $permisos,
+                    getFecha(),
+                    getRowquid($model)
+                ];
+
+                $model->save($data);
+
+                $user = $model->first('email', '=', $email);
+                $response = crearResponse(
+                    null,
+                    true,
+                    'Usuario Creado Exitosamente.',
+                    "Usuario Creado " . $name
+                );
+                //datos extras para el $response
+                $response['id'] = $user['id'];
+                $response['name'] = $user['name'];
+                $response['email'] = $user['email'];
+                $response['telefono'] = '<p class="text-center">' . $user['telefono'] . '</p>';
+                $response['role'] = '<p class="text-center">' . $this->getRol($user['role'], $user['role_id']) . '</p>';
+                $response['item'] = '<p class="text-center">' . $model->count(1) . '</p>';
+                $response['estatus'] = '<p class="text-center">' . $this->verEstatusUsuario($user['estatus']) . '</p>';
+                $response['total'] = $model->count(1);
+                $response['btn_editar'] = validarPermisos('usuarios.edit');
+                $response['btn_eliminar'] = validarPermisos('usuarios.destroy');
+                $response['btn_permisos'] = validarPermisos();
+
+            } else {
+                $response = crearResponse('no_found');
             }
-
-            $data = [
-                $name,
-                $email,
-                $password,
-                $telefono,
-                $tipo,
-                $role_id,
-                $permisos,
-                getFecha(),
-                getRowquid($model)
-            ];
-
-            $model->save($data);
-
-            $user = $model->first('email', '=', $email);
-            $response = crearResponse(
-                null,
-                true,
-                'Usuario Creado Exitosamente.',
-                "Usuario Creado " . $name
-            );
-            //datos extras para el $response
-            $response['id'] = $user['id'];
-            $response['name'] = $user['name'];
-            $response['email'] = $user['email'];
-            $response['telefono'] = '<p class="text-center">' . $user['telefono'] . '</p>';
-            $response['role'] = '<p class="text-center">' . $this->getRol($user['role'], $user['role_id']) . '</p>';
-            $response['item'] = '<p class="text-center">' . $model->count(1) . '</p>';
-            $response['estatus'] = '<p class="text-center">' . $this->verEstatusUsuario($user['estatus']) . '</p>';
-            $response['total'] = $model->count(1);
-            $response['btn_editar'] = validarPermisos('usuarios.edit');
-            $response['btn_eliminar'] = validarPermisos('usuarios.destroy');
-            $response['btn_permisos'] = validarPermisos();
 
 
         } else {
@@ -164,17 +172,18 @@ class UsersController extends Admin
             $response['fecha'] = getFecha($user['created_at']);
             $response['band'] = $user['estatus'];
             $response['creado'] = getFecha($user['created_at']);
-            if ($user['role'] == 2){
+            if ($user['role'] == 2) {
                 $parametro = $modelParametro->find($user['role_id']);
-                $response['role_rowquid'] = $parametro['rowquid'];
-            }else{
-                $response['role_rowquid'] = $user['role'];
+            } else {
+                $sql = "SELECT * FROM parametros WHERE tabla_id = -2 AND valor = '".$user['role']."';";
+                $parametro = $modelParametro->sqlPersonalizado($sql);
             }
+            $response['role_rowquid'] = $parametro['rowquid'];
 
             $response['permisos'] = $user['permisos'];
             if (($this->USER_ID == $id) || ($user['role'] == 100) || (!validarPermisos('usuarios.destroy')) || ($user['role'] > $this->USER_ROLE && $this->USER_ROLE != 100)) {
                 $response['permiso'] = 'no_permiso';
-            }else{
+            } else {
                 $response['permiso'] = 'tiene_permiso';
             }
 
@@ -196,10 +205,10 @@ class UsersController extends Admin
     public function setEstatus($rowquid): array
     {
         $user = $this->getUsuarios($rowquid);
-        if ($user){
+        if ($user) {
             $response = $this->edit($rowquid);
             $id = $user['id'];
-            if ($response['result']){
+            if ($response['result']) {
                 $estatus = $response['band'];
                 $model = new User();
                 if ($estatus) {
@@ -219,7 +228,7 @@ class UsersController extends Admin
                 $response['band'] = $newEstatus;
                 $response['table_estatus'] = '<p class="text-center">' . $this->verEstatusUsuario($newEstatus) . '</p>';
             }
-        }else{
+        } else {
             $response = crearResponse('no_found');
         }
         return $response;
@@ -228,10 +237,10 @@ class UsersController extends Admin
     public function setPassword($rowquid, $password): array
     {
         $user = $this->getUsuarios($rowquid);
-        if ($user){
+        if ($user) {
             $response = $this->edit($rowquid);
             $id = $user['id'];
-            if ($response['result']){
+            if ($response['result']) {
                 $model = new User();
                 if (empty($password)) {
                     $password = generar_string_aleatorio();
@@ -242,7 +251,7 @@ class UsersController extends Admin
                 $response['title'] = 'Contraseña Guardada.';
                 $response['message'] = $password;
             }
-        }else{
+        } else {
             $response = crearResponse('no_found');
         }
 
@@ -252,7 +261,7 @@ class UsersController extends Admin
     public function update($rowquid, $name, $email, $telefono, $tipo): array
     {
         $user = $this->getUsuarios($rowquid);
-        if ($user){
+        if ($user) {
             $model = new User();
             $id = $user['id'];
             $updated_at = getFecha();
@@ -286,12 +295,13 @@ class UsersController extends Admin
 
                 if ($db_tipo != $tipo) {
                     $cambios = true;
-                    if ($tipo != 0 && $tipo != 1 && $tipo != 99){
-                        $rol = $this->getParametro($tipo);
+                    $rol = $this->getParametro($tipo);
+                    $tipo = $rol['valor'];
+                    if ($tipo != 0 && $tipo != 1 && $tipo != 99) {
                         $role_id = $rol['id'];
                         $permisos = $rol['valor'];
                         $tipo = 2;
-                    }else{
+                    } else {
                         $role_id = 0;
                         $permisos = null;
                     }
@@ -321,7 +331,7 @@ class UsersController extends Admin
                     'warning'
                 );
             }
-        }else{
+        } else {
             $response = crearResponse('no_found');
         }
         return $response;
@@ -331,7 +341,7 @@ class UsersController extends Admin
     {
         $user = $this->getUsuarios($rowquid);
 
-        if ($user){
+        if ($user) {
             $model = new User();
             $id = $user['id'];
             $user = $model->find($id);
@@ -356,7 +366,7 @@ class UsersController extends Admin
                     true
                 );
             }
-        }else{
+        } else {
             $response = crearResponse('no_found');
         }
 
@@ -367,7 +377,7 @@ class UsersController extends Admin
     {
         $user = $this->getUsuarios($rowquid);
 
-        if ($user){
+        if ($user) {
             $model = new User();
             $id = $user['id'];
             $model->update($id, 'permisos', crearJson($permisos));
@@ -382,7 +392,7 @@ class UsersController extends Admin
             $response['toast'] = false;
             $response['title'] = 'Permisos Guardados.';
             $response['message'] = "Mostrando Usuario " . $response['name'];
-        }else{
+        } else {
             $response = crearResponse('no_found');
         }
 
@@ -393,7 +403,8 @@ class UsersController extends Admin
     public function getRoles(): void
     {
         $model = new Parametro();
-        $this->roles = $model->getList('tabla_id', '=', -1);
+        $sql = "SELECT * FROM parametros WHERE tabla_id = -1 OR tabla_id = -2 ORDER BY valor ASC;";
+        $this->roles = $model->sqlPersonalizado($sql, 'getAll');
     }
 
     public function getRol($role, $role_id): mixed
@@ -405,21 +416,21 @@ class UsersController extends Admin
             100 => "Root"
         ];
 
-        if ($role == 2){
+        if ($role == 2) {
             $model = new Parametro();
             $rol = 'no definido';
-            if ($role_id){
+            if ($role_id) {
                 $rol = $model->find($role_id);
             }
             $verRole = $rol['nombre'];
-        }else{
+        } else {
             $verRole = $roles[$role];
         }
 
         return $verRole;
     }
 
-    public  function verEstatusUsuario($estatus, $icon = true): string
+    public function verEstatusUsuario($estatus, $icon = true): string
     {
         if (!$icon) {
             $suspendido = "Suspendido";
@@ -459,7 +470,8 @@ class UsersController extends Admin
             false,
             true);
 
-        foreach ($model->getList('tabla_id', '=', -1) as $parametro) {
+        $this->getRoles();
+        foreach ($this->roles as $parametro) {
             $id = $parametro['rowquid'];
             $nombre = $parametro['nombre'];
             $response['listarRoles'][] = array("id" => $id, "nombre" => $nombre);
@@ -473,7 +485,7 @@ class UsersController extends Admin
         $response = null;
         $model = new User();
         $user = $model->first('rowquid', '=', $rowquid);
-        if ($user){
+        if ($user) {
             $response = $user;
         }
         return $response;
@@ -484,7 +496,7 @@ class UsersController extends Admin
         $response = null;
         $model = new Parametro();
         $parametro = $model->first('rowquid', '=', $rowquid);
-        if ($parametro){
+        if ($parametro) {
             $response = $parametro;
         }
         return $response;

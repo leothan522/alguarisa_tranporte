@@ -51,7 +51,7 @@ $controller->isAdmin();
 <body class="hold-transition sidebar-mini layout-navbar-fixed layout-footer-fixed control-sidebar-push">
 
 <!-- Preloader -->
-<?php require_once "../_layout/preloader.php" ?>
+<?php /*require_once "../_layout/preloader.php" */?>
 
 <!-- Site wrapper -->
 <div class="wrapper">

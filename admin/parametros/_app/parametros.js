@@ -1,5 +1,5 @@
 datatable('table_parametros');
-inputmask('#tabla_id', 'numerico', 0, 12);
+inputmask('#tabla_id', 'numerico', 0, 12, '-');
 inputmask('#name', 'alfanumerico', 4, 100, '_');
 
 $("#navbar_buscar").removeClass('d-none');

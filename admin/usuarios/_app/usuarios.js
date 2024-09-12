@@ -116,6 +116,7 @@ function resetForm(edit = false) {
         $('#tipo')
             .removeClass('is-valid')
             .removeClass('is-invalid');
+        $("#btn_modal_create_reset").click();
     } else {
         $('#edit_name')
             .removeClass('is-valid')
@@ -195,7 +196,7 @@ function edit(id = null) {
             if (data.permiso === 'no_permiso'){
                 $('#btn_modal_eliminar').addClass('disabled');
             }else {
-                $('#btn_modal_eliminar').attr("onclick", "destroy('"+id+"')");
+                $('#btn_modal_eliminar').attr("onclick", "destroy()");
             }
             resetForm(true);
         }
@@ -310,11 +311,12 @@ $('#form_editar_user').submit(function (e) {
 });
 
 //Eliminar Usuario
-function destroy(id) {
+function destroy() {
     MessageDelete.fire().then((result) => {
         if (result.isConfirmed) {
+            let id = $('#edit_id').val();
             let valor_x = $('#input_hidden_valor_x').val();
-            ajaxRequest({ url: '_request/UsersRequest.php', data: {opcion: 'delete', id: id}}, function (data) {
+            ajaxRequest({ url: '_request/UsersRequest.php', data: {opcion: 'delete', id: id} }, function (data) {
 
                 if (data.result) {
 
