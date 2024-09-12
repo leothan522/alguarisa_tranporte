@@ -229,6 +229,10 @@ if ($_POST) {
 
                     break;
 
+                case 'set_select_user':
+                    $response = $controller->set_select_user();
+                    break;
+
             //Por defecto
         default:
             $response = crearResponse('no_opcion', false, null, $opcion);

@@ -406,5 +406,21 @@ function reconstruirBuscar(keyword) {
     });
 }
 
+function setSelectUser() {
+    ajaxRequest({ url: '_request/UsersRequest.php', data: { opcion: 'set_select_user'}}, function (data) {
+        let selectUser = $('#tipo');
+        let user = data.listarRoles.length;
+        selectUser.empty();
+        selectUser.append('<option value="">Seleccione</option>');
+        selectUser.append('<option value="0">Público</option>');
+        selectUser.append('<option value="1">Estandar</option>');
+        for (let i = 0; i < user; i++) {
+            let id = data.listarRoles[i]['id'];
+            let nombre = data.listarRoles[i]['nombre'];
+            selectUser.append('<option value="' + id + '">' + nombre + '</option>');
+        }
+        selectUser.append('<option value="99">Administrador</option>');
+    });
+}
 
 console.log('Usuarios.!');

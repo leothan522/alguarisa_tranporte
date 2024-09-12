@@ -30,7 +30,7 @@ $x = 0;
                     <i class="fas fa-sync-alt"></i>
                 </button>
             <?php } ?>
-            <button class="btn btn-tool" onclick="resetForm()" data-toggle="modal" data-target="#modal-create-user"
+            <button class="btn btn-tool" onclick="setSelectUser(); resetForm()" data-toggle="modal" data-target="#modal-create-user"
                 <?php if (!validarPermisos('usuarios.create')){ echo 'disabled'; } ?>>
                 <i class="far fa-file-alt"></i> Nuevo
             </button>

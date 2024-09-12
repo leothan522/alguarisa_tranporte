@@ -80,10 +80,8 @@ class UsersController extends Admin
         $existeEmail = $model->existe('email', '=', $email, null, 1);
 
         if (!$existeEmail) {
-
-            if ($tipo > 1 && $tipo < 99){
-                $modelRol = new Parametro();
-                $rol = $modelRol->find($tipo);
+            if ($tipo != 0 && $tipo != 1 && $tipo != 99){
+                $rol = $this->getParametro($tipo);
                 $role_id = $rol['id'];
                 $permisos = $rol['valor'];
                 $tipo = 2;
@@ -126,6 +124,7 @@ class UsersController extends Admin
             $response['btn_eliminar'] = validarPermisos('usuarios.destroy');
             $response['btn_permisos'] = validarPermisos();
 
+
         } else {
             $response = crearResponse(
                 'email_duplicado',
@@ -143,7 +142,7 @@ class UsersController extends Admin
     {
         $user = $this->getUsuarios($rowquid);
         $id = $user['id'];
-
+        $modelParametro = new Parametro();
         if ($user) {
 
             $response = crearResponse(
@@ -282,9 +281,9 @@ class UsersController extends Admin
 
                 if ($db_tipo != $tipo) {
                     $cambios = true;
-                    if ($tipo > 1 && $tipo < 99){
+                    if ($tipo != 0 && $tipo != 1 && $tipo != 99){
                         $modelRol = new Parametro();
-                        $rol = $modelRol->find($tipo);
+                        $rol = $this->getParametro($tipo);
                         $role_id = $rol['id'];
                         $permisos = $rol['valor'];
                         $tipo = 2;
@@ -449,6 +448,27 @@ class UsersController extends Admin
         $this->totalUsers = $model->sqlPersonalizado($sql_count, 'count');
     }
 
+    public function set_select_user(): array
+    {
+        $model = new Parametro();
+        $response = crearResponse(
+            null,
+            true,
+            null,
+            null,
+            'success',
+            false,
+            true);
+
+        foreach ($model->getList('tabla_id', '=', -1) as $parametro) {
+            $id = $parametro['rowquid'];
+            $nombre = $parametro['nombre'];
+            $response['listarRoles'][] = array("id" => $id, "nombre" => $nombre);
+        }
+
+        return $response;
+    }
+
     protected function getUsuarios($rowquid)
     {
         $response = null;
@@ -456,6 +476,17 @@ class UsersController extends Admin
         $user = $model->first('rowquid', '=', $rowquid);
         if ($user){
             $response = $user;
+        }
+        return $response;
+    }
+
+    protected function getParametro($rowquid): mixed
+    {
+        $response = null;
+        $model = new Parametro();
+        $parametro = $model->first('rowquid', '=', $rowquid);
+        if ($parametro){
+            $response = $parametro;
         }
         return $response;
     }
