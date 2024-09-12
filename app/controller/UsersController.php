@@ -163,11 +163,14 @@ class UsersController extends Admin
             $response['estatus'] = $this->verEstatusUsuario($user['estatus'], false);
             $response['fecha'] = getFecha($user['created_at']);
             $response['band'] = $user['estatus'];
+            $response['creado'] = getFecha($user['created_at']);
             if ($user['role'] == 2){
-                $response['role'] = $user['role_id'];
+                $parametro = $modelParametro->find($user['role_id']);
+                $response['role_rowquid'] = $parametro['rowquid'];
             }else{
-                $response['role'] = $user['role'];
+                $response['role_rowquid'] = $user['role'];
             }
+
             $response['permisos'] = $user['permisos'];
             if (($this->USER_ID == $id) || ($user['role'] == 100) || (!validarPermisos('usuarios.destroy')) || ($user['role'] > $this->USER_ROLE && $this->USER_ROLE != 100)) {
                 $response['permiso'] = 'no_permiso';
@@ -175,6 +178,8 @@ class UsersController extends Admin
                 $response['permiso'] = 'tiene_permiso';
             }
 
+            $response['table_telefono'] = '<p class="text-center">' . $response['telefono'] . '</p>';
+            $response['table_role'] = '<p class="text-center">' . $this->getRol($user['role'], $user['role_id']) . '</p>';
         } else {
             $response = crearResponse(
                 'no_user',
@@ -282,7 +287,6 @@ class UsersController extends Admin
                 if ($db_tipo != $tipo) {
                     $cambios = true;
                     if ($tipo != 0 && $tipo != 1 && $tipo != 99){
-                        $modelRol = new Parametro();
                         $rol = $this->getParametro($tipo);
                         $role_id = $rol['id'];
                         $permisos = $rol['valor'];
@@ -299,14 +303,11 @@ class UsersController extends Admin
                 if ($cambios) {
 
                     $model->update($id, 'updated_at', $updated_at);
-                    $user = $model->find($id);
                     $response = $this->edit($rowquid);
                     $response['toast'] = false;
                     $response['title'] = 'Cambios Guardados.';
                     $response['message'] = $name . " Actualizado.";
-                    $response['table_telefono'] = '<p class="text-center">' . $response['telefono'] . '</p>';
-                    $response['table_role'] = '<p class="text-center">' . $this->getRol($response['role'], $response['role']) . '</p>';
-                    $response['creado'] = getFecha($user['created_at']);
+
                 } else {
                     $response = crearResponse('no_cambios');
                 }
@@ -397,24 +398,22 @@ class UsersController extends Admin
 
     public function getRol($role, $role_id): mixed
     {
-        switch ($role) {
-            case 0:
-                $verRole = 'Público';
-                break;
-            case 1:
-                $verRole = 'Estandar';
-                break;
-            case 99:
-                $verRole = 'Administrador';
-                break;
-            case 100:
-                $verRole = 'Root';
-                break;
-            default:
-                $model = new Parametro();
+        $roles = [
+            0 => "Público",
+            1 => "Estandar",
+            99 => "Administrador",
+            100 => "Root"
+        ];
+
+        if ($role == 2){
+            $model = new Parametro();
+            $rol = 'no definido';
+            if ($role_id){
                 $rol = $model->find($role_id);
-                $verRole = $rol['nombre'];
-                break;
+            }
+            $verRole = $rol['nombre'];
+        }else{
+            $verRole = $roles[$role];
         }
 
         return $verRole;

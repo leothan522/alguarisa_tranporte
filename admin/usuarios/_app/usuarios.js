@@ -154,7 +154,7 @@ function setUser(data) {
     $('#edit_email').val(data.email);
     $('#edit_telefono').val(data.telefono);
     $('#edit_tipo')
-        .val(data.role)
+        .val(data.role_rowquid)
         .trigger('change');
 
     //let button = $('#btn_profile_band_user');
@@ -412,14 +412,11 @@ function setSelectUser() {
         let user = data.listarRoles.length;
         selectUser.empty();
         selectUser.append('<option value="">Seleccione</option>');
-        selectUser.append('<option value="0">Público</option>');
-        selectUser.append('<option value="1">Estandar</option>');
         for (let i = 0; i < user; i++) {
             let id = data.listarRoles[i]['id'];
             let nombre = data.listarRoles[i]['nombre'];
             selectUser.append('<option value="' + id + '">' + nombre + '</option>');
         }
-        selectUser.append('<option value="99">Administrador</option>');
     });
 }
 
