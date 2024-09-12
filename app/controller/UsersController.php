@@ -139,10 +139,10 @@ class UsersController extends Admin
         return $response;
     }
 
-    public function edit($id): array
+    public function edit($rowquid): array
     {
-        $model = new User();
-        $user = $model->find($id);
+        $user = $this->getUsuarios($rowquid);
+        $id = $user['id'];
 
         if ($user) {
 
@@ -156,7 +156,7 @@ class UsersController extends Admin
                 true
             );
             //datos extras para el $response
-            $response['id'] = $user['id'];
+            $response['id'] = $user['rowquid'];
             $response['name'] = $user['name'];
             $response['email'] = $user['email'];
             $response['telefono'] = $user['telefono'];
@@ -189,168 +189,204 @@ class UsersController extends Admin
         return $response;
     }
 
-    public function setEstatus($id): array
+    public function setEstatus($rowquid): array
     {
-        $response = $this->edit($id);
-        if ($response['result']){
-            $estatus = $response['band'];
-            $model = new User();
-            if ($estatus) {
-                $model->update($id, 'estatus', 0);
-                $title = 'Usuario Inactivo';
-                $icono = 'info';
-                $newEstatus = 0;
-                $verEstatus = $this->verEstatusUsuario(0, false);
-            } else {
-                $model->update($id, 'estatus', 1);
-                $title = 'Usuario Activo';
-                $icono = 'success';
-                $newEstatus = 1;
-                $verEstatus = $this->verEstatusUsuario(1, false);
-            }
-            $response['estatus'] = $verEstatus;
-            $response['band'] = $newEstatus;
-            $response['table_estatus'] = '<p class="text-center">' . $this->verEstatusUsuario($newEstatus) . '</p>';
-        }
-        return $response;
-    }
-
-    public function setPassword($id, $password): array
-    {
-        $response = $this->edit($id);
-        if ($response['result']){
-            $model = new User();
-            if (empty($password)) {
-                $password = generar_string_aleatorio();
-            }
-            $db_password = password_hash($password, PASSWORD_DEFAULT);
-            $model->update($id, 'password', $db_password);
-            $response['toast'] = false;
-            $response['title'] = 'Contraseña Guardada.';
-            $response['message'] = $password;
-        }
-        return $response;
-    }
-
-    public function update($id, $name, $email, $telefono, $tipo): array
-    {
-        $model = new User();
-        $updated_at = date('Y-m-d');
-
-        $existeEmail = $model->existe('email', '=', $email, $id, 1);
-
-        if (!$existeEmail) {
-
-            $user = $model->find($id);
-            $db_name = $user['name'];
-            $db_email = $user['email'];
-            $db_telefono = $user['telefono'];
-            $db_tipo = $user['role'];
-
-            $cambios = false;
-
-            if ($db_name != $name) {
-                $cambios = true;
-                $model->update($id, 'name', $name);
-            }
-
-            if ($db_email != $email) {
-                $cambios = true;
-                $model->update($id, 'email', $email);
-            }
-
-            if ($db_telefono != $telefono) {
-                $cambios = true;
-                $model->update($id, 'telefono', $telefono);
-            }
-
-            if ($db_tipo != $tipo) {
-                $cambios = true;
-                if ($tipo > 1 && $tipo < 99){
-                    $modelRol = new Parametro();
-                    $rol = $modelRol->find($tipo);
-                    $role_id = $rol['id'];
-                    $permisos = $rol['valor'];
-                    $tipo = 2;
-                }else{
-                    $role_id = 0;
-                    $permisos = null;
+        $user = $this->getUsuarios($rowquid);
+        if ($user){
+            $response = $this->edit($rowquid);
+            $id = $user['id'];
+            if ($response['result']){
+                $estatus = $response['band'];
+                $model = new User();
+                if ($estatus) {
+                    $model->update($id, 'estatus', 0);
+                    $title = 'Usuario Inactivo';
+                    $icono = 'info';
+                    $newEstatus = 0;
+                    $verEstatus = $this->verEstatusUsuario(0, false);
+                } else {
+                    $model->update($id, 'estatus', 1);
+                    $title = 'Usuario Activo';
+                    $icono = 'success';
+                    $newEstatus = 1;
+                    $verEstatus = $this->verEstatusUsuario(1, false);
                 }
-                $model->update($id, 'role', $tipo);
-                $model->update($id, 'role_id', $role_id);
-                $model->update($id, 'permisos', $permisos);
+                $response['estatus'] = $verEstatus;
+                $response['band'] = $newEstatus;
+                $response['table_estatus'] = '<p class="text-center">' . $this->verEstatusUsuario($newEstatus) . '</p>';
             }
+        }else{
+            $response = crearResponse('no_found');
+        }
+        return $response;
+    }
 
-            if ($cambios) {
-
-                $model->update($id, 'updated_at', $updated_at);
-                $user = $model->find($id);
-                $response = $this->edit($id);
+    public function setPassword($rowquid, $password): array
+    {
+        $user = $this->getUsuarios($rowquid);
+        if ($user){
+            $response = $this->edit($rowquid);
+            $id = $user['id'];
+            if ($response['result']){
+                $model = new User();
+                if (empty($password)) {
+                    $password = generar_string_aleatorio();
+                }
+                $db_password = password_hash($password, PASSWORD_DEFAULT);
+                $model->update($id, 'password', $db_password);
                 $response['toast'] = false;
-                $response['title'] = 'Cambios Guardados.';
-                $response['message'] = $name . " Actualizado.";
-                $response['table_telefono'] = '<p class="text-center">' . $response['telefono'] . '</p>';
-                $response['table_role'] = '<p class="text-center">' . $this->getRol($response['role'], $response['role']) . '</p>';
-                $response['creado'] = getFecha($user['created_at']);
-            } else {
-                $response = crearResponse('no_cambios');
+                $response['title'] = 'Contraseña Guardada.';
+                $response['message'] = $password;
             }
+        }else{
+            $response = crearResponse('no_found');
+        }
 
-        } else {
-            $response = crearResponse(
-                'email_duplicado',
-                false,
-                'Email Duplicado.',
-                'El email ya esta registrado.',
-                'warning'
-            );
+        return $response;
+    }
+
+    public function update($rowquid, $name, $email, $telefono, $tipo): array
+    {
+        $user = $this->getUsuarios($rowquid);
+        if ($user){
+            $model = new User();
+            $id = $user['id'];
+            $updated_at = getFecha();
+
+            $existeEmail = $model->existe('email', '=', $email, $id, 1);
+
+            if (!$existeEmail) {
+
+                $user = $model->find($id);
+                $db_name = $user['name'];
+                $db_email = $user['email'];
+                $db_telefono = $user['telefono'];
+                $db_tipo = $user['role'];
+
+                $cambios = false;
+
+                if ($db_name != $name) {
+                    $cambios = true;
+                    $model->update($id, 'name', $name);
+                }
+
+                if ($db_email != $email) {
+                    $cambios = true;
+                    $model->update($id, 'email', $email);
+                }
+
+                if ($db_telefono != $telefono) {
+                    $cambios = true;
+                    $model->update($id, 'telefono', $telefono);
+                }
+
+                if ($db_tipo != $tipo) {
+                    $cambios = true;
+                    if ($tipo > 1 && $tipo < 99){
+                        $modelRol = new Parametro();
+                        $rol = $modelRol->find($tipo);
+                        $role_id = $rol['id'];
+                        $permisos = $rol['valor'];
+                        $tipo = 2;
+                    }else{
+                        $role_id = 0;
+                        $permisos = null;
+                    }
+                    $model->update($id, 'role', $tipo);
+                    $model->update($id, 'role_id', $role_id);
+                    $model->update($id, 'permisos', $permisos);
+                }
+
+                if ($cambios) {
+
+                    $model->update($id, 'updated_at', $updated_at);
+                    $user = $model->find($id);
+                    $response = $this->edit($rowquid);
+                    $response['toast'] = false;
+                    $response['title'] = 'Cambios Guardados.';
+                    $response['message'] = $name . " Actualizado.";
+                    $response['table_telefono'] = '<p class="text-center">' . $response['telefono'] . '</p>';
+                    $response['table_role'] = '<p class="text-center">' . $this->getRol($response['role'], $response['role']) . '</p>';
+                    $response['creado'] = getFecha($user['created_at']);
+                } else {
+                    $response = crearResponse('no_cambios');
+                }
+
+            } else {
+                $response = crearResponse(
+                    'email_duplicado',
+                    false,
+                    'Email Duplicado.',
+                    'El email ya esta registrado.',
+                    'warning'
+                );
+            }
+        }else{
+            $response = crearResponse('no_found');
         }
         return $response;
     }
 
-    public function delete($id): array
+    public function delete($rowquid): array
     {
-        $model = new User();
-        $user = $model->find($id);
-        if ($user) {
-            $model->update($id, 'band', 0);
-            $model->update($id, 'deleted_at', date("Y-m-d"));
-            $response = crearResponse(
-                null,
-                true,
-                'Usuario Eliminado.',
-                'Usuario Eliminado.'
-            );
-            //datos extras para el $response
-            $response['total'] = $model->count(1);
-        } else {
-            $response = crearResponse(
-                'no_user',
-                false,
-                'Usuario NO encontrado."',
-                'El id del usuario no esta disponible.',
-                'warning',
-                true
-            );
+        $user = $this->getUsuarios($rowquid);
+
+        if ($user){
+            $model = new User();
+            $id = $user['id'];
+            $user = $model->find($id);
+            if ($user) {
+                $model->update($id, 'band', 0);
+                $model->update($id, 'deleted_at', date("Y-m-d"));
+                $response = crearResponse(
+                    null,
+                    true,
+                    'Usuario Eliminado.',
+                    'Usuario Eliminado.'
+                );
+                //datos extras para el $response
+                $response['total'] = $model->count(1);
+            } else {
+                $response = crearResponse(
+                    'no_user',
+                    false,
+                    'Usuario NO encontrado."',
+                    'El id del usuario no esta disponible.',
+                    'warning',
+                    true
+                );
+            }
+        }else{
+            $response = crearResponse('no_found');
         }
+
         return $response;
     }
 
-    public function setPermisos($id, $permisos): array
+    public function setPermisos($rowquid, $permisos): array
     {
-        $model = new User();
-        $model->update($id, 'permisos', crearJson($permisos));
-        $response = $this->edit($id);
-        if (!is_null($response['permisos'])) {
-            $response['user_permisos'] = json_decode($response['permisos']);
-        } else {
-            $response['user_permisos'] = null;
+        $user = $this->getUsuarios($rowquid);
+
+        if ($user){
+            $model = new User();
+            $id = $user['id'];
+            $model->update($id, 'permisos', crearJson($permisos));
+            $response = $this->edit($id);
+            if (!is_null($response['permisos'])) {
+                $response['user_permisos'] = json_decode($response['permisos']);
+            } else {
+                $response['user_permisos'] = null;
+            }
+            $permisos = verPermisos();
+            $response['permisos'] = $permisos[1];
+            $response['toast'] = false;
+            $response['title'] = 'Permisos Guardados.';
+            $response['message'] = "Mostrando Usuario " . $response['name'];
+        }else{
+            $response = crearResponse('no_found');
         }
-        $permisos = verPermisos();
-        $response['permisos'] = $permisos[1];
-        $response['toast'] = false;
-        $response['title'] = 'Permisos Guardados.';
-        $response['message'] = "Mostrando Usuario " . $response['name'];
+
+
         return $response;
     }
 
@@ -413,4 +449,14 @@ class UsersController extends Admin
         $this->totalUsers = $model->sqlPersonalizado($sql_count, 'count');
     }
 
+    protected function getUsuarios($rowquid)
+    {
+        $response = null;
+        $model = new User();
+        $user = $model->first('rowquid', '=', $rowquid);
+        if ($user){
+            $response = $user;
+        }
+        return $response;
+    }
 }

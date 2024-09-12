@@ -59,7 +59,7 @@ $x = 0;
                     $i++;
                     $x++;
                     ?>
-                    <tr id="tr_item_<?php echo $user['id']; ?>">
+                    <tr id="tr_item_<?php echo $user['rowquid']; ?>">
                         <td class="text-center"><?php echo $i ?></td>
                         <td class="nombre"><?php echo $user['name'] ?></td>
                         <td class="email"><?php echo $user['email'] ?></td>
@@ -69,7 +69,7 @@ $x = 0;
                         <td class="created_at text-center d-none d-lg-table-cell"><?php echo getFecha($user['created_at']); ?></td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <button type="button" class="btn btn-info" onclick="edit(<?php echo $user['id'] ?>)"
+                                <button type="button" class="btn btn-info" onclick="edit('<?php echo $user['rowquid'] ?>')"
                                         data-toggle="modal" data-target="#modal_edit_usuarios"
                                     <?php if (($controller->USER_ID == $user['id']) || ($user['role'] == 100) || (!validarPermisos('usuarios.edit')) || ($user['role'] > $userRole && $userRole != 100)) {
                                         echo 'disabled';
@@ -77,15 +77,15 @@ $x = 0;
                                     <i class="fas fa-user-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-info" data-toggle="modal"
-                                        data-target="#modal_permisos" onclick="getPermisos(<?php echo $user['id'] ?>)"
+                                        data-target="#modal_permisos" onclick="getPermisos('<?php echo $user['rowquid'] ?>')"
                                     <?php if (($controller->USER_ID == $user['id']) || ($user['role'] == 100) || (!validarPermisos())) {
                                         echo 'disabled';
                                     } ?>>
                                     <i class="fas fa-user-shield"></i>
                                 </button>
                                 <button type="button" class="btn btn-info d-none"
-                                        onclick="destroy(<?php echo $user['id']; ?>)"
-                                        id="btn_eliminar_<?php echo $user['id'] ?>"
+                                        onclick="destroy('<?php echo $user['rowquid']; ?>')"
+                                        id="btn_eliminar_<?php echo $user['rowquid'] ?>"
                                     <?php if (($controller->USER_ID == $user['id']) || ($user['role'] == 100) || (!validarPermisos('usuarios.destroy')) || ($user['role'] > $userRole && $userRole != 100)) {
                                         echo 'disabled';
                                     } ?> >

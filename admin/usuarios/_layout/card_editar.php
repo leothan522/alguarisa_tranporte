@@ -47,7 +47,7 @@
 
         <label for="edit_tipo">Tipo</label>
         <div class="input-group mb-3">
-
+            <?php $controller->getRoles(); ?>
             <select class="custom-select rounded-0 select_roles_usuarios" name="tipo" id="edit_tipo">
                 <option value="">Seleccione</option>
                 <option value="0">Público</option>
