@@ -5,7 +5,7 @@ $('#right_sidebar_from_role').submit(function (e) {
         if (data.result){
             let boton = '';
             boton += '<button type="button" class="btn btn-primary btn-sm btn-block m-1" data-toggle="modal"';
-            boton += 'data-target="#modal_roles_usuarios" onclick="editRol('+ data.id +')" id="button_role_id_'+ data.id +'">';
+            boton += 'data-target="#modal_roles_usuarios" id="button_role_id_'+ data.id +'" onclick="editRol(\''+data.id+'\')" >';
             boton += data.nombre;
             boton += '</button>';
             $('#right_sidebar_input_rol')
