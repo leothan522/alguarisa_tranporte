@@ -81,14 +81,14 @@ $('#form_parroquias').submit(function (e) {
                 if (data.nuevo){
                     //nuevo
                     let buttons = '<div class="btn-group btn-group-sm">\n' +
-                        '<button type="button" class="btn btn-info" onclick="estatusParroquia('+ data.id +')" id="btn_estatus_parroquia_'+ data.id +'" '+ btn_estatus +'>\n' +
+                        '<button type="button" class="btn btn-info" onclick="estatusParroquia(\''+ data.id +'\')" id="btn_estatus_parroquia_'+ data.id +'" '+ btn_estatus +'>\n' +
                         '                                    <i class="fas fa-eye"></i>\n' +
                         '                                </button>' +
-                        '                                <button type="button" class="btn btn-info" onclick="editParroquia('+ data.id +')" data-toggle="modal"\n' +
+                        '                                <button type="button" class="btn btn-info" onclick="editParroquia(\''+ data.id +'\')" data-toggle="modal"\n' +
                         '                                        data-target="#modal-parroquias" '+ btn_editar +'>\n' +
                         '                                    <i class="fas fa-edit"></i>\n' +
                         '                                </button>\n' +
-                        '                                <button type="button" class="btn btn-info" onclick="elimParroquia('+ data.id +')" id="btn_eliminar_p_'+ data.id +'" '+ btn_eliminar +' >\n' +
+                        '                                <button type="button" class="btn btn-info" onclick="elimParroquia(\''+ data.id +'\')" id="btn_eliminar_p_'+ data.id +'" '+ btn_eliminar +' >\n' +
                         '                                    <i class="far fa-trash-alt"></i>\n' +
                         '                                </button>\n' +
                         '                            </div>';
@@ -306,14 +306,14 @@ function estatusParroquia(id) {
             }
 
             let buttons = '<div class="btn-group btn-group-sm">\n' +
-                '<button type="button" class="btn btn-info" onclick="estatusParroquia('+ id +')" id="btn_estatus_parroquia_'+ id +'" '+ btn_estatus +'>\n' +
+                '<button type="button" class="btn btn-info" onclick="estatusParroquia(\''+ id +'\')" id="btn_estatus_parroquia_'+ id +'" '+ btn_estatus +'>\n' +
                 '                               ' + icono +
                 '                                </button>' +
-                '                                <button type="button" class="btn btn-info" onclick="editParroquia('+ id +')" data-toggle="modal"\n' +
+                '                                <button type="button" class="btn btn-info" onclick="editParroquia(\''+ id +'\')" data-toggle="modal"\n' +
                 '                                        data-target="#modal-parroquias" '+ btn_editar +'>\n' +
                 '                                    <i class="fas fa-edit"></i>\n' +
                 '                                </button>\n' +
-                '                                <button type="button" class="btn btn-info" onclick="elimParroquia('+ id +')" id="btn_eliminar_p_'+ id +'" '+ btn_eliminar +' >\n' +
+                '                                <button type="button" class="btn btn-info" onclick="elimParroquia(\''+ id +'\')" id="btn_eliminar_p_'+ id +'" '+ btn_eliminar +' >\n' +
                 '                                    <i class="far fa-trash-alt"></i>\n' +
                 '                                </button>\n' +
                 '                            </div>';

@@ -61,18 +61,18 @@ $count = count($listarParroquias);
                     $i++;
                     $x++;
                     ?>
-                    <tr id="tr_item_p_<?php echo $parroquia['id']; ?>">
+                    <tr id="tr_item_p_<?php echo $parroquia['rowquid']; ?>">
                         <td class="text-center item"><?php echo $i; ?>. </td>
-                        <td class="parroquia"><?php echo $parroquia['nombre']; ?></td>
+                        <td class="parroquia text-uppercase"><?php echo $parroquia['nombre']; ?></td>
                         <td class="asignacion text-right"><?php echo formatoMillares($parroquia['familias'], 0) ?></td>
-                        <td class="municipio text-center">
-                            <?php echo $controller->getMunicipio($parroquia['municipios_id']); ?>
+                        <td class="municipio text-center text-uppercase">
+                            <?php echo $controller->getMunicipiosMini($parroquia['rowquid']); ?>
                         </td>
                         <td class="botones">
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-info"
-                                        onclick="estatusParroquia(<?php echo $parroquia['id']; ?>)"
-                                        id="btn_estatus_parroquia_<?php echo $parroquia['id']; ?>"
+                                        onclick="estatusParroquia('<?php echo $parroquia['rowquid']; ?>')"
+                                        id="btn_estatus_parroquia_<?php echo $parroquia['rowquid']; ?>"
                                         <?php if (!validarPermisos('parroquias.estatus')){ echo 'disabled'; } ?> >
                                     <?php if ($parroquia['estatus']){ ?>
                                         <i class="fas fa-eye"></i>
@@ -82,14 +82,14 @@ $count = count($listarParroquias);
                                 </button>
 
                                 <button type="button" class="btn btn-info"
-                                        onclick="editParroquia(<?php echo $parroquia['id']; ?>)" data-toggle="modal"
+                                        onclick="editParroquia('<?php echo $parroquia['rowquid']; ?>')" data-toggle="modal"
                                         data-target="#modal-parroquias"
                                         <?php if (!validarPermisos('parroquias.edit')){ echo 'disabled'; } ?> >
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-info"
-                                        onclick="elimParroquia(<?php echo $parroquia['id']; ?>)"
-                                        id="btn_eliminar_p_<?php echo $parroquia['id']; ?>"
+                                        onclick="elimParroquia('<?php echo $parroquia['rowquid']; ?>')"
+                                        id="btn_eliminar_p_<?php echo $parroquia['rowquid']; ?>"
                                         <?php if (!validarPermisos('parroquias.destroy')){ echo 'disabled'; } ?> >
                                     <i class="far fa-trash-alt"></i>
                                 </button>

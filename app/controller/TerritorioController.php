@@ -38,7 +38,7 @@ class TerritorioController extends Admin
         $limit = null,
         $totalRows = null,
         $offset = null,
-    )
+    ): void
     {
         if ($table == 'municipios') {
             $baseURL = '_request/MunicipiosRequest.php';
@@ -76,7 +76,6 @@ class TerritorioController extends Admin
 
     public function store($table, $nombre, $mini, $asignacion, $municipio = null): array
     {
-        $hoy = date('Y-m-d');
 
         if ($table == "municipio"){
             $model = new Municipio();
@@ -103,7 +102,7 @@ class TerritorioController extends Admin
                     "Municipio Creado " . $nombre
                 );
                 //datos extras para el $response
-                $response['id'] = $municipios['id'];
+                $response['id'] = $municipios['rowquid'];
                 $response['item'] = '<p> ' . $model->count() . '. </p>';
                 $response['nombre'] = '<p class="text-uppercase">'.$municipios['nombre'].'</p>';
                 $response['mini'] = '<p class="text-uppercase">'.$municipios['mini'].'</p>';
@@ -159,7 +158,8 @@ class TerritorioController extends Admin
             $existeNombre = $model->existe('nombre', '=', $nombre, null);
             $existeMini = $model->existe('mini', '=', $mini, null);
 
-            $getMunicipio = $modelMunicipio->find($municipio);
+            $getMunicipio = $this->getMunicipios($municipio);
+            $municipio = $getMunicipio['id'];
             $asignacionMax = $getMunicipio['familias'];
             $getParroquias = $model->getList('municipios_id', '=', $municipio);
             $suma = 0;
@@ -196,7 +196,7 @@ class TerritorioController extends Admin
                     "Parroquia Creado exitosamente" . $nombre
                 );
                 //datos extras para el $response
-                $response['id'] = $parroquias['id'];
+                $response['id'] = $parroquias['rowquid'];
                 $response['item'] = '<p class="text-center">' . $model->count() . '.</p>';
                 $response['municipio'] ='<p class="text-center text-uppercase">'.$municipio['mini'].'</p>';
                 $response['municipios_id'] = $municipio['id'];
@@ -264,11 +264,10 @@ class TerritorioController extends Admin
         return $response;
     }
 
-    public function edit($table, $id): array
+    public function edit($table, $rowquid): array
     {
         if ($table == "municipio"){
-            $model = new Municipio();
-            $municipio = $model->find($id);
+            $municipio = $this->getMunicipios($rowquid);
             $response = crearResponse(
                 null,
                 true,
@@ -279,13 +278,14 @@ class TerritorioController extends Admin
                 true
             );
             //datos extras para el $response
-            $response['id'] = $municipio['id'];
+            $response['id'] = $municipio['rowquid'];
             $response['nombre'] = $municipio['nombre'];
             $response['mini'] = $municipio['mini'];
             $response['asignacion'] = $municipio['familias'];
         }else{
-            $model = new Parroquia();
-            $parroquia = $model->find($id);
+            $model = new Municipio();
+            $parroquia = $this->getParroquias($rowquid);
+            $municipio = $model->find($parroquia['municipios_id']);
             $response = crearResponse(
                 null,
                 true,
@@ -296,8 +296,8 @@ class TerritorioController extends Admin
                 true
             );
             //datos extras para el $response
-            $response['id'] = $parroquia['id'];
-            $response['municipios'] = $parroquia['municipios_id'];
+            $response['id'] = $parroquia['rowquid'];
+            $response['municipios'] = $municipio['rowquid'];
             $response['parroquia'] = $parroquia['nombre'];
             $response['mini'] = $parroquia['mini'];
             $response['asignacion'] = $parroquia['familias'];
@@ -306,13 +306,15 @@ class TerritorioController extends Admin
         return $response;
     }
 
-    public function update($table, $id, $nombre, $mini, $asignacion, $municipio = null): array
+    public function update($table, $rowquid, $nombre, $mini, $asignacion, $municipio = null): array
     {
-        $hoy = date('Y-m-d');
+        $hoy = getFecha();
 
         if ($table == 'municipios'){
 
             $model = new Municipio();
+            $municipio = $this->getMunicipios($rowquid);
+            $id = $municipio['id'];
             $existeMunicipio = $model->existe('nombre', '=', $nombre, $id);
             $existeMini = $model->existe('mini', '=', $mini, $id);
 
@@ -351,8 +353,7 @@ class TerritorioController extends Admin
                     );
 
                     //datos extras para el $response
-
-                    $response['id'] = $id;
+                    $response['id'] = $municipio['rowquid'];
                     $response['nombre'] = $nombre;
                     $response['mini'] = $mini;
                     $response['asignacion'] = '<p class="text-right">'.formatoMillares($asignacion, 0).'</p>';
@@ -402,10 +403,13 @@ class TerritorioController extends Admin
             $model = new Parroquia();
             $modelMunicipio = new Municipio();
             $procesar = false;
+            $parroquia = $this->getParroquias($rowquid);
+            $id = $parroquia['id'];
             $existeParroquia = $model->existe('nombre', '=', $nombre, $id);
             $existeMini = $model->existe('mini', '=', $mini, $id);
 
-            $getMunicipio = $modelMunicipio->find($municipio);
+            $getMunicipio = $this->getMunicipios($municipio);
+            $municipio = $getMunicipio['id'];
             $asignacionMax = $getMunicipio['familias'];
 
             $getParroquias = $model->getList('municipios_id','=', $municipio);
@@ -471,7 +475,7 @@ class TerritorioController extends Admin
                 if ($procesar) {
                     $parroquias = $model->find($id);
                     $municipio = $modelMunicipio->find($parroquias['municipios_id']);
-                    $response['id'] = $id;
+                    $response['id'] = $parroquias['rowquid'];
                     $response['municipio'] = '<p class="text-center text-uppercase">'.$municipio['mini'].'</p>';
                     $response['parroquia'] = '<p class="text-uppercase">'.$nombre.'</p>';
                     $response['total'] = $model->count();
@@ -524,120 +528,149 @@ class TerritorioController extends Admin
 
     }
 
-    public function delete($table, $id): array
+    public function delete($table, $rowquid): array
     {
         $modelGuia = new Guia();
         $modelRuta = new Ruta();
         $vinculado = false;
-
-        $guia_origen = $modelGuia->first('territorios_origen', '=', $id);
-        $guia_destino = $modelGuia->first('territorios_destino', '=', $id);
-
-        $ruta_origen = $modelRuta->first('origen', '=', $id);
-        $ruta_destino = $modelRuta->first('destino', '=', $id);
-
-        if ($guia_origen || $guia_destino || $ruta_origen || $ruta_destino){
-            $vinculado = true;
+        if ($table == 'municipios'){
+            $territorio = $this->getMunicipios($rowquid);
+        }else{
+            $territorio = $this->getParroquias($rowquid);
         }
 
-        
-        if ($vinculado){
-            $response = crearResponse('vinculado');
-        }else{
-            if ($table == 'municipios'){
-                $model = new Municipio();
-                $response = crearResponse(
-                    null,
-                    true,
-                    'Municipio Eliminado.',
-                    'Municipio Eliminado.'
-                );
+        if ($territorio){
+            $id = $territorio['id'];
+            $guia_origen = $modelGuia->first('territorios_origen', '=', $id);
+            $guia_destino = $modelGuia->first('territorios_destino', '=', $id);
 
-                //chequeo las parroquias vinculadas a ese municipio
-                $modelParroquia = new Parroquia();
-                $response['parroquias'] = array();
-                foreach ($modelParroquia->getList('municipios_id', '=', $id) as $parroquia) {
-                    $response['parroquias'][] = array("id" => $parroquia['id']);
-                }
-                $model->delete($id);
+            $ruta_origen = $modelRuta->first('origen', '=', $id);
+            $ruta_destino = $modelRuta->first('destino', '=', $id);
 
-                //datos extras para el $response
-                $response['total'] = $model->count();
-                $response['total_parroquias'] = $modelParroquia->count();
-
+            if ($guia_origen || $guia_destino || $ruta_origen || $ruta_destino){
+                $response = crearResponse('vinculado');
             }else{
-                $model = new Parroquia();
-                //resto al contador de parroquias
-                $parroquia = $model->find($id);
-                $modelMunicipio = new Municipio();
-                $municipio = $modelMunicipio->find($parroquia['municipios_id']);
-                $count = $municipio['parroquias'] - 1;
-                $modelMunicipio->update($municipio['id'], 'parroquias', $count);
-                $model->delete($id);
 
-                $response = crearResponse(
-                    null,
-                    true,
-                    'Parroquia Eliminada.',
-                    'Parroquia Eliminada Exitosamente.'
-                );
+                if ($table == 'municipios'){
+                    $model = new Municipio();
+                    $response = crearResponse(
+                        null,
+                        true,
+                        'Municipio Eliminado.',
+                        'Municipio Eliminado.'
+                    );
 
-                //datos extras para el $response
-                $response['total'] = $model->count();
-                $response['municipios_id'] = $municipio['id'];
-                $response['municipio_parroquias'] = $count;
+                    //chequeo las parroquias vinculadas a ese municipio
+                    $modelParroquia = new Parroquia();
+                    $response['parroquias'] = array();
+                    foreach ($modelParroquia->getList('municipios_id', '=', $id) as $parroquia) {
+                        $response['parroquias'][] = array("id" => $parroquia['id']);
+                    }
+                    $model->delete($id);
+
+                    //datos extras para el $response
+                    $response['total'] = $model->count();
+                    $response['total_parroquias'] = $modelParroquia->count();
+
+                }else{
+                    $model = new Parroquia();
+                    //resto al contador de parroquias
+                    $parroquia = $model->find($id);
+                    $modelMunicipio = new Municipio();
+                    $municipio = $modelMunicipio->find($parroquia['municipios_id']);
+                    $count = $municipio['parroquias'] - 1;
+                    $modelMunicipio->update($municipio['id'], 'parroquias', $count);
+                    $model->delete($id);
+
+                    $response = crearResponse(
+                        null,
+                        true,
+                        'Parroquia Eliminada.',
+                        'Parroquia Eliminada Exitosamente.'
+                    );
+
+                    //datos extras para el $response
+                    $response['total'] = $model->count();
+                    $response['municipios_id'] = $municipio['id'];
+                    $response['municipio_parroquias'] = $count;
+
+                }
+
+
+
 
             }
+
+
+
+
+
+
+        }else{
+            $response = crearResponse('no_found');
         }
+
+
+
+
+        
+
 
         return $response;
     }
 
-    public function setEstatus($table, $id): array
+    public function setEstatus($table, $rowquid): array
     {
         if ($table == 'municipios'){
             $model = new Municipio();
             $label = "Municipio";
+            $territorio = $this->getMunicipios($rowquid);
         }else{
             $model = new Parroquia();
             $label = "Parroquia";
+            $territorio = $this->getParroquias($rowquid);
         }
-        $territorio = $model->find($id);
-        $response = crearResponse(
-            null,
-            true,
-            '',
-            'Estatus Actualizado.'
-        );
 
-        //datos extras para el $response
-        if ($territorio['estatus']) {
-            $response['title'] = "$label Inactivo.";
-            $estatus = 0;
-            $response['icon'] = "info";
-        } else {
-            $response['title'] = "$label Activo.";
-            $estatus = 1;
-            $response['icon'] = "success";
-        }
-        $model->update($id, 'estatus', $estatus);
+        if ($territorio){
+            $id = $territorio['id'];
+            $response = crearResponse(
+                null,
+                true,
+                '',
+                'Estatus Actualizado.'
+            );
 
-        $response['estatus'] = $estatus;
+            //datos extras para el $response
+            if ($territorio['estatus']) {
+                $response['title'] = "$label Inactivo.";
+                $estatus = 0;
+                $response['icon'] = "info";
+            } else {
+                $response['title'] = "$label Activo.";
+                $estatus = 1;
+                $response['icon'] = "success";
+            }
+            $model->update($id, 'estatus', $estatus);
 
-        if ($table == 'municipios'){
-            $response['btn_editar'] = validarPermisos('municipios.edit');
-            $response['btn_eliminar'] = validarPermisos('municipios.destroy');
-            $response['btn_estatus'] = validarPermisos('municipios.estatus');
+            $response['estatus'] = $estatus;
+
+            if ($table == 'municipios'){
+                $response['btn_editar'] = validarPermisos('municipios.edit');
+                $response['btn_eliminar'] = validarPermisos('municipios.destroy');
+                $response['btn_estatus'] = validarPermisos('municipios.estatus');
+            }else{
+                $response['btn_editar'] = validarPermisos('parroquias.edit');
+                $response['btn_eliminar'] = validarPermisos('parroquias.destroy');
+                $response['btn_estatus'] = validarPermisos('parroquias.estatus');
+            }
+
         }else{
-            $response['btn_editar'] = validarPermisos('parroquias.edit');
-            $response['btn_eliminar'] = validarPermisos('parroquias.destroy');
-            $response['btn_estatus'] = validarPermisos('parroquias.estatus');
+            $response = crearResponse('no_found');
         }
-
         return $response;
     }
 
-    public function getMunicipios(): array
+    public function getMunicipiosSelect(): array
     {
         $model = new Municipio();
         $response = crearResponse(
@@ -651,37 +684,50 @@ class TerritorioController extends Admin
         );
         $response['municipios'] = array();
         foreach ($model->getAll() as $municipio) {
-            $id = $municipio['id'];
+            $id = $municipio['rowquid'];
             $nombre = $municipio['nombre'];
             $response['municipios'][] = array("id" => $id, "nombre" => $nombre);
         }
         return $response;
     }
 
-    public function getParroquias($id)
+    public function getParroquiasMini($rowquid): void
     {
         $model = new Parroquia();
-        $modelMunicipio = new Municipio();
-        $municipio = $modelMunicipio->find($id);
+        $municipio = $this->getMunicipios($rowquid);
         $this->verMuncipio = $municipio['mini'];
-        $this->rows = $model->getList('municipios_id', '=', $id);
+        $this->rows = $model->getList('municipios_id', '=', $municipio['id']);
     }
 
-    public function getMunicipio($id): mixed
+    public function getMunicipiosMini($rowquid): mixed
     {
         $model = new Municipio();
-        $municipio = $model->find($id);
-        return $municipio['mini'];
+        $parroquia = $this->getParroquias($rowquid);
+        if ($parroquia){
+            $municipio = $model->find($parroquia['municipios_id']);
+            return $municipio['mini'];
+        }else{
+            return '';
+        }
 
     }
 
-    public function countParroquias($id): mixed
+    public function countParroquias($rowquid): mixed
     {
+        $response = 0;
         $model = new Parroquia();
-        return $model->count(null, 'municipios_id', '=', $id);
+        $modelMunicipio = new Municipio();
+        $municipio = $this->getMunicipios($rowquid);
+        if ($municipio){
+            $response = $model->count(null, 'municipios_id', '=', $municipio['id']);
+        }
+
+      return $response;
+
     }
 
-    public function search($keyword, $table){
+    public function search($keyword, $table): void
+    {
         $model = new User();
         $this->keyword = $keyword;
         if ($table == 'municipios'){
@@ -696,6 +742,29 @@ class TerritorioController extends Admin
             $this->rows = $model->sqlPersonalizado($sql, 'getAll');
             $this->totalParroquia = $model->sqlPersonalizado($sql_count, 'count');
         }
+    }
+
+
+    protected function getMunicipios($rowquid)
+    {
+        $response = null;
+        $model = new Municipio();
+        $municipio = $model->first('rowquid', '=', $rowquid);
+        if ($municipio){
+            $response = $municipio;
+        }
+        return $response;
+    }
+
+    protected function getParroquias($rowquid)
+    {
+        $response = null;
+        $model = new Parroquia();
+        $parroquia = $model->first('rowquid', '=', $rowquid);
+        if ($parroquia){
+            $response = $parroquia;
+        }
+        return $response;
     }
 
 }

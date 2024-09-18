@@ -82,19 +82,19 @@ $('#form_territorio_municipio').submit(function (e) {
                 if (data.nuevo){
                     //es nuevo registro
                     let button_parroquia = '<div class="text-center"><div class="btn-group btn-group-sm text-center">\n' +
-                        '                                <button type="button" class="btn btn-success" onclick="filtrarParroquias('+ data.id +')">\n' +
+                        '                                <button type="button" class="btn btn-success" onclick="filtrarParroquias(\''+ data.id +'\')">\n' +
                         '                                    '+ data.parroquias +'\n' +
                         '                                </button>\n' +
                         '                            </div></div>';
 
                     let buttons = '<div class="btn-group btn-group-sm">\n' +
-                        '<button type="button" class="btn btn-info" onclick="estatusMunicipio('+ data.id +')" id="btn_estatus_'+ data.id +'" '+ btn_estatus +' >\n' +
+                        '<button type="button" class="btn btn-info" onclick="estatusMunicipio(\''+ data.id +'\')" id="btn_estatus_'+ data.id +'" '+ btn_estatus +' >\n' +
                         '                                    <i class="fas fa-eye"></i>\n' +
                         '                                </button>' +
-                        '                                <button type="button" class="btn btn-info" onclick="editMunicipio('+ data.id +')" data-toggle="modal" data-target="#modal-municipios" '+ btn_editar +' >\n' +
+                        '                                <button type="button" class="btn btn-info" onclick="editMunicipio(\''+ data.id +'\')" data-toggle="modal" data-target="#modal-municipios" '+ btn_editar +' >\n' +
                         '                                    <i class="fas fa-edit"></i>\n' +
                         '                                </button>\n' +
-                        '                                <button type="button" class="btn btn-info" onclick="destroyMunicipio('+ data.id +')" id="btn_eliminar_'+ data.id +'" '+ btn_eliminar +' >\n' +
+                        '                                <button type="button" class="btn btn-info" onclick="destroyMunicipio(\''+ data.id +'\')" id="btn_eliminar_'+ data.id +'" '+ btn_eliminar +' >\n' +
                         '                                    <i class="far fa-trash-alt"></i>\n' +
                         '                                </button>\n' +
                         '                            </div>';
@@ -273,13 +273,13 @@ function estatusMunicipio(id) {
             }
 
             let buttons = '<div class="btn-group btn-group-sm">\n' +
-                '<button type="button" class="btn btn-info" onclick="estatusMunicipio('+ id +')" id="btn_estatus_'+ id +'" '+ btn_estatus +' >\n' +
+                '<button type="button" class="btn btn-info" onclick="estatusMunicipio(\''+ id +'\')" id="btn_estatus_'+ id +'" '+ btn_estatus +' >\n' +
                 '                               ' + icono +
                 '                                </button>' +
-                '                                <button type="button" class="btn btn-info" onclick="editMunicipio('+ id +')" data-toggle="modal" data-target="#modal-municipios" '+ btn_editar +' >\n' +
+                '                                <button type="button" class="btn btn-info" onclick="editMunicipio(\''+ id +'\')" data-toggle="modal" data-target="#modal-municipios" '+ btn_editar +' >\n' +
                 '                                    <i class="fas fa-edit"></i>\n' +
                 '                                </button>\n' +
-                '                                <button type="button" class="btn btn-info" onclick="destroyMunicipio('+ id +')" id="btn_eliminar_'+ id +'" '+ btn_eliminar +' >\n' +
+                '                                <button type="button" class="btn btn-info" onclick="destroyMunicipio(\''+ id +'\')" id="btn_eliminar_'+ id +'" '+ btn_eliminar +' >\n' +
                 '                                    <i class="far fa-trash-alt"></i>\n' +
                 '                                </button>\n' +
                 '                            </div>';

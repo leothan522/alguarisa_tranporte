@@ -61,7 +61,7 @@ $count = count($controller->rows);
                     $i++;
                     $x++;
                     ?>
-                    <tr id="tr_item_<?php echo $municipio['id']; ?>">
+                    <tr id="tr_item_<?php echo $municipio['rowquid']; ?>">
                         <td class="text-center item"><?php echo $i; ?>.</td>
                         <td class="nombre text-uppercase"><?php echo $municipio['nombre']; ?></td>
                         <td class="mini text-uppercase"><?php echo $municipio['mini']; ?></td>
@@ -69,9 +69,9 @@ $count = count($controller->rows);
                         <td class="text-center parroquias">
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-success"
-                                        onclick="filtrarParroquias(<?php echo $municipio['id'] ?>)"
-                                        id="btn_count_parroquias_<?php echo $municipio['id'] ?>">
-                                    <?php echo formatoMillares($controller->countParroquias($municipio['id']), 0); ?>
+                                        onclick="filtrarParroquias('<?php echo $municipio['rowquid'] ?>')"
+                                        id="btn_count_parroquias_<?php echo $municipio['rowquid'] ?>">
+                                    <?php echo formatoMillares($controller->countParroquias($municipio['rowquid']), 0); ?>
                                 </button>
                             </div>
                         </td>
@@ -79,8 +79,8 @@ $count = count($controller->rows);
                         <td class="botones">
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-info"
-                                        onclick="estatusMunicipio(<?php echo $municipio['id']; ?>)"
-                                        id="btn_estatus_mun_<?php echo $municipio['id']; ?>"
+                                        onclick="estatusMunicipio('<?php echo $municipio['rowquid']; ?>')"
+                                        id="btn_estatus_mun_<?php echo $municipio['rowquid']; ?>"
                                     <?php if (!validarPermisos('municipios.estatus')) {
                                         echo 'disabled';
                                     } ?> >
@@ -91,7 +91,7 @@ $count = count($controller->rows);
                                     <?php } ?>
                                 </button>
                                 <button type="button" class="btn btn-info"
-                                        onclick="editMunicipio(<?php echo $municipio['id']; ?>)" data-toggle="modal"
+                                        onclick="editMunicipio('<?php echo $municipio['rowquid']; ?>')" data-toggle="modal"
                                         data-target="#modal-municipios"
                                     <?php if (!validarPermisos('municipios.edit')) {
                                         echo 'disabled';
@@ -99,8 +99,8 @@ $count = count($controller->rows);
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-info"
-                                        onclick="destroyMunicipio(<?php echo $municipio['id'] ?>)"
-                                        id="btn_eliminar_<?php echo $municipio['id']; ?>"
+                                        onclick="destroyMunicipio('<?php echo $municipio['rowquid'] ?>')"
+                                        id="btn_eliminar_<?php echo $municipio['rowquid']; ?>"
                                     <?php if (!validarPermisos('municipios.destroy')) {
                                         echo 'disabled';
                                     } ?>>

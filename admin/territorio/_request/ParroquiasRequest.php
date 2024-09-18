@@ -120,7 +120,7 @@ if ($_POST) {
 
                 case 'get_municipios':
 
-                    $response = $controller->getMunicipios();
+                    $response = $controller->getMunicipiosSelect();
 
                     break;
 
@@ -130,7 +130,7 @@ if ($_POST) {
                     $limit = 100;
                     if (!empty($_POST['id'])){
                         $id = $_POST['id'];
-                        $controller->getParroquias($id);
+                        $controller->getParroquiasMini($id);
                         $restablecer = true;
                     }else{
                         $controller->index('parroquia');
