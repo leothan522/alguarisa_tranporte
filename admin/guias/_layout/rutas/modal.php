@@ -11,7 +11,7 @@
                                 Rutas
                             </h4>
                         </div>
-                        <div class="col-md-5 justify-content-end d-none">
+                       <!-- <div class="col-md-5 justify-content-end d-none">
                             <form id="form_rutas_buscar">
                                 <div class="input-group close">
                                     <input type="search" class="form-control" placeholder="Buscar" name="keyword"
@@ -24,7 +24,7 @@
                                     </div>
                                 </div>
                             </form>
-                        </div>
+                        </div>-->
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>

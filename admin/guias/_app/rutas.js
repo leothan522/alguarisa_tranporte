@@ -187,7 +187,7 @@ $('#form_rutas').submit(function (e) {
             //editando
             ajaxRequest({url: '_request/RutasRequest.php', data: $(this).serialize()}, function (data) {
                 if (data.result){
-                    let btn = '<button class="btn btn-link btn-sm" onclick="showRutas('+data.id+')">\n' +
+                    let btn = '<button class="btn btn-link btn-sm" onclick="showRutas(\''+data.id+'\')">\n' +
                         '              Ver ruta\n' +
                         '      </button>';
                     let table = $('#table_rutas').DataTable();
@@ -261,7 +261,7 @@ function showRutas(id) {
                 html += '<li class="list-group-item"><span class="text-primary"><small>'+ (i + 1) + '.-</small>&nbsp;'+ lugar +' </span></li>';
             }
             trayecto.html(html);
-            $('#modal_ruta_btn_editar').attr("onclick", "editRuta("+id+")");
+            $('#modal_ruta_btn_editar').attr("onclick", "editRuta('"+id+"')");
             displayRutas('show');
         }
     });

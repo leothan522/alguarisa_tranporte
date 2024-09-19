@@ -60,11 +60,11 @@
                         $i++;
                         $x++;
                         ?>
-                        <tr id="tr_item_rutas_<?php echo $ruta['id']; ?>">
+                        <tr id="tr_item_rutas_<?php echo $ruta['rowquid']; ?>">
                             <td class="text-center"><?php echo $i; ?></td>
                             <td class="origen text-uppercase" ><?php echo $origen; ?></td>
                             <td class="ruta text-center">
-                                <button class="btn btn-link btn-sm" onclick="showRutas(<?php echo $ruta['id']; ?>)">
+                                <button class="btn btn-link btn-sm" onclick="showRutas('<?php echo $ruta['rowquid']; ?>')">
                                     Ver ruta
                                 </button>
                             </td>
@@ -72,13 +72,13 @@
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <button type="button" class="btn btn-info"
-                                            onclick="editRuta(<?php echo $ruta['id']; ?>)"
+                                            onclick="editRuta('<?php echo $ruta['rowquid']; ?>')"
                                             <?php if (!validarPermisos('rutas.edit')){ echo 'disabled'; } ?>>
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button type="button" class="btn btn-info"
-                                            onclick="destroyRutas(<?php echo $ruta['id']; ?>)"
-                                            id="btn_eliminar_chofer_<?php echo $ruta['id']; ?>">
+                                            onclick="destroyRutas('<?php echo $ruta['rowquid']; ?>')"
+                                            id="btn_eliminar_chofer_<?php echo $ruta['rowquid']; ?>">
                                         <i class="far fa-trash-alt"></i>
                                     </button>
                                 </div>

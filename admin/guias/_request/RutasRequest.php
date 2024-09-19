@@ -63,7 +63,7 @@ if ($_POST) {
                         true);
 
                     foreach ($controller->getParroquias() as $parroquia) {
-                        $id = $parroquia['id'];
+                        $id = $parroquia['rowquid'];
                         $nombre = mb_strtoupper($parroquia['nombre']);
                         $response['listarParroquias'][] = array("id" => $id, "nombre" => $nombre);
                     }
@@ -101,7 +101,7 @@ if ($_POST) {
                 case 'get_ruta':
                     if (!empty($_POST['id'])){
                         $id = $_POST['id'];
-                        $response = $controller->getRuta($id);
+                        $response = $controller->showRuta($id);
                     }else{
                         $response = crearResponse('faltan_datos');
                     }
