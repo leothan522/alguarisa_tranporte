@@ -270,6 +270,7 @@ function filtrarParroquias(id) {
         $('#custom-tabs-one-profile-tab').click();
         $("#btn_header_municipios").removeClass('text-muted');
         $("#btn_header_parroquias").addClass('text-muted');
+        $("#btn_restablecer_filtro").attr("onclick", "filtrarParroquias('"+id+"')")
     });
 
 

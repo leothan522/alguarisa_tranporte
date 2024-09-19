@@ -10,15 +10,21 @@ $count = count($listarParroquias);
     <div class="card-header">
         <h3 class="card-title">
             <?php
-            if (empty($controller->keyword)){
-                if (isset($restablecer) && $restablecer){ ?>
-                    Filtrando { <strong class="text-danger"><?php echo $controller->verMuncipio; ?></strong> } [ <span class="text-danger text-bold"><?php echo $count ?></span> ]
-                <?php }else{ ?>
+            if (empty($controller->keyword)) {
+                if (isset($restablecer) && $restablecer) { ?>
+                    Filtrando { <strong class="text-danger"><?php echo $controller->verMuncipio; ?></strong> } [ <span
+                            class="text-danger text-bold"><?php echo $count ?></span> ]
+                            <button type="button" class="btn btn-tool" onclick="reconstruirTablaParroquias()">
+                                <i class="fas fa-times-circle"></i>
+                            </button>
+                <?php } else { ?>
                     Parroquias [ <span class="text-danger text-bold"><?php echo $controller->totalParroquia; ?></span> ]
-                <?php
+                    <?php
                 }
-            }else{?>
-                Parroquia { <strong class="text-danger"><?php echo $controller->keyword; ?></strong> } [ <span class="text-danger text-bold"><?php echo $controller->totalParroquia ?></span> ]
+            } else {
+                ?>
+                Parroquia { <strong class="text-danger"><?php echo $controller->keyword; ?></strong> } [ <span
+                        class="text-danger text-bold"><?php echo $controller->totalParroquia ?></span> ]
                 <button type="button" class="btn btn-tool" onclick="reconstruirTablaParroquias()">
                     <i class="fas fa-times-circle"></i>
                 </button>
@@ -26,17 +32,28 @@ $count = count($listarParroquias);
         </h3>
 
         <div class="card-tools">
-           <?php if (empty($controller->keyword)){ ?>
-               <button type="button" class="btn btn-tool" onclick="reconstruirTablaParroquias()">
-                   <i class="fas fa-sync-alt"></i>
-               </button>
-           <?php }else{ ?>
-               <button type="button" class="btn btn-tool" onclick="reconstruirBuscarParroquia('<?php echo $controller->keyword; ?>')">
-                   <i class="fas fa-sync-alt"></i>
-               </button>
-           <?php } ?>
+            <?php if (empty($controller->keyword)) { ?>
+
+                <?php if (isset($restablecer) && $restablecer) { ?>
+                    <button type="button" class="btn btn-tool" id="btn_restablecer_filtro">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                <?php } else { ?>
+                    <button type="button" class="btn btn-tool" onclick="reconstruirTablaParroquias()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                <?php } ?>
+
+            <?php } else { ?>
+                <button type="button" class="btn btn-tool"
+                        onclick="reconstruirBuscarParroquia('<?php echo $controller->keyword; ?>')">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            <?php } ?>
             <button class="btn btn-tool" data-toggle="modal" onclick="resetParroquia()" data-target="#modal-parroquias"
-                    <?php if (!validarPermisos('parroquias.create')){ echo 'disabled'; } ?> >
+                <?php if (!validarPermisos('parroquias.create')) {
+                    echo 'disabled';
+                } ?> >
                 <i class="far fa-file-alt"></i> Nuevo
             </button>
         </div>
@@ -62,7 +79,7 @@ $count = count($listarParroquias);
                     $x++;
                     ?>
                     <tr id="tr_item_p_<?php echo $parroquia['rowquid']; ?>">
-                        <td class="text-center item"><?php echo $i; ?>. </td>
+                        <td class="text-center item"><?php echo $i; ?>.</td>
                         <td class="parroquia text-uppercase"><?php echo $parroquia['nombre']; ?></td>
                         <td class="asignacion text-right"><?php echo formatoMillares($parroquia['familias'], 0) ?></td>
                         <td class="municipio text-center text-uppercase">
@@ -73,24 +90,31 @@ $count = count($listarParroquias);
                                 <button type="button" class="btn btn-info"
                                         onclick="estatusParroquia('<?php echo $parroquia['rowquid']; ?>')"
                                         id="btn_estatus_parroquia_<?php echo $parroquia['rowquid']; ?>"
-                                        <?php if (!validarPermisos('parroquias.estatus')){ echo 'disabled'; } ?> >
-                                    <?php if ($parroquia['estatus']){ ?>
+                                    <?php if (!validarPermisos('parroquias.estatus')) {
+                                        echo 'disabled';
+                                    } ?> >
+                                    <?php if ($parroquia['estatus']) { ?>
                                         <i class="fas fa-eye"></i>
-                                    <?php }else{ ?>
+                                    <?php } else { ?>
                                         <i class="fas fa-eye-slash"></i>
                                     <?php } ?>
                                 </button>
 
                                 <button type="button" class="btn btn-info"
-                                        onclick="editParroquia('<?php echo $parroquia['rowquid']; ?>')" data-toggle="modal"
+                                        onclick="editParroquia('<?php echo $parroquia['rowquid']; ?>')"
+                                        data-toggle="modal"
                                         data-target="#modal-parroquias"
-                                        <?php if (!validarPermisos('parroquias.edit')){ echo 'disabled'; } ?> >
+                                    <?php if (!validarPermisos('parroquias.edit')) {
+                                        echo 'disabled';
+                                    } ?> >
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-info"
                                         onclick="elimParroquia('<?php echo $parroquia['rowquid']; ?>')"
                                         id="btn_eliminar_p_<?php echo $parroquia['rowquid']; ?>"
-                                        <?php if (!validarPermisos('parroquias.destroy')){ echo 'disabled'; } ?> >
+                                    <?php if (!validarPermisos('parroquias.destroy')) {
+                                        echo 'disabled';
+                                    } ?> >
                                     <i class="far fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -104,10 +128,10 @@ $count = count($listarParroquias);
     <!-- /.card-body -->
     <div class="card-footer clearfix">
         <?php
-        if (empty($controller->keyword)){
+        if (empty($controller->keyword)) {
             echo $links;
-        }else{
-            echo "Mostrando ".$x;
+        } else {
+            echo "Mostrando " . $x;
         }
         ?>
 
