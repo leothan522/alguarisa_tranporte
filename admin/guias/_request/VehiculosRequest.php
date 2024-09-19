@@ -64,7 +64,7 @@ if ($_POST) {
                         true);
 
                     foreach ($controller->getTipos() as $tipo) {
-                        $id = $tipo['id'];
+                        $id = $tipo['rowquid'];
                         $nombre = mb_strtoupper($tipo['nombre']);
                         $response['listarTipos'][] = array("id" => $id, "nombre" => $nombre);
                     }

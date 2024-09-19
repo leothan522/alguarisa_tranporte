@@ -283,8 +283,8 @@ $('#form_vehiculos').submit(function (e) {
         }else {
             ajaxRequest({ url: '_request/VehiculosRequest.php', data: $(this).serialize()}, function (data) {
                 if (data.result){
-                    let btn = '<span class="btn btn-link"\n' +
-                        '      onclick="showVehiculo('+ data.id +', origen = \'vehiculos\')" >\n' +
+                    let btn = '<span class="btn btn-link btn-sm"\n' +
+                        '      onclick="showVehiculo(\''+ data.id +'\', origen = \'vehiculos\')" >\n' +
                         data.placa_batea +
                         '      </span>';
 

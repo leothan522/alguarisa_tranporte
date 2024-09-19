@@ -75,23 +75,29 @@ class VehiculosController extends Admin
     public function store($empresas_id, $placa_batea, $placa_chuto, $tipo, $marca, $color, $capacidad): array
     {
         $model = new Vehiculo();
+        $modelEmpresa = new Empresa();
+        $modelTipos = new VehiculoTipo();
+        $empresas = $modelEmpresa->first('rowquid', '=', $empresas_id);
+        $tipos = $modelTipos->first('rowquid', '=', $tipo);
+        $empresas_id = $empresas['id'];
+        $tipo_id = $tipos['id'];
         $existeBatea = $model->existe('placa_batea', '=', $placa_batea, null, 1);
         $existeChuto = $model->existe('placa_chuto', '=', $placa_chuto, null, 1);
 
-        if (!$existeBatea || !$existeChuto){
-           $data = [
-               $empresas_id,
-               $tipo,
-               $marca,
-               $placa_batea,
-               $placa_chuto,
-               $color,
-               $capacidad,
-               getFecha(),
-               getRowquid($model)
-           ];
+        if (!$existeBatea || !$existeChuto) {
+            $data = [
+                $empresas_id,
+                $tipo_id,
+                $marca,
+                $placa_batea,
+                $placa_chuto,
+                $color,
+                $capacidad,
+                getFecha(),
+                getRowquid($model)
+            ];
 
-           $model->save($data);
+            $model->save($data);
             $response = crearResponse(
                 false,
                 true,
@@ -100,7 +106,7 @@ class VehiculosController extends Admin
             );
             $response['total'] = $model->count();
 
-        }else{
+        } else {
             $response = crearResponse(
                 'existe_vehiculo',
                 false,
@@ -113,152 +119,173 @@ class VehiculosController extends Admin
         return $response;
     }
 
-    public function edit($id): array
+    public function edit($rowquid): array
     {
-        $model = new Vehiculo();
-        $vehiculos = $model->find($id);
-        $response = crearResponse(
-            false,
-            true,
-            'Editar Vehiculo',
-            'Editar Vehiculo',
-            'success',
-            false,
-            true
-        );
-        $response['empresas_id'] = $vehiculos['empresas_id'];
-        $response['placa_batea'] = $vehiculos['placa_batea'];
-        $response['placa_chuto'] = $vehiculos['placa_chuto'];
-        $response['tipo'] = $vehiculos['tipo'];
-        $response['marca'] = $vehiculos['marca'];
-        $response['color'] = $vehiculos['color'];
-        $response['capacidad'] = $vehiculos['capacidad'];
-        $response['id'] = $vehiculos['id'];
+        $modelEmpresas = new Empresa();
+        $modelTipo = new VehiculoTipo();
+        $vehiculos = $this->getVehiculos($rowquid);
+        $empresas = $modelEmpresas->first('id', '=', $vehiculos['empresas_id']);
+        $tipos = $modelTipo->first('id', '=', $vehiculos['tipo']);
 
+
+        if ($vehiculos) {
+            $response = crearResponse(
+                false,
+                true,
+                'Editar Vehiculo',
+                'Editar Vehiculo',
+                'success',
+                false,
+                true
+            );
+            $response['empresas_id'] = $empresas['rowquid'];
+            $response['placa_batea'] = $vehiculos['placa_batea'];
+            $response['placa_chuto'] = $vehiculos['placa_chuto'];
+            $response['tipo'] = $tipos['rowquid'];
+            $response['marca'] = $vehiculos['marca'];
+            $response['color'] = $vehiculos['color'];
+            $response['capacidad'] = $vehiculos['capacidad'];
+            $response['id'] = $vehiculos['rowquid'];
+        } else {
+            $response = crearResponse('no_found');
+        }
         return $response;
     }
 
-    public function update($empresas_id, $placa_batea, $placa_chuto, $tipo, $marca, $color, $capacidad, $id): array
+    public function update($empresas_id, $placa_batea, $placa_chuto, $tipo, $marca, $color, $capacidad, $rowquid): array
     {
         $model = new Vehiculo();
+        $modelEmpresa = new Empresa();
+        $modeltipos = new VehiculoTipo();
         $cambios = false;
-        $vehiculos = $model->find($id);
+        $vehiculos = $this->getVehiculos($rowquid);
+        $empresas = $modelEmpresa->first('rowquid', '=', $empresas_id);
+        $tipos = $modeltipos->first('rowquid', '=', $tipo);
 
-        $db_empresas_id = $vehiculos['empresas_id'];
-        $db_placa_batea = $vehiculos['placa_batea'];
-        $db_placa_chuto = $vehiculos['placa_chuto'];
-        $db_tipo = $vehiculos['tipo'];
-        $db_marca = $vehiculos['marca'];
-        $db_color = $vehiculos['color'];
-        $db_capacidad = $vehiculos['capacidad'];
+        if ($vehiculos) {
+            $id = $vehiculos['id'];
+            $empresas_id = $empresas['id'];
+            $tipos_id = $tipos['id'];
+            $db_empresas_id = $vehiculos['empresas_id'];
+            $db_placa_batea = $vehiculos['placa_batea'];
+            $db_placa_chuto = $vehiculos['placa_chuto'];
+            $db_tipo = $vehiculos['tipo'];
+            $db_marca = $vehiculos['marca'];
+            $db_color = $vehiculos['color'];
+            $db_capacidad = $vehiculos['capacidad'];
 
-        $existeBatea = $model->existe('placa_batea', '=', $placa_batea, $id, 1);
-        $existeChuto = $model->existe('placa_chuto', '=', $placa_chuto, $id, 1);
+            $existeBatea = $model->existe('placa_batea', '=', $placa_batea, $id, 1);
+            $existeChuto = $model->existe('placa_chuto', '=', $placa_chuto, $id, 1);
 
-        if (!$existeBatea || !$existeChuto){
-            if ($db_empresas_id != $empresas_id){
-                $cambios = true;
-                $model->update($id, 'empresas_id', $empresas_id);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+            if (!$existeBatea || !$existeChuto) {
+                if ($db_empresas_id != $empresas_id) {
+                    $cambios = true;
+                    $model->update($id, 'empresas_id', $empresas_id);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_placa_batea != $placa_batea){
-                $cambios = true;
-                $model->update($id, 'placa_batea', $placa_batea);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_placa_batea != $placa_batea) {
+                    $cambios = true;
+                    $model->update($id, 'placa_batea', $placa_batea);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_placa_chuto != $placa_chuto){
-                $cambios = true;
-                $model->update($id, 'placa_chuto', $placa_chuto);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_placa_chuto != $placa_chuto) {
+                    $cambios = true;
+                    $model->update($id, 'placa_chuto', $placa_chuto);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_tipo != $tipo){
-                $cambios = true;
-                $model->update($id, 'tipo', $tipo);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_tipo != $tipos_id) {
+                    $cambios = true;
+                    $model->update($id, 'tipo', $tipos_id);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_marca != $marca){
-                $cambios = true;
-                $model->update($id, 'marca', $marca);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_marca != $marca) {
+                    $cambios = true;
+                    $model->update($id, 'marca', $marca);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_color != $color){
-                $cambios = true;
-                $model->update($id, 'color', $color);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_color != $color) {
+                    $cambios = true;
+                    $model->update($id, 'color', $color);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_capacidad != $capacidad){
-                $cambios = true;
-                $model->update($id, 'capacidad', $capacidad);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_capacidad != $capacidad) {
+                    $cambios = true;
+                    $model->update($id, 'capacidad', $capacidad);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($cambios){
+                if ($cambios) {
+                    $response = crearResponse(
+                        null,
+                        true,
+                        'Editado Exitosamente.',
+                        'El Vehiculo se ha Editado Exitosamente.'
+                    );
+                    $vehiculos = $model->find($id);
+                    $tipo = $this->getTipo($vehiculos['tipo']);
+                    $response['empresas_id'] = $vehiculos['empresas_id'];
+                    $response['placa_batea'] = mb_strtoupper($vehiculos['placa_batea']);
+                    $response['placa_chuto'] = mb_strtoupper($vehiculos['placa_chuto']);
+                    $response['tipo'] = mb_strtoupper($tipo['nombre']);
+                    $response['marca'] = mb_strtoupper($vehiculos['marca']);
+                    $response['color'] = mb_strtoupper($vehiculos['color']);
+                    $response['capacidad'] = $vehiculos['capacidad'];
+                    $response['id'] = $vehiculos['rowquid'];
+
+                } else {
+                    $response = crearResponse(
+                        'sin_cambios',
+                        false,
+                        'Sin cambios',
+                        'no se realizó ningun cambio',
+                        'info',
+                        true
+                    );
+                }
+
+            } else {
                 $response = crearResponse(
-                    null,
-                    true,
-                    'Editado Exitosamente.',
-                    'El Vehiculo se ha Editado Exitosamente.'
-                );
-                $vehiculos = $model->find($id);
-                $tipo = $this->getTipo($vehiculos['tipo']);
-                $response['empresas_id'] = $vehiculos['empresas_id'];
-                $response['placa_batea'] = mb_strtoupper($vehiculos['placa_batea']);
-                $response['placa_chuto'] = mb_strtoupper($vehiculos['placa_chuto']);
-                $response['tipo'] = mb_strtoupper($tipo['nombre']);
-                $response['marca'] = mb_strtoupper($vehiculos['marca']);
-                $response['color'] = mb_strtoupper($vehiculos['color']);
-                $response['capacidad'] = $vehiculos['capacidad'];
-                $response['id'] = $vehiculos['id'];
-
-            }else{
-                $response = crearResponse(
-                    'sin_cambios',
+                    'datos_duplicados',
                     false,
-                    'Sin cambios',
-                    'no se realizó ningun cambio',
-                    'info',
-                    true
+                    'Datos Duplicados',
+                    'Datos Duplicados',
+                    'warning'
                 );
             }
-
-        }else{
-            $response = crearResponse(
-                'datos_duplicados',
-                false,
-                'Datos Duplicados',
-                'Datos Duplicados',
-                'warning'
-            );
+        } else {
+            $response = crearResponse('no_found');
         }
 
         return $response;
     }
 
-    public function destroy($id): array
+    public function destroy($rowquid): array
     {
         $model = new Vehiculo();
         $modelGuias = new Guia();
         $modelChoferes = new Chofer();
-        $vehiculo = $model->find($id);
+        $vehiculo = $this->getVehiculos($rowquid);
         $vinculado = false;
 
-        $guias = $modelGuias->first('vehiculos_id', '=', $id);
-        $choferes = $modelChoferes->first('vehiculos_id', '=', $id);
+        if ($vehiculo){
+            $id = $vehiculo['id'];
+            $guias = $modelGuias->first('vehiculos_id', '=', $id);
+            $choferes = $modelChoferes->first('vehiculos_id', '=', $id);
 
-        if ($guias || $choferes){
-            $vinculado = true;
-        }
+            if ($guias || $choferes) {
+                $vinculado = true;
+            }
 
-        if ($vinculado){
-            $response = crearResponse('vinculado');
-        }else{
-            if ($vehiculo){
+            if ($vinculado) {
+                $response = crearResponse('vinculado');
+            } else {
+
                 $model->update($id, 'band', 0);
                 $model->update($id, 'updated_at', date("Y-m-d"));
                 $response = crearResponse(
@@ -268,16 +295,10 @@ class VehiculosController extends Admin
                     'Vehiculo Eliminado.'
                 );
                 $response['total'] = $model->count(1);
-            }else{
-                $response = crearResponse(
-                    'no_chofer',
-                    false,
-                    'Chofer NO encontrado."',
-                    'El id del Chofer no esta disponible.',
-                    'warning',
-                    true
-                );
+
             }
+        }else{
+            $response = crearResponse('no_found');
         }
         return $response;
     }
@@ -291,6 +312,17 @@ class VehiculosController extends Admin
         $this->rows = $model->sqlPersonalizado($sql, 'getAll');
         $this->keyword = $keyword;
         $this->totalRows = $model->sqlPersonalizado($sql_count, 'count');
+    }
+
+    protected function getVehiculos($rowquid)
+    {
+        $response = null;
+        $model = new Vehiculo();
+        $vehiculo = $model->first('rowquid', '=', $rowquid);
+        if ($vehiculo) {
+            $response = $vehiculo;
+        }
+        return $response;
     }
 
 }

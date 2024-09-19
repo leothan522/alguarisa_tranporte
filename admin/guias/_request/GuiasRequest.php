@@ -62,7 +62,7 @@ if ($_POST) {
                         true);
 
                     foreach ($controller->getEmpresas() as $empresa) {
-                        $id = $empresa['id'];
+                        $id = $empresa['rowquid'];
                         $nombre = mb_strtoupper($empresa['rif']." - ".$empresa['nombre']);
                         $response['listarEmpresas'][] = array("id" => $id, "nombre" => $nombre);
                     }

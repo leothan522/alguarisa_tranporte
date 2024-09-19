@@ -57,11 +57,12 @@ class GuiasController extends Admin
         $this->getFormato();
     }
 
-    public function getVehiculo($id): array
+    public function getVehiculo($rowquid): array
     {
         $model = new Vehiculo();
         $modelEmpresa = new Empresa();
-        $vehiculos = $model->find($id);
+        $vehiculos = $model->first('rowquid', '=', $rowquid);
+        $id = $vehiculos['id'];
         $empresas = $modelEmpresa->find($vehiculos['empresas_id']);
         $choferes = new ChoferesController();
         $tipo = $choferes->getTipo($vehiculos['tipo']);
@@ -1123,5 +1124,6 @@ class GuiasController extends Admin
         }
         return $html;
     }
+
 
 }

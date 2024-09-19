@@ -59,10 +59,10 @@
                         $x++;
 
                     ?>
-                    <tr id="tr_item_vehiculos_<?php echo $vehiculo['id'] ?>">
+                    <tr id="tr_item_vehiculos_<?php echo $vehiculo['rowquid'] ?>">
                         <td class="text-center"><?php echo $i; ?></td>
                         <td class="vehiculos_placa text-left p-0 text-uppercase">
-                            <span class="btn btn-link btn-sm" onclick="showVehiculo(<?php echo $vehiculo['id'] ?>, origen = 'vehiculos')">
+                            <span class="btn btn-link btn-sm" onclick="showVehiculo('<?php echo $vehiculo['rowquid'] ?>', origen = 'vehiculos')">
                                 <?php echo $vehiculo['placa_batea']; ?>
                             </span>
                         </td>
@@ -78,13 +78,13 @@
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-info"
-                                        onclick="editVehiculo(<?php echo $vehiculo['id']; ?>)"
+                                        onclick="editVehiculo('<?php echo $vehiculo['rowquid']; ?>')"
                                         <?php if (!validarPermisos('vehiculos.edit')){ echo 'disabled'; } ?>>
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-info"
-                                        onclick="destroyVehiculo(<?php echo $vehiculo['id'] ?>)"
-                                        id="btn_eliminar_vehiculo_<?php echo $vehiculo['id']; ?>"
+                                        onclick="destroyVehiculo('<?php echo $vehiculo['rowquid'] ?>')"
+                                        id="btn_eliminar_vehiculo_<?php echo $vehiculo['rowquid']; ?>"
                                         <?php if (!validarPermisos('vehiculos.destroy')){ echo 'disabled'; } ?>>
                                     <i class="far fa-trash-alt"></i>
                                 </button>
