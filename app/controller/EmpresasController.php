@@ -58,7 +58,7 @@ class EmpresasController extends Admin
         $model = new Empresa();
         $existeEmpresa = $model->existe('rif', '=', $rif, null, 1);
 
-        if (!$existeEmpresa){
+        if (!$existeEmpresa) {
             $data = [
                 $rif,
                 $nombre,
@@ -76,7 +76,7 @@ class EmpresasController extends Admin
                 'Se Guardo Exitosamente'
             );
             $response['total'] = $model->count();
-        }else{
+        } else {
             $response = crearResponse(
                 'existe_empresa',
                 false,
@@ -89,125 +89,137 @@ class EmpresasController extends Admin
         return $response;
     }
 
-    public function edit($id): array
+    public function edit($rowquid): array
     {
-        $model = new Empresa();
-        $empresa = $model->find($id);
-        $response = crearResponse(
-            false,
-            true,
-            'Editar Empresa',
-            'Editar Empresa',
-            'success',
-            false,
-            true
-        );
-        $response['rif'] = $empresa['rif'];
-        $response['nombre'] = $empresa['nombre'];
-        $response['responsable'] = $empresa['responsable'];
-        $response['telefono'] = $empresa['telefono'];
-        $response['id'] = $empresa['id'];
+        $empresa = $this->getEmpresas($rowquid);
+        if ($empresa) {
+
+            $response = crearResponse(
+                false,
+                true,
+                'Editar Empresa',
+                'Editar Empresa',
+                'success',
+                false,
+                true
+            );
+            $response['rif'] = $empresa['rif'];
+            $response['nombre'] = $empresa['nombre'];
+            $response['responsable'] = $empresa['responsable'];
+            $response['telefono'] = $empresa['telefono'];
+            $response['id'] = $empresa['rowquid'];
+
+        } else {
+            $response = crearResponse('no_found');
+        }
 
         return $response;
     }
 
-    public function update($rif, $nombre, $responsable, $telefono, $id): array
+    public function update($rif, $nombre, $responsable, $telefono, $rowquid): array
     {
         $model = new Empresa();
-        $empresa = $model->find($id);
+        $empresa = $this->getEmpresas($rowquid);
         $cambios = false;
 
-        $db_rif = $empresa['rif'];
-        $db_nombre = $empresa['nombre'];
-        $db_responsable = $empresa['responsable'];
-        $db_telefono = $empresa['telefono'];
+        if ($empresa) {
+            $id = $empresa['id'];
+            $db_rif = $empresa['rif'];
+            $db_nombre = $empresa['nombre'];
+            $db_responsable = $empresa['responsable'];
+            $db_telefono = $empresa['telefono'];
 
-        $existe = $model->existe('rif', '=', $rif, $id, 1);
+            $existe = $model->existe('rif', '=', $rif, $id, 1);
 
-        if (!$existe){
+            if (!$existe) {
 
-            if ($db_rif != $rif) {
-                $cambios = true;
-                $model->update($id, 'rif', $rif);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_rif != $rif) {
+                    $cambios = true;
+                    $model->update($id, 'rif', $rif);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_nombre != $nombre) {
-                $cambios = true;
-                $model->update($id, 'nombre', $nombre);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_nombre != $nombre) {
+                    $cambios = true;
+                    $model->update($id, 'nombre', $nombre);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_responsable != $responsable) {
-                $cambios = true;
-                $model->update($id, 'responsable', $responsable);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_responsable != $responsable) {
+                    $cambios = true;
+                    $model->update($id, 'responsable', $responsable);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_telefono != $telefono) {
-                $cambios = true;
-                $model->update($id, 'telefono', $telefono);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_telefono != $telefono) {
+                    $cambios = true;
+                    $model->update($id, 'telefono', $telefono);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($cambios){
+                if ($cambios) {
+                    $response = crearResponse(
+                        null,
+                        true,
+                        'Editado Exitosamente.',
+                        'La empresa se ha editado Exitosamente.'
+                    );
+                    $empresa = $model->find($id);
+                    $response['rif'] = $empresa['rif'];
+                    $response['nombre'] = $empresa['nombre'];
+                    $response['responsable'] = '<small>' . $empresa['responsable'] . '<br>' . $empresa['telefono'] . '</small>';
+                    $response['telefono'] = $empresa['telefono'];
+                    $response['id'] = $empresa['rowquid'];
+
+                } else {
+                    $response = crearResponse(
+                        'sin_cambios',
+                        false,
+                        'Sin cambios',
+                        'no se realizó ningun cambio',
+                        'info',
+                        true
+                    );
+                }
+
+            } else {
                 $response = crearResponse(
-                    null,
-                    true,
-                    'Editado Exitosamente.',
-                    'La empresa se ha editado Exitosamente.'
-                );
-                $empresa = $model->find($id);
-                $response['rif'] = $empresa['rif'];
-                $response['nombre'] = $empresa['nombre'];
-                $response['responsable'] = '<small>'.$empresa['responsable'].'<br>'.$empresa['telefono'].'</small>';
-                $response['telefono'] = $empresa['telefono'];
-                $response['id'] = $empresa['id'];
-
-            }else{
-                $response = crearResponse(
-                    'sin_cambios',
+                    'datos_duplicados',
                     false,
-                    'Sin cambios',
-                    'no se realizó ningun cambio',
-                    'info',
-                    true
+                    'Datos Duplicados',
+                    'Rif ya registrado.',
+                    'warning'
                 );
             }
-
-        }else{
-            $response = crearResponse(
-                'datos_duplicados',
-                false,
-                'Datos Duplicados',
-                'Rif ya registrado.',
-                'warning'
-            );
+        } else {
+            $response = crearResponse('no_found');
         }
         return $response;
 
     }
 
-    public function destroy($id): array
+    public function destroy($rowquid): array
     {
         $model = new Empresa();
         $modelVehiculo = new Vehiculo();
         $modelChoferes = new Chofer();
-
-        $empresa = $model->find($id);
         $vinculado = false;
 
-        $choferes = $modelChoferes->first('empresas_id', '=', $id);
-        $vehiculos = $modelVehiculo->first('empresas_id', '=', $id);
+        $empresa = $this->getEmpresas($rowquid);
 
-        if ($choferes || $vehiculos){
-            $vinculado = true;
-        }
+        if ($empresa) {
+            $id = $empresa['id'];
+            $choferes = $modelChoferes->first('empresas_id', '=', $id);
+            $vehiculos = $modelVehiculo->first('empresas_id', '=', $id);
 
-        if ($vinculado){
-            $response = crearResponse('vinculado');
-        }else{
-            if ($empresa){
+            if ($choferes || $vehiculos) {
+                $vinculado = true;
+            }
+
+            if ($vinculado) {
+                $response = crearResponse('vinculado');
+            } else {
+
                 $model->update($id, 'band', 0);
                 $model->update($id, 'updated_at', date("Y-m-d"));
                 $response = crearResponse(
@@ -218,17 +230,13 @@ class EmpresasController extends Admin
                 );
                 //datos extras para el $response
                 $response['total'] = $model->count(1);
-            }else{
-                $response = crearResponse(
-                    'no_empresa',
-                    false,
-                    'Empresa NO encontrada."',
-                    'El id de la Empresa no esta disponible.',
-                    'warning',
-                    true
-                );
+
             }
+        } else {
+            $response = crearResponse('no_found');
         }
+
+
         return $response;
     }
 
@@ -243,4 +251,14 @@ class EmpresasController extends Admin
         $this->totalRows = $model->sqlPersonalizado($sql_count, 'count');
     }
 
+    protected function getEmpresas($rowquid)
+    {
+        $response = null;
+        $model = new Empresa();
+        $empresa = $model->first('rowquid', '=', $rowquid);
+        if ($empresa) {
+            $response = $empresa;
+        }
+        return $response;
+    }
 }

@@ -58,7 +58,7 @@
                             $i++;
                             $x++;
                             ?>
-                            <tr class="text-sm" id="tr_item_empresas_<?php echo $empresa['id']; ?>">
+                            <tr class="text-sm" id="tr_item_empresas_<?php echo $empresa['rowquid']; ?>">
                                 <td class="text-center"><?php echo $i; ?></td>
                                 <td class="empresa_rif text-bold text-uppercase"><?php echo $empresa['rif']; ?></td>
                                 <td class="empresa_nombre text-uppercase"><?php echo $empresa['nombre']; ?></td>
@@ -73,13 +73,13 @@
                                 <td>
                                     <div class="btn-group btn-group-sm">
                                         <button type="button" class="btn btn-info"
-                                                onclick="editEmpresa(<?php echo $empresa['id']; ?>)"
+                                                onclick="editEmpresa('<?php echo $empresa['rowquid']; ?>')"
                                                 <?php if (!validarPermisos('empresas.edit')){ echo 'disabled'; } ?>>
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button type="button" class="btn btn-info"
-                                                onclick="destroyEmpresa(<?php echo $empresa['id']; ?>)"
-                                                id="btn_eliminar_empresa_<?php echo $empresa['id']; ?>"
+                                                onclick="destroyEmpresa('<?php echo $empresa['rowquid']; ?>')"
+                                                id="btn_eliminar_empresa_<?php echo $empresa['rowquid']; ?>"
                                                 <?php if (!validarPermisos('empresas.destroy')){ echo 'disabled'; } ?>>
                                             <i class="far fa-trash-alt"></i>
                                         </button>
