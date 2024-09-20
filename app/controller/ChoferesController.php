@@ -59,12 +59,16 @@ class ChoferesController extends Admin
     public function store($empresas, $vehiculos, $cedula, $nombre, $telefono): array
     {
         $model = new Chofer();
+        $modelEmpresas = new Empresa();
+        $modelVehiculo = new Vehiculo();
         $existeChofer = $model->existe('cedula', '=', $cedula);
+        $empresas = $modelEmpresas->first('rowquid', '=', $empresas);
+        $vehiculos = $modelVehiculo->first('rowquid', '=', $vehiculos);
 
         if (!$existeChofer) {
             $data = [
-                $empresas,
-                $vehiculos,
+                $empresas['id'],
+                $vehiculos['id'],
                 $cedula,
                 $nombre,
                 $telefono,
@@ -95,10 +99,14 @@ class ChoferesController extends Admin
 
     }
 
-    public function vehiculos($id)
+    public function getVehiculo($rowquid)
     {
-        $model = new Vehiculo();
-        return $model->first('id', '=', $id);
+        $model = new Chofer();
+        $modelVehiculo = new Vehiculo();
+        $choferes = $model->first('rowquid', '=', $rowquid);
+        $vehiculos = $modelVehiculo->first('id', '=', $choferes['vehiculos_id']);
+        $placa = $vehiculos['placa_batea'];
+        return $placa;
     }
 
     public function getTipo($id)
@@ -113,10 +121,14 @@ class ChoferesController extends Admin
         return $model->getAll(1);
     }
 
-    public function edit($id): array
+    public function edit($rowquid): array
     {
-        $model = new Chofer();
-        $chofer = $model->find($id);
+        $modelEmpresas = new Empresa();
+        $modelVehiculos = new Vehiculo();
+        $chofer = $this->getChoferes($rowquid);
+        $empresa = $modelEmpresas->first('id', '=', $chofer['empresas_id']);
+        $vehiculo = $modelVehiculos->first('id', '=', $chofer['vehiculos_id']);
+
         $response = crearResponse(
             false,
             true,
@@ -126,120 +138,137 @@ class ChoferesController extends Admin
             false,
             true
         );
-        $response['empresas_id'] = $chofer['empresas_id'];
-        $response['vehiculos_id'] = $chofer['vehiculos_id'];
+        $response['empresas_id'] = $empresa['rowquid'];
+        $response['vehiculos_id'] = $vehiculo['rowquid'];
         $response['cedula'] = formatoMillares($chofer['cedula']);
         $response['nombre'] = $chofer['nombre'];
         $response['telefono'] = $chofer['telefono'];
-        $response['id'] = $chofer['id'];
+        $response['id'] = $chofer['rowquid'];
 
         return $response;
     }
 
-    public function update($empresas, $vehiculos, $cedula, $nombre, $telefono, $id): array
+    public function update($empresas, $vehiculos, $cedula, $nombre, $telefono, $rowquid): array
     {
         $model = new Chofer();
         $modelVehiculo = new Vehiculo();
+        $modelEmpresas = new Empresa();
         $cambios = false;
-        $choferes = $model->find($id);
+        $choferes = $this->getChoferes($rowquid);
+        $empresas = $modelEmpresas->first('rowquid', '=', $empresas);
+        $vehiculos = $modelVehiculo->first('rowquid', '=', $vehiculos);
 
-        $db_empresa = $choferes['empresas_id'];
-        $db_vehiculo = $choferes['vehiculos_id'];
-        $db_cedula = $choferes['cedula'];
-        $db_nombre = $choferes['nombre'];
-        $db_telefono = $choferes['telefono'];
 
-        $existe = $model->existe('cedula', '=', $cedula, $id, 1);
+        if ($choferes) {
+            $id = $choferes['id'];
+            $empresas_id = $empresas['id'];
+            $vehiculos_id = $vehiculos['id'];
+            $db_empresa = $choferes['empresas_id'];
+            $db_vehiculo = $choferes['vehiculos_id'];
+            $db_cedula = $choferes['cedula'];
+            $db_nombre = $choferes['nombre'];
+            $db_telefono = $choferes['telefono'];
 
-        if (!$existe){
-            if ($db_empresa != $empresas) {
-                $cambios = true;
-                $model->update($id, 'empresas_id', $empresas);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+            $existe = $model->existe('cedula', '=', $cedula, $id, 1);
 
-            if ($db_vehiculo != $vehiculos) {
-                $cambios = true;
-                $model->update($id, 'vehiculos_id', $vehiculos);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+            if (!$existe) {
+                if ($db_empresa != $empresas_id) {
+                    $cambios = true;
+                    $model->update($id, 'empresas_id', $empresas_id);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_cedula != $cedula) {
-                $cambios = true;
-                $model->update($id, 'cedula', $cedula);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_vehiculo != $vehiculos_id) {
+                    $cambios = true;
+                    $model->update($id, 'vehiculos_id', $vehiculos_id);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_nombre != $nombre) {
-                $cambios = true;
-                $model->update($id, 'nombre', $nombre);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_cedula != $cedula) {
+                    $cambios = true;
+                    $model->update($id, 'cedula', $cedula);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($db_telefono != $telefono) {
-                $cambios = true;
-                $model->update($id, 'telefono', $telefono);
-                $model->update($id, 'updated_at', date("Y-m-d"));
-            }
+                if ($db_nombre != $nombre) {
+                    $cambios = true;
+                    $model->update($id, 'nombre', $nombre);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
 
-            if ($cambios){
+                if ($db_telefono != $telefono) {
+                    $cambios = true;
+                    $model->update($id, 'telefono', $telefono);
+                    $model->update($id, 'updated_at', date("Y-m-d"));
+                }
+
+                if ($cambios) {
+                    $response = crearResponse(
+                        null,
+                        true,
+                        'Editado Exitosamente.',
+                        'El jefe se ha guardado Exitosamente.'
+                    );
+                    $choferes = $model->find($id);
+                    $empresas = $modelEmpresas->first('id', '=', $choferes['empresas_id']);
+                    $vehiculos = $modelVehiculo->first('id', '=', $choferes['vehiculos_id']);
+
+                    $response['empresas_id'] = $empresas['rowquid'];
+                    $response['vehiculos_id'] = $vehiculos['rowquid'];
+                    $response['cedula'] = formatoMillares($choferes['cedula'], 0);
+                    $response['nombre'] = mb_strtoupper($choferes['nombre']);
+                    $response['telefono'] = $choferes['telefono'];
+                    $response['placa'] = mb_strtoupper($vehiculos['placa_batea']);
+                    $response['id'] = $choferes['rowquid'];
+
+
+                } else {
+                    $response = crearResponse(
+                        'sin_cambios',
+                        false,
+                        'Sin cambios',
+                        'no se realizó ningun cambio',
+                        'info',
+                        true
+                    );
+                }
+
+            } else {
                 $response = crearResponse(
-                    null,
-                    true,
-                    'Editado Exitosamente.',
-                    'El jefe se ha guardado Exitosamente.'
-                );
-                $choferes = $model->find($id);
-                $vehiculo = $modelVehiculo->find($choferes['vehiculos_id']);
-                $response['empresas_id'] = $choferes['empresas_id'];
-                $response['vehiculos_id'] = $choferes['vehiculos_id'];
-                $response['cedula'] = formatoMillares($choferes['cedula'], 0);
-                $response['nombre'] = mb_strtoupper($choferes['nombre']);
-                $response['telefono'] = $choferes['telefono'];
-                $response['placa'] = mb_strtoupper($vehiculo['placa_batea']);
-                $response['id'] = $choferes['id'];
-
-
-            }else{
-                $response = crearResponse(
-                    'sin_cambios',
+                    'datos_duplicados',
                     false,
-                    'Sin cambios',
-                    'no se realizó ningun cambio',
-                    'info',
-                    true
+                    'Datos Duplicados',
+                    'Datos Duplicados',
+                    'warning'
                 );
             }
-
-        }else{
-            $response = crearResponse(
-                'datos_duplicados',
-                false,
-                'Datos Duplicados',
-                'Datos Duplicados',
-                'warning'
-            );
+        } else {
+            $response = crearResponse('no_found');
         }
+
+
         return $response;
     }
 
-    function delete($id): array
+    function delete($rowquid): array
     {
         $model = new Chofer();
         $modelGuias = new Guia();
-
-        $chofer = $model->find($id);
         $vinculado = false;
 
-        $guias = $modelGuias->first('choferes_id', '=', $id);
-        if ($guias){
-            $vinculado = true;
-        }
+        $chofer = $this->getChoferes($rowquid);
 
-        if ($vinculado){
-            $response = crearResponse('vinculado');
-        }else{
-            if ($chofer){
+        if ($chofer){
+            $id = $chofer['id'];
+            $guias = $modelGuias->first('choferes_id', '=', $id);
+            if ($guias) {
+                $vinculado = true;
+            }
+
+            if ($vinculado) {
+                $response = crearResponse('vinculado');
+            } else {
+
                 $model->update($id, 'band', 0);
                 $model->update($id, 'updated_at', date("Y-m-d"));
                 $response = crearResponse(
@@ -250,16 +279,10 @@ class ChoferesController extends Admin
                 );
                 //datos extras para el $response
                 $response['total'] = $model->count(1);
-            }else{
-                $response = crearResponse(
-                    'no_chofer',
-                    false,
-                    'Chofer NO encontrado."',
-                    'El id del Chofer no esta disponible.',
-                    'warning',
-                    true
-                );
             }
+
+        }else{
+            $response = crearResponse('no_found');
         }
 
 
@@ -280,4 +303,14 @@ class ChoferesController extends Admin
 
     }
 
+    protected function getChoferes($rowquid)
+    {
+        $response = null;
+        $model = new Chofer();
+        $chofer = $model->first('rowquid', '=', $rowquid);
+        if ($chofer) {
+            $response = $chofer;
+        }
+        return $response;
+    }
 }

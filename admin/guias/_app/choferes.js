@@ -229,7 +229,7 @@ $('#form_choferes').submit(function (e) {
         } else {
             ajaxRequest({url: '_request/ChoferesRequest.php', data: $(this).serialize()}, function (data) {
                 if (data.result) {
-                    let btn = '<span class="btn btn-link btn-sm" onclick="showVehiculo(' + data.id + ', \'choferes\')">' +
+                    let btn = '<span class="btn btn-link btn-sm" onclick="showVehiculo(\'' + data.vehiculos_id + '\', \'choferes\')">' +
                         data.placa +
                         '</span>';
                     let table = $('#table_choferes').DataTable();

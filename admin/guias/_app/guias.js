@@ -13,7 +13,7 @@ function display(origen) {
 }
 
 function showVehiculo(id, origen) {
-    ajaxRequest( { url: '_request/GuiasRequest.php', data: { opcion: 'get_vehiculo', id: id } }, function (data) {
+    ajaxRequest( { url: '_request/GuiasRequest.php', data: { opcion: 'get_vehiculo', id: id, origen: origen } }, function (data) {
         if (data.result){
             $('.modal_vehiculo_placa_batea').text(data.placa_batea);
             $('.modal_vehiculo_marca').text(data.marca);

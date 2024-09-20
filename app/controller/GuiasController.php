@@ -57,15 +57,30 @@ class GuiasController extends Admin
         $this->getFormato();
     }
 
-    public function getVehiculo($rowquid): array
+    public function getVehiculo($rowquid, $origen): array
     {
+
         $model = new Vehiculo();
         $modelEmpresa = new Empresa();
-        $vehiculos = $model->first('rowquid', '=', $rowquid);
-        $id = $vehiculos['id'];
-        $empresas = $modelEmpresa->find($vehiculos['empresas_id']);
-        $choferes = new ChoferesController();
-        $tipo = $choferes->getTipo($vehiculos['tipo']);
+        $modelChofer = new Chofer();
+        $modelTipo = new VehiculoTipo();
+        $tabla = null;
+
+
+        if ($origen == "choferes"){
+            $tabla = $modelChofer->first('rowquid', '=', $rowquid);
+            $vehiculos = $model->find($tabla['vehiculos_id']);
+            $tipo = $modelTipo->find($vehiculos['tipo']);
+        }else{
+            $tabla = $model->first('rowquid', '=', $rowquid);
+            $vehiculos = $tabla;
+            $tipo = $modelTipo->find($vehiculos['tipo']);
+        }
+
+        $empresas_id = $tabla['empresas_id'];
+
+        $empresas = $modelEmpresa->find($empresas_id);
+        
 
         $response = crearResponse(
             false,
@@ -76,6 +91,7 @@ class GuiasController extends Admin
             false,
             true
         );
+
         $response['placa_batea'] = $vehiculos['placa_batea'];
         $response['marca'] = $vehiculos['marca'];
         $response['tipo'] = $tipo['nombre'];
@@ -380,11 +396,11 @@ class GuiasController extends Admin
         $this->ID_FORMATO_GUIA = $formato[1];
 
     }
-    
+
     public function search($keyword): void
     {
 
-        $sql_fecha =  ''; //"fecha LIKE '%$keyword%'";
+        $sql_fecha = ''; //"fecha LIKE '%$keyword%'";
         $sql_codigo = ''; //"codigo LIKE '%$keyword%'";
         $sql_destino = ''; //"rutas_destino LIKE '%$keyword%'";
         $sql_chofer = ''; //"choferes_nombre LIKE '%$keyword%'";
@@ -397,34 +413,34 @@ class GuiasController extends Admin
         $and = '';
 
         //validamos si es una fecha
-        if (strtotime($keyword)){
+        if (strtotime($keyword)) {
             $fecha = verFecha($keyword, "Y-m-d");
             $sql_fecha = " fecha LIKE '%$fecha%' ";
-        }else{
+        } else {
 
             $explode = explode('-', $keyword, 2);
-            if (count($explode) > 1){
+            if (count($explode) > 1) {
                 //$this->prueba = count($explode);
                 $mes = null;
                 $year = null;
-                if (validateSizeNumber($explode[1], 4)){
+                if (validateSizeNumber($explode[1], 4)) {
                     $year = $explode[1];
                 }
 
-                if (mesEspanol($explode[0])){
+                if (mesEspanol($explode[0])) {
                     $mes = cerosIzquierda(mesEspanol($explode[0]), 2);
                 }
 
-                if ($mes && $year){
+                if ($mes && $year) {
                     $sql_fecha = " fecha LIKE '%$year-$mes%' ";
-                }else{
+                } else {
                     $sql_codigo = " codigo LIKE '%$keyword%' ";
                     $sql_destino = " rutas_destino LIKE '%$keyword%' ";
                     $sql_chofer = " choferes_nombre LIKE '%$keyword%' ";
                     $sql_placa = " vehiculos_placa_batea LIKE '%$keyword%' ";
                 }
 
-            }else{
+            } else {
                 $sql_codigo = " codigo LIKE '%$keyword%' ";
                 $sql_destino = " rutas_destino LIKE '%$keyword%' ";
                 $sql_chofer = " choferes_nombre LIKE '%$keyword%' ";
@@ -433,23 +449,23 @@ class GuiasController extends Admin
         }
 
 
-        if (!empty($sql_fecha) && !empty($sql_codigo)){
+        if (!empty($sql_fecha) && !empty($sql_codigo)) {
             $or_1 = 'OR';
         }
 
-        if (!empty($sql_codigo) && !empty($sql_destino)){
+        if (!empty($sql_codigo) && !empty($sql_destino)) {
             $or_2 = 'OR';
         }
 
-        if (!empty($sql_destino) && !empty($sql_chofer)){
+        if (!empty($sql_destino) && !empty($sql_chofer)) {
             $or_3 = 'OR';
         }
 
-        if (!empty($sql_chofer) && !empty($sql_placa)){
+        if (!empty($sql_chofer) && !empty($sql_placa)) {
             $or_4 = 'OR';
         }
 
-        if (!empty($sql_fecha) || !empty($sql_codigo) || !empty($sql_destino) || !empty($sql_chofer) || !empty($sql_placa)){
+        if (!empty($sql_fecha) || !empty($sql_codigo) || !empty($sql_destino) || !empty($sql_chofer) || !empty($sql_placa)) {
             $and = 'AND';
         }
 
@@ -524,10 +540,10 @@ class GuiasController extends Admin
         foreach ($parroquias as $lugar) {
             $id = $lugar['id'];
             $nombre = $lugar['nombre'];
-            $response['listarTerritorios'][] = array("id" => $id,"nombre" => $nombre);
+            $response['listarTerritorios'][] = array("id" => $id, "nombre" => $nombre);
         }
 
-        foreach ($guiasTipo as $tipo){
+        foreach ($guiasTipo as $tipo) {
             $id = $tipo['id'];
             $nombre = $tipo['nombre'];
             $codigo = $tipo['codigo'];
@@ -542,7 +558,7 @@ class GuiasController extends Admin
             $response['listarVehiculos'][] = array("id" => $id, "placa" => $placa, "tipo" => $nombre);
         }
 
-        foreach ($choferes as $chofer){
+        foreach ($choferes as $chofer) {
             $id = $chofer['id'];
             $cedula = $chofer['cedula'];
             $nombre = $chofer['nombre'];
@@ -587,7 +603,7 @@ class GuiasController extends Admin
 
         $ruta = $this->existeRuta($territorios_origen, $territorios_destino);
 
-        if ($ruta){
+        if ($ruta) {
             $rutas_id = $ruta['id'];
             $rutas_ruta = $ruta['ruta'];
 
@@ -599,7 +615,7 @@ class GuiasController extends Admin
 
             $pdf_id = $this->ID_FORMATO_GUIA;
 
-            if ($pdf_id){
+            if ($pdf_id) {
                 $data = [
                     $codigo,
                     $guias_tipos_id,
@@ -638,7 +654,7 @@ class GuiasController extends Admin
                 $existe = $model->sqlPersonalizado($sql);
 
 
-                if (!$existe){
+                if (!$existe) {
                     $model->save($data);
                     $response = crearResponse(
                         false,
@@ -653,9 +669,9 @@ class GuiasController extends Admin
                     $guias_num_init = $this->GUIAS_NUM_INIT + 1;
                     $existe_parametro = $modelParametro->existe('nombre', '=', 'guias_num_init');
 
-                    if ($existe_parametro){
+                    if ($existe_parametro) {
                         $editar = $modelParametro->update($existe_parametro['id'], 'valor', $guias_num_init);
-                    }else{
+                    } else {
                         $dataParametro = [
                             'guias_num_init',
                             0,
@@ -665,14 +681,14 @@ class GuiasController extends Admin
                     }
 
                     $array = array();
-                    for ($i = 1; $i <= $contador; $i++){
-                        if (isset($_POST['cantidad_'. $i])){
-                            $array[$i]['cantidad'] = $_POST['cantidad_'. $i];
-                            $array[$i]['descripcion'] = $_POST['descripcion_'. $i];
+                    for ($i = 1; $i <= $contador; $i++) {
+                        if (isset($_POST['cantidad_' . $i])) {
+                            $array[$i]['cantidad'] = $_POST['cantidad_' . $i];
+                            $array[$i]['descripcion'] = $_POST['descripcion_' . $i];
                         }
                     }
 
-                    foreach ($array as $carga){
+                    foreach ($array as $carga) {
                         $cantidad = $carga['cantidad'];
                         $descripcion = $carga['descripcion'];
 
@@ -686,7 +702,7 @@ class GuiasController extends Admin
                     }
 
 
-                }else {
+                } else {
                     $response = crearResponse(
                         'existe_guia',
                         false,
@@ -696,7 +712,7 @@ class GuiasController extends Admin
                     );
                 }
 
-            }else{
+            } else {
                 $response = crearResponse(
                     'no_formato',
                     false,
@@ -707,7 +723,7 @@ class GuiasController extends Admin
                     true
                 );
             }
-        }else{
+        } else {
             $response = crearResponse(
                 'no_ruta',
                 false,
@@ -746,14 +762,14 @@ class GuiasController extends Admin
         $response['fecha'] = $anular ? $this->showValue(getFecha($guia['fecha']), $guia['estatus']) : getFecha($guia['fecha']);
         $response['tipo'] = $tipoGuia['nombre'];
         $response['origen'] = $guia['rutas_origen'];
-        if (!empty($cargamento)){
-            foreach ($cargamento as $carga){
+        if (!empty($cargamento)) {
+            foreach ($cargamento as $carga) {
                 $id = $carga['id'];
                 $cantidad = is_numeric($carga['cantidad']) ? formatoMillares($carga['cantidad']) : $carga['cantidad'];
                 $descripcion = $carga['descripcion'];
                 $response['listarCarga'][] = array("id" => $id, "cantidad" => mb_strtoupper($cantidad), "descripcion" => mb_strtoupper($descripcion));
             }
-        }else{
+        } else {
             $response['listarCarga'] = 'cargamento_vacio';
         }
 
@@ -762,7 +778,7 @@ class GuiasController extends Admin
         $response['vehiculo_placa_chuto'] = $guia['vehiculos_placa_chuto'];
         $response['vehiculo_marca'] = $guia['vehiculos_marca'];
         $response['vehiculo_color'] = $guia['vehiculos_color'];
-        $response['vehiculo_capacidad'] =  is_numeric($guia['vehiculos_capacidad']) ? formatoMillares($guia['vehiculos_capacidad']) : $guia['vehiculos_capacidad'];
+        $response['vehiculo_capacidad'] = is_numeric($guia['vehiculos_capacidad']) ? formatoMillares($guia['vehiculos_capacidad']) : $guia['vehiculos_capacidad'];
         $response['chofer'] = $anular ? $this->showValue($guia['choferes_nombre'], $guia['estatus']) : $guia['choferes_nombre'];
         $response['chofer_cedula'] = formatoMillares($guia['choferes_cedula']);
         $response['chofer_telefono'] = $anular ? $this->showValue($guia['choferes_telefono'], $guia['estatus']) : $guia['choferes_telefono'];
@@ -796,56 +812,56 @@ class GuiasController extends Admin
         $codigo = $getTipo['codigo'];
         $year = date("Y");
 
-        if (empty($id)){
+        if (empty($id)) {
             //create
 
             $getParametro = $modelParametro->first('nombre', '=', 'guias_num_init');
 
-            if ($getParametro){
+            if ($getParametro) {
 
                 $numero = $getParametro['valor'];
 
-            }else{
+            } else {
                 $numero = 1;
             }
 
             $repetido = false;
             $sql = 'SELECT * FROM guias ORDER BY id DESC;';
             $getGuia = $modelGuia->sqlPersonalizado($sql);
-            if ($getGuia){
+            if ($getGuia) {
                 $explode = explode('-', $getGuia['codigo']);
                 $ultimoNumero = intval($explode[1]);
-            }else{
+            } else {
                 $ultimoNumero = 0;
             }
 
 
-            do{
-                $codigoGuia = $codigo.'-'.cerosIzquierda($numero, numSizeCodigo()).'-'.$year;
+            do {
+                $codigoGuia = $codigo . '-' . cerosIzquierda($numero, numSizeCodigo()) . '-' . $year;
                 $sql = "SELECT * FROM guias WHERE codigo LIKE '%$numero%' AND band = 1 AND estatus = 1;";
                 $existe = $modelGuia->sqlPersonalizado($sql);
 
-                if ($existe){
+                if ($existe) {
                     $repetido = true;
-                    if ($numero <= $ultimoNumero){
+                    if ($numero <= $ultimoNumero) {
                         $numero = $ultimoNumero + 1;
-                    }else{
+                    } else {
                         $numero = $numero + 1;
                     }
 
-                }else{
+                } else {
                     $repetido = false;
                 }
-            }while($repetido);
+            } while ($repetido);
 
             $response['codigo'] = mb_strtoupper($codigoGuia);
 
-        }else{
+        } else {
             //edit
             $guia = $modelGuia->find($id);
             $getCodigo = $guia['codigo'];
             $explode = explode('-', $getCodigo);
-            $codigoGuia = $codigo.'-'.$explode[1].'-'.$explode[2];
+            $codigoGuia = $codigo . '-' . $explode[1] . '-' . $explode[2];
             $response['codigo'] = mb_strtoupper($codigoGuia);
         }
         return $response;
@@ -869,7 +885,7 @@ class GuiasController extends Admin
         $response['precinto'] = $guia['precinto'];
         $response['precinto_2'] = $guia['precinto_2'];
         $response['precinto_3'] = $guia['precinto_3'];
-        foreach ($cargamento as $carga){
+        foreach ($cargamento as $carga) {
             $id = $carga['id'];
             $cantidad = $carga['cantidad'];
             $descripcion = $carga['descripcion'];
@@ -913,7 +929,7 @@ class GuiasController extends Admin
 
         $ruta = $this->existeRuta($territorios_origen, $territorios_destino);
 
-        if ($ruta){
+        if ($ruta) {
             $rutas_id = $ruta['id'];
             $rutas_ruta = $ruta['ruta'];
 
@@ -924,7 +940,7 @@ class GuiasController extends Admin
 
             $pdf_id = $this->ID_FORMATO_GUIA;
 
-            if ($pdf_id){
+            if ($pdf_id) {
                 $db_tipo = $guia['guias_tipos_id'];
                 $db_codigo = $guia['codigo'];
                 $db_vehiculo = $guia['vehiculos_id'];
@@ -937,18 +953,18 @@ class GuiasController extends Admin
                 $db_precinto_2 = $guia['precinto_2'];
                 $db_precinto_3 = $guia['precinto_3'];
 
-                if ($db_tipo != $guias_tipos_id){
+                if ($db_tipo != $guias_tipos_id) {
                     $cambios = true;
                     $model->update($id, 'guias_tipos_id', $guias_tipos_id);
                     $model->update($id, 'tipos_nombre', $tipoNombre);
                 }
 
-                if ($db_codigo != $codigo){
+                if ($db_codigo != $codigo) {
                     $cambios = true;
                     $model->update($id, 'codigo', $codigo);
                 }
 
-                if ($db_vehiculo != $vehiculos_id){
+                if ($db_vehiculo != $vehiculos_id) {
                     $cambios = true;
                     $model->update($id, 'vehiculos_id', $vehiculos_id);
                     $model->update($id, 'vehiculos_tipo', $vehiculo_tipo_nombre);
@@ -959,7 +975,7 @@ class GuiasController extends Admin
                     $model->update($id, 'vehiculos_capacidad', $vehiculo_capacidad);
                 }
 
-                if ($db_chofer != $choferes_id){
+                if ($db_chofer != $choferes_id) {
                     $cambios = true;
                     $model->update($id, 'choferes_id', $choferes_id);
                     $model->update($id, 'choferes_cedula', $chofer_cedula);
@@ -967,47 +983,47 @@ class GuiasController extends Admin
                     $model->update($id, 'choferes_telefono', $chofer_telefono);
                 }
 
-                if ($db_origen != $territorios_origen){
+                if ($db_origen != $territorios_origen) {
                     $cambios = true;
                     $cambiosOrigen = true;
                     $model->update($id, 'territorios_origen', $territorios_origen);
                     $model->update($id, 'rutas_origen', $rutas_origen);
                 }
 
-                if ($db_destino != $territorios_destino){
+                if ($db_destino != $territorios_destino) {
                     $cambios = true;
                     $cambiosDestino = true;
                     $model->update($id, 'territorios_destino', $territorios_destino);
                     $model->update($id, 'rutas_destino', $rutas_destino);
                 }
 
-                if ($db_ruta != $rutas_id){
+                if ($db_ruta != $rutas_id) {
                     $cambios = true;
                     $model->update($id, 'rutas_id', $rutas_id);
                     $model->update($id, 'rutas_ruta', $rutas_ruta);
                 }
 
-                if ($cambiosOrigen && $cambiosDestino){
+                if ($cambiosOrigen && $cambiosDestino) {
                     $cambios = true;
                     $model->update($id, 'rutas_ruta', $rutas_ruta);
                 }
 
-                if ($db_fecha != $fecha){
+                if ($db_fecha != $fecha) {
                     $cambios = true;
                     $model->update($id, 'fecha', $fecha);
                 }
 
-                if ($db_precinto != $precinto){
+                if ($db_precinto != $precinto) {
                     $cambios = true;
                     $model->update($id, 'precinto', $precinto);
                 }
 
-                if ($db_precinto_2 != $precinto_2){
+                if ($db_precinto_2 != $precinto_2) {
                     $cambios = true;
                     $model->update($id, 'precinto_2', $precinto_2);
                 }
 
-                if ($db_precinto_3 != $precinto_3){
+                if ($db_precinto_3 != $precinto_3) {
                     $cambios = true;
                     $model->update($id, 'precinto_3', $precinto_3);
                 }
@@ -1035,18 +1051,18 @@ class GuiasController extends Admin
                 }
 
 
-                if ($cambios){
+                if ($cambios) {
                     $model->update($id, 'users_id', $users_id);
                     //me treigo los datos de la guia
                     $guia = $this->showGuia($id);
                     // modifico el title
                     $response['title'] = 'Editado Exitosamente';
                     $response = array_merge($response, $guia);
-                }else{
+                } else {
                     $response = crearResponse('no_cambios');
                 }
 
-            }else{
+            } else {
                 $response = crearResponse(
                     'no_formato',
                     false,
@@ -1057,7 +1073,7 @@ class GuiasController extends Admin
                     true
                 );
             }
-        }else{
+        } else {
             $response = crearResponse(
                 'no_ruta',
                 false,
@@ -1074,11 +1090,11 @@ class GuiasController extends Admin
     public function destroy($id, $opt): array
     {
         $model = new Guia();
-        if ($opt == 'anular'){
+        if ($opt == 'anular') {
             $model->update($id, 'estatus', 0);
             $model->update($id, 'updated_at', date("Y-m-d"));
             $title = 'Guia Anulada';
-        }else{
+        } else {
             $model->update($id, 'band', 0);
             $model->update($id, 'deleted_at', date("Y-m-d"));
             $title = 'Guia Eliminada';
@@ -1092,16 +1108,17 @@ class GuiasController extends Admin
         return array_merge($guia, $response);
     }
 
-    public function existeRuta($origen, $destino){
+    public function existeRuta($origen, $destino)
+    {
         $model = new Ruta();
         $sql = "SELECT * FROM rutas WHERE `origen` = '$origen' AND `destino` = '$destino' AND `band` = '1' AND `version` = '1';";
         $ruta = $model->sqlPersonalizado($sql);
-        if ($ruta){
+        if ($ruta) {
             return $ruta;
-        }else{
+        } else {
             $sql = "SELECT * FROM rutas WHERE `origen` = '$destino' AND `destino` = '$origen' AND `band` = '1' AND `version` = '1';";
             $ruta = $model->sqlPersonalizado($sql);
-            if ($ruta){
+            if ($ruta) {
                 $ruta['ruta'] = array_reverse(json_decode($ruta['ruta']));
                 $ruta['ruta'] = json_encode($ruta['ruta']);
                 return $ruta;
@@ -1114,11 +1131,11 @@ class GuiasController extends Admin
     {
         $html = null;
 
-        if ($estatus){
+        if ($estatus) {
             $html = $valor;
-        }else{
-            $html = '<span class="font-italic text-gray">'.$valor.'</span>';
-            if ($codigo){
+        } else {
+            $html = '<span class="font-italic text-gray">' . $valor . '</span>';
+            if ($codigo) {
                 $html .= '&ensp;<i class="fas fa-backspace text-danger"></i>';
             }
         }

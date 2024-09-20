@@ -44,7 +44,8 @@ if ($_POST) {
                 case 'get_vehiculo':
                     if (!empty($_POST['id'])){
                         $id = $_POST['id'];
-                        $response = $controller->getVehiculo($id);
+                        $origen = $_POST['origen'];
+                        $response = $controller->getVehiculo($id, $origen);
                     }else{
                         $response = crearResponse('faltan_datos');
                     }

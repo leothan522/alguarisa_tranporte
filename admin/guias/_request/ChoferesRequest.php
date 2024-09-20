@@ -156,7 +156,7 @@ if ($_POST) {
                         true);
 
                     foreach ($controller->getVehiculos() as $vehiculo) {
-                        $id = $vehiculo['id'];
+                        $id = $vehiculo['rowquid'];
                         $tipo = $controller->getTipo($vehiculo['tipo']);
                         $nombre = mb_strtoupper($vehiculo['placa_batea']." - ".$tipo['nombre']);
                         $response['listarVehiculos'][] = array("id" => $id, "nombre" => $nombre);

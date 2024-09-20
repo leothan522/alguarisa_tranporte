@@ -75,12 +75,11 @@
 
                 if (isset($listarChoferes) && $listarChoferes)
                     foreach ($listarChoferes as $chofer) {
-                        $vehiculo = $controller->vehiculos($chofer['vehiculos_id']);
                         $i++;
                         $x++;
 
                         ?>
-                        <tr id="tr_item_choferes_<?php echo $chofer['id']; ?>">
+                        <tr id="tr_item_choferes_<?php echo $chofer['rowquid']; ?>">
                             <td class="text-center"><?php echo $i; ?></td>
                             <td class="choferes_cedula text-right pr-2"><?php echo formatoMillares($chofer['cedula']); ?></td>
                             <td class="choferes_nombre text-left pl-2 text-uppercase"><?php echo mb_strtoupper($chofer['nombre']); ?></td>
@@ -88,8 +87,8 @@
                             <td class="choferes_placa text-uppercase">
                                 <?php if (validarPermisos('vehiculos.index')) { ?>
                                     <span class="btn btn-link btn-sm"
-                                          onclick="showVehiculo(<?php echo $vehiculo['id']; ?>, 'choferes')">
-                                    <?php echo $vehiculo['placa_batea']; ?>
+                                          onclick="showVehiculo('<?php echo $chofer['rowquid']; ?>', 'choferes')">
+                                    <?php echo $controller->getVehiculo($chofer['rowquid']); ?>
                                 </span>
                                 <?php } else { ?>
                                     <span class="btn btn-link btn-sm" style="cursor: text;">
@@ -100,14 +99,14 @@
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <button type="button" class="btn btn-info"
-                                            onclick="editChofer(<?php echo $chofer['id']; ?>)" <?php if (!validarPermisos('choferes.edit')) {
+                                            onclick="editChofer('<?php echo $chofer['rowquid']; ?>')" <?php if (!validarPermisos('choferes.edit')) {
                                         echo 'disabled';
                                     } ?>>
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button type="button" class="btn btn-info"
-                                            onclick="destroyChofer(<?php echo $chofer['id']; ?>)"
-                                            id="btn_eliminar_chofer_<?php echo $chofer['id']; ?>"
+                                            onclick="destroyChofer('<?php echo $chofer['rowquid']; ?>')"
+                                            id="btn_eliminar_chofer_<?php echo $chofer['rowquid']; ?>"
                                         <?php if (!validarPermisos('choferes.destroy')) {
                                             echo 'disabled';
                                         } ?>>
