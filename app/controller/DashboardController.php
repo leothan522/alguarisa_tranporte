@@ -71,7 +71,7 @@ class DashboardController extends Admin
                     $codigo = $guia['codigo'];
                     $destino = $guia['rutas_destino'];
                     $chofer = $guia['choferes_nombre'];
-                    $id = $guia['id'];
+                    $id = $guia['rowquid'];
                     $estatus = $guia['estatus'];
                     $response['listarGuias'][] = array("id" => $id, "fecha" => $fecha, "codigo" => $codigo, "destino" => $destino, "chofer" => $chofer, "estatus" => $estatus);
                 }

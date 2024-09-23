@@ -40,7 +40,7 @@
 
                         <?php
                         if ($guia['estatus'] > 0){ ?>
-                            <button type="button" class="btn btn-info btn-sm" onclick="generarPDF(<?php echo $guia['id']; ?>)" id="btn_guias_generar_pdf">
+                            <button type="button" class="btn btn-info btn-sm" onclick="generarPDF('<?php echo $guia['rowquid']; ?>')" id="btn_guias_generar_pdf">
                                 <i class="fas fa-file-pdf"></i>
                             </button>
                         <?php }else{ ?>
@@ -50,8 +50,8 @@
                         <?php } ?>
 
                         <form class="d-none" target="_blank" method="post" action="<?php echo $controller->FORMATO_GUIA_PDF; ?>">
-                            <input type="text" name="guias_id" value="<?php echo $guia['id']; ?>">
-                            <input type="submit" value="enviar" id="btn_form_table_ver_pdf_formato_<?php echo $guia['id']; ?>">
+                            <input type="text" name="guias_id" value="<?php echo $guia['rowquid']; ?>">
+                            <input type="submit" value="enviar" id="btn_form_table_ver_pdf_formato_<?php echo $guia['rowquid']; ?>">
                         </form>
                     </div>
                 </td>

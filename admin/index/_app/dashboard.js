@@ -25,7 +25,7 @@ function actualizar() {
                     let label = '';
 
                     if (estatus === 1){
-                        btn += '<button type="button" class="btn btn-info btn-sm" onclick="generarPDF('+id+')" id="btn_guias_generar_pdf">\n' +
+                        btn += '<button type="button" class="btn btn-info btn-sm" onclick="generarPDF(\''+id+'\')" id="btn_guias_generar_pdf">\n' +
                             '                                <i class="fas fa-file-pdf"></i>\n' +
                             '                            </button>';
 
