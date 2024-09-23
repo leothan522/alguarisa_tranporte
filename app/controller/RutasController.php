@@ -161,14 +161,13 @@ class RutasController extends Admin
         $model = new Ruta();
         $modelParroquia = new  Parroquia();
         $ruta = $this->getRutas($rowquid);
-        $origen = $ruta['origen'];
-        $destino = $ruta['destino'];
+        $origen = $modelParroquia->first('rowquid', '=', $origen);
+        $destino = $modelParroquia->first('rowquid', '=', $destino);
 
         if ($ruta){
             $id = $ruta['id'];
-            $origen_id = $modelParroquia->first('id', '=', $ruta['origen']);
-            $destino_id = $modelParroquia->first('id', '=', $ruta['destino']);
-
+            $origen_id = $origen['id'];
+            $destino_id = $destino['id'];
             $db_origen = $ruta['origen'];
             $db_destino = $ruta['destino'];
             $db_trayecto = $ruta['ruta'];
@@ -189,7 +188,7 @@ class RutasController extends Admin
             $tm_viejo = count($viejo);
 
 
-            if ($db_origen != $origen){
+            if ($db_origen != $origen_id){
                 $procesar = true;
             }
 
@@ -205,14 +204,14 @@ class RutasController extends Admin
 
             }
 
-            if ($db_destino != $destino){
+            if ($db_destino != $destino_id){
                 $procesar = true;
             }
 
-            $sql = "SELECT * FROM rutas WHERE `origen` = '$origen' AND `destino` = '$destino' AND `version` = '1' AND `band` = '1' AND id != '$id';";
+            $sql = "SELECT * FROM rutas WHERE `origen` = '$origen_id' AND `destino` = '$destino_id' AND `version` = '1' AND `band` = '1' AND id != '$id';";
             $existe = $model->sqlPersonalizado($sql);
 
-            $sql = "SELECT * FROM rutas WHERE `origen` = '$destino' AND `destino` = '$origen' AND `version` = '1' AND `band` = '1' AND id != '$id';";
+            $sql = "SELECT * FROM rutas WHERE `origen` = '$destino_id' AND `destino` = '$origen_id' AND `version` = '1' AND `band` = '1' AND id != '$id';";
             $inverso = $model->sqlPersonalizado($sql);
 
             if ($existe || $inverso){
@@ -220,8 +219,8 @@ class RutasController extends Admin
             }
 
             if ($procesar){
-                $model->update($id, 'origen', $origen);
-                $model->update($id, 'destino', $destino);
+                $model->update($id, 'origen', $origen_id);
+                $model->update($id, 'destino', $destino_id);
                 $model->update($id, 'ruta', $trayecto);
                 $response = crearResponse(
                     null,
@@ -232,8 +231,8 @@ class RutasController extends Admin
                 $ruta = $model->find($id);
                 $response['id'] = $ruta['rowquid'];
                 $response['origen'] = $this->getParroquia($ruta['origen']);
-                $response['id_origen'] = $origen_id['rowquid'];
-                $response['id_destino'] = $destino_id['rowquid'];
+                $response['id_origen'] = $origen['rowquid'];
+                $response['id_destino'] = $destino['rowquid'];
                 $response['destino'] = $this->getParroquia($ruta['destino']);
                 $trayecto = json_decode($ruta['ruta']);
                 foreach ($trayecto as $lugar) {

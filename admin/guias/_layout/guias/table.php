@@ -69,7 +69,7 @@ $x = 0;
                        $x++;
                        $estatus = $guia['estatus'];
                ?>
-                       <tr id="tr_item_guias_<?php echo $guia['id'] ?>">
+                       <tr id="tr_item_guias_<?php echo $guia['rowquid'] ?>">
                            <td class="text-center"><?php echo $controller->showValue(++$i, $estatus); ?></td>
                            <td class="guias_fecha text-center"><?php echo $controller->showValue(verFecha($guia['fecha']), $estatus); ?></td>
                            <td class="guias_codigo text-center text-uppercase"><?php echo  $controller->showValue($guia['codigo'], $estatus, true)?></td>
@@ -81,12 +81,12 @@ $x = 0;
                            <td class="guias_btns">
                                <div class="btn-group btn-group-sm">
                                    <button type="button" class="btn btn-info" data-toggle="modal"
-                                           data-target="#modal_create_guia" onclick="showGuia(<?php echo $guia['id']; ?>)">
+                                           data-target="#modal_create_guia" onclick="showGuia('<?php echo $guia['rowquid']; ?>')">
                                        <i class="fas fa-eye"></i>
                                    </button>
                                    <?php
                                         if ($guia['estatus'] > 0){ ?>
-                                            <button type="button" class="btn btn-info" onclick="generarPDF(<?php echo $guia['id']; ?>)" id="btn_guias_generar_pdf" <?php if (!validarPermisos('guias.descargar')){ echo 'disabled'; } ?>>
+                                            <button type="button" class="btn btn-info" onclick="generarPDF('<?php echo $guia['rowquid']; ?>')" id="btn_guias_generar_pdf" <?php if (!validarPermisos('guias.descargar')){ echo 'disabled'; } ?>>
                                                 <i class="fas fa-print"></i>
                                             </button>
                                    <?php }else{ ?>
@@ -95,13 +95,13 @@ $x = 0;
                                             </button>
                                    <?php } ?>
                                    <button type="button" class="btn btn-info d-none"
-                                           onclick="destroy(<?php echo $guia['id'] ?>, 'delete')"
-                                           id="btn_eliminar_guia_<?php echo $guia['id']; ?>">
+                                           onclick="destroy('<?php echo $guia['rowquid'] ?>', 'delete')"
+                                           id="btn_eliminar_guia_<?php echo $guia['rowquid']; ?>">
                                        <i class="far fa-trash-alt"></i>
                                    </button>
                                    <form class="d-none" target="_blank" method="post" action="<?php echo $controller->FORMATO_GUIA_PDF; ?>">
-                                       <input type="text" name="guias_id" value="<?php echo $guia['id']; ?>">
-                                       <input type="submit" value="enviar" id="btn_form_table_ver_pdf_formato_<?php echo $guia['id']; ?>">
+                                       <input type="text" name="guias_id" value="<?php echo $guia['rowquid']; ?>">
+                                       <input type="submit" value="enviar" id="btn_form_table_ver_pdf_formato_<?php echo $guia['rowquid']; ?>">
                                    </form>
                                </div>
                            </td>

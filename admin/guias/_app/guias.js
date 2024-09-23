@@ -407,9 +407,9 @@ function showGuia(id) {
                 $('#modal_guia_btn_descargar').removeClass('d-none');
                 $('#modal_guia_btn_anular').removeClass('d-none');
 
-                $('#modal_guia_btn_editar').attr('onclick', 'editGuia('+id+')');
-                $('#modal_guia_btn_descargar').attr('onclick', 'generarPDF('+id+')');
-                $('#modal_guia_btn_anular').attr('onclick', 'destroy('+id+')');
+                $('#modal_guia_btn_editar').attr('onclick', 'editGuia(\''+id+'\')');
+                $('#modal_guia_btn_descargar').attr('onclick', 'generarPDF(\''+id+'\')');
+                $('#modal_guia_btn_anular').attr('onclick', 'destroy(\''+id+'\')');
             }else {
                 let anulada = '&nbsp;<i class="fas fa-ban text-danger mt-2"></i></i>&nbsp; <span class="text-danger text-bold">Guía Anulada</span>';
                 $('#texto_guia_anulada').removeClass('d-none');
@@ -447,7 +447,7 @@ function editGuia(id) {
     $('#btn_cerrar_modal_guia')
         .removeAttr("data-dismiss")
         .attr("type", "button")
-        .attr("onclick", "showGuia("+id+")")
+        .attr("onclick", "showGuia(\'"+id+"\')")
         .text('Cancelar');
 
     $('#form_guias_tipo').attr('oninput', 'tipoGuia(this.value, "\'update\'", "'+id+'")');
@@ -669,7 +669,7 @@ function destroy(id, opt = 'anular') {
                         if (data.role >= 99){
                             $('#modal_guia_btn_eliminar')
                                 .removeClass('d-none')
-                                .attr('onclick', 'destroy('+id+', \'delete\')');
+                                .attr('onclick', 'destroy(\''+id+'\', \'delete\')');
 
                         }else {
                             $('#modal_guia_btn_eliminar').addClass('d-none');
