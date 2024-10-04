@@ -37,7 +37,7 @@
             </a>
 
             <?php if (validarPermisos('choferes.descargar')) { ?>
-                <a href="https://alguarisa.com/guias/admin/transporte/choferes/choferes_pdf.php" target="_blank"
+                <a href="<?php asset('admin/guias/_storage/formatos/choferes/'); ?>" target="_blank"
                    class="btn btn-tool">
                     <i class="fas fa-qrcode"></i> Choferes QR
                 </a>

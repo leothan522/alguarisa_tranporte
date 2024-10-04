@@ -99,14 +99,30 @@ class ChoferesController extends Admin
 
     }
 
-    public function getVehiculo($rowquid)
+    public function getVehiculo($rowquid, $tipo = null)
     {
         $model = new Chofer();
+        $response = null;
         $modelVehiculo = new Vehiculo();
         $choferes = $model->first('rowquid', '=', $rowquid);
         $vehiculos = $modelVehiculo->first('id', '=', $choferes['vehiculos_id']);
-        $placa = $vehiculos['placa_batea'];
-        return $placa;
+
+        switch ($tipo){
+            case 'marca':
+                $response = $vehiculos['marca'];
+                break;
+            case 'color':
+                $response = $vehiculos['color'];
+                break;
+            case 'capacidad':
+                $response = $vehiculos['capacidad'];
+                break;
+            default:
+                $response = $vehiculos['placa_batea'];
+                break;
+        }
+
+        return $response;
     }
 
     public function getTipo($id)
@@ -289,6 +305,13 @@ class ChoferesController extends Admin
         return $response;
     }
 
+    public function getAllChoferes(): array
+    {
+        $model = new Chofer();
+        $choferes = $model->getAll(1);
+        return $choferes;
+    }
+
     public function search($keyword): void
     {
         $model = new Chofer();
@@ -301,6 +324,16 @@ class ChoferesController extends Admin
 
         //$this->links = 'Resultados Encontrados: <span class="text-bold text-danger">'. $this->totalRows.'</span>';
 
+    }
+
+    public function getTipoPrint($rowquid)
+    {
+        $modelVehiculo = new Vehiculo();
+        $modelTipo = new VehiculoTipo();
+        $chofer = $this->getChoferes($rowquid);
+        $vehiculo = $modelVehiculo->first('id', '=', $chofer['vehiculos_id']);
+        $tipo = $modelTipo->first('id', '=', $vehiculo['tipo']);
+        return $tipo['nombre'];
     }
 
     protected function getChoferes($rowquid)
