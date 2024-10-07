@@ -283,7 +283,7 @@ function reconstruirBuscarChoferes(keyword) {
 }
 
 function estatusChofer(id) {
-    ajaxRequest({ url: "_request/choferesRequest.php", data: { opcion: "set_estatus", id: id}}, function (data) {
+    ajaxRequest({ url: "_request/ChoferesRequest.php", data: { opcion: "set_estatus", id: id}}, function (data) {
         if (data.result){
             let icon;
             if (data.estatus === 'inactivo'){
@@ -339,4 +339,4 @@ function estatusChofer(id) {
 
 
 
-console.log('choferes..');
+console.log('choferes.js');
