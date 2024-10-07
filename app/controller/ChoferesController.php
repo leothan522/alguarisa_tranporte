@@ -308,7 +308,7 @@ class ChoferesController extends Admin
     public function getAllChoferes(): array
     {
         $model = new Chofer();
-        $choferes = $model->getAll(1);
+        $choferes = $model->getAll(1, 'nombre');
         return $choferes;
     }
 
