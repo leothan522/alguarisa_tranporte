@@ -106,6 +106,10 @@ function permisos(): array
                 [
                     'permiso' => 'choferes.descargar',
                     'text' => 'Descargar QR'
+                ],
+                [
+                    'permiso' => 'choferes.estatus',
+                    'text' => 'Choferes Estatus'
                 ]
             ]
         ],

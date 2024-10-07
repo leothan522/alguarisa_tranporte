@@ -37,7 +37,7 @@ class ChoferesController extends Admin
             $this->limit = $limit;
         }
         if (is_null($totalRows)) {
-            $this->totalRows = $model->count(1);
+            $this->totalRows = $model->count(null, 'band', '>', 0);
         } else {
             $this->totalRows = $totalRows;
         }
@@ -53,7 +53,9 @@ class ChoferesController extends Admin
             $contentDiv
         )->createLinks();
 
-        $this->rows = $model->paginate($this->limit, $offset, 'id', 'DESC', 1);
+        $band = "band > 0";
+
+        $this->rows = $model->paginate($this->limit, $offset, 'id', 'DESC', $band);
     }
 
     public function store($empresas, $vehiculos, $cedula, $nombre, $telefono): array
@@ -334,6 +336,45 @@ class ChoferesController extends Admin
         $vehiculo = $modelVehiculo->first('id', '=', $chofer['vehiculos_id']);
         $tipo = $modelTipo->first('id', '=', $vehiculo['tipo']);
         return $tipo['nombre'];
+    }
+
+    public function set_estatus($rowquid)
+    {
+        $model = new Chofer();
+        $chofer = $this->getChoferes($rowquid);
+        if ($chofer){
+            $id = $chofer['id'];
+
+            $response = crearResponse(
+                null,
+                true,
+                '',
+                'Estatus Actualizado.'
+            );
+
+            if ($chofer['band'] == 1){
+                $response['title'] = "Chofer Inactivo";
+                $estatus = 2;
+                $response['icon'] = "info";
+                $response['estatus'] = "inactivo";
+            }else{
+                $response['title'] = "Chofer Activo";
+                $estatus = 1;
+                $response['icon'] = "success";
+                $response['estatus'] = "activo";
+            }
+
+            $model->update($id, 'band', $estatus);
+
+            $response['btn_editar'] = validarPermisos('choferes.edit');
+            $response['btn_eliminar'] = validarPermisos('choferes.destroy');
+            $response['btn_estatus'] = validarPermisos('choferes.estatus');
+
+
+        }else{
+            $response = crearResponse('no_found');
+        }
+        return $response;
     }
 
     protected function getChoferes($rowquid)

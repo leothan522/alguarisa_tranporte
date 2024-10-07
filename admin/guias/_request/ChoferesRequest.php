@@ -164,6 +164,15 @@ if ($_POST) {
 
                     break;
 
+                case 'set_estatus':
+                    if (!empty($_POST['id'])){
+                        $id = $_POST['id'];
+                        $response = $controller->set_estatus($id);
+                    }else{
+                        $response = crearResponse('faltan_datos');
+                    }
+                    break;
+
                 //Por defecto
                 default:
                     $response = crearResponse('no_opcion', false, null, $opcion);

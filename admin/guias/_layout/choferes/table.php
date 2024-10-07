@@ -96,14 +96,30 @@
                                 </span>
                                 <?php } ?>
                             </td>
-                            <td>
+                            <td class="btns_choferes">
                                 <div class="btn-group btn-group-sm">
+                                    <?php if ($chofer['band'] == 2){ ?>
+                                        <button type="button" class="btn btn-info"
+                                                onclick="estatusChofer('<?php echo $chofer['rowquid']; ?>')" <?php if (!validarPermisos('choferes.estatus')) {
+                                            echo 'disabled';
+                                        } ?>>
+                                            <i class="fas fa-eye-slash"></i>
+                                        </button>
+                                    <?php }else{ ?>
+                                        <button type="button" class="btn btn-info"
+                                                onclick="estatusChofer('<?php echo $chofer['rowquid']; ?>')" <?php if (!validarPermisos('choferes.estatus')) {
+                                            echo 'disabled';
+                                        } ?>>
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    <?php } ?>
                                     <button type="button" class="btn btn-info"
                                             onclick="editChofer('<?php echo $chofer['rowquid']; ?>')" <?php if (!validarPermisos('choferes.edit')) {
                                         echo 'disabled';
                                     } ?>>
                                         <i class="fas fa-edit"></i>
                                     </button>
+
                                     <button type="button" class="btn btn-info"
                                             onclick="destroyChofer('<?php echo $chofer['rowquid']; ?>')"
                                             id="btn_eliminar_chofer_<?php echo $chofer['rowquid']; ?>"

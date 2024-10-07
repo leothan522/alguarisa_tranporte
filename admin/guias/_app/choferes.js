@@ -4,6 +4,8 @@ inputmask('#input_choferes_cedula', 'numerico', 7, 8, '');
 inputmask('#input_choferes_nombre', 'alfanumerico', 3, 100, ' ');
 inputmaskTelefono('#input_choferes_telefono');
 
+
+
 function displayChoferes(init = 'true') {
     verSpinner(true);
     $('.show_vehiculos_cerrar').attr('onclick', "display('choferes')");
@@ -48,7 +50,6 @@ function displayChoferes(init = 'true') {
 
     verSpinner(false);
 }
-
 function initChoferes() {
     displayChoferes();
     $('#keyword_choferes').val('');
@@ -57,7 +58,6 @@ function initChoferes() {
         datatable('table_choferes');
     });
 }
-
 //buscar
 $('#form_choferes_buscar').submit(function (e) {
     e.preventDefault();
@@ -68,7 +68,6 @@ $('#form_choferes_buscar').submit(function (e) {
     });
 
 });
-
 function createChoferes() {
     $('#title_form_choferes').text('Nuevo Chofer');
     resetChofer();
@@ -76,7 +75,6 @@ function createChoferes() {
     getEmpresas();
     displayChoferes('form');
 }
-
 function getVehiculos() {
     ajaxRequest({url: '_request/ChoferesRequest.php', data: {opcion: 'get_vehiculos'}}, function (data) {
         if (data.result) {
@@ -92,7 +90,6 @@ function getVehiculos() {
         }
     });
 }
-
 function destroyChofer(id) {
     MessageDelete.fire().then((result) => {
         if (result.isConfirmed) {
@@ -120,7 +117,6 @@ function destroyChofer(id) {
         }
     });
 }
-
 function resetChofer() {
     $('#input_choferes_cedula')
         .val('')
@@ -151,7 +147,6 @@ function resetChofer() {
     ;
     $('#choferes_opcion').val('store');
 }
-
 $('#form_choferes').submit(function (e) {
     e.preventDefault();
     let procesar = true;
@@ -249,7 +244,6 @@ $('#form_choferes').submit(function (e) {
     }
 
 });
-
 function editChofer(id) {
     displayChoferes('form');
     verSpinner(true);
@@ -280,7 +274,6 @@ function editChofer(id) {
     });
 
 }
-
 function reconstruirBuscarChoferes(keyword) {
     ajaxRequest({url: '_request/ChoferesRequest.php', data: { opcion: 'search', keyword: keyword}, html: 'si'}, function (data) {
         $('#div_choferes').html(data.html);
@@ -288,5 +281,62 @@ function reconstruirBuscarChoferes(keyword) {
         displayChoferes();
     });
 }
+
+function estatusChofer(id) {
+    ajaxRequest({ url: "_request/choferesRequest.php", data: { opcion: "set_estatus", id: id}}, function (data) {
+        if (data.result){
+            let icon;
+            if (data.estatus === 'inactivo'){
+                icon = '<i class="fas fa-eye-slash"></i>';
+            }else {
+                icon = '<i class="fas fa-eye"></i>';
+            }
+
+            let btn_editar = '';
+            let btn_eliminar = '';
+            let btn_estatus = '';
+
+            if (!data.btn_editar){
+                btn_editar = 'disabled';
+            }
+
+            if (!data.btn_eliminar){
+                btn_eliminar = 'disabled';
+            }
+
+            if (!data.btn_estatus){
+                btn_estatus = 'disabled';
+            }
+
+            let button = ' <div class="btn-group btn-group-sm"> ' +
+                '                   <button type="button" class="btn btn-info" ' +
+                '                   onclick="estatusChofer(\''+ id +'\')" id="btn_estatus_'+ id +'" '+ btn_estatus +' >\n' +
+                '                   ' + icon +
+                '                   </button>' +
+                '                   <button type="button" class="btn btn-info" ' +
+                '                   onclick="editChofer(\''+ id +'\')" '+ btn_editar +' >\n' +
+                '                   <i class="fas fa-edit"></i>\n'+
+                '                   </button>' +
+                '                   <button type="button" class="btn btn-info" ' +
+                '                   onclick="destroyChofer(\''+ id +'\')" id="btn_eliminar_chofer_'+ id +'"  '+ btn_eliminar +' >\n' +
+                '                   <i class="far fa-trash-alt"></i>\n'+
+                '                   </button>' +
+                '               </div>';
+
+
+            let table = $('#table_choferes').DataTable();
+            let tr = $('#tr_item_choferes_' + id);
+            table
+                .cell(tr.find('.btns_choferes')).data(button)
+                .draw();
+
+
+
+        }
+    });
+}
+
+
+
 
 console.log('choferes..');
