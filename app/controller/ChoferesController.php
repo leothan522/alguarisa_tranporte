@@ -317,9 +317,9 @@ class ChoferesController extends Admin
     public function search($keyword): void
     {
         $model = new Chofer();
-        $this->totalRows = $model->count(1);
-        $sql_count = "choferes WHERE (cedula LIKE '%$keyword%' OR nombre LIKE '%$keyword%' OR telefono LIKE '%$keyword%') AND band = 1;";
-        $sql = "SELECT * FROM choferes WHERE (cedula LIKE '%$keyword%' OR nombre LIKE '%$keyword%' OR telefono LIKE '%$keyword%') AND band = 1;";
+        $this->totalRows = $model->count(null, 'band', '>', 0);
+        $sql_count = "choferes WHERE (cedula LIKE '%$keyword%' OR nombre LIKE '%$keyword%' OR telefono LIKE '%$keyword%') AND band > 0;";
+        $sql = "SELECT * FROM choferes WHERE (cedula LIKE '%$keyword%' OR nombre LIKE '%$keyword%' OR telefono LIKE '%$keyword%') AND band > 0;";
         $this->rows = $model->sqlPersonalizado($sql, 'getAll');
         $this->keyword = $keyword;
         $this->totalRows = $model->sqlPersonalizado($sql_count, 'count');
