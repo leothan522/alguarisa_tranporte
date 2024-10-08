@@ -63,8 +63,10 @@
                                 <td class="empresa_rif text-bold text-uppercase"><?php echo $empresa['rif']; ?></td>
                                 <td class="empresa_nombre text-uppercase text-truncate" style="max-width: 150px;"><span data-toggle="tooltip" data-placement="top"  title="<?php echo $empresa['nombre']; ?>" style="cursor: pointer;"><?php echo $empresa['nombre']; ?></span></td>
                                 <td class="empresa_responsable text-uppercase">
-                                        <?php echo $empresa['responsable']; ?> <br>
-                                        <?php echo $empresa['telefono']; ?>
+                                       <small>
+                                           <?php echo $empresa['responsable']; ?> <br>
+                                            <?php echo $empresa['telefono']; ?>
+                                       </small>
                                 </td>
                                 <td class="empresa_telefono d-none"><?php echo $empresa['telefono']; ?> </td>
 
