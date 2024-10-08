@@ -230,10 +230,10 @@ class RutasController extends Admin
                 );
                 $ruta = $model->find($id);
                 $response['id'] = $ruta['rowquid'];
-                $response['origen'] = $this->getParroquia($ruta['origen']);
+                $response['origen'] = '<span data-toggle="tooltip" data-placement="top"  title="'.$this->getParroquia($ruta['origen']).'" style="cursor: pointer;">'.$this->getParroquia($ruta['origen']).'</span>';
                 $response['id_origen'] = $origen['rowquid'];
                 $response['id_destino'] = $destino['rowquid'];
-                $response['destino'] = $this->getParroquia($ruta['destino']);
+                $response['destino'] =  '<span data-toggle="tooltip" data-placement="top"  title="'.$this->getParroquia($ruta['destino']).'" style="cursor: pointer;">'.$this->getParroquia($ruta['destino']).'</span>';
                 $trayecto = json_decode($ruta['ruta']);
                 foreach ($trayecto as $lugar) {
                     $response['listarLugares'][] = array("lugar" => mb_strtoupper($lugar));

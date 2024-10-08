@@ -168,7 +168,7 @@ class ParametrosController extends Admin
 
             //datos extras para el $response
             $response['id'] = $parametro['rowquid'];
-            $response['nombre'] = $name;
+            $response['nombre'] = '<span data-toggle="tooltip" data-placement="top"  title="'.$name.'" style="cursor: pointer;">'.$name.'</span>';
             $response['tabla_id'] = $tabla_id;
             $response['valor'] = $valor;
 

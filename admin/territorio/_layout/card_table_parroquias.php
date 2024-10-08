@@ -80,7 +80,7 @@ $count = count($listarParroquias);
                     ?>
                     <tr id="tr_item_p_<?php echo $parroquia['rowquid']; ?>">
                         <td class="text-center item"><?php echo $i; ?>.</td>
-                        <td class="parroquia text-uppercase"><?php echo $parroquia['nombre']; ?></td>
+                        <td class="parroquia text-uppercase text-truncate" style="max-width: 150px;"><span data-toggle="tooltip" data-placement="top"  title="<?php echo $parroquia['nombre'] ?>" style="cursor: pointer;"><?php echo $parroquia['nombre']; ?></span></td>
                         <td class="asignacion text-right"><?php echo formatoMillares($parroquia['familias'], 0) ?></td>
                         <td class="municipio text-center text-uppercase">
                             <?php echo $controller->getMunicipiosMini($parroquia['rowquid']); ?>

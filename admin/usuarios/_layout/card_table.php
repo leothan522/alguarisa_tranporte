@@ -62,7 +62,7 @@ $x = 0;
                     <tr id="tr_item_<?php echo $user['rowquid']; ?>">
                         <td class="text-center"><?php echo $i ?></td>
                         <td class="nombre"><?php echo $user['name'] ?></td>
-                        <td class="email"><?php echo $user['email'] ?></td>
+                        <td class="email text-truncate" style="max-width: 150px;"><span data-toggle="tooltip" data-placement="top"  title="<?php echo $user['email']; ?>" style="cursor: pointer;"><?php echo $user['email'] ?></span></td>
                         <td class="telefono text-center"><?php echo $user['telefono'] ?></td>
                         <td class="role text-center"><?php echo $controller->getRol($user['role'], $user['role_id']) ?></td>
                         <td class="estatus text-center"><?php echo $controller->verEstatusUsuario($user['estatus']) ?></td>

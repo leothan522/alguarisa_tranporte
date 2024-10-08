@@ -63,7 +63,7 @@ $count = count($controller->rows);
                     ?>
                     <tr id="tr_item_<?php echo $municipio['rowquid']; ?>">
                         <td class="text-center item"><?php echo $i; ?>.</td>
-                        <td class="nombre text-uppercase"><?php echo $municipio['nombre']; ?></td>
+                        <td class="nombre text-uppercase text-truncate" style="max-width: 150px;"><span data-toggle="tooltip" data-placement="top"  title="<?php echo $municipio['nombre']; ?>" style="cursor: pointer;"><?php echo $municipio['nombre']; ?></span></td>
                         <td class="mini text-uppercase"><?php echo $municipio['mini']; ?></td>
                         <td class="asignacion text-right"> <?php echo formatoMillares($municipio['familias'], 0); ?> </td>
                         <td class="text-center parroquias">

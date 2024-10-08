@@ -82,7 +82,7 @@
                         <tr id="tr_item_choferes_<?php echo $chofer['rowquid']; ?>">
                             <td class="text-center"><?php echo $i; ?></td>
                             <td class="choferes_cedula text-right pr-2"><?php echo formatoMillares($chofer['cedula']); ?></td>
-                            <td class="choferes_nombre text-left pl-2 text-uppercase"><?php echo mb_strtoupper($chofer['nombre']); ?></td>
+                            <td class="choferes_nombre text-left pl-2 text-uppercase text-truncate" style="max-width: 150px;"><span data-toggle="tooltip" data-placement="top"  title="<?php echo $chofer['nombre']; ?>" style="cursor: pointer;"><?php echo mb_strtoupper($chofer['nombre']); ?></span></td>
                             <td class="choferes_telefono"><?php echo $chofer['telefono']; ?> </td>
                             <td class="choferes_placa text-uppercase">
                                 <?php if (validarPermisos('vehiculos.index')) { ?>

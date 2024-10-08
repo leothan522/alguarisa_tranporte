@@ -234,7 +234,7 @@ class ChoferesController extends Admin
                     $response['empresas_id'] = $empresas['rowquid'];
                     $response['vehiculos_id'] = $vehiculos['rowquid'];
                     $response['cedula'] = formatoMillares($choferes['cedula'], 0);
-                    $response['nombre'] = mb_strtoupper($choferes['nombre']);
+                    $response['nombre'] = '<span data-toggle="tooltip" data-placement="top" title="'.$choferes['nombre'].'" style="cursor: pointer;">'.mb_strtoupper($choferes['nombre']).'</span>';
                     $response['telefono'] = $choferes['telefono'];
                     $response['placa'] = mb_strtoupper($vehiculos['placa_batea']);
                     $response['id'] = $choferes['rowquid'];

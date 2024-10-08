@@ -354,7 +354,7 @@ class TerritorioController extends Admin
 
                     //datos extras para el $response
                     $response['id'] = $municipio['rowquid'];
-                    $response['nombre'] = $nombre;
+                    $response['nombre'] = '<span data-toggle="tooltip" data-placement="top"  title="'.$nombre.'" style="cursor: pointer;">'.$nombre.'</span>';
                     $response['mini'] = $mini;
                     $response['asignacion'] = '<p class="text-right">'.formatoMillares($asignacion, 0).'</p>';
                     $response['total'] = $model->count();
@@ -477,7 +477,7 @@ class TerritorioController extends Admin
                     $municipio = $modelMunicipio->find($parroquias['municipios_id']);
                     $response['id'] = $parroquias['rowquid'];
                     $response['municipio'] = '<p class="text-center text-uppercase">'.$municipio['mini'].'</p>';
-                    $response['parroquia'] = '<p class="text-uppercase">'.$nombre.'</p>';
+                    $response['parroquia'] = '<span data-toggle="tooltip" data-placement="top"  title="'.$nombre.'" style="cursor: pointer;">'.$nombre.'</span>';
                     $response['total'] = $model->count();
                     $response['mini'] = '<p class="text-center text-uppercase">'.$parroquias['mini'].'</p>';
                     $response['asignacion'] = '<p class="text-right">'.formatoMillares($parroquias['familias'], 0).'</p>';

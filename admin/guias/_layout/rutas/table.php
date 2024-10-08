@@ -62,13 +62,13 @@
                         ?>
                         <tr id="tr_item_rutas_<?php echo $ruta['rowquid']; ?>">
                             <td class="text-center"><?php echo $i; ?></td>
-                            <td class="origen text-uppercase" ><?php echo $origen; ?></td>
+                            <td class="origen text-uppercase text-truncate" style="max-width: 150px;"><span data-toggle="tooltip" data-placement="top"  title="<?php echo $origen; ?>" style="cursor: pointer;"><?php echo $origen; ?></span></td>
                             <td class="ruta text-center">
                                 <button class="btn btn-link btn-sm" onclick="showRutas('<?php echo $ruta['rowquid']; ?>')">
                                     Ver ruta
                                 </button>
                             </td>
-                            <td class="destino text-uppercase"><?php echo $destino; ?> </td>
+                            <td class="destino text-uppercase text-truncate" style="max-width: 150px;"><span data-toggle="tooltip" data-placement="top"  title="<?php echo $destino; ?>" style="cursor: pointer;"><?php echo $destino; ?></span></td>
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <button type="button" class="btn btn-info"

@@ -166,7 +166,7 @@ class EmpresasController extends Admin
                     );
                     $empresa = $model->find($id);
                     $response['rif'] = $empresa['rif'];
-                    $response['nombre'] = $empresa['nombre'];
+                    $response['nombre'] = '<span data-toggle="tooltip" data-placement="top"  title="'.$empresa['nombre'].'" style="cursor: pointer;">'.$empresa['nombre'].'</span>';
                     $response['responsable'] = '<small>' . $empresa['responsable'] . '<br>' . $empresa['telefono'] . '</small>';
                     $response['telefono'] = $empresa['telefono'];
                     $response['id'] = $empresa['rowquid'];

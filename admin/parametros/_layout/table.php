@@ -64,8 +64,8 @@ $x = 0;
                     $x++; ?>
                     <tr id="tr_item_<?php echo $parametro['rowquid']; ?>">
                         <td><span class="text-bold"><?php echo ++$i; ?></span></td>
-                        <td class="nombre">
-                            <?php echo $parametro['nombre'] ?>
+                        <td class="nombre text-truncate" style="max-width: 150px;">
+                            <span data-toggle="tooltip" data-placement="top"  title="<?php echo $parametro['nombre']; ?>" style="cursor: pointer;"><?php echo $parametro['nombre'] ?></span>
                         </td>
                         <td class="tabla_id">
                             <?php echo $parametro['tabla_id'] ?>
