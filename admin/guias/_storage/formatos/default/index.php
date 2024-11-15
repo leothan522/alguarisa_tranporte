@@ -85,10 +85,18 @@ foreach ($controller->listarCargamento as $carga) {
             $pdf->Cell(83, 7, verUtf8($carga['descripcion']), 1, 1, 'C', 0);
             $pdf->SetFont('times', '', 10);
         }else{
-            $pdf->Cell(30, 7, "", 0, 0, 'C');
-            $pdf->Cell(47, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
-            $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
-            $pdf->Cell(30, 7, "", 0, 1, 'C');
+           if (!empty($controller->precinto_2) || !empty($controller->precinto_3)){
+               $pdf->Cell(47, 7, "", 0, 0, 'C');
+               $pdf->Cell(30, 7, "", 0, 0, 'C');
+               $pdf->Cell(30, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
+               $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
+               $pdf->Cell(30, 7, "", 0, 1, 'C');
+           }else{
+               $pdf->Cell(30, 7, "", 0, 0, 'C');
+               $pdf->Cell(47, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
+               $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
+               $pdf->Cell(30, 7, "", 0, 1, 'C');
+           }
         }
     }
 
@@ -102,10 +110,28 @@ foreach ($controller->listarCargamento as $carga) {
             $pdf->Cell(83, 7, verUtf8($carga['descripcion']), 1, 1, 'C', 0);
             $pdf->SetFont('times', '', 10);
         }else{
-            $pdf->Cell(30, 7, "", 0, 0, 'C');
-            $pdf->Cell(47, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
-            $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
-            $pdf->Cell(30, 7, "", 0, 1, 'C');
+            if (empty($controller->precinto_2)){
+                if (!empty($controller->precinto || !empty($controller->precinto_3))){
+                    $pdf->Cell(47, 7, "", 0, 0, 'C');
+                    $pdf->Cell(30, 7, "", 0, 0, 'C');
+                    $pdf->Cell(30, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
+                    $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
+                    $pdf->Cell(30, 7, "", 0, 1, 'C');
+                }else{
+                    $pdf->Cell(15, 7, "", 0, 0, 'C');
+                    $pdf->Cell(15, 7, "", 0, 0, 'C');
+                    $pdf->Cell(47, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
+                    $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
+                    $pdf->Cell(30, 7, "", 0, 1, 'C');
+                }
+
+            }else{
+                $pdf->Cell(47, 7, "", 0, 0, 'C');
+                $pdf->Cell(30, 7, "", 0, 0, 'C');
+                $pdf->Cell(30, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
+                $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
+                $pdf->Cell(30, 7, "", 0, 1, 'C');
+            }
         }
     }
 
@@ -119,10 +145,29 @@ foreach ($controller->listarCargamento as $carga) {
             $pdf->Cell(83, 7, verUtf8($carga['descripcion']), 1, 1, 'C', 0);
             $pdf->SetFont('times', '', 10);
         }else{
-            $pdf->Cell(30, 7, "", 0, 0, 'C');
-            $pdf->Cell(47, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
-            $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
-            $pdf->Cell(30, 7, "", 0, 1, 'C');
+            if (empty($controller->precinto_3)){
+                if (!empty($controller->precinto) || !empty($controller->precinto_2)){
+                    $pdf->Cell(47, 7, "", 0, 0, 'C');
+                    $pdf->Cell(30, 7, "", 0, 0, 'C');
+                    $pdf->Cell(30, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
+                    $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
+                    $pdf->Cell(30, 7, "", 0, 1, 'C');
+                }else{
+                    $pdf->Cell(15, 7, "", 0, 0, 'C');
+                    $pdf->Cell(15, 7, "", 0, 0, 'C');
+                    $pdf->Cell(47, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
+                    $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
+                    $pdf->Cell(30, 7, "", 0, 1, 'C');
+                }
+            }else{
+                $pdf->Cell(47, 7, "", 0, 0, 'C');
+                $pdf->Cell(30, 7, "", 0, 0, 'C');
+                $pdf->Cell(30, 7, verUtf8(strtoupper($carga['cantidad'])), 1, 0, 'C');
+                $pdf->Cell(83, 7, verUtf8(strtoupper($carga['descripcion'])), 1, 0, 'C');
+                $pdf->Cell(30, 7, "", 0, 1, 'C');
+            }
+
+
         }
     }
 
