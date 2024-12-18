@@ -43,7 +43,7 @@ class GuiasController extends Admin
         $choferes_cedula, $choferes_nombre, $choferes_telefono, $territorios_origen, $territorios_destino, $rutas_id,
         $rutas_origen, $rutas_destino, $rutas_ruta, $fecha, $user_id, $band, $created_at, $auditoria, $deleted_at,
         $pdf_id, $pdf_impreso, $estatus, $precinto, $precinto_2, $precinto_3, $version, $origen_municipio, $destino_municipio, $trayecto,
-        $color_cargamento = [], $listarCargamento;
+        $color_cargamento = [], $listarCargamento,  $listarTerritorios;
 
 
     public function isAdmin()
@@ -318,8 +318,8 @@ class GuiasController extends Admin
 
             $ruta = "";
             if (is_array(json_decode($this->rutas_ruta))) {
-                $listarTerritorios = json_decode($guia['rutas_ruta']);
-                foreach ($listarTerritorios as $lugar) {
+                $this->listarTerritorios = json_decode($guia['rutas_ruta']);
+                foreach ($this->listarTerritorios as $lugar) {
                     $ruta .= ucfirst($lugar) . ", ";
                 }
             }
