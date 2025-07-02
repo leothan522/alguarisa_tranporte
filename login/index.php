@@ -126,7 +126,7 @@ $controller->index();
             left: 50%;
             width: 100px;
             height: 100px;
-            background: url('{{ asset('img/logo_alguarisa.png') }}') no-repeat center center;
+            background: url("<?php asset('public/img/logo_alguarisa.png') ?>") no-repeat center center;
             background-size: contain;
             transform: translate(-50%, -50%);
             animation: pulse 2s infinite;
@@ -154,7 +154,7 @@ $controller->index();
     </script>
 
 </head>
-<body>
+<body style="background-color: #eee;">
 
 <div id="preloader"></div>
 
