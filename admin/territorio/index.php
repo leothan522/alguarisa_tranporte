@@ -30,11 +30,7 @@ $controller->isAdmin();
     <meta name="msapplication-TileImage" content="<?php asset('public\\favicon\\ms-icon-144x144.png') ?>">
     <meta name="theme-color" content="#ffffff">
 
-    <title><?php if (isset($controller->TITTLE)) {
-            echo APP_NAME.' | '.$controller->TITTLE;
-        } else {
-            echo APP_NAME.' | Dashboard';
-        } ?></title>
+    <title><?php if (isset($controller->TITTLE)) { echo $controller->TITTLE.' | '.APP_NAME; } else { echo APP_NAME.' | Dashboard'; } ?></title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
