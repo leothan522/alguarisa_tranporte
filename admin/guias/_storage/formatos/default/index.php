@@ -35,12 +35,7 @@ $pdf->SetTextColor($rojo, $verde, $negro);
 //CABECERA ****************************************************************************
 $pdf->AddPage('P', 'Letter');
 $pdf->SetFont('Times', 'BU', 12);
-if (strtotime($controller->fecha) < strtotime('05-07-2025')){
-    $pdf->Image('../../hoja_membretada.png', 0, 0, 210, 280);
-}else{
-    $pdf->Image('../../new_hoja_membretada.png', 0, 0, 210, 280);
-}
-
+$pdf->Image('../../hoja_membretada.png', 0, 0, 210, 280);
 $pdf->Image('QRcode.png', 10, 28, 30, 30);
 $pdf->ln(20);
 $pdf->Cell(0, 4,$controller->codigo, 0, 1, 'R');
