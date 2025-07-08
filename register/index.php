@@ -35,7 +35,7 @@ if (!env('APP_REGISTER', false)){
     <meta name="msapplication-TileImage" content="<?php asset('public\\favicon\\ms-icon-144x144.png') ?>">
     <meta name="theme-color" content="#ffffff">
 
-    <title><?php echo APP_NAME; ?> | Registro</title>
+    <title>Registro | <?php echo APP_NAME; ?></title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"

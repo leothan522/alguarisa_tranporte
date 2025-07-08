@@ -28,7 +28,8 @@ $controller->recover();
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="<?php asset('public\\favicon\\ms-icon-144x144.png') ?>">
     <meta name="theme-color" content="#ffffff">
-    <title><?php echo APP_NAME; ?> | Recuperar contraseña</title>
+
+    <title>Recuperar contraseña | <?php echo APP_NAME; ?></title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
