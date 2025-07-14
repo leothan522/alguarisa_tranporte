@@ -14,7 +14,7 @@ $controller->index();
     <meta name="author" content="Ing. Yonathan Castillo">
     <meta name="generator" content="leothan 0.1">
 
-    <title><?php echo APP_NAME ?> | Inicia sesión</title>
+    <title>Inicia sesión | <?php echo APP_NAME ?></title>
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="<?php asset('public\\favicon\\apple-icon-57x57.png') ?>">
@@ -167,7 +167,7 @@ $controller->index();
                 <div class="card rounded-3 text-black">
                     <div class="row g-0">
                         <div class="col-lg-6">
-                            <div class="card-body p-md-5 mx-md-4">
+                            <div class="card-body p-md-5 mx-md-4 cargando">
 
                                 <img class="gobernacion_start d-lg-none" src="<?php asset('public/img/logo_gobernacion.png') ?>" alt="Logo Gobernación Guárico">
 
@@ -223,7 +223,7 @@ $controller->index();
                                                     Registrarse
                                                 </a>
                                             <?php } ?>
-                                            <a href="../forgot-password" class="link-secondary text-decoration-none">
+                                            <a href="../forgot-password" class="link-secondary text-decoration-none" onclick="Cargando()">
                                                 ¿Olvidó su contraseña?
                                             </a>
                                         </div>
@@ -298,6 +298,8 @@ $controller->index();
             });
         }
     });
+
+
 
     console.log('Hi!');
 </script>

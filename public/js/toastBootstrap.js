@@ -197,4 +197,9 @@ function htmlToasBootstrap(options = {}) {
     confirmToastBootstrap(null, options);
 }
 
+function Cargando() {
+    document.querySelector('.cargando').classList.add('opacity-50');
+    document.querySelector('.verCargando').classList.remove('d-none');
+}
+
 console.log('toastBootstrap.js')
