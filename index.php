@@ -167,11 +167,11 @@ $controller->index();*/
                 <div class="card rounded-3 text-black">
                     <div class="row g-0">
                         <div class="col-lg-6">
-                            <div class="card-body p-md-5 mx-md-4 cargando">
+                            <div class="card-body p-md-5 mx-md-4 cargando position-relative">
 
                                 <img class="gobernacion_start d-lg-none" src="<?php asset('public/img/logo_gobernacion.png') ?>" alt="Logo Gobernación Guárico">
 
-                                <div class="text-center pt-sm-5 mt-sm-5">
+                                <div class="text-center">
                                     <a href="<?php echo APP_DOMINIO; ?>">
                                         <img class="img-fluid mt-5 pt-sm-5" src="<?php asset('public/img/logo_alguarisa.png') ?>" alt="Logo Alguarisa">
                                     </a>
@@ -187,8 +187,8 @@ $controller->index();*/
                                                     Dashboard
                                                 </a>
                                                 <?php }else{ ?>
-                                                <a href="login" class="link-body-emphasis text-decoration-underline">
-                                                    Login
+                                                <a href="login" class="link-body-emphasis text-decoration-underline" onclick="Cargando()">
+                                                    Iniciar sesión
                                                 </a>
                                             <?php } ?>
 
@@ -196,6 +196,12 @@ $controller->index();*/
                                     </div>
                                 </div>
 
+                                <div class="position-absolute top-50 start-50 translate-middle d-none verCargando">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                    
                             </div>
                         </div>
                         <div class="col-lg-6 d-none d-lg-flex align-items-center gradient-custom-2" style="min-height: 70vh">
@@ -221,6 +227,5 @@ $controller->index();*/
 <script src="<?php asset('public/vendor/bootstrap-5.3.3/js/bootstrap.bundle.js'); ?>"></script>
 <script src="<?php asset('public/js/toastBootstrap.js', true); ?>"></script>
 <script src="<?php asset('login/_app/app.js', true); ?>"></script>
-
 </body>
 </html>
