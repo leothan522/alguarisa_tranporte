@@ -163,6 +163,17 @@ function sidebar($modulo = null): ?string
         }
     }
 
+    $html .= '
+        <li class="nav-item">
+            <a href="https://historico.almacen.alguarisa.com" class="nav-link" target="_blank">
+                <i class="nav-icon fas fa-history"></i>
+                <p>
+                    Histórico
+                </p>
+            </a>
+        </li>
+    ';
+
     $html .= '</ul>';
 
     return $html;

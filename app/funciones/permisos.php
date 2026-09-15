@@ -72,7 +72,7 @@ function permisos(): array
             'opciones' => [
                 [
                     'permiso' => 'guias.create',
-                    'text' => 'Crear chofer'
+                    'text' => 'Crear Guias'
                 ],
                 [
                     'permiso' => 'guias.edit',

@@ -43,7 +43,7 @@ function getEmpresas() {
     ajaxRequest({ url: '_request/GuiasRequest.php', data: { opcion: 'get_empresas' } }, function (data) {
         if (data.result){
             let select = $('.select_guias_empresas');
-            let empresas = data.listarEmpresas.length;
+            let empresas = (data.listarEmpresas) ? data.listarEmpresas.length : 0;
             select.empty();
             select.append('<option value="">Seleccione</option>');
             for (let i = 0; i < empresas; i++) {
@@ -214,7 +214,7 @@ function rellenarForm(data, option = 'create') {
     }
 
     let selectVehiculo = $('#form_guias_vehiculo');
-    let vehiculos = data.listarVehiculos.length;
+    let vehiculos = (data.listarVehiculos) ? data.listarVehiculos.length : 0;
     selectVehiculo.empty();
     selectVehiculo.append('<option value="">Seleccione</option>');
     for (let i = 0; i < vehiculos; i++) {
@@ -225,7 +225,7 @@ function rellenarForm(data, option = 'create') {
     }
 
     let selectChofer = $('#form_guias_chofer');
-    let chofer = data.listarChofer.length;
+    let chofer = (data.listarChofer) ? data.listarChofer.length : 0;
     selectChofer.empty();
     selectChofer.append('<option value="">Seleccione</option>');
     for (let i = 0; i < chofer; i++) {
@@ -236,7 +236,7 @@ function rellenarForm(data, option = 'create') {
     }
 
     let selecOrigen = $('#form_guias_origen');
-    let origen = data.listarTerritorios.length;
+    let origen = (data.listarTerritorios) ? data.listarTerritorios.length : 0;
     selecOrigen.empty();
     selecOrigen.append('<option value="">Seleccione</option>');
     for (let i = 0; i < origen; i++) {
@@ -246,7 +246,7 @@ function rellenarForm(data, option = 'create') {
     }
 
     let selecDestino = $('#form_guias_destino');
-    let destino = data.listarTerritorios.length;
+    let destino = (data.listarTerritorios) ? data.listarTerritorios.length : 0;
     selecDestino.empty();
     selecDestino.append('<option value="">Seleccione</option>');
     for (let i = 0; i < destino; i++) {

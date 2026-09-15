@@ -79,7 +79,8 @@ function getVehiculos() {
     ajaxRequest({url: '_request/ChoferesRequest.php', data: {opcion: 'get_vehiculos'}}, function (data) {
         if (data.result) {
             let select = $('#select_choferes_vehiculo');
-            let vehiculos = data.listarVehiculos.length;
+            //let vehiculos = data.listarVehiculos.length;
+            let vehiculos = (data.listarVehiculos) ? data.listarVehiculos.length : 0;
             select.empty();
             select.append('<option value="">Seleccione</option>');
             for (let i = 0; i < vehiculos; i++) {
