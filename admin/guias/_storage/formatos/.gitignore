@@ -2,6 +2,7 @@
 !.gitignore
 !index.php
 !ejemplo_formato/
-!choferes
-!default
-!format_2025
+!choferes/
+!default/
+!format_2025/
+!format_2026/
