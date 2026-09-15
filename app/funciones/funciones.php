@@ -427,17 +427,21 @@ function verHora($hora): string
         if (!empty($parametro['valor']) && is_string($parametro['valor'])) {
             if (url_exists(public_path('admin/guias/_storage/formatos/' . $parametro['valor'] . '/'))) {
                 $FORMATO_GUIA_PDF = public_path('admin/guias/_storage/formatos/' . $parametro['valor'] . '/');
+                $FORMATO_GUIA_MANUAL_PDF = public_path('admin/guias/_storage/formatos/' . $parametro['valor'] . '/guia_manual.php');
                 $ID_FORMATO_GUIA = $parametro['id'];
             } else {
                 $FORMATO_GUIA_PDF = public_path('admin/guias/_storage/formatos/default/');
+                $FORMATO_GUIA_MANUAL_PDF = public_path('_storage/guia_manual.php');
             }
         } else {
             $FORMATO_GUIA_PDF = public_path('admin/guias/_storage/formatos/default/');
+            $FORMATO_GUIA_MANUAL_PDF = public_path('_storage/guia_manual.php');
         }
     } else {
         $FORMATO_GUIA_PDF = public_path('admin/guias/_storage/formatos/default/');
+        $FORMATO_GUIA_MANUAL_PDF = public_path('_storage/guia_manual.php');
     }
-    return [$FORMATO_GUIA_PDF, $ID_FORMATO_GUIA];
+    return [$FORMATO_GUIA_PDF, $ID_FORMATO_GUIA, $FORMATO_GUIA_MANUAL_PDF];
 }
 
 function verFechaLetras($fecha): string

@@ -34,6 +34,7 @@ class GuiasController extends Admin
     public int $GUIAS_NUM_INIT = 1;
     public int $ID_GUIAS_NUM_INIT = 0;
     public string $FORMATO_GUIA_PDF = 'null';
+    public string $FORMATO_GUIA_MANUAL_PDF = 'null';
     public int $ID_FORMATO_GUIA = 0;
 
 
@@ -395,7 +396,7 @@ class GuiasController extends Admin
         $formato = getFormato();
         $this->FORMATO_GUIA_PDF = $formato[0];
         $this->ID_FORMATO_GUIA = $formato[1];
-
+        $this->FORMATO_GUIA_MANUAL_PDF = $formato[2];
     }
 
     public function search($keyword): void

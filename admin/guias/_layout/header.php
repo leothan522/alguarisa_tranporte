@@ -7,7 +7,7 @@
         <div class="col-sm-6">
             <form class="row col-12 justify-content-end" id="formulari_guia_init">
                 <div class="col-sm-8 col-lg-10 text-right">
-                    <a href="_storage/guia_manual.php" target="_blank">
+                    <a href="<?= $controller->FORMATO_GUIA_MANUAL_PDF ?>" target="_blank">
                         <i class="far fa-file-alt"></i>
                         Formato Guía Manual
                     </a>
