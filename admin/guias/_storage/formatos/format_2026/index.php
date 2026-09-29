@@ -240,40 +240,45 @@ $pdf->SetFont('times', 'B', 10);
 //$pdf->Cell(0, 5, verUtf8('A los VEINTITRES (23) DIAS DEL MES DE MARZO DEL AÑO 2023.'), 0, 1, 'L');
 $pdf->Cell(0, 5, verFechaLetras($controller->fecha), 0, 1, 'L');
 $pdf->SetFont('times', '', 10);
-$pdf->Ln(15);
+$pdf->Ln(20);
 
-$pdf->Cell(10, 5, verUtf8(''), 0, 0, 'C');
-$pdf->Cell(76, 5, verUtf8('______________________________'), 0, 0, 'C');
-$pdf->Cell(18, 5, verUtf8(''), 0, 0, 'C');
-$pdf->Cell(76, 5, verUtf8('______________________________'), 0, 0, 'C');
-$pdf->Cell(10, 5, verUtf8(''), 0, 1, 'C');
+//$pdf->Cell(0, 5, verUtf8(''), 0, 1, 'C');
+$pdf->Cell(55, 5, verUtf8('______________________________'), 0, 0, 'C');
+$pdf->Cell(16, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('______________________________'), 0, 0, 'C');
+$pdf->Cell(15, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('______________________________'), 0, 1, 'C');
 
-$pdf->Cell(10, 5, verUtf8(''), 0, 0, 'C');
-$pdf->Cell(76, 5, verUtf8('ECON. ORLANDO SANDOVAL'), 0, 0, 'C');
-$pdf->Cell(18, 5, verUtf8(''), 0, 0, 'C');
-$pdf->Cell(76, 5, verUtf8('JESUS CASTILLO'), 0, 0, 'C');
-$pdf->Cell(10, 5, verUtf8(''), 0, 1, 'C');
+//$pdf->Cell(10, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('MALAQUIAS HERNANDEZ'), 0, 0, 'C');
+$pdf->Cell(16, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('JESUS CASTILLO'), 0, 0, 'C');
+$pdf->Cell(15, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('ISAIAS LANDAETA'), 0, 1, 'C');
 
-$pdf->Cell(10, 5, verUtf8(''), 0, 0, 'C');
-$pdf->Cell(76, 5, verUtf8('C.I: 15.300.194'), 0, 0, 'C');
-$pdf->Cell(18, 5, verUtf8(''), 0, 0, 'C');
-$pdf->Cell(76, 5, verUtf8('C.I: 16.100.266'), 0, 0, 'C');
-$pdf->Cell(10, 5, verUtf8(''), 0, 1, 'C');
+//$pdf->Cell(10, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('C.I: 17.062.161'), 0, 0, 'C');
+$pdf->Cell(16, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('C.I: 16.100.266'), 0, 0, 'C');
+$pdf->Cell(15, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('C.I: 20.184.733'), 0, 1, 'C');
 
 
-$pdf->Cell(10, 5, verUtf8(''), 0, 0, 'C');
-$pdf->Cell(76, 5, verUtf8('Gerente de Operaciones y Logística'), 0, 0, 'C');
-$pdf->Cell(18, 5, verUtf8(''), 0, 0, 'C');
-$pdf->Cell(76, 5, verUtf8('Jefe de la Unidad de Trasporte'), 0, 0, 'C');
-$pdf->Cell(10, 5, verUtf8(''), 0, 1, 'C');
+//$pdf->Cell(10, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('Gerente de Operaciones y Logística'), 0, 0, 'C');
+$pdf->Cell(16, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('Jefe de la Unidad de Trasporte'), 0, 0, 'C');
+$pdf->Cell(15, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('Seguridad'), 0, 1, 'C');
 
-$pdf->Cell(10, 5, verUtf8(''), 0, 0, 'C');
-$pdf->Cell(76, 5, verUtf8('ALIMENTOS DEL GUÁRICO S.A(ALGUARISA)'), 0, 0, 'C');
-$pdf->Cell(18, 5, verUtf8(''), 0, 0, 'C');
-$pdf->Cell(76, 5, verUtf8('ALIMENTOS DEL GUÁRICO S.A(ALGUARISA)'), 0, 0, 'C');
-$pdf->Cell(10, 5, verUtf8(''), 0, 1, 'C');
+//$pdf->Cell(10, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('ALIMENTOS DEL GUÁRICO S.A'), 0, 0, 'C');
+$pdf->Cell(16, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('ALIMENTOS DEL GUÁRICO S.A'), 0, 0, 'C');
+$pdf->Cell(15, 5, verUtf8(''), 0, 0, 'C');
+$pdf->Cell(55, 5, verUtf8('ALIMENTOS DEL GUÁRICO S.A'), 0, 1, 'C');
 
-$pdf->Ln(5);
+$pdf->Ln(7);
 
 $pdf->Cell(62, 5, verUtf8('FIRMA SUPERVISOR DE ALGUARISA:'), 0, 0, 'R');
 $pdf->Cell(40, 5, verUtf8('____________________'), 0, 0, 'C');
