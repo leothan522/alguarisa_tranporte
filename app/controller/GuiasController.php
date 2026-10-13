@@ -857,8 +857,9 @@ class GuiasController extends Admin
 
 
             do {
+                $formatoNumero = cerosIzquierda($numero, numSizeCodigo());
                 $codigoGuia = $codigo . '-' . cerosIzquierda($numero, numSizeCodigo()) . '-' . $year;
-                $sql = "SELECT * FROM guias WHERE codigo LIKE '%$numero%' AND band = 1 AND estatus = 1;";
+                $sql = "SELECT * FROM guias WHERE codigo LIKE '%$formatoNumero%' AND band = 1 AND estatus = 1;";
                 $existe = $modelGuia->sqlPersonalizado($sql);
 
                 if ($existe) {
