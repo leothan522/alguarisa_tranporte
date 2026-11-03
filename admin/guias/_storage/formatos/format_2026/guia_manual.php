@@ -25,7 +25,7 @@ $pdf->SetTextColor($rojo, $verde, $negro); //color azul
 //CABECERA ****************************************************************************
 $pdf->AddPage('P', 'Letter');
 $pdf->SetFont('Times', 'BU', 12);
-$pdf->Image('../../new_hoja_membretada.png', 0, 0, 210, 280);
+$pdf->Image('../../new_hoja_membretada-2.png', 0, 0, 210, 280);
 $pdf->Image('QRcodeManual.png', 10, 28, 30, 30);
 $pdf->ln(20);
 $pdf->Cell(0, 4, verUtf8("N°________________________-" . date('Y')), 0, 1, 'R');
@@ -95,7 +95,7 @@ $pdf->SetFont('times', 'B', 10);
 //$pdf->Cell(0, 5, verUtf8('A los VEINTITRES (23) DIAS DEL MES DE MARZO DEL AÑO 2023.'), 0, 1, 'L');
 $pdf->Cell(0, 5, verUtf8('A los _________________ DÍAS DEL MES DE ___________________ DEL AÑO' . date(' Y')), 0, 1, 'L');
 $pdf->SetFont('times', '', 10);
-$pdf->Ln(20);
+$pdf->Ln(15);
 
 //$pdf->Cell(0, 5, verUtf8(''), 0, 1, 'C');
 $pdf->Cell(55, 5, verUtf8('______________________________'), 0, 0, 'C');
@@ -133,7 +133,7 @@ $pdf->Cell(55, 5, verUtf8('ALIMENTOS DEL GUÁRICO S.A'), 0, 0, 'C');
 $pdf->Cell(15, 5, verUtf8(''), 0, 0, 'C');
 $pdf->Cell(55, 5, verUtf8('ALIMENTOS DEL GUÁRICO S.A'), 0, 1, 'C');
 
-$pdf->Ln(7);
+$pdf->Ln(4);
 
 $pdf->Cell(62, 5, verUtf8('FIRMA SUPERVISOR DE ALGUARISA:'), 0, 0, 'R');
 $pdf->Cell(40, 5, verUtf8('____________________'), 0, 0, 'C');
@@ -144,5 +144,13 @@ $pdf->Cell(62, 5, verUtf8('TELÉFONO:'), 0, 0, 'R');
 $pdf->Cell(40, 5, verUtf8('____________________'), 0, 0, 'C');
 $pdf->Cell(55, 5, verUtf8('TELÉFONO:'), 0, 0, 'R');
 $pdf->Cell(37, 5, verUtf8('____________________'), 0, 1, 'C');
+
+$pdf->Ln(2);
+
+$pdf->Cell(32, 5, verUtf8('RECIBIDO POR:'), 0, 0);
+$pdf->Cell(40, 5, verUtf8('____________________'), 0, 0);
+$pdf->Cell(27, 5, verUtf8('OBSERVACIÓN:'), 0, 0);
+$pdf->Cell(88, 5, verUtf8('_____________________________________________________'), 0, 1);
+
 
 $pdf->Output('I', 'Guia_Manual.pdf', true,);

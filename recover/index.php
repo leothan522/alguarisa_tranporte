@@ -49,7 +49,7 @@ $controller->recover();
     <div class="card card-outline card-primary">
         <div class="card-header text-center p-0">
             <a href="<?php echo APP_DOMINIO; ?>">
-                <img class="img-thumbnail border-transparent" src="<?php asset('public/img/logo_alguarisa.jpg'); ?>" alt="Alimentos del Guárico">
+                <img class="img-thumbnail border-transparent" src="<?php asset('public/img/alguarisa_logo_nuevo_fondo_transparente.png'); ?>" alt="Alimentos del Guárico">
             </a>
         </div>
         <div class="card-body">

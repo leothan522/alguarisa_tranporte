@@ -173,7 +173,7 @@ $controller->index();*/
 
                                 <div class="text-center">
                                     <a href="<?php echo APP_DOMINIO; ?>">
-                                        <img class="img-fluid mt-5 pt-sm-5" src="<?php asset('public/img/logo_alguarisa.png') ?>" alt="Logo Alguarisa">
+                                        <img class="img-fluid mt-5 pt-sm-5" src="<?php asset('public/img/alguarisa_logo_nuevo_fondo_transparente.png') ?>" alt="Logo Alguarisa">
                                     </a>
                                     <h6 class="mt-1 mb-4 pb-1 text_title"><strong>Dirección de Tecnología y Sistemas.</strong></h6>
                                 </div>
@@ -207,7 +207,7 @@ $controller->index();*/
                         <div class="col-lg-6 d-none d-lg-flex align-items-center gradient-custom-2" style="min-height: 70vh">
                             <img class="gobernacion" src="<?php asset('public/img/logo_gobernacion_white.png') ?>" alt="Logo Gobernación Guárico">
                             <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                                <img class="img-fluid rounded-2 border border-light" src="<?php asset('public/img/logo_tecnologia.png') ?>" alt="Logo Tecnología Alguarisa">
+                                <img class="img-fluid rounded-2 border border-light" src="<?php asset('public/img/logo_tecnologia_new.png') ?>" alt="Logo Tecnología Alguarisa">
                             </div>
                         </div>
                     </div>
